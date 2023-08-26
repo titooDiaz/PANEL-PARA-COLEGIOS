@@ -1,0 +1,88 @@
+{% load tailwind_tags %}
+<html>
+  <head>
+    {% tailwind_css %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nombre del colegio</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+  </head>
+
+  <body class="m-0 font-sans antialiased font-normal bg-white text-base leading-default text-black bg-blue-50">
+    <nav class="relative flex flex-wrap justify-between px-0 py-2 lg:flex-nowrap lg:justify-start">
+      <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
+        <nav>
+          <!-- breadcrumb -->
+          <h6 class="mb-0 font-bold capitalize text-black ml-4">PANEL PARA COLEGIOS</h6>
+        </nav>
+
+        <div class="flex justify-end mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
+          <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
+            <li class="flex items-center">
+              <a href="#" class="block px-0 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800">
+                <i class="fa fa-user sm:mr-1"></i>
+                <span class="hidden sm:inline">Ingresar</span>
+              </a>
+            </li>
+
+            <!-- notifications -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="relative flex items-center w-full p-0 mx-auto overflow-hidden">
+      <div class="w-full h-[80vh] text-center">
+        <div class="mx-auto my-56 md:flex-0 md:w-8/12">
+          <div>
+            <h1>Nombre del colegio</h1>
+            <h3>v1.0.5</h3>
+            <br>
+            <a href="#" target="_blank" class="inline-block px-16 py-3.5 m-0 text-sm font-bold text-center text-white uppercase align-middle border-0 rounded-lg cursor-pointer bg-orange-600 from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-1 border-l border-t border-r border-4 border-orange-800">Conoce mas!</a>
+          </div>
+        </div>
+      </div>
+        
+    </div>
+    
+    <footer class="bottom-0 top-auto pt-4">
+      <div class="w-full px-6 mx-auto">
+        <div class="flex flex-wrap items-center -mx-3 lg:justify-between">
+          <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
+            <div class="leading-normal text-center text-sm text-black lg:text-left">
+              ©
+              <script>
+                document.write(new Date().getFullYear() + ",");
+              </script>
+              Creado por
+              <a href="#" class="font-semibold text-slate-700" target="_blank">Miguel Angel Diaz</a>
+            </div>
+          </div>
+          <div class="w-full max-w-full px-3 mt-0 shrink-0 lg:w-1/2 lg:flex-none">
+            <ul class="flex flex-wrap justify-center pl-0 mb-0 list-none lg:justify-end">
+              <li class="nav-item">
+                <a href="#" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-sm text-black " target="_blank">Datos</a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-sm text-black " target="_blank">Ayuda</a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-sm text-black " target="_blank">Terminos</a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="block px-4 pt-0 pb-1 pr-0 font-normal transition-colors ease-soft-in-out text-sm text-black " target="_blank">Desarrollo</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+  <!-- github button -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</html>

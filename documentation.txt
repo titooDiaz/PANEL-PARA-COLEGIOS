@@ -1,0 +1,60 @@
+26/08/2023
+LA APLICACION VA A TENER UNA TEMATICA DE COLORES (ROJO, NARANJA, AMARILLO)
+(https://www.bing.com/search?q=que+color+representa+a+un+estudiante&FORM=BCS001&PC=U531&showconv=1&sendquery=1)
+
+Se installan los requerimientos iniciales y se inicia tailwind (sttings.py)
+
+"""
+#lenguajes del humanize
+LANGUAGES = [
+    ('en', _('English')),
+    ('es', _('Spanish')),
+]
+
+#idioma por defecto en espa;ol
+LANGUAGE_CODE = 'es'
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    #bibliotecas instaladas
+    'tailwind', #python manage.py tailwind init
+    'theme',#python manage.py tailwind install *(recordar lo del modo oscuro en theme)
+
+    #apps instaladas
+    'users',
+]
+
+#AGREGAR NODE JS A NUESTRO ENTORNO DE TRABAJO (recuerda agregarlo al path)
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+"""
+
+ESTRUCTURA DE USUARIOS:
+- USUARIOS (crear usuario):
+--->foto
+--->nombre
+--->apellido
+--->tipo documento
+--->numero documento
+--->password
+--->email
+--->fecha de creacion
+--->fecha de nacimiento
+
+- USUARIOS (crear usuario):
+--->numero documento
+--->password
+
+
+En el core se asigno un elemento para mandar la vista del home, el se estara modificando constantemente, para mejorar su dise;o constantemente
