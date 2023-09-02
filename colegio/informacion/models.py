@@ -11,7 +11,7 @@ class Horarios_Partes(models.Model):
     estado = models.BooleanField(default=True)
     created_on = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Creador_de_materia')
-    profes = models.ManyToManyField(User, blank=True, related_name='materias_relacionadas')
+    profes = models.ManyToManyField(User, blank=True, related_name='horarios_relacionados')
     horas = models.IntegerField(
         default=3,  # Valor predeterminado
         validators=[MinValueValidator(3), MaxValueValidator(12)]

@@ -11,9 +11,11 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Popper -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <!--Icon-->
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
   </head>
 
-  <body class="m-0 font-sans antialiased font-normal bg-white text-base leading-default text-black bg-blue-50">
+  <body class="m-0 font-sans antialiased font-normal bg-white text-base leading-default text-black bg-blue-50 bg-no-repeat bg-cover fondo" style="background-image: url('../static/img/fondo_home.jpg')">
 
     <nav class="relative flex flex-wrap justify-between px-0 py-2 lg:flex-nowrap lg:justify-start">
       <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
@@ -23,10 +25,9 @@
         </nav>
 
         <div class="flex justify-end mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
-          <img src="{% static 'img/logo.png' %}">
           <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
             <li class="flex items-center">
-              <a href="#" class="block px-0 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out">
+              <a href="{% url 'account_login' %}" class="block px-0 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">
                 <i class="fa fa-user sm:mr-1"></i>
                 <span class="hidden sm:inline">Ingresar</span>
               </a>
@@ -45,7 +46,7 @@
             <h1>Nombre del colegio</h1>
             <h3>v1.0.5</h3>
             <br>
-            <button href="#" class="inline-block px-16 py-4 m-0 text-sm font-bold text-center text-white uppercase align-middle border-0 rounded-lg cursor-pointer bg-orange-600 border-l border-t border-r border-4 border-orange-800 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r">
+            <button href="#" class="inline-block px-16 py-4 m-0 text-sm font-bold text-center text-white uppercase align-middle border-0 rounded-lg cursor-pointer bg-orange-600 border-l border-t border-r border-4 border-orange-800 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">
               Conoce más!
             </button>      
           </div>

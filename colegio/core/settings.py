@@ -35,9 +35,18 @@ INSTALLED_APPS = [
     #bibliotecas instaladas
     'tailwind', #python manage.py tailwind init
     'theme',#python manage.py tailwind install *(recordar lo del modo oscuro en theme)
-
+    #usuarios
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'django.contrib.humanize',
     #apps instaladas
     'users',
+    'administradores',
+    'gestores',
+    'informacion',
+
 ]
 
 #AGREGAR NODE JS A NUESTRO ENTORNO DE TRABAJO (recuerda agregarlo al path)
@@ -124,5 +133,6 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

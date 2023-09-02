@@ -1,6 +1,6 @@
 {% load static %}
 {% load i18n %}
-{% load account socialaccount %}
+{% load account %}
 {% load tailwind_tags %}
 <!DOCTYPE html>
 
@@ -9,7 +9,6 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Inicio de sesion</title>
 </head>
 
@@ -53,10 +52,10 @@
       </div>
     </div>
   </div>
-  <div class="absolute bottom-0 bg-transparent w-full pb-3 flex justify-around">
-    <a href="#" class="text-white font-semibold hover:bg-orange-600 px-3 rounded">Acerca de</a>
-    <a href="#" class="text-white font-semibold hover:bg-orange-600 px-3 rounded">Quienes Somos?</a>
-    <a href="#" class="text-white font-semibold hover:bg-orange-600 px-3 rounded">Alianza</a>
-    <a href="#" class="text-white font-semibold hover:bg-orange-600 px-3 rounded">Contáctanos</a>
+  <div class="absolute bottom-0 bg-transparent w-full mt-6 pb-1 flex justify-around">
+    <!-- Enlaces que se ocultan en dispositivos móviles -->
+    <a href="#" class="hidden md:inline-block text-orange-300 font-semibold hover:text-white px-3 rounded">Acerca de</a>
+    <a href="#" class="hidden md:inline-block text-orange-300 font-semibold hover:text-white px-3 rounded">Contáctanos</a>
+    <a href="{% url 'home' %}" class="hidden md:inline-block text-orange-300 font-semibold hover:text-white px-3 rounded">Inicio</a>
   </div>
 </section>
