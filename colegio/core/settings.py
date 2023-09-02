@@ -46,6 +46,10 @@ NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 #autenticacion de usuario...
 SITE_ID = 1
 
+#esto es para los usuarios abstractos 
+AUTH_USER_MODEL = 'users.CustomUserAlumno'
+
+
 #externo de tailwind
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
@@ -93,13 +97,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'PanelColegios.sqlite3',
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {

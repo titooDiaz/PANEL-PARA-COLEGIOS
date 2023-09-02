@@ -42,19 +42,15 @@ NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 ESTRUCTURA DE USUARIOS:
 - USUARIOS (crear usuario):
---->foto
---->nombre
---->apellido
---->tipo documento
---->numero documento
---->password
---->email
---->fecha de creacion
---->fecha de nacimiento
-
-- USUARIOS (crear usuario):
---->numero documento
---->password
-
-
+EXCEL
 En el core se asigno un elemento para mandar la vista del home, el se estara modificando constantemente, para mejorar su dise;o constantemente
+
+
+31/08/2023
+-->CREACION DE USUAROS
+para la creacion de usuarios se implementaran varias aplicaciones con el unico fin de crear las cuentas, y que cada una de ellas peuda administrar aquellas cosas que necesitan
+entresas vistas, se enceuntran (orden de menor a mayor nivel):
+-users: todos los aulmnos de la aplicaciones
+-profesores: todos los profesores de la app
+-gestores: son aquellos que pueden visualizar absolutamente TODO (cordnadores academicos, sicologia, etc)
+-administradores: pueden personalizar la pagina, crear nuevos cursos, usuarios etc...

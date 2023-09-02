@@ -1,0 +1,99 @@
+{% load i18n %}
+{% load static %}
+{% load tailwind_tags %}
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    {% tailwind_css %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <div class="bg-gray-50 flex min-h-full flex-col justify-center px-1 py-12 grid px-8 sm:grid-cols-3 grid-cols-1 sm:w-full sm:px-0" >
+        <div></div>
+        <div id="contenedor" class="bg-white border-solid border-2 rounded-md border-slate-300 p-7 shadow-2xl">
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <img class="mx-auto h-10 w-auto" src="{% static 'images/logo.png' %}" alt="CopetranLog">
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">REGISTRATE</h2>
+            </div>
+            {{ form.errors }}
+            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <form class="space-y-6" id="signup_form" method="post" action="{% url 'account_signup' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <label for="email" class="block text-sm font-medium leading-6 text-gray-900" >Correo electronico</label>
+                        <div class="mt-2">
+                            {{ form.email }}
+                            <span id="ErrorEmail"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label class="block text-sm font-medium leading-6 text-gray-900" >Nombre de Usuario</label>
+                            <div class="text-sm">
+
+                            </div>
+                        </div>
+                        <div class="mt-0">
+                            {{ form.username }}
+                            <span id="ErrorNombre"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label class="block text-sm font-medium leading-6 text-gray-900" >Nombres</label>
+                            <div class="text-sm">
+
+                            </div>
+                        </div>
+                        <div class="mt-0">
+                            {{ form.nombre }}
+                            <span id="ErrorNombre"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label class="block text-sm font-medium leading-6 text-gray-900">Apellidos</label>
+                            <div class="text-sm">
+
+                            </div>
+                        </div>
+                        <div class="mt-0">
+                            {{ form.apellido }}
+                            <span id="ErrorApellido"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+                            <div class="text-sm">
+
+                            </div>
+                        </div>
+                        <div class="mt-0">
+                            {{ form.password1 }}
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Confirmar contraseña</label>
+                            <div class="text-sm">
+
+                            </div>
+                        </div>
+                        <div class="mt-0">
+                            {{ form.password2 }}
+                        </div>
+                        <span id="ErrorPass"></span>
+                    </div>
+
+                    <p id="warnings"></p>
+
+                    <button  id="boton" type="submit" style="display: block;" class="hover:scale-103 duration-1000 flex w-full justify-center  rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-50 border-solid border-2 hover:border-indigo-600 hover:text-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" style="width: 50% !important; margin: auto; margin-top: 1em;">REGISTRATE  </button>
+                    <div id="loader" class=""></div>
+                </form>
+            </div>
+            <p class="mt-10 text-center text-sm text-gray-500">
+                Tienes cuenta?
+                <a type="submit" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500" href="{% url 'account_login' %}">iniciar sesion</a>
+            </p>
+
+            </div>
+        </div>
+        <div></div>
+      </div>
+
+      <script src="{% static 'js/register.js' %}"></script>
+</body>
+</html>

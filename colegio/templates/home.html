@@ -1,5 +1,5 @@
 {% load tailwind_tags %}
-<html>
+{% load static %}
   <head>
     {% tailwind_css %}
     <meta charset="UTF-8" />
@@ -14,6 +14,7 @@
   </head>
 
   <body class="m-0 font-sans antialiased font-normal bg-white text-base leading-default text-black bg-blue-50">
+
     <nav class="relative flex flex-wrap justify-between px-0 py-2 lg:flex-nowrap lg:justify-start">
       <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
         <nav>
@@ -22,6 +23,7 @@
         </nav>
 
         <div class="flex justify-end mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
+          <img src="{% static 'img/logo.png' %}">
           <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
             <li class="flex items-center">
               <a href="#" class="block px-0 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out">
@@ -85,4 +87,3 @@
       </div>
     </footer>
   </body>
-</html>
