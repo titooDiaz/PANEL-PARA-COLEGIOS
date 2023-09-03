@@ -3,20 +3,55 @@
 {% load account %}
 {% load tailwind_tags %}
 <!DOCTYPE html>
+<html lang="es">
 
 <head>
   {% tailwind_css %}
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- FONTS -->
+  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  
   <title>Inicio de sesion</title>
 </head>
+
+
+<body>
+  
+  <header class="bg-transparent">
+    <nav class="absolute flex justify-between items-center w-[100%] mx-auto rounded-xl">
+      <div></div>
+      <div
+        class="nav-links duration-500 md:static absolute md:min-h-fit min-h-[0vh] left-0 top-[-1300%] w-full flex justify-center px-5">
+        <div class="flex justify-center md:flex-row flex-col min-[0px]:items-center min-[0px]:bg-white md:bg-transparent md:items-center md:gap-[4vw] gap-2 mt-1 py-4 rounded-xl max-w-md w-full z-10">
+            
+            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="#">Acerca</a>
+            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="#">Precios</a>
+            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="#">Contáctenos</a>
+            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="">Registro</a>
+            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="">Panel</a>
+
+        </div>
+      </div>
+      <div class="flex items-center gap-6 text-black">
+        <ion-icon onclick="onToggleMenu(this)" name="menu" class="text-3xl cursor-pointer md:hidden mt-4 mr-4 z-20"></ion-icon>
+      </div>
+    </nav>
+  </header>
+  <script>
+    const navLinks = document.querySelector('.nav-links')
+    function onToggleMenu(e) {
+      e.name = e.name === 'menu' ? 'close' : 'menu'
+      navLinks.classList.toggle('top-[9%]')
+    }
+  </script>
 
 <section class="bg-no-repeat bg-cover min-h-screen flex items-center justify-center"
   style="background-image: url('https://images.pexels.com/photos/8199562/pexels-photo-8199562.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');">
   <!-- login container -->
   <div
-    class="border-2 border-orange-300 bg-gray-100 shadow-xl shadow-black rounded-3xl py-8 px-6 items-center mx-6 md:py-16">
+    class="border-2 border-gray-200 bg-gray-100 shadow-xl shadow-black rounded-lg py-8 px-4 items-center mx-6 md:py-10">
     <!-- form -->
     <div class="w-full px-4">
       <p class="font-bold text-[35px] text-orange-500 flex items-center justify-center">Iniciar Sesión</p>
@@ -35,27 +70,25 @@
           </svg>
         </div>
         <button
-          class="bg-[#002D74] rounded-xl text-white py-2 bg-gradient-to-l from-orange-400 to-orange-600 hover:scale-105 duration-300">Ingresar
+          class="bg-[#002D74] rounded-xl text-white py-2 bg-gradient-to-l from-orange-400 to-orange-600 hover:scale-105 border-l border-t border-r border-4 border-orange-800 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">Ingresar
         </button>
       </form>
 
-      <div class="mt-5 text-xs flex justify-between items-center border-b border-orange-500 py-4 text-black">
+      <div class="mt-2 text-xs flex justify-between items-center border-b border-orange-500 py-2 text-black">
         <p>Olvidaste tu contraseña?</p>
         <button
-          class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 text-orange-500 border-1 border-orange-400">Recuperar</button>
+          class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 text-orange-500 border-1 border-orange-400 border-l border-t border-r border-4 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">Recuperar</button>
       </div>
 
-      <div class="mt-3 text-xs flex justify-between items-center text-black">
+      <div class="mt-2 text-xs flex justify-between items-center text-black">
         <p>Tienes algún problema?</p>
         <button
-          class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 text-orange-500 border-1 border-orange-400">Contáctanos</button>
+          class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 text-orange-500 border-1 border-orange-400 border-l border-t border-r border-4 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">Contáctanos</button>
       </div>
     </div>
   </div>
-  <div class="absolute bottom-0 bg-transparent w-full mt-6 pb-1 flex justify-around">
-    <!-- Enlaces que se ocultan en dispositivos móviles -->
-    <a href="#" class="hidden md:inline-block text-orange-300 font-semibold hover:text-white px-3 rounded">Acerca de</a>
-    <a href="#" class="hidden md:inline-block text-orange-300 font-semibold hover:text-white px-3 rounded">Contáctanos</a>
-    <a href="{% url 'home' %}" class="hidden md:inline-block text-orange-300 font-semibold hover:text-white px-3 rounded">Inicio</a>
-  </div>
 </section>
+
+
+</body>
+</html>

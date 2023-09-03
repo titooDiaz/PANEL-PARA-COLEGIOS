@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'administradores',
     'gestores',
     'informacion',
+    'profesores',
 
 ]
 
@@ -56,7 +57,7 @@ NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 SITE_ID = 1
 
 #esto es para los usuarios abstractos 
-AUTH_USER_MODEL = 'users.CustomUserAlumno'
+AUTH_USER_MODEL = 'gestores.CustomUserGestor'
 
 
 #externo de tailwind
@@ -134,5 +135,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
