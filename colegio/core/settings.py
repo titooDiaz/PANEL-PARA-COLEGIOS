@@ -57,7 +57,7 @@ NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 SITE_ID = 1
 
 #esto es para los usuarios abstractos 
-AUTH_USER_MODEL = 'gestores.CustomUserGestor'
+AUTH_USER_MODEL = 'users.CustomUserGestor'
 
 
 #externo de tailwind

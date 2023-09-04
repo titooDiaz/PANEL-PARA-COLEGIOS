@@ -24,13 +24,13 @@
       <div></div>
       <div
         class="nav-links duration-500 md:static absolute md:min-h-fit min-h-[0vh] left-0 top-[-1300%] w-full flex justify-center px-5">
-        <div class="flex justify-center md:flex-row flex-col min-[0px]:items-center min-[0px]:bg-white md:bg-transparent md:items-center md:gap-[4vw] gap-2 mt-1 py-4 rounded-xl max-w-md w-full z-10">
+        <div class="flex justify-center md:flex-row flex-col min-[0px]:items-center min-[0px]:bg-white md:bg-transparent md:items-center md:gap-[4vw] gap-2 mt-1 py-4 rounded-xl max-w-md w-full z-10 text-black">
             
-            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="#">Acerca</a>
-            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="#">Precios</a>
-            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="#">Contáctenos</a>
-            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="">Registro</a>
-            <a class="text-black hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 min-[0px]:hover:text-white min-[0px]:text-black py-2 md:text-black md:hover:bg-transparent" href="">Panel</a>
+            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Acerca</a>
+            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Precios</a>
+            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Contáctenos</a>
+            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="">Registro</a>
+            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="">Panel</a>
 
         </div>
       </div>
@@ -39,15 +39,8 @@
       </div>
     </nav>
   </header>
-  <script>
-    const navLinks = document.querySelector('.nav-links')
-    function onToggleMenu(e) {
-      e.name = e.name === 'menu' ? 'close' : 'menu'
-      navLinks.classList.toggle('top-[9%]')
-    }
-  </script>
 
-<section class="bg-no-repeat bg-cover min-h-screen flex items-center justify-center"
+<section class="bg-no-repeat bg-cover min-h-screen flex items-center justify-center background"
   style="background-image: url('https://images.pexels.com/photos/8199562/pexels-photo-8199562.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');">
   <!-- login container -->
   <div
@@ -89,6 +82,29 @@
   </div>
 </section>
 
+
+<script>
+  const navLinks = document.querySelector('.nav-links');
+  const background = document.querySelector('.background'); // Elemento de fondo
+
+  function onToggleMenu(e) {
+    e.name = e.name === 'menu' ? 'close' : 'menu';
+
+    if (e.name === 'menu') {
+      background.classList.remove('blurred');
+    } else {
+      background.classList.add('blurred');
+    }
+    navLinks.classList.toggle('top-[9%]');
+  }
+
+</script>
+<style>
+.background.blurred {
+filter: blur(5px); /* Puedes ajustar el valor del desenfoque según tus preferencias */
+transition: filter 0.3s ease; /* Agrega una transición suave */
+}
+</style>
 
 </body>
 </html>
