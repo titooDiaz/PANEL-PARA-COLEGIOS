@@ -12,79 +12,89 @@
     <!-- Popper -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <!--Icon-->
-    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
   </head>
 
-  <body class="m-0 font-sans antialiased font-normal bg-white text-base leading-default text-black bg-blue-50 bg-no-repeat bg-cover fondo" style="background-image: url('../static/img/fondo_home.jpg')">
-
-    <nav class="relative flex flex-wrap justify-between px-0 py-2 lg:flex-nowrap lg:justify-start">
-      <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
-        <nav>
-          <!-- breadcrumb -->
-          <h6 class="mb-0 font-bold capitalize text-black ml-4">PANEL PARA COLEGIOS</h6>
-        </nav>
-
-        <div class="flex justify-end mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
-          <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
-            <li class="flex items-center">
-              <a href="{% url 'account_login' %}" class="block px-0 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">
-                <i class="fa fa-user sm:mr-1"></i>
-                <span class="hidden sm:inline">Ingresar</span>
-              </a>
-            </li>
-
-            <!-- notifications -->
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <div class="relative flex items-center w-full p-0 mx-auto overflow-hidden">
-      <div class="w-full h-[80vh] text-center">
-        <div class="mx-auto my-56 md:flex-0 md:w-8/12">
-          <div>
-            <h1>Nombre del colegio</h1>
-            <h3>v1.0.5</h3>
-            <br>
-            <button href="#" class="inline-block px-16 py-4 m-0 text-sm font-bold text-center text-white uppercase align-middle border-0 rounded-lg cursor-pointer bg-orange-600 border-l border-t border-r border-4 border-orange-800 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">
-              Conoce más!
-            </button>      
-          </div>
-        </div>
-      </div>
-        
-    </div>
+  <body class="bg-gray-100">
+      <div class="flex h-screen">
+          <!-- Navbar Lateral -->
+          <aside class="hidden bg-red-600 text-white w-60 lg:flex lg:flex-col fixed h-screen overflow-y-auto rounded-3xl border-8 border-gray-100 bg-no-repeat" style="background-image: url('https://static.vecteezy.com/system/resources/previews/008/423/765/non_2x/abstract-colorful-orange-wave-background-vector.jpg');">
+              <!-- Logo -->
+              <div class="p-4 text-2xl font-semibold">COLEGIO ADVENTISTA LIBERTAD</div>
+  
+              <!-- Menú de Navegación -->
+              <nav class="flex-1">
+                  <ul class="space-y-2 ml-4">
+                      <li class="bg-gray-100 text-black rounded-l-lg">
+                          <a href="#" class="block p-4 transition duration-300">
+                              <i class="fas fa-home mr-2"></i> Inicio
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                            <i class="fas fa-calendar mr-2"></i> Calendario
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                            <i class="fas fa-envelope mr-2"></i> Mensajes
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                            <i class="fas fa-user mr-2"></i> Personas
+                          </a>
+                      </li>
+                  </ul>
+              </nav>
+  
+              <!-- Pie de Página del Navbar -->
+              <footer class="p-4 text-sm text-white">
+                  © <script>
+                    document.write(new Date().getFullYear() + " MDKJ-F");
+                  </script>
     
-    <footer class="bottom-0 top-auto pt-4">
-      <div class="w-full px-6 mx-auto">
-        <div class="flex flex-wrap items-center -mx-3 lg:justify-between">
-          <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
-            <div class="leading-normal text-center text-sm text-black lg:text-left">
-              ©
+              </footer>
+          </aside>
+  
+          <!-- Contenido Principal -->
+          <main class="flex-grow p-2 lg:ml-60"> 
+            <div class="w-full bg-red-600 rounded-xl bg-no-repeat" style="background-image: url('https://static.vecteezy.com/system/resources/previews/008/423/765/non_2x/abstract-colorful-orange-wave-background-vector.jpg');">
+              <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+              <a href="https://flowbite.com/" class="flex items-center">
+                  <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="Flowbite Logo" />
+                  <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">MDKJ-F</span>
+              </a>
+              <div class="flex md:order-2">
+                <button 
+                type="button" 
+                id="myButton" 
+                class="block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1"
+              >
+                Get started
+              </button>
               <script>
-                document.write(new Date().getFullYear() + ",");
+                // Obtén una referencia al botón
+                const myButton = document.getElementById('myButton');
+              
+                // Agrega un controlador de evento al botón para quitar el foco después de un retraso
+                myButton.addEventListener('click', () => {
+                  setTimeout(() => {
+                    myButton.blur(); // Quita el foco del botón
+                  }, 100); // Puedes ajustar el valor de tiempo según tus necesidades
+                });
               </script>
-              Creado por
-              <a href="#" class="font-semibold text-black hover:text-white" target="_blank">MDJK-F</a>
+                  <button data-collapse-toggle="navbar-cta" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-cta" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                    </svg>
+                </button>
+              </div>
+              </div>
             </div>
-          </div>
-          <div class="w-full max-w-full px-3 mt-0 shrink-0 lg:w-1/2 lg:flex-none">
-            <ul class="flex flex-wrap justify-center pl-0 mb-0 list-none lg:justify-end">
-              <li class="nav-item">
-                <a href="#" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-sm text-black " target="_blank">Datos</a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-sm text-black " target="_blank">Ayuda</a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-sm text-black " target="_blank">Terminos</a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="block px-4 pt-0 pb-1 pr-0 font-normal transition-colors ease-soft-in-out text-sm text-black " target="_blank">Desarrollo</a>
-              </li>
-            </ul>
-          </div>
-        </div>
+            <br>
+        </main>
       </div>
-    </footer>
   </body>
+  </html>
