@@ -3,19 +3,8 @@ from django.conf import settings # usar los settings
 from django.db import models
 import os
 
-def user_directory_path_profile_alumnos(instance, filename):
-    # el cero es el format
-    profile_picture_name = 'alumnos/{0}/profile.png'.format(instance.username)
-    #que archivo guardamos..
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
 
-    #si el full_path existe lo sacamos y ponemos otro
-    if os.path.exists(full_path):
-        os.remove(full_path)
-
-    return profile_picture_name
-
-
+##########################START CUSTOM USER###################################
 SEXO = [
         ('Hombre', 'Hombre'),
         ('Mujer', 'Mujer'),
@@ -46,24 +35,34 @@ TIPO_SANGRE = [
         ('O-', 'O-'),
         ('Desconocido', 'Desconocido'),
     ]
-class CustomUserAlumno(AbstractUser):
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name='groups',
-        blank=True,
-        related_name='alumno_grupos',
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        verbose_name='user_permissions',
-        blank=True,
-        related_name='alumno_permisos',
-    )
-    foto = models.ImageField(default='alumnos/profile.png', upload_to=user_directory_path_profile_alumnos, null=True, blank=True)
+class CustomUser(AbstractUser):
     tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
-    descripcion = models.TextField()
-    introduccion = models.TextField()
     numero_documento = models.CharField(max_length=20, null=True, blank=True)
+    introduccion = models.TextField()
+    def __str__(self):
+        return self.username + "defecto"
+
+
+
+
+
+###########################END CUSTOM USER####################################
+def user_directory_path_profile_alumnos(instance, filename):
+    # el cero es el format
+    profile_picture_name = 'alumnos/{0}/profile.png'.format(instance.username)
+    #que archivo guardamos..
+    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+
+    #si el full_path existe lo sacamos y ponemos otro
+    if os.path.exists(full_path):
+        os.remove(full_path)
+
+    return profile_picture_name
+
+
+class CustomUserAlumno(CustomUser):
+    foto = models.ImageField(default='alumnos/profile.png', upload_to=user_directory_path_profile_alumnos, null=True, blank=True)
+    descripcion = models.TextField()
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Alumno')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     grado = models.ForeignKey('informacion.Grado', on_delete=models.SET_NULL, blank=True, null=True)  # Utiliza 'informacion.Grado')  # Campo ForeignKey para relacionar con Grado
@@ -109,22 +108,8 @@ def user_directory_path_profile_gestor(instance, filename):
         os.remove(full_path)
 
     return profile_picture_name
-class CustomUserGestor(AbstractUser):
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name='groups',
-        blank=True,
-        related_name='gestor_grupos',
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        verbose_name='gestor_permissions',
-        blank=True,
-        related_name='gestor_permisos',
-    )
+class CustomUserGestor(CustomUser):
     foto = models.ImageField(default='gestores/profile.png', upload_to=user_directory_path_profile_gestor, null=True, blank=True)
-    tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
-    numero_documento = models.CharField(max_length=20, null=True, blank=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Gestor')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
@@ -162,24 +147,9 @@ def user_directory_path_profile_profesor(instance, filename):
 
     return profile_picture_name
 
-class CustomUserProfesores(AbstractUser):
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name='groups',
-        blank=True,
-        related_name='profesor_grupos',
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        verbose_name='profesor_permissions',
-        blank=True,
-        related_name='profesor_permisos',
-    )
+class CustomUserProfesores(CustomUser):
     foto = models.ImageField(default='profesores/profile.png', upload_to=user_directory_path_profile_profesor, null=True, blank=True)
-    tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
     descripcion = models.TextField()
-    introduccion = models.TextField()
-    numero_documento = models.CharField(max_length=20, null=True, blank=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Profesor')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     titular = models.ForeignKey('informacion.Grado', on_delete=models.SET_NULL, blank=True, null=True,related_name='profesor_titulares')  # Utiliza 'informacion.Grado')  # Campo ForeignKey para relacionar con Grado
@@ -225,24 +195,9 @@ def user_directory_path_profile_administrador(instance, filename):
 
     return profile_picture_name
 
-class CustomUserAdministrador(AbstractUser):
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name='groups',
-        blank=True,
-        related_name='administrador_grupos',
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        verbose_name='administrador_permissions',
-        blank=True,
-        related_name='administrador_permisos',
-    )
+class CustomUserAdministrador(CustomUser):
     foto = models.ImageField(default='administradores/profile.png', upload_to=user_directory_path_profile_administrador, null=True, blank=True)
-    tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
     cargo = models.TextField()
-    introduccion = models.TextField()
-    numero_documento = models.CharField(max_length=20, null=True, blank=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Alumno')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')

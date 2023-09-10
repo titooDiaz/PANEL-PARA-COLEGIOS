@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     #bibliotecas instaladas
     'tailwind', #python manage.py tailwind init
     'theme',#python manage.py tailwind install *(recordar lo del modo oscuro en theme)
+    'crispy_forms',
+    "crispy_tailwind",
     #usuarios
     'django.contrib.sites',
     'allauth',
@@ -57,7 +59,7 @@ NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 SITE_ID = 1
 
 #esto es para los usuarios abstractos 
-AUTH_USER_MODEL = 'users.CustomUserGestor'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 
 #externo de tailwind
@@ -101,9 +103,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -111,6 +110,15 @@ DATABASES = {
     }
 }
 
+
+
+#usuarios
+AUTHENTICATION_BACKENDS = (
+    #'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
