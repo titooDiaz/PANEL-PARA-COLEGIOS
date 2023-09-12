@@ -25,7 +25,7 @@ class CreateAlumno(View):
 
 class LoginAlumno(View):
     def post(self, request, *args, **kwargs):
-        form = CustomAlumnoLoginForm(request.POST)
+        form = CustomAlumnoLoginForm(request.POST, request.FILES)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
