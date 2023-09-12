@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUserAlumno, CustomUserAdministrador, CustomUserGestor, CustomUserProfesores
+from .models import CustomUserAlumno, CustomUserAdministrador, CustomUserGestor, CustomUserProfesores, CustomUser
 
 class CustomUserAlumnoProxy(CustomUserAlumno):
     class Meta:
@@ -25,7 +25,13 @@ class CustomUserProfesoresProxy(CustomUserProfesores):
         #verbose_name = 'Profesor'
         verbose_name_plural = 'Profesores'
 
+class CustomUserProxy(CustomUser):
+    class Meta:
+        proxy = True
+        #verbose_name = 'Profesor'
+        verbose_name_plural = 'General'
 
+admin.site.register(CustomUser)
 admin.site.register(CustomUserAlumnoProxy)
 admin.site.register(CustomUserAdministradorProxy)
 admin.site.register(CustomUserGestorProxy)

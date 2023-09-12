@@ -60,6 +60,7 @@ SITE_ID = 1
 
 #esto es para los usuarios abstractos 
 AUTH_USER_MODEL = 'users.CustomUser'
+LOGIN_REDIRECT_URL = "/"
 
 
 #externo de tailwind

@@ -40,7 +40,7 @@ class CustomUser(AbstractUser):
     numero_documento = models.CharField(max_length=20, null=True, blank=True)
     introduccion = models.TextField()
     def __str__(self):
-        return self.username + "defecto"
+        return self.username + " defecto"
 
 
 
@@ -49,7 +49,7 @@ class CustomUser(AbstractUser):
 ###########################END CUSTOM USER####################################
 def user_directory_path_profile_alumnos(instance, filename):
     # el cero es el format
-    profile_picture_name = 'alumnos/{0}/profile.png'.format(instance.username)
+    profile_picture_name = 'alumnos/{0}/profile.jpg'.format(instance.user.username)
     #que archivo guardamos..
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
 
@@ -81,19 +81,6 @@ class CustomUserAlumno(CustomUser):
 
     def __str__(self):
         return self.username + self.tipo_usuario
-
-
-def user_directory_path_profile_alumnos(instance, filename):
-    # el cero es el format
-    profile_picture_name = 'alumnos/{0}/profile.jpg'.format(instance.user.username)
-    #que archivo guardamos..
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
-
-    #si el full_path existe lo sacamos y ponemos otro
-    if os.path.exists(full_path):
-        os.remove(full_path)
-
-    return profile_picture_name
 
 
 ###################################################
