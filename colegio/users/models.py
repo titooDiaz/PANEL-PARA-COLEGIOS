@@ -12,6 +12,7 @@ SEXO = [
     ]
 TIPO_USUARIO = [
         ('Profesor', 'Profesor'),
+        ('Acudiente', 'Acudiente'),
         ('Alumno', 'Alumno'),
         ('Gestor', 'Gestor'),
         ('Administrador', 'Administrador'),
@@ -38,7 +39,7 @@ TIPO_SANGRE = [
 class CustomUser(AbstractUser):
     tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
     numero_documento = models.CharField(max_length=20, null=True, blank=True)
-    introduccion = models.TextField()
+    introduccion = models.TextField(null=True, blank=True)
     def __str__(self):
         return self.username + " defecto"
 
@@ -62,13 +63,13 @@ def user_directory_path_profile_alumnos(instance, filename):
 
 class CustomUserAlumno(CustomUser):
     foto = models.ImageField(default='alumnos/profile.png', upload_to=user_directory_path_profile_alumnos, null=True, blank=True)
-    descripcion = models.TextField()
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Alumno')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     grado = models.ForeignKey('informacion.Grado', on_delete=models.SET_NULL, blank=True, null=True)  # Utiliza 'informacion.Grado')  # Campo ForeignKey para relacionar con Grado
     sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
     estado = models.BooleanField(default=True)
     #Salud
+    descripcion = models.TextField(blank=True, null=True,)
     alergias = models.TextField(blank=True, null=True)
     condiciones_medicas = models.TextField(blank=True, null=True)
     medicamentos_actuales = models.TextField(blank=True, null=True)
@@ -105,21 +106,6 @@ class CustomUserGestor(CustomUser):
     def __str__(self):
         return self.username + self.tipo_usuario
 
-
-def user_directory_path_profile_gestor(instance, filename):
-    # el cero es el format
-    profile_picture_name = 'gestores/{0}/profile.jpg'.format(instance.user.username)
-    #que archivo guardamos..
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
-
-    #si el full_path existe lo sacamos y ponemos otro
-    if os.path.exists(full_path):
-        os.remove(full_path)
-
-    return profile_picture_name
-
-
-
 #############################################################
 
 def user_directory_path_profile_profesor(instance, filename):
@@ -136,7 +122,7 @@ def user_directory_path_profile_profesor(instance, filename):
 
 class CustomUserProfesores(CustomUser):
     foto = models.ImageField(default='profesores/profile.png', upload_to=user_directory_path_profile_profesor, null=True, blank=True)
-    descripcion = models.TextField()
+    descripcion = models.TextField(blank=True, null=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Profesor')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     titular = models.ForeignKey('informacion.Grado', on_delete=models.SET_NULL, blank=True, null=True,related_name='profesor_titulares')  # Utiliza 'informacion.Grado')  # Campo ForeignKey para relacionar con Grado
@@ -152,21 +138,6 @@ class CustomUserProfesores(CustomUser):
 
     def __str__(self):
         return self.username + self.tipo_usuario
-
-
-def user_directory_path_profile_profesor(instance, filename):
-    # el cero es el format
-    profile_picture_name = 'profesores/{0}/profile.jpg'.format(instance.user.username)
-    #que archivo guardamos..
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
-
-    #si el full_path existe lo sacamos y ponemos otro
-    if os.path.exists(full_path):
-        os.remove(full_path)
-
-    return profile_picture_name
-
-
 
 
 #######################################################################################################
@@ -195,14 +166,11 @@ class CustomUserAdministrador(CustomUser):
         return self.username + self.tipo_usuario
 
 
-def user_directory_path_profile_administrador(instance, filename):
-    # el cero es el format
-    profile_picture_name = 'administradores/{0}/profile.jpg'.format(instance.user.username)
-    #que archivo guardamos..
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+###################INICIO PADRES###################
+alumno = CustomUserAlumno
+class CustomUserAcudiente(CustomUser):
+    tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Acudiente')
+    estudiante = models.ManyToManyField(alumno, blank=True, related_name='estudiantes')
 
-    #si el full_path existe lo sacamos y ponemos otro
-    if os.path.exists(full_path):
-        os.remove(full_path)
-
-    return profile_picture_name
+    def __str__(self):
+        return self.username + self.tipo_usuario

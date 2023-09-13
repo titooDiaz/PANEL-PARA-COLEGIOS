@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUserAlumno
-from django.contrib.auth.forms import AuthenticationForm
 
 class CustomUserAlumnoForm(UserCreationForm):
     class Meta:
@@ -11,11 +10,3 @@ class CustomUserAlumnoForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Personaliza los widgets o agrega campos adicionales si es necesario
-
-class CustomAlumnoLoginForm(AuthenticationForm):
-    username = forms.CharField(max_length=150)
-    password = forms.CharField(widget=forms.PasswordInput)
-
-
-
-

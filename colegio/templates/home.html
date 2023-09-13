@@ -14,239 +14,115 @@
     <!--Icon-->
     <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
   </head>
-
-  <body class="bg-gray-100">
-      <div class="flex h-screen">
-          <!-- Navbar Lateral -->
-          <aside id="NavBar" class="z-50 mov lg:block bg-red-600 text-white w-60 lg:flex lg:flex-col fixed h-screen overflow-y-auto rounded-3xl border-8 border-gray-100 bg-no-repeat" style="background-image: url('https://static.vecteezy.com/system/resources/previews/008/423/765/non_2x/abstract-colorful-orange-wave-background-vector.jpg');">
-              <!-- Logo -->
-              <div class="p-4 text-2xl font-semibold">NOMBRE DEL COLEGIO</div>
-  
-              <!-- Menú de Navegación -->
-              <nav class="flex-1">
-                  <ul class="space-y-2 ml-4">
-                      <li class="bg-gray-100 text-black rounded-l-lg">
-                          <a href="#" class="block p-4 transition duration-300">
-                              <i class="fas fa-home mr-2"></i> Inicio
-                          </a>
-                      </li>
-                      <li>
-                          <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                            <i class="fas fa-calendar mr-2"></i> Calendario
-                          </a>
-                      </li>
-                      <li>
-                          <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                            <i class="fas fa-envelope mr-2"></i> Mensajes
-                          </a>
-                      </li>
-                      <li>
-                          <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                            <i class="fas fa-user mr-2"></i> Personas
-                          </a>
-                      </li>
-                      <li>
-                        <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                          <i class="fas fa-book mr-2"></i> Notas
-                        </a>
-                      </li>
-                  </ul>
-              </nav>
-
-              <script>
-                  const Navbar = document.getElementById('NavBar');
-                  const Boton_navegador = document.getElementById('BotonNav');
-                  function onToggleMenu(e){
-                   Navbar.classList.toggle('mov');
-                  }
-              </script>
-              <style>
-                @media (min-width: 0px) { 
-                  #NavBar.mov {
-                    transform: translateX(-100%);
-                  }
-                  #NavBar {
-                    transition: transform 0.3s ease-in-out;
-                  }
-                 }
-                 
-                 @media (min-width: 1024px) { 
-                  #NavBar.mov {
-                    transform: translateX(0%);
-                  }
-                  }
-              </style>
-  
-              <!-- Pie de Página del Navbar -->
-              <footer class="p-4 text-sm text-white">
-                  © <script>
-                    document.write(new Date().getFullYear() + " MDKJ-F");
-                  </script>
-    
-              </footer>
-          </aside>
-  
-          <!-- Contenido Principal -->
-          <main class="flex-grow p-2 lg:ml-60"> 
-            <div class="w-full bg-red-600 rounded-xl bg-no-repeat" style="background-image: url('https://static.vecteezy.com/system/resources/previews/008/423/765/non_2x/abstract-colorful-orange-wave-background-vector.jpg');">
-              <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <div class="flex items-center justify-center w-full mb-4 lg:mb-0 lg:w-auto">
-                  <a href="#" class="flex items-center">
-                      <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="MDKJ-F" />
-                      <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">MDKJ-F</span>
-                  </a>
-              </div>
-              <div class="flex flex-wrap items-center justify-between w-full lg:w-auto">   
-              
-              <div class="flex items-center mr-4">
-                <div>
-                    <button type="button"  id="user-menu-button"
-                    class="myButton block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1">
-                      <img class="w-5 h-5 scale-150 rounded-full border border-orange-800 inline-block mr-4" src="{{ request.user.customuseralumno.foto.url }}" alt="user photo">{{ request.user.customuseralumno.first_name }} {{ request.user.customuseralumno.last_name }}
-                    </button>
+<body>
+    <nav class="bg-white border-gray-200">
+      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <a href="#" class="flex items-center">
+          <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="MKDJ-F LOGO" />
+          <span class="self-center text-2xl font-semibold whitespace-nowrap">MKDJ-F</span>
+      </a>
+      <div class="flex md:order-2">
+        {% if user.is_authenticated %}
+          <a type="button" href="{% url 'RedirectUser' %}" class="myButton block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full"> <i class="fas fa-user mr-2"></i> Ver Panel</a>
+        {% else %}
+          <a type="button" href="{% url 'account_login' %}" class="myButton block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full"> <i class="fas fa-user mr-2"></i> Ingresar</a>
+        {% endif %}
+      </div>
+      <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
+        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-orange-700 md:p-0" aria-current="page">Inicio</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0">Acerca</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0">Contactanos</a>
+          </li>
+        </ul>
+      </div>
+      </div>
+    </nav>
 
 
-                    <div class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
-                      <div class="px-4 py-3">
-                        <span class="block text-sm text-gray-900 ">* {{ request.user.customuseralumno.tipo_usuario }} *</span>
-                        <span class="block text-sm  text-gray-500 truncate ">{{ request.user.customuseralumno.email }}</span>
-                      </div>
-                      <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Perfil</a>
-                        </li>
-                        <li>
-                          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes</a>
-                        </li>
-                        <li>
-                          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ayuda</a>
-                        </li>
-                        <li>
-                            <a id="mostrarVentana" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                salir
-                            </a>
-                            <div id="ventanaEmergente" class="transition fixed inset-0 flex items-center justify-center hidden w-full h-full" style="background-color: rgba(164, 163, 163, 0.7);">
-                                <div id="divemergente" class="bg-white w-1/2 lg:w-1/3 p-6 rounded-lg shadow-lg border-4 border-gray-200">
-                                    <p class="text-2xl text-center mb-4">¿QUIERES SALIR?</p>
-
-                                    <form method="post" action="{% url 'account_logout' %}">
-                                      {% csrf_token %}
-                                      <button type="submit" class="myButton block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-red-600 border-l border-r border-t border-4 border-red-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-full"><a>Salir</a></button>
-                                    </form>
-                                    
-                                    <button id="cerrarVentana"
-                                    class="myButton block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">
-                                    Cancelar
-                                    </button>
-                                </div>
-                            </div>
-                            <style>
-                                @keyframes fadeIn1 {
-                                    from {
-                                      opacity: 0;
-                                    }
-                                    to {
-                                      opacity: 1;
-                                    }
-                                  }
-                                @keyframes fadeIn2 {
-                                    from {
-                                      opacity: 0.5;
-                                      scale: 0.2;
-                                    }
-                                    to {
-                                      opacity: 1;
-                                      scale: 1;
-                                    }
-                                  }
-                                  /* Aplica la animación a tu ventana emergente */
-                                  #ventanaEmergente {
-                                    animation: fadeIn1 0.5s ease-in-out;
-                                  }
-                                  #divemergente {
-                                    animation: fadeIn2 0.3s ease-in-out;
-                                  }
-                            </style>
-                            <script>
-                              const mostrarVentanaBtn = document.getElementById("mostrarVentana");
-                              const ventanaEmergente = document.getElementById("ventanaEmergente");
-                              const cerrarVentanaBtn = document.getElementById("cerrarVentana");
-                      
-                              // Agrega un manejador de eventos al botón para mostrar la ventana emergente
-                              mostrarVentanaBtn.addEventListener("click", () => {
-                                  ventanaEmergente.classList.remove("hidden");
-                              });
-                      
-                              // Agrega un manejador de eventos al botón para cerrar la ventana emergente
-                              cerrarVentanaBtn.addEventListener("click", () => {
-                                  ventanaEmergente.classList.add("hidden");
-                              });
-                          </script>
-                        </li>
-                      </ul>
-
-                      <script>
-                        document.addEventListener("DOMContentLoaded", function() {
-                        const userMenuButton = document.getElementById("user-menu-button");
-                        const userDropdown = document.getElementById("user-dropdown");
-                    
-                        userMenuButton.addEventListener("click", function(event) {
-                            // Prevenir que el clic del botón se propague al documento
-                            event.stopPropagation();
-                    
-                            // Cambiamos la visibilidad del menú
-                            userDropdown.classList.toggle("fixed");
-                    
-                            if (!userDropdown.classList.contains("fixed")) {
-                                userDropdown.style.display = "none";
-                            } else {
-                                userDropdown.style.display = "block";
-                            }
-                        });
-                        //cic afuera
-                        document.addEventListener("click", function(event) {
-                            if (userDropdown.classList.contains("fixed") && !userDropdown.contains(event.target)) {
-                                // Cerramos el menú
-                                userDropdown.classList.remove("fixed");
-                                userDropdown.style.display = "none";
-                            }
-                        });
-                    });
-                      </script>
-                    </div>
-                  </div>
-                </div>
-
-                
-                  <button 
-                    onclick="onToggleMenu(this)"
-                    type="button" 
-                    class="flex lg:hidden items-center myButton block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1">
-                    <i class="fas fa-bars"></i>
-                  </button>
-
-                  <button 
-                    type="button" 
-                    class="hidden lg:flex items-center myButton block p-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1">
-                    <i class="fas fa-question text-md"></i>
-                  </button>
-
-              <script>
-                  const myButtons = document.querySelectorAll('.myButton');   
-                  myButtons.forEach((button) => {
-                    button.addEventListener('click', () => {
-                      setTimeout(() => {
-                        button.blur();
-                      }, 100);
-                    });
-                  });
-              </script> 
-
-              </div>
+  <section>
+    <div class="px-4 py-12 mx-auto max-w-7xl sm:px-6 md:px-12 lg:px-24 lg:py-24">
+      <div class="flex flex-wrap items-center mx-auto max-w-7xl">
+        <div class="hidden lg:block w-full lg:max-w-lg lg:w-1/2 rounded-xl">
+          <div>
+            <div class="relative w-full max-w-lg">
+              <div class="relative">
+                <img class="object-cover object-center mx-auto rounded-lg" alt="hero" src="{% static 'img/estudiantes.png' %}">
               </div>
             </div>
-            <br>
-        </main>
+          </div>
+        </div>
+        <div class="flex flex-col items-start mt-12 mb-16 text-left lg:flex-grow lg:w-1/2 lg:pl-6 xl:pl-24 md:mb-0 xl:mt-0">
+          <span class="mb-8 text-xs font-bold tracking-widest text-orange-600 uppercase"> MKDJ-F </span>
+          <h1 class="mb-8 font-bold leading-none tracking-tighter text-neutral-600 text-5xl">Panel Administrativo De Colegios</h1>
+          <p class="mb-8 text-base leading-relaxed text-left text-gray-500">¿Requieres información? Ingresa tu correo electrónico y nos pondremos en contacto contigo en breve.</p>
+          <div class="flex-col mt-0 lg:mt-6 max-w-7xl sm:flex">
+            <form action="" method="post" id="revue-form" name="revue-form" target="_blank" class="p-2 mt-8 transition duration-500 ease-in-out transform border2 bg-orange-200 rounded-xl sm:max-w-lg sm:flex">
+              <div class="flex-1 min-w-0 revue-form-group">
+                <label for="member_email" class="sr-only">Correo electronico</label>
+                <input id="cta-email" type="email" class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform bg-white border border-transparent rounded-md text-neutral-600 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300" placeholder="email@ejemplo.co">
+              </div>
+              <div class="mt-4 sm:mt-0 sm:ml-3 revue-form-actions">
+                <button 
+                  type="submit"
+                  class="items-center myButton block p-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 saltito w-full h-full ">
+                  Notificame
+                </button>
+
+                <style>
+                  @keyframes bounce {
+                    0%, 20%, 50%, 80%, 100% {
+                      transform: translateY(0);
+                    }
+                    40% {
+                      transform: translateY(-8px);
+                    }
+                    60% {
+                      transform: translateY(-5px);
+                    }
+                  }
+                  .saltito{
+                    animation: bounce 1s infinite;
+                  }
+
+                  @keyframes rotateRight {
+                    0%, 100% {
+                      transform: rotate(0deg);
+                    }
+                    0%, 50% {
+                      transform: rotate(5deg);
+                    }
+                    51%, 100% {
+                      transform: rotate(-5deg);
+                    }
+                  }
+                  .saltito:hover {
+                    animation: rotateRight 0.5s ease-in-out 2 alternate;
+                    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); 
+                  }
+                </style>
+              </div>
+            </form>
+            <div class="sm:max-w-lg sm:flex">
+              <p class="mt-3 text-xs text-gray-500">
+                ©
+              <script>
+                document.write(new Date().getFullYear() + ",");
+              </script>
+              Creado por
+              <a href="#" class="font-semibold text-black hover:text-white" target="_blank">MKDJ-F</a>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
   </body>
-  </html>
+
+<script src="{% static 'js/boton.js' %}"></script>

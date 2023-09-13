@@ -1,0 +1,56 @@
+{% load static %}
+{% load tailwind_tags %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Copetran{% endblock %}</title>
+    {% tailwind_css %}
+    <!--Caendario-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!--Logo-->
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+
+    <!--Icons Box-icon-->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+    <!--Icons I-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <!-- Popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+</head>
+<body>
+    <div class="flex h-screen">
+
+        <!-- Contenido del navbar -->
+        {% block nav %}
+            {% include 'nav/nav.html' %}
+        {% endblock nav %}
+
+        <main class="flex-grow p-2 lg:ml-60"> 
+            {% block aside %}
+                {% include 'aside/aside.html' %}
+            {% endblock %}
+
+            <!-- Contenido del cuerpo de la página -->
+            <div class="m-4">
+            {% block content %}
+            
+            {% endblock content %}
+            </div>
+        </main>
+
+        
+    </div>
+</body>
+<script src="{% static 'js/boton.js' %}"></script>
+</html>

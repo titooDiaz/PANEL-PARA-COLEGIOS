@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'gestores',
     'informacion',
     'profesores',
-
+    'acudientes',
 ]
 
 #AGREGAR NODE JS A NUESTRO ENTORNO DE TRABAJO (recuerda agregarlo al path)
@@ -60,7 +60,7 @@ SITE_ID = 1
 
 #esto es para los usuarios abstractos 
 AUTH_USER_MODEL = 'users.CustomUser'
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/redirect/"
 
 
 #externo de tailwind
