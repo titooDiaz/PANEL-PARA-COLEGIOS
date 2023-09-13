@@ -5,12 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <form method="POST" action="{% url 'CrearAlumno' %}">
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="bg-white p-4 rounded-lg shadow-xl">
+    <h5 class="text-5xl font-mono">CREA UN ALUMNO</h5>
+    <!-- Formulario Para Crear Las Cuentas De Los Alumnos -->
+    <form method="post" action="{% url 'CrearAlumno' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Crear Alumno</button>
+        <div>
+            <div class="m-2 grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
+                <div>
+                    <label for=" numero_documento" class="block  text-sm font-medium text-gray-900">Numero De Documento: </label>
+                    {{form.username}}
+                </div>
+                <div>
+                    <label for="correo_electronico" class="block  text-sm font-medium text-gray-900">Correo Electronico: <a href="" class="text-gray-400">(opcional)</a></label>
+                    {{form.email}}
+                </div>
+                <div>
+                    <label for=" nombres" class="block text-sm font-medium text-gray-900">Nombres:</label>
+                    {{form.first_name}}
+                </div>  
+                <div>
+                    <label for="apellidos" class="block text-sm font-medium text-gray-900">apellidos:</label>
+                   {{form.last_name}}
+                </div>
+                <div>          
+                    <label for="tipo_documento" class="block  text-sm font-medium text-gray-900">Tipo De Documento</label>
+                    {{form.tipo_documento}}
+                </div>
+                <div>
+                    <label for="contraseña" class="block  text-sm font-medium text-gray-900">Contraseña:</label>
+                    {{form.password}}
+                </div>
+                <div>          
+                    <label for="grado" class="block  text-sm font-medium text-gray-900">Grado</label>
+                    {{form.grado}}
+                </div>
+                <div>          
+                    <label for="sexo" class="block  text-sm font-medium text-gray-900">Sexo</label>
+                    {{form.sexo}}
+                </div>
+                <div class="mt-4">
+                    <button type="submit" id="myButton" class=" block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">SUBIR</button>
+                </div>
+            </div>
+        </div>              
     </form>
-    
-</body>
-</html>
+</div>
+{% endblock content %}  
