@@ -16,7 +16,7 @@
     <!--Icons I-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
-    <!--     Fonts and icons     -->
+    <!--Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 
     <!-- Font Awesome Icons -->
@@ -25,9 +25,18 @@
 <body>
     <div class="flex h-screen">
 
+        {% if messages %}
+            {% include 'messages.html' %}
+        {% endif %}
+
         <!-- Contenido del navbar -->
         {% block nav %}
-            {% include 'nav/nav.html' %}
+            {% if vista == 'gestor' %}
+                {% include 'nav/nav_gestor.html' %}
+            {% endif %}
+            {% if vista == 'estudiante' %}
+                {% include 'nav/nav_estudiante.html' %}
+            {% endif %}
         {% endblock nav %}
 
         <main class="flex-grow p-2 lg:ml-60"> 

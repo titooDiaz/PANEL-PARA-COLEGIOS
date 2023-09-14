@@ -14,7 +14,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- FONTS -->
-  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule="" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.js"></script>
   
   <title>Inicio de sesion</title>
 </head>
@@ -22,6 +23,12 @@
 
 <body>
   
+
+  {% if messages %}
+    {% include 'messages.html' %}
+  {% endif %}
+
+
   <header class="bg-transparent">
     <nav class="absolute flex justify-between items-center w-[100%] mx-auto rounded-xl">
       <div></div>
@@ -42,14 +49,6 @@
       </div>
     </nav>
   </header>
-
-  {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 
 <section class="bg-no-repeat bg-cover min-h-screen flex items-center justify-center background"
   style="background-image: url('https://images.pexels.com/photos/8199562/pexels-photo-8199562.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');">
