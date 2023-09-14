@@ -9,13 +9,21 @@ class CreateAlumno(View):
         context = {
             'form': form
         }
+        print(form.is_valid())
         if form.is_valid():
-            form.save()
-        return render(request, 'users/alumnos/create_alumnos.html', context)
+            username = form.cleaned_data['username']
+            alumno = form.save(commit=False)
+            alumno.numero_documento = username
+            alumno.save()
+        else:
+            print(form.errors)
+        return redirect('CrearAlumno')
     def get(self, request, *args, **kwargs):
         form = CustomUserAlumnoForm()
+        vista = 'admin'
         context = {
-            'form': form
+            'form': form,
+            'vista': vista,
         }
         return render(request, 'users/alumnos/create_alumnos.html', context)
     

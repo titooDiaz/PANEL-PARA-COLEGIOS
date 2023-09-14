@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>Crear nuevo Alumno</title>
 </head>
 {% extends 'base.html' %}
 
 
 {% block content %}
-<div class="bg-white p-4 rounded-lg shadow-xl">
-    <h5 class="text-5xl font-mono">CREA UN ALUMNO</h5>
+<div class="bg-white p-8 rounded-lg shadow-lg">
+    <h5 class="text-5xl font-mono mb-4">CREA UN ALUMNO</h5>
     <!-- Formulario Para Crear Las Cuentas De Los Alumnos -->
+
     <form method="post" action="{% url 'CrearAlumno' %}">
         {% csrf_token %}
         <div>
-            <div class="m-2 grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
+            <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
                 <div>
                     <label for=" numero_documento" class="block  text-sm font-medium text-gray-900">Numero De Documento: </label>
                     {{form.username}}
@@ -29,7 +27,7 @@
                     {{form.first_name}}
                 </div>  
                 <div>
-                    <label for="apellidos" class="block text-sm font-medium text-gray-900">apellidos:</label>
+                    <label for="apellidos" class="block text-sm font-medium text-gray-900">Apellidos:</label>
                    {{form.last_name}}
                 </div>
                 <div>          
@@ -48,10 +46,32 @@
                     <label for="sexo" class="block  text-sm font-medium text-gray-900">Sexo</label>
                     {{form.sexo}}
                 </div>
-                <div class="mt-4">
-                    <button type="submit" id="myButton" class=" block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">SUBIR</button>
+                <div class="hidden">          
+                    <label for="password" class="block  text-sm font-medium text-gray-900">password</label>
+                    {{form.password2}}
+                    {{form.password1}}
                 </div>
             </div>
+            <div class="mt-4">
+                <button type="submit" id="myButton" class=" block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var passwordInput = document.getElementById("password");
+                    var password1Input = document.getElementById("id_password1");
+                    var password2Input = document.getElementById("id_password2");
+                    var passwordValue = passwordInput.value;
+                        password1Input.value = passwordValue;
+                        password2Input.value = passwordValue;
+
+                    passwordInput.addEventListener("input", function() {
+                        passwordValue = passwordInput.value;
+                        password1Input.value = passwordValue;
+                        password2Input.value = passwordValue;
+                    });
+                });
+            </script>
         </div>              
     </form>
 </div>
