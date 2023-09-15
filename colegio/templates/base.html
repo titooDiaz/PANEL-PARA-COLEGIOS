@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}Copetran{% endblock %}</title>
+    <title>{% block title %}PANEL PARA COLEGIOS{% endblock %}</title>
     {% tailwind_css %}
     <!--Caendario-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -115,7 +115,12 @@
 
         <main class="flex-grow p-2 lg:ml-60"> 
             {% block aside %}
-                {% include 'aside/aside.html' %}
+                {% if vista == 'gestor' %}
+                    {% include 'aside/aside_gestor.html' %}
+                {% endif %}
+                {% if vista == 'estudiante' %}
+                    {% include 'aside/aside_estudiante.html' %}
+                {% endif %}
             {% endblock %}
 
             <!-- Contenido del cuerpo de la página -->

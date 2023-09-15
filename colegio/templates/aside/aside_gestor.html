@@ -13,14 +13,14 @@
         <div>
             <button type="button"  id="user-menu-button"
             class="myButton block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1">
-              <img class="w-5 h-5 scale-150 rounded-full border border-orange-800 inline-block mr-4" src="{{ request.user.customuseralumno.foto.url }}" alt="user photo">{{ request.user.customuseralumno.first_name }} {{ request.user.customuseralumno.last_name }}
+              <img class="w-5 h-5 scale-150 rounded-full border border-orange-800 inline-block mr-4" src="{{ request.user.customusergestor.foto.url }}" alt="user photo">{{ request.user.customusergestor.first_name }} {{ request.user.customusergestor.last_name }}
             </button>
 
 
             <div class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
               <div class="px-4 py-3">
-                <span class="block text-sm text-gray-900 ">* {{ request.user.customuseralumno.tipo_usuario }} *</span>
-                <span class="block text-sm  text-gray-500 truncate ">{{ request.user.customuseralumno.email }}</span>
+                <span class="block text-sm text-gray-900 ">* {{ request.user.customusergestor.tipo_usuario }} *</span>
+                <span class="block text-sm  text-gray-500 truncate ">{{ request.user.customusergestor.email }}</span>
               </div>
               <ul class="py-2" aria-labelledby="user-menu-button">
                 <li>
@@ -78,52 +78,8 @@
                             animation: fadeIn2 0.3s ease-in-out;
                           }
                     </style>
-                    <script>
-                      const mostrarVentanaBtn = document.getElementById("mostrarVentana");
-                      const ventanaEmergente = document.getElementById("ventanaEmergente");
-                      const cerrarVentanaBtn = document.getElementById("cerrarVentana");
-              
-                      // Agrega un manejador de eventos al botón para mostrar la ventana emergente
-                      mostrarVentanaBtn.addEventListener("click", () => {
-                          ventanaEmergente.classList.remove("hidden");
-                      });
-              
-                      // Agrega un manejador de eventos al botón para cerrar la ventana emergente
-                      cerrarVentanaBtn.addEventListener("click", () => {
-                          ventanaEmergente.classList.add("hidden");
-                      });
-                  </script>
                 </li>
               </ul>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                const userMenuButton = document.getElementById("user-menu-button");
-                const userDropdown = document.getElementById("user-dropdown");
-            
-                userMenuButton.addEventListener("click", function(event) {
-                    // Prevenir que el clic del botón se propague al documento
-                    event.stopPropagation();
-            
-                    // Cambiamos la visibilidad del menú
-                    userDropdown.classList.toggle("fixed");
-            
-                    if (!userDropdown.classList.contains("fixed")) {
-                        userDropdown.style.display = "none";
-                    } else {
-                        userDropdown.style.display = "block";
-                    }
-                });
-                //cic afuera
-                document.addEventListener("click", function(event) {
-                    if (userDropdown.classList.contains("fixed") && !userDropdown.contains(event.target)) {
-                        // Cerramos el menú
-                        userDropdown.classList.remove("fixed");
-                        userDropdown.style.display = "none";
-                    }
-                });
-            });
-              </script>
             </div>
           </div>
         </div>
@@ -144,3 +100,4 @@
       </div>
       </div>
     </div>
+<script src="{% static 'js/aside.js' %}"></script>
