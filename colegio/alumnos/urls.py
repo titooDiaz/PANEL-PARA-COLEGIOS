@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import CreateAlumno, AlumnoBoard, AlumnoCalendario, AlumnoMensajes, AlumnoNotas, AlumnoPersonas
+from .views import AlumnoBoard, AlumnoCalendario, AlumnoMensajes, AlumnoNotas, AlumnoPersonas
 
 urlpatterns = [
-    path('crear/', CreateAlumno.as_view(), name='CrearAlumno'),
 
     #vista estudiantes
     path('board/', AlumnoBoard.as_view(), name='BoardAlumno'),

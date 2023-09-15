@@ -9,27 +9,47 @@
         <ul class="space-y-2 ml-4">
           {% if abierto == 'inicio' %}
             <li class="bg-white text-black rounded-l-lg">
-                <a href="#" class="block p-4 transition duration-300">
+                <a href="{% url 'BoardGestores' %}" class="block p-4 transition duration-300 rounded-lg">
                     <i class="fas fa-home mr-2"></i> Inicio
                 </a>
             </li>
           {% else %}
             <li>
-              <a href="#" class="block p-4 transition duration-300">
+              <a href="{% url 'BoardGestores' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                   <i class="fas fa-home mr-2"></i> Inicio
               </a>
             </li>
           {% endif %}
-            <li>
-                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+
+          {% if abierto == 'calendario' %}
+            <li class="bg-white text-black rounded-l-lg">
+                <a href="{% url 'CalendarioGestores' %}" class="block p-4  transition duration-300 rounded-lg">
                   <i class="fas fa-calendar mr-2"></i> Calendario
                 </a>
             </li>
+          {% else %}
             <li>
-                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+              <a href="{% url 'CalendarioGestores' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <i class="fas fa-calendar mr-2"></i> Calendario
+              </a>
+            </li>
+          {% endif %}
+          
+          {% if abierto == 'mensajes' %}
+            <li class="bg-white text-black rounded-l-lg">
+                <a href="{% url 'MensajesGestores' %}" class="block p-4 transition duration-300 rounded-lg">
                   <i class="fas fa-envelope mr-2"></i> Mensajes
                 </a>
             </li>
+          {% else %}
+            <li>
+                <a href="{% url 'MensajesGestores' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                  <i class="fas fa-envelope mr-2"></i> Mensajes
+                </a>
+            </li>
+          {% endif %}
+
+
             {% if abierto == 'personas' %}
               <li class="bg-white text-black rounded-l-lg">
                 <a href="{% url 'ViewUsersSettings' %}" class="block p-4 transition duration-300 rounded-lg">
@@ -46,13 +66,13 @@
 
             {% if abierto == 'ajustes' %}
               <li class="bg-white text-black rounded-l-lg">
-                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <a href="{% url 'AjustesGestores' %}" class="block p-4 transition duration-300 rounded-lg">
                   <i class="fa fa-gear mr-2"></i> Ajustes
                 </a>
               </li>
             {% else %}
               <li>
-                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <a href="{% url 'AjustesGestores' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                   <i class="fa fa-gear mr-2"></i> Ajustes
                 </a>
               </li>
