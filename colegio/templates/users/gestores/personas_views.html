@@ -1,11 +1,12 @@
+
 <head>
-    <title>Crear nuevo Gestor</title>
+    <title>Mas personas</title>
 </head>
 {% extends 'base.html' %}
 
 
 {% block content %}
-
+{% load static %}
 <section class="bg-white">
     <div class="py-4 px-4 mx-auto max-w-screen-xl lg:py-2 lg:px-6 ">
         <div class="mx-auto max-w-screen-sm text-center">
@@ -16,7 +17,7 @@
             <div class="items-center bg-white border-4 border-gray-200 rounded-lg shadow sm:flex p-4 block shadow-2xl">
                 <div class="block w-full">
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">ALUMNOS</h5>
-                    <img class="w-full rounded-full p-4" src="https://th.bing.com/th/id/OIP.3cuMwTyUWtIJhvzqFy5_XwHaHa?pid=ImgDet&rs=1" alt="Alumno">
+                    <img class="w-full rounded-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
                     <div class="mt-2 flex">
                         <a type="button" href="{% url 'CrearAlumno' %}" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
@@ -27,7 +28,7 @@
             <div class="items-center bg-white border-4 border-gray-200 rounded-lg shadow sm:flex p-4 block shadow-2xl">
                 <div class="block w-full">
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">PROFESORES</h5>
-                    <img class="w-full rounded-full p-4" src="https://i.pinimg.com/originals/18/8e/cf/188ecf65c11c3d0a28b2b7ff619fbe47.jpg" alt="Alumno">
+                    <img class="w-full rounded-full p-4" src="{% static 'img/usuarios/profesores.png' %}" alt="Alumno">
                     <div class="mt-2 flex">
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
@@ -38,7 +39,7 @@
             <div class="items-center bg-white border-4 border-gray-200 rounded-lg shadow sm:flex p-4 block shadow-2xl">
                 <div class="block w-full">
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">GESTORES</h5>
-                    <img class="w-full rounded-full p-4" src="https://th.bing.com/th/id/OIP.xw2X4zy3Z7lpAUthLAlyTwHaHa?pid=ImgDet&rs=1" alt="Alumno">
+                    <img class="w-full rounded-full p-4" src="{% static 'img/usuarios/gestores.png' %}" alt="Alumno">
                     <div class="mt-2 flex">
                         <a type="button" href="{% url 'CrearGestor' %}" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
@@ -49,7 +50,7 @@
             <div class="items-center bg-white border-4 border-gray-200 rounded-lg shadow sm:flex p-4 block shadow-2xl">
                 <div class="block w-full">
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">ACUDIENTES</h5>
-                    <img class="w-full rounded-full p-4" src="https://th.bing.com/th/id/R.10db4b2c74afd31a5aa6415abb71c5fa?rik=t5c%2f%2fR30IbpEqg&pid=ImgRaw&r=0&sres=1&sresct=1" alt="Alumno">
+                    <img class="w-full rounded-full p-4" src="{% static 'img/usuarios/acudientes.png' %}" alt="Alumno">
                     <div class="mt-2 flex">
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
@@ -60,7 +61,7 @@
             <div class="items-center bg-white border-4 border-gray-200 rounded-lg shadow sm:flex p-4 block shadow-2xl">
                 <div class="block w-full">
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">ADMINS</h5>
-                    <img class="w-full rounded-full p-4" src="https://static9.depositphotos.com/1003938/1123/v/450/depositphotos_11232745-stock-illustration-funny-cartoon-manager.jpg" alt="Alumno">
+                    <img class="w-full rounded-full p-4" src="{% static 'img/usuarios/admin.png' %}" alt="Alumno">
                     <div class="mt-2 flex">
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>

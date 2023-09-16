@@ -1,0 +1,53 @@
+<head>
+    <title>Crear nuevo Gestor</title>
+</head>
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+<section class="bg-white">
+    <div class="py-4 px-4 mx-auto max-w-screen-xl lg:py-2 lg:px-6 ">
+        <div class="mx-auto max-w-screen-sm text-center">
+            <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8">Adminitracion de usuarios!</h2>
+        </div> 
+        <div class="grid gap-6 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
+            
+            <div class="items-center bg-white border-4 border-gray-200 rounded-lg shadow sm:flex p-4 block shadow-2xl">
+                <div class="block w-full">
+                    <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Grados</h5>
+                    <img class="w-full p-4" src="{% static 'img/informacion/grado.png' %}" alt="Alumno">
+                    <div class="mt-2 flex">
+                        <a type="button" href="{% url 'CrearAlumno' %}" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                        <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
+                      </div>
+                </div>
+            </div>
+
+            <div class="items-center bg-white border-4 border-gray-200 rounded-lg shadow sm:flex p-4 block shadow-2xl">
+                <div class="block w-full">
+                    <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Materias</h5>
+                    <img class="w-full p-4" src="{% static 'img/informacion/deberes.png' %}" alt="Alumno">
+                    <div class="mt-2 flex">
+                        <a type="button" href="{% url 'CrearAlumno' %}" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                        <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
+                      </div>
+                </div>
+            </div>
+
+            <div class="items-center bg-white border-4 border-gray-200 rounded-lg shadow sm:flex p-4 block shadow-2xl">
+                <div class="block w-full">
+                    <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Horarios</h5>
+                    <img class="w-full p-4" src="{% static 'img/informacion/calendario.png' %}" alt="Alumno">
+                    <div class="mt-2 flex">
+                        <a type="button" href="{% url 'CrearAlumno' %}" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                        <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
+                      </div>
+                </div>
+            </div>
+
+   
+    </div>
+  </section>
+
+{% endblock content %}  

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Horarios_Partes, Grado, Materias
+from .models import Horarios_Partes, Grado, Materias, HorarioDiario
 
 
 class Horarios_PartesProxy(Horarios_Partes):
@@ -17,7 +17,12 @@ class GradoProxy(Grado):
         proxy = True
         verbose_name_plural = 'Grados Escolares'
 
+class HorarioDiarioProxy(HorarioDiario):
+    class Meta:
+        proxy = True
+        verbose_name_plural = 'Horarios Escolares'
 
+admin.site.register(HorarioDiarioProxy)
 admin.site.register(Horarios_PartesProxy)
 admin.site.register(GradoProxy)
 admin.site.register(MateriasProxy)

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'informacion',
     'profesores',
     'acudientes',
+    'alumnos',
 ]
 
 #AGREGAR NODE JS A NUESTRO ENTORNO DE TRABAJO (recuerda agregarlo al path)

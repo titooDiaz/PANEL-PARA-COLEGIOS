@@ -98,4 +98,4 @@ class AjustesGestores(View):
             'vista': vista,
             'abierto':abierto,
         }
-        return render(request, 'users/gestores/personas_views.html', context)
+        return render(request, 'informacion/view_informacion.html', context)
