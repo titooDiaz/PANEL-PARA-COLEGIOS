@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
-from .forms import CustomUserGestorForm, CustomUserAlumnoForm
+from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm
 
 
 class CreateAlumno(View):
@@ -99,3 +99,25 @@ class AjustesGestores(View):
             'abierto':abierto,
         }
         return render(request, 'informacion/view_informacion.html', context)
+class CreateProfesor(View):
+    def post(self, request, *args, **kwargs):
+        form = CustomUserProfesoresForm(request.POST)
+        print(form.is_valid())
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            profesor = form.save(commit=False)
+            profesor.numero_documento = username
+            profesor.save()
+        else:
+            print(form.errors)
+        return redirect('CrearProfesor')
+    def get(self, request, *args, **kwargs):
+        form = CustomUserProfesoresForm()
+        vista = 'gestor'
+        abierto='personas'
+        context = {
+            'form': form,
+            'vista': vista,
+            'abierto':abierto,
+        }
+        return render(request, 'users/profesores/create_profesores.html', context)
