@@ -7,10 +7,75 @@
 {% block content %}
 {% load static %}
 
-<form method="post">
+<form method="post"  action="{% url 'CrearMaterias' pk=1 %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" >subir</button>
+    <div>
+        <div>          
+            <label for="electiva" class="block  text-sm font-medium text-gray-900">Electiva</label>
+            {{form.electiva}}
+        </div>
+        <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
+            <div>          
+                <label for="profe" class="block  text-sm font-medium text-gray-900">Profe</label>
+                {{form.profe1}}
+            </div>
+            <div>          
+                <label for="titulo1" class="block  text-sm font-medium text-gray-900">Titulo1</label>
+                {{form.titulo1}}
+            </div>
+            <div>          
+                <label for="descripcion1" class="block  text-sm font-medium text-gray-900">Descripcion1</label>
+                {{form.descripcion1}}
+            </div>
+            <div>          
+                <label for="alumnos1" class="block  text-sm font-medium text-gray-900">Alumnos1</label>
+                {{form.alumnos1}}
+            </div>
+        </div>
+
+
+        <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2" id="containerElectiva">    
+            <div>          
+                <label for="profe" class="block  text-sm font-medium text-gray-900">Profe</label>
+                {{form.profe2}}
+            </div>
+            <div>          
+                <label for="titulo2" class="block  text-sm font-medium text-gray-900">Titulo2</label>
+                {{form.titulo2}}
+            </div>
+            <div>          
+                <label for="descripcion2" class="block  text-sm font-medium text-gray-900">Descripcion2</label>
+                {{form.descripcion2}}
+            </div>
+            <div>          
+                <label for="alumnos2" class="block  text-sm font-medium text-gray-900">Alumnos2</label>
+                {{form.alumnos2}}
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <button type="submit" id="myButton" class=" block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+        </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            var checkbox = document.getElementById('Checkbox');
+
+            checkbox.addEventListener('click', function() {
+            var container = document.getElementById('containerElectiva');
+            if (checkbox.checked) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+            });
+
+        });
+    
+    </script>
+
 </form>
 
 {% endblock content %}  

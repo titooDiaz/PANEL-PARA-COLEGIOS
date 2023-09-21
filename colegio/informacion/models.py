@@ -24,14 +24,14 @@ class Horarios_Partes(models.Model):
         return "HORARIO DE " + self.titulo
 
 class Materias(models.Model):
-    ##################electivas##############
-    profe = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, related_name='profesor_0')
     electiva = models.BooleanField(default=True)
+    ##################electivas##############
+    profe1 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, related_name='profesor_0')
     titulo1 = models.TextField(blank=True, null=True)
     descripcion1 = models.TextField(blank=True, null=True)
     alumnos1 = models.ManyToManyField(UserAlumno, blank=True, related_name='alumnos_electiva1')
 
-    profe1 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, null=True, related_name='profesor_1')
+    profe2 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, null=True, related_name='profesor_1')
     titulo2 = models.TextField(blank=True, null=True)
     descripcion2 = models.TextField(blank=True, null=True)
     alumnos2 = models.ManyToManyField(UserAlumno, blank=True, related_name='alumnos_electiva2')
