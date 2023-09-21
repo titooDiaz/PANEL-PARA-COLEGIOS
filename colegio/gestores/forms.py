@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUserGestor, CustomUserAlumno, CustomUserProfesores
+from informacion.models import Grado, HorarioDiario, Horarios_Partes, Materias
 
 class CustomUserAlumnoForm(UserCreationForm):
     class Meta:
@@ -111,5 +112,25 @@ class CustomUserProfesoresForm(UserCreationForm):
         }
 
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class GradoForm(forms.ModelForm):
+    class Meta:
+        model = Grado
+        #fields = '__all__' 
+        fields = ('grado_nom', 'grado_num', 'descripcion', 'materias', 'horario_partes')
+        widgets = {}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+class MateriasForm(forms.ModelForm):
+    class Meta:
+        model = Materias
+        fields = ['profe', 'electiva', 'titulo1', 'descripcion1', 'alumnos1', 'titulo2', 'descripcion2', 'alumnos2']
+        widgets = {}
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

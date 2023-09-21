@@ -1,5 +1,5 @@
 <head>
-    <title>Crear nuevo Gestor</title>
+    <title>Crear nuevos datos escolares</title>
 </head>
 {% extends 'base.html' %}
 
@@ -9,7 +9,7 @@
 <section class="bg-white">
     <div class="py-4 px-4 mx-auto max-w-screen-xl lg:py-2 lg:px-6 ">
         <div class="mx-auto max-w-screen-sm text-center">
-            <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8">Adminitracion de usuarios!</h2>
+            <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8">OTRAS OPCIONES!</h2>
         </div> 
         <div class="grid gap-6 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
             
@@ -18,7 +18,7 @@
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Grados</h5>
                     <img class="w-full p-4" src="{% static 'img/informacion/grado.png' %}" alt="Alumno">
                     <div class="mt-2 flex">
-                        <a type="button" href="{% url 'CrearAlumno' %}" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                        <a type="button" href="{% url 'CrearGrado' %}" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
                       </div>
                 </div>
@@ -29,7 +29,7 @@
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Materias</h5>
                     <img class="w-full p-4" src="{% static 'img/informacion/deberes.png' %}" alt="Alumno">
                     <div class="mt-2 flex">
-                        <a type="button" href="{% url 'CrearAlumno' %}" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                        <a type="button" href="{% url 'VerGradosMaterias' %}" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
                         <a type="button" href="#" class="myButton font-semibold text-sm text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
                       </div>
                 </div>
