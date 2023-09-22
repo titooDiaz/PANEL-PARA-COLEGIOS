@@ -7,13 +7,14 @@
 {% block content %}
 {% load static %}
 
-<form method="post"  action="{% url 'CrearMaterias' pk=1 %}">
+<form method="post" action="{% url 'CrearMaterias' pk=1 %}">
     {% csrf_token %}
     <div>
         <div>          
-            <label for="electiva" class="block  text-sm font-medium text-gray-900">Electiva</label>
+            <label for="electiva" class="text-sm font-medium text-gray-900 mr-2">Electiva</label>
             {{form.electiva}}
         </div>
+
         <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
             <div>          
                 <label for="profe" class="block  text-sm font-medium text-gray-900">Profe</label>
@@ -78,4 +79,40 @@
 
 </form>
 
+<div class="my-4 hidden lg:block">
+        
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-orange-600">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Electiva
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Materia 1
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Materia 2
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for materia in materias %}
+                <tr class="bg-gray-150 border-b">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        {{ materia.electiva }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ materia.titulo1 }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ materia.titulo2 }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    </div>
 {% endblock content %}  

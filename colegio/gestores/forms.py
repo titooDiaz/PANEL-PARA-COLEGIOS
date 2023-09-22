@@ -120,13 +120,20 @@ class GradoForm(forms.ModelForm):
     class Meta:
         model = Grado
         #fields = '__all__' 
-        fields = ('grado_nom', 'grado_num', 'descripcion', 'materias', 'horario_partes')
+        fields = ('grado_nom', 'grado_num', 'descripcion', 'horario_partes')
         widgets = {}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
 class MateriasForm(forms.ModelForm):
+    def __init__(self, *args, estudiantes_grado=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Filtra los estudiantes por los proporcionados
+        if estudiantes_grado:
+            self.fields['alumnos1'].queryset = estudiantes_grado
+            self.fields['alumnos2'].queryset = estudiantes_grado
     class Meta:
         model = Materias
         fields = ['profe1', 'profe2', 'electiva', 'titulo1', 'descripcion1', 'alumnos1', 'titulo2', 'descripcion2', 'alumnos2']
@@ -135,7 +142,7 @@ class MateriasForm(forms.ModelForm):
 
             'profe2': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
-            'electiva': forms.CheckboxInput(attrs={'class': 'aaaaa', 'id':'Checkbox'}),
+            'electiva': forms.CheckboxInput(attrs={'class': 'w-12 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2', 'id':'Checkbox'}),
 
             'titulo1': forms.TextInput(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Titulo1'}),
 
@@ -149,6 +156,3 @@ class MateriasForm(forms.ModelForm):
 
             'alumnos2': forms.SelectMultiple(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Alumnos2'}),
             }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)

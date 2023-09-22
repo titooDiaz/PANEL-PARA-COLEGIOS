@@ -3,6 +3,14 @@ from django.views.generic import TemplateView, View
 from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm
 from informacion.models import Grado
 
+from users.models import CustomUserAlumno
+
+def obtener_estudiantes_por_grado(grado_id):
+    try:
+        estudiantes = CustomUserAlumno.objects.filter(grado_id=grado_id)
+        return estudiantes
+    except CustomUserAlumno.DoesNotExist:
+        return None
 
 class CreateAlumno(View):
     def post(self, request, *args, **kwargs):
@@ -198,21 +206,36 @@ class CreateMaterias(View):
         form = MateriasForm(request.POST)
         if form.is_valid():
             materia = form.save(commit=False)
-            grado = Grado.objects.get(pk=pk)  # Obtén el grado desde la URL
+            grado = Grado.objects.get(pk=pk)
             materia.author = request.user
-            materia.save()
+            electiva_value = form.cleaned_data.get('electiva')
+            if electiva_value != True:
+                materia.profe2 = None
+                materia.titulo2 = ""
+                materia.descripcion2 = ""
+                materia.save()
+                materia.alumnos2.clear()
+            else:
+                materia.save()
             grado.materias.add(materia)
-            return redirect('CrearMaterias', pk=pk)  # Redirige a la misma vista
-        return redirect('CrearMaterias', pk=pk)  # Si el formulario no es válido
 
-    def get(self, request, *args, **kwargs):
-        form = MateriasForm()
+            return redirect('CrearMaterias', pk=pk)
+        return redirect('CrearMaterias', pk=pk)
+
+    def get(self, request, pk, *args, **kwargs):
+        grado = Grado.objects.get(id=pk)
+        estudiantes_grado = obtener_estudiantes_por_grado(pk)
+        #form = MateriasForm(initial={'alumnos1': estudiantes_grado, 'alumnos2': estudiantes_grado})
+        form = MateriasForm(estudiantes_grado=estudiantes_grado)
         vista = 'gestor'
         abierto = 'ajustes'
+        grado = Grado.objects.get(pk=pk)
+        materias = grado.materias.all()
         context = {
             'form': form,
             'vista': vista,
             'abierto': abierto,
+            'materias': materias,
         }
         return render(request, 'informacion/materias/create_materias.html', context)
 
