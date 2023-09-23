@@ -81,7 +81,7 @@ class CustomUserAlumno(CustomUser):
     
 
     def __str__(self):
-        return self.username + self.tipo_usuario
+        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario}'
 
 
 ###################################################
@@ -137,7 +137,7 @@ class CustomUserProfesores(CustomUser):
     contacto_emergencia_telefono = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        return self.username + self.tipo_usuario
+        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario}'
 
 
 #######################################################################################################
@@ -173,4 +173,4 @@ class CustomUserAcudiente(CustomUser):
     estudiante = models.ManyToManyField(alumno, blank=True, related_name='estudiantes')
 
     def __str__(self):
-        return self.username + self.tipo_usuario
+        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario}'
