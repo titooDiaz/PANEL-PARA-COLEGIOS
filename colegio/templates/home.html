@@ -21,9 +21,9 @@
       </a>
       <div class="flex md:order-2">
         {% if user.is_authenticated %}
-          <a type="button" href="{% url 'RedirectUser' %}" class="myButton block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full"> <i class="fas fa-user mr-2"></i> Ver Panel</a>
+          <a type="button" href="{% url 'RedirectUser' %}" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full"> <i class="fas fa-user mr-2"></i> Ver Panel</a>
         {% else %}
-          <a type="button" href="{% url 'account_login' %}" class="myButton block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full"> <i class="fas fa-user mr-2"></i> Ingresar</a>
+          <a type="button" href="{% url 'account_login' %}" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full"> <i class="fas fa-user mr-2"></i> Ingresar</a>
         {% endif %}
       </div>
       <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">

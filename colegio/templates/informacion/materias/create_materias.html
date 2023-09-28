@@ -35,13 +35,22 @@
     {% csrf_token %}
 
     <div id="EmergenteAlumnos" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-full w-full">
-        <div class="flex justify-center items-center h-screen">
+        <div id="EmergenteAlumnosBox" class="flex justify-center items-center h-screen">
             <div class="rounded-lg border border-black bg-white h-[90%] w-[70%]">
                 <div class="w-full h-12 flex items-center justify-end rounded-lg text-black">
                     <b>Alumnos Disponibles Para Este Grado</b> 
                     <button onclick="cerrarVentana()" type="button">
                         <i class="fas fa-arrow-right mx-4"></i>
                     </button>
+                </div>
+                <div class="w-full lg:grid lg:grid-cols-2">
+                    <div class="bg-blue-400 m-4 block">
+                        <h1>{{form.alumnos1}}</h1>
+                    </div>
+
+                    <div class="bg-red-500 m-4 block">
+                        <h1>{{form.alumnos2}}</h1>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,7 +77,7 @@
             </div>
             <div>          
                 <label for="alumnos1" class="block  text-sm font-medium text-gray-900">Alumnos1</label>
-                {{form.alumnos1}}
+                
             </div>
             
             <div>          
@@ -95,7 +104,6 @@
             </div>
             <div>          
                 <label for="alumnos2" class="block  text-sm font-medium text-gray-900">Alumnos2</label>
-                {{form.alumnos2}}
             </div>
         </div>
         
@@ -146,18 +154,21 @@
     </div>
 
     <style>
+        #EmergenteAlumnosBox{
+            animation: fadeIn1 0.3s ease-in-out;
+        }
         #EmergenteAlumnos{
             background-color: rgba(115, 115, 115, 0.61);
             z-index: 999;
-            animation: fadeIn1 0.5s ease-in-out;
         }
         @keyframes fadeIn1 {
                 from {
                   opacity: 0;
-                  transform: 1.2;
+                  scale: 0.2;
                 }
                 to {
                   opacity: 1;
+                  scale: 1;
                 }
               }
     </style>
