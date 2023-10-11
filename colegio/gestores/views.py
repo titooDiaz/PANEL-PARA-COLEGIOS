@@ -209,14 +209,20 @@ class CreateMaterias(View):
             grado = Grado.objects.get(pk=pk)
             materia.author = request.user
             electiva_value = form.cleaned_data.get('electiva')
-            if electiva_value != True:
+            
+            # Limpia los campos relacionados con la electiva si no es True
+            if not electiva_value:
                 materia.profe2 = None
                 materia.titulo2 = ""
                 materia.descripcion2 = ""
-                materia.save()
-                materia.alumnos2.clear()
             else:
+                alumnos1 = form.cleaned_data.get('alumnos1')
+                alumnos2 = form.cleaned_data.get('alumnos2')
                 materia.save()
+                materia.alumnos1.set(alumnos1)
+                materia.alumnos2.set(alumnos2)
+            
+            materia.save()
             grado.materias.add(materia)
 
             return redirect('CrearMaterias', pk=pk)
@@ -229,9 +235,11 @@ class CreateMaterias(View):
         form = MateriasForm(estudiantes_grado=estudiantes_grado)
         vista = 'gestor'
         abierto = 'ajustes'
+        id_grado = pk
         grado = Grado.objects.get(pk=pk)
         materias = grado.materias.all()
         context = {
+            'id_grado': id_grado,
             'form': form,
             'vista': vista,
             'abierto': abierto,
