@@ -8,6 +8,50 @@
 {% load static %}
 
 <script>
+
+    window.onload = function() {
+      var checkboxesAlumnos1 = document.querySelectorAll('input[name="alumnos1"]');
+
+      checkboxesAlumnos1.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+
+            var checkboxId = checkbox.id;
+            checkboxId = checkboxId.replace('_primer', '');
+            if (checkbox.checked) {
+                const checkbox2 = document.getElementById(checkboxId)
+                checkbox2.checked = false
+            } else {
+                const checkbox2 = document.getElementById(checkboxId)
+                checkbox2.checked = true
+            }
+        });
+      });
+
+      var checkboxesAlumnos2 = document.querySelectorAll('input[name="alumnos2"]');
+
+      checkboxesAlumnos2.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            var checkboxId = checkbox.id;
+            checkboxId = checkboxId + '_primer';
+            if (checkbox.checked) {
+                const checkbox1 = document.getElementById(checkboxId)
+                checkbox1.checked = false
+            } else {
+                const checkbox1 = document.getElementById(checkboxId)
+                checkbox1.checked = true
+            }
+        });
+      });
+
+      checkboxesAlumnos1.forEach(function(checkbox) {
+        let currentId = checkbox.id;
+        let nuevoId = currentId + '_primer';
+        checkbox.id = nuevoId;
+        checkbox.checked = true;
+      });
+      
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
         var checkbox = document.getElementById('Checkbox');
 
@@ -29,13 +73,6 @@
         const ventana = document.getElementById('EmergenteAlumnos');
         ventana.classList.add('hidden');
     }
-    window.onload = function() {
-      var checkboxesAlumnos1 = document.querySelectorAll('input[name="alumnos1"]');
-
-      checkboxesAlumnos1.forEach(function(checkbox) {
-        checkbox.checked = true;
-      });
-    }
 </script>
 
 <form method="post" action="{% url 'CrearMaterias' id_grado %}">
@@ -43,8 +80,8 @@
 
     <div id="EmergenteAlumnos" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-full w-full">
         <div id="EmergenteAlumnosBox" class="flex justify-center items-center h-screen">
-            <div class="rounded-lg border border-black bg-white h-[90%] w-[70%]">
-                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black">
+            <div class="rounded-lg border border-black bg-white h-[90%] w-[70%] overflow-auto">
+                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
                     <b>Alumnos Disponibles Para Este Grado</b> 
                     <button onclick="cerrarVentana()" type="button">
                         <i class="fas fa-arrow-right mx-4"></i>
@@ -116,48 +153,7 @@
 
 </form>
 
-<div class="my-4 hidden lg:block">
-        
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500">
-            <thead class="text-xs text-gray-700 uppercase bg-orange-600">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Electiva
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Materia 1
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Materia 2
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for materia in materias %}
-                <tr class="bg-gray-150 border-b">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {{ materia.electiva }}
-                    </th>
-                    <td class="px-6 py-4">
-                        {{ materia.titulo1 }} 
-                        {% for alumno in materia.alumnos1.all %}
-                            <li>{{ alumno }} - {{ alumno.edad }}</li>
-                        {% endfor %}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ materia.titulo2 }}
-                        {% for alumno in materia.alumnos2.all %}
-                            <li>{{ alumno }} - {{ alumno.edad }}</li>
-                        {% endfor %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    
-    </div>
+
 
     <style>
         #checkbox label{

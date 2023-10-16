@@ -9,8 +9,30 @@
 
 <form method="post" action="{% url 'CrearGrado' %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" >subir</button>
+
+        <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
+            <div>
+                <label for="Gradonom" class="text-sm font-medium text-gray-900 mr-2">Gradonom</label>
+                {{form.grado_nom}}
+            </div>
+            <div>
+                <label for="profe" class="block  text-sm font-medium text-gray-900">GradoNum</label>
+                {{form.grado_num}}
+            </div>
+            <div>
+                <label for="titulo1" class="block  text-sm font-medium text-gray-900">Descripcion</label>
+                {{form.descripcion}}
+            </div>
+            <div>
+                <label for="descripcion1" class="block  text-sm font-medium text-gray-900">Horario Partes</label>
+                {{form.horario_partes}}
+            </div>
+
+        </div>
+
+            <button type="submit" id="myButton" class="block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full mt-4">SUBIR</button>
+        
+
 </form>
 
 {% endblock content %}  
