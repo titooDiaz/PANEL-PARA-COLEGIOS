@@ -29,6 +29,13 @@
         const ventana = document.getElementById('EmergenteAlumnos');
         ventana.classList.add('hidden');
     }
+    window.onload = function() {
+      var checkboxesAlumnos1 = document.querySelectorAll('input[name="alumnos1"]');
+
+      checkboxesAlumnos1.forEach(function(checkbox) {
+        checkbox.checked = true;
+      });
+    }
 </script>
 
 <form method="post" action="{% url 'CrearMaterias' id_grado %}">
