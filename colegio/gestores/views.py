@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
-from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm
+from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm
 from informacion.models import Grado
 
 from users.models import CustomUserAlumno
@@ -200,6 +200,23 @@ class CreateGrados(View):
         }
         return render(request, 'informacion/grados/create_grados.html', context)
 
+
+class CreateHorarios(View):
+    def post(self, request, *args, **kwargs):
+        form = Horarios_PartesForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('CrearHorarios')
+    def get(self, request, *args, **kwargs):
+        form = Horarios_PartesForm()
+        vista = 'gestor'
+        abierto='ajustes'
+        context = {
+            'vista': vista,
+            'abierto':abierto,
+            'form': form,
+        }
+        return render(request, 'informacion/horarios/create_horarios.html', context)
     
 class CreateMaterias(View):
     def post(self, request, pk, *args, **kwargs):

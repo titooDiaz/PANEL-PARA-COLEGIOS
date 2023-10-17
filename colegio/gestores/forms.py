@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUserGestor, CustomUserAlumno, CustomUserProfesores
-from informacion.models import Grado, HorarioDiario, Horarios_Partes, Materias
+from informacion.models import Grado, Horarios_Partes, Materias
 
 class CustomUserAlumnoForm(UserCreationForm):
     class Meta:
@@ -133,6 +133,23 @@ class GradoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+
+class Horarios_PartesForm(forms.ModelForm):
+
+    class Meta:
+        model = Horarios_Partes
+        fields = ('titulo', 'descripcion', 'horas')
+        opciones_horas = [(i, f'{i} horas') for i in range(3, 23)]
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del Horario'}),
+            'descripcion': forms.TextInput(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Este horario...'}),
+            'horas': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}, choices=opciones_horas),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 
 class MateriasForm(forms.ModelForm):
     def __init__(self, *args, estudiantes_grado=None, **kwargs):
