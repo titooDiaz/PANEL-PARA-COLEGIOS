@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
 from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm
-from informacion.models import Grado
+from informacion.models import Grado,Horarios_Partes, HorarioDiario
 
 from users.models import CustomUserAlumno
 
@@ -184,8 +184,17 @@ class CreateGrados(View):
         print(form.is_valid())
         if form.is_valid():
             grado = form.save(commit=False)
+            horarios = form.cleaned_data.get('horario_partes')
+            palabras = str(horarios).split()
+            horarios = ' '.join(palabras[2:])
+            horario = Horarios_Partes.objects.get(titulo=horarios)
+            horas = horario.horas
+            
             grado.author = request.user  # Asocia el autor con el usuario actual
             grado.save()
+
+            for i in range(int(horas)):
+                HorarioDiario.objects.create(Hora=f'Hora {i + 1}', grado=grado)
         else:
             print(form.errors)
         return redirect('CrearGrado')
@@ -205,7 +214,9 @@ class CreateHorarios(View):
     def post(self, request, *args, **kwargs):
         form = Horarios_PartesForm(request.POST)
         if form.is_valid():
-            form.save()
+            horario=form.save(commit=False)
+            horario.author = request.user
+            horario.save()
         return redirect('CrearHorarios')
     def get(self, request, *args, **kwargs):
         form = Horarios_PartesForm()

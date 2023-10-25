@@ -43,8 +43,21 @@ class Materias(models.Model):
     def __str__(self):
         return f'{self.titulo1} - {self.profe1}'
 
-    
+class Grado(models.Model):
+    grado_nom = models.TextField()
+    grado_num = models.TextField()
+    descripcion = models.TextField()
+    estado = models.BooleanField(default=True)
+    created_on = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_grado')
+    horario_partes = models.ForeignKey(Horarios_Partes, on_delete=models.SET_NULL, blank=True, null=True)
+    materias = models.ManyToManyField(Materias, blank=True, related_name='materias_grado')
+
+    def __str__(self):
+        return self.grado_nom + "(" + self.grado_num + ")"
+
 class HorarioDiario(models.Model):
+    grado = models.ForeignKey(Grado, on_delete=models.CASCADE)
     Hora = models.CharField(max_length=50)
     lunes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_1')
     martes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_2')
@@ -56,16 +69,4 @@ class HorarioDiario(models.Model):
         return f"{self.Hora}"
 
     
-class Grado(models.Model):
-    grado_nom = models.TextField()
-    grado_num = models.TextField()
-    descripcion = models.TextField()
-    estado = models.BooleanField(default=True)
-    created_on = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_grado')
-    horario_partes = models.ForeignKey(Horarios_Partes, on_delete=models.SET_NULL, blank=True, null=True)
-    horario = models.ManyToManyField(HorarioDiario, blank=True, related_name='horario_grado')
-    materias = models.ManyToManyField(Materias, blank=True, related_name='materias_grado')
 
-    def __str__(self):
-        return self.grado_nom + "(" + self.grado_num + ")"

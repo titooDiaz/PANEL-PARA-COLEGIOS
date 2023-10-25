@@ -13,41 +13,56 @@
         </div> 
         <div class="grid gap-6 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
             
-            <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+            <div url_0="Grados" class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
                 <div class="block w-full">
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Grados</h5>
                     <img class="w-full p-4" src="{% static 'img/informacion/grado.png' %}" alt="Grados">
                     <div class="mt-2 flex">
-                        <a type="button" href="{% url 'CrearGrado' %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
-                        <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
-                      </div>
+                        <a type="button" href="{% url 'CrearGrado' %}" class="myButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+
+                        <a type="button" href="#" id="0" class="myButton cardButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
+                      </div >
                 </div>
             </div>
 
-            <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+            <div url_1="Materias"class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
                 <div class="block w-full">
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Materias</h5>
                     <img class="w-full p-4" src="{% static 'img/informacion/deberes.png' %}" alt="Alumno">
                     <div class="mt-2 flex">
-                        <a type="button" href="{% url 'VerGradosMaterias' %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
-                        <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
+                        <a type="button" href="{% url 'VerGradosMaterias' %}" class="myButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                        <a type="button" href="#" id="1" class="myButton cardButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
                       </div>
                 </div>
             </div>
 
-            <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+            <div url_2="Horarios" class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
                 <div class="block w-full">
                     <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Horarios</h5>
                     <img class="w-full p-4" src="{% static 'img/informacion/calendario.png' %}" alt="Alumno">
                     <div class="mt-2 flex">
-                        <a type="button" href="{% url 'CrearHorarios' %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
-                        <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></a>
+                        <a type="button" href="{% url 'CrearHorarios' %}" class="myButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                        <a type="button" href="#" id="2"  class="myButton cardButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars" ></i></a>
                       </div>
+
+                      
                 </div>
             </div>
 
+            <div id="ajuste-dropdown" class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow">
+                <ul class="py-2" aria-labelledby="ajuste-menu-button">
+                  <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="mirar-dropdown">Mirar</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="editar-dropdown">Editar</a>
+                  </li>
+                </ul>
+
    
     </div>
-  </section>
 
-{% endblock content %}  
+  </section>
+  <script src="{% static 'js/cards.js' %}"></script>
+
+{% endblock content %}
