@@ -156,7 +156,7 @@ def user_directory_path_profile_administrador(instance, filename):
 class CustomUserAdministrador(CustomUser):
     foto = models.ImageField(default='administradores/profile.png', upload_to=user_directory_path_profile_administrador, null=True, blank=True)
     cargo = models.TextField()
-    tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Alumno')
+    tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Administrador')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
     estado = models.BooleanField(default=True)
