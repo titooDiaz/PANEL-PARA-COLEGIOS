@@ -1,0 +1,7 @@
+.aumentar-5:hover{
+    font-size: 70px;
+    cursor:pointer;
+}
+.aumentar-5{
+    transition: font-size 0.3s ease;
+}
