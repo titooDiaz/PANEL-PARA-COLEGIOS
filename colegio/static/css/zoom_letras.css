@@ -2,6 +2,22 @@
     font-size: 70px;
     cursor:pointer;
 }
-.aumentar-5{
+.aumentar-4:hover{
+    font-size: 60px;
+    cursor:pointer;
+}
+.aumentar-3:hover{
+    font-size: 50px;
+    cursor:pointer;
+}
+.aumentar-2:hover{
+    font-size: 40px;
+    cursor:pointer;
+}
+.aumentar-1:hover{
+    font-size: 30px;
+    cursor:pointer;
+}
+.aumentar-5, .aumentar-5, .aumentar-3, .aumentar-2, .aumentar-1  {
     transition: font-size 0.3s ease;
 }

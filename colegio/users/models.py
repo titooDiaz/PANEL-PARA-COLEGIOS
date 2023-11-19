@@ -160,7 +160,6 @@ class CustomUserAdministrador(CustomUser):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
     estado = models.BooleanField(default=True)
-    
 
     def __str__(self):
         return self.username + self.tipo_usuario

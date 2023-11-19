@@ -6,6 +6,7 @@
 
 
 {% block content %}
+{% load static %}
 <div class="bg-white p-8 rounded-lg shadow-lg">
     <h5 class="text-5xl font-mono mb-4">CREA UN PROFESOR</h5>
     <!-- Formulario Para Crear Las Cuentas De Los Alumnos -->
@@ -57,26 +58,12 @@
                 </div>
             </div>
             <div class="mt-4">
-                <button type="submit" id="myButton" class=" block px-2 py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+                <button type="submit" id="myButton" class=" block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
             </div>
-
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    var passwordInput = document.getElementById("password");
-                    var password1Input = document.getElementById("id_password1");
-                    var password2Input = document.getElementById("id_password2");
-                    var passwordValue = passwordInput.value;
-                        password1Input.value = passwordValue;
-                        password2Input.value = passwordValue;
-
-                    passwordInput.addEventListener("input", function() {
-                        passwordValue = passwordInput.value;
-                        password1Input.value = passwordValue;
-                        password2Input.value = passwordValue;
-                    });
-                });
-            </script>
         </div>              
     </form>
 </div>
+
+<!--PASSWORD INPUTS-->
+<script src="{% static 'js/password_create_users.js' %}"></script>
 {% endblock content %} 
