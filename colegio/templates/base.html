@@ -4,6 +4,8 @@
 
 <head>
     <title>{% block title %}PANEL PARA COLEGIOS{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     {% tailwind_css %}
     <!--Caendario-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -19,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/df1bf70741.js" crossorigin="anonymous"></script>
     
     <style>
         /* Estilos del preloader */
@@ -96,7 +98,7 @@
         <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div>
 
-    <div class="flex h-screen">
+    <div class="flex h-[100vh]">
 
         {% if messages %}
             {% include 'messages.html' %}
@@ -112,7 +114,7 @@
             {% endif %}
         {% endblock nav %}
 
-        <main class="flex-grow p-2 lg:ml-60"> 
+        <main class="flex-grow p-2 lg:ml-60 h-[100vh]"> 
             {% block aside %}
                 {% if vista == 'gestor' %}
                     {% include 'aside/aside_gestor.html' %}

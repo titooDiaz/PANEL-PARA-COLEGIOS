@@ -7,80 +7,13 @@
 {% block content %}
 {% load static %}
 
-<script>
-
-    window.onload = function() {
-      var checkboxesAlumnos1 = document.querySelectorAll('input[name="alumnos1"]');
-
-      checkboxesAlumnos1.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-
-            var checkboxId = checkbox.id;
-            checkboxId = checkboxId.replace('_primer', '');
-            if (checkbox.checked) {
-                const checkbox2 = document.getElementById(checkboxId)
-                checkbox2.checked = false
-            } else {
-                const checkbox2 = document.getElementById(checkboxId)
-                checkbox2.checked = true
-            }
-        });
-      });
-
-      var checkboxesAlumnos2 = document.querySelectorAll('input[name="alumnos2"]');
-
-      checkboxesAlumnos2.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            var checkboxId = checkbox.id;
-            checkboxId = checkboxId + '_primer';
-            if (checkbox.checked) {
-                const checkbox1 = document.getElementById(checkboxId)
-                checkbox1.checked = false
-            } else {
-                const checkbox1 = document.getElementById(checkboxId)
-                checkbox1.checked = true
-            }
-        });
-      });
-
-      checkboxesAlumnos1.forEach(function(checkbox) {
-        let currentId = checkbox.id;
-        let nuevoId = currentId + '_primer';
-        checkbox.id = nuevoId;
-        checkbox.checked = true;
-      });
-      
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        var checkbox = document.getElementById('Checkbox');
-
-        checkbox.addEventListener('click', function() {
-        var container = document.getElementById('containerElectiva');
-        if (checkbox.checked) {
-            container.classList.remove('hidden');
-        } else {
-            container.classList.add('hidden');
-        }
-        });
-    });
-    function mostrarVentana() {
-            const ventana = document.getElementById('EmergenteAlumnos');
-            ventana.classList.remove('hidden');
-        }
-
-    function cerrarVentana() {
-        const ventana = document.getElementById('EmergenteAlumnos');
-        ventana.classList.add('hidden');
-    }
-</script>
 
 <form method="post" action="{% url 'CrearMaterias' id_grado %}">
     {% csrf_token %}
 
-    <div id="EmergenteAlumnos" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-full w-full">
-        <div id="EmergenteAlumnosBox" class="flex justify-center items-center h-screen">
-            <div class="rounded-lg border border-black bg-white h-[90%] w-[70%] overflow-auto">
+    <div id="EmergenteAlumnos" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full">
+        <div id="EmergenteAlumnosBox" class="flex justify-center items-center h-[100vh]">
+            <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
                 <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
                     <b>Alumnos Disponibles Para Este Grado</b> 
                     <button onclick="cerrarVentana()" type="button">
@@ -151,37 +84,70 @@
     </script>
 
 </form>
+    <!--PARA ELETIVAS-->
+    <script>
+        window.onload = function() {
+    var checkboxesAlumnos1 = document.querySelectorAll('input[name="alumnos1"]');
 
+    checkboxesAlumnos1.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
 
+          var checkboxId = checkbox.id;
+          checkboxId = checkboxId.replace('_primer', '');
+          if (checkbox.checked) {
+              const checkbox2 = document.getElementById(checkboxId)
+              checkbox2.checked = false
+          } else {
+              const checkbox2 = document.getElementById(checkboxId)
+              checkbox2.checked = true
+          }
+      });
+    });
 
-    <style>
-        #checkbox label{
-            display: flex;
-            margin-top: 10px;
-        }
-        #checkbox label input{
-            margin-right: 4px;
-            display: flex;
-        }
-    </style>
+    var checkboxesAlumnos2 = document.querySelectorAll('input[name="alumnos2"]');
 
-    <style>
-        #EmergenteAlumnosBox{
-            animation: fadeIn1 0.3s ease-in-out;
-        }
-        #EmergenteAlumnos{
-            background-color: rgba(115, 115, 115, 0.61);
-            z-index: 999;
-        }
-        @keyframes fadeIn1 {
-                from {
-                  opacity: 0;
-                  scale: 0.2;
-                }
-                to {
-                  opacity: 1;
-                  scale: 1;
-                }
-              }
-    </style>
+    checkboxesAlumnos2.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+          var checkboxId = checkbox.id;
+          checkboxId = checkboxId + '_primer';
+          if (checkbox.checked) {
+              const checkbox1 = document.getElementById(checkboxId)
+              checkbox1.checked = false
+          } else {
+              const checkbox1 = document.getElementById(checkboxId)
+              checkbox1.checked = true
+          }
+      });
+    });
+
+    checkboxesAlumnos1.forEach(function(checkbox) {
+      let currentId = checkbox.id;
+      let nuevoId = currentId + '_primer';
+      checkbox.id = nuevoId;
+      checkbox.checked = true;
+    });
+    
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+      var checkbox = document.getElementById('Checkbox');
+
+      checkbox.addEventListener('click', function() {
+      var container = document.getElementById('containerElectiva');
+      if (checkbox.checked) {
+          container.classList.remove('hidden');
+      } else {
+          container.classList.add('hidden');
+      }
+      });
+  });
+    </script>
+
+<!--SELECTORES CHECBOX-->
+<link rel="stylesheet" href="{% static 'css/selectores_checkbox.css' %}">
+
+<!--VENTANA EMERGENTE DE ALUMNOS-->
+<script src="{% static 'js/ventana_emergente_alumnos.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/ventana_emergente_alumnos.css' %}">
+
 {% endblock content %}  

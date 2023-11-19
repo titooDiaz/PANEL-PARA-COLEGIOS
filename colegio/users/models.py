@@ -81,7 +81,7 @@ class CustomUserAlumno(CustomUser):
     
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario}'
+        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario} - de {self.grado.grado_num}'
 
 
 ###################################################
