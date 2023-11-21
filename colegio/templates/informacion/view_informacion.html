@@ -20,7 +20,7 @@
                   <div class="mt-2 flex">
                       <a type="button" href="{% url 'CrearGrado' %}" class="myButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
 
-                      <button data-url-ver="ViewGrados" data-url-editar="editarGrados" type="button"  href="#" class="myButton cardButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></button>
+                      <button data-url-ver="{% url 'MirarGrados' %}" data-url-editar="editarGrados" type="button"  href="#" class="myButton cardButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i></button>
                     </div >
               </div>
           </div>

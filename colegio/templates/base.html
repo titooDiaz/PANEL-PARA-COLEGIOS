@@ -4,7 +4,8 @@
 
 <head>
     <title>{% block title %}PANEL PARA COLEGIOS{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 
     {% tailwind_css %}
     <!--Caendario-->
@@ -145,3 +146,7 @@
         });
     </script>
 </body>
+
+<!--LETRAS ZOOM-->
+<script src="{% static 'js/zoom_letras.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/zoom_letras.css' %}">

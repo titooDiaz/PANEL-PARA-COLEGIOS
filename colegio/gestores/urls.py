@@ -9,13 +9,14 @@ urlpatterns = [
     path('personas/', ViewUsersSettings.as_view(), name='ViewUsersSettings'),
     path('ajustes/', AjustesGestores.as_view(), name='AjustesGestores'),
 
-    path('crear/profesores', CreateProfesor.as_view(), name='CrearProfesor'),
+    #crear
+    path('crear/profesores/', CreateProfesor.as_view(), name='CrearProfesor'),
     path('crear/gestores/', CreateGestor.as_view(), name='CrearGestor'),
-    path('crear/alumnos', CreateAlumno.as_view(), name='CrearAlumno'),
-    path('crear/acudiente', CreateAcudiente.as_view(), name='CrearAcudiente'),
-    path('crear/admin', CreateAdmin.as_view(), name='CrearAdmin'),
+    path('crear/alumnos/', CreateAlumno.as_view(), name='CrearAlumno'),
+    path('crear/acudiente/', CreateAcudiente.as_view(), name='CrearAcudiente'),
+    path('crear/admin/', CreateAdmin.as_view(), name='CrearAdmin'),
     path('crear/grados/', CreateGrados.as_view(), name='CrearGrado'),
     path('crear/materias/<int:pk>', CreateMaterias.as_view(), name='CrearMaterias'),
-    path('crear/horario', CreateHorarios.as_view(), name='CrearHorarios'),
-    path('crear/materias', CreateMateriasVer.as_view(), name='VerGradosMaterias'),
+    path('crear/horario/', CreateHorarios.as_view(), name='CrearHorarios'),
+    path('crear/materias/', CreateMateriasVer.as_view(), name='VerGradosMaterias'),
 ]
