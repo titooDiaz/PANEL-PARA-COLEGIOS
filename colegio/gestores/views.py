@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
-from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm
+from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm
 from informacion.models import Grado,Horarios_Partes, HorarioDiario
 
 from users.models import CustomUserAlumno
@@ -134,7 +134,7 @@ class CreateProfesor(View):
     
 class CreateAdmin(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserProfesoresForm(request.POST)
+        form = CustomUserAdministradorForm(request.POST)
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -143,9 +143,9 @@ class CreateAdmin(View):
             profesor.save()
         else:
             print(form.errors)
-        return redirect('CrearProfesor')
+        return redirect('CrearAdmin')
     def get(self, request, *args, **kwargs):
-        form = CustomUserProfesoresForm()
+        form = CustomUserAdministradorForm()
         vista = 'gestor'
         abierto='personas'
         context = {

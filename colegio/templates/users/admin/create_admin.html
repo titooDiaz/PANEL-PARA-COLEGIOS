@@ -8,8 +8,8 @@
 {% block content %}
 {% load static %}
 <div class="bg-white p-8 rounded-lg shadow-lg">
-    <h5 class="text-5xl font-mono mb-4">CREA UN ALUMNO</h5>
-    <!-- Formulario Para Crear Las Cuentas De Los Alumnos -->
+    <h5 class="text-5xl font-mono mb-4">CREA UN ADMINISTRADOR</h5>
+    <!-- Formulario Para Crear Las Cuentas De Los administradores -->
 
     <form method="post" action="{% url 'CrearAlumno' %}">
         {% csrf_token %}
@@ -40,8 +40,8 @@
                     {{form.password}}
                 </div>
                 <div>          
-                    <label for="grado" class="block  text-sm font-medium text-gray-900">Grado</label>
-                    {{form.grado}}
+                    <label for="grado" class="block  text-sm font-medium text-gray-900">Cargo</label>
+                    {{form.cargo}}
                 </div>
                 <div>          
                     <label for="sexo" class="block  text-sm font-medium text-gray-900">Sexo</label>
