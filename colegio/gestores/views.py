@@ -166,7 +166,7 @@ class CreateAcudiente(View):
             profesor.save()
         else:
             print(form.errors)
-        return redirect('CrearProfesor')
+        return redirect('CrearAcudiente')
     def get(self, request, *args, **kwargs):
         form = CustomUserAcudienteForm()
         vista = 'gestor'

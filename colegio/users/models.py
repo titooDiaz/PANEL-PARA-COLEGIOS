@@ -81,7 +81,7 @@ class CustomUserAlumno(CustomUser):
     
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario} - de {self.grado.grado_num}'
+        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario}'
 
 
 ###################################################
@@ -168,6 +168,7 @@ class CustomUserAdministrador(CustomUser):
 ###################INICIO PADRES###################
 alumno = CustomUserAlumno
 class CustomUserAcudiente(CustomUser):
+    sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Acudiente')
     estudiante = models.ManyToManyField(alumno, blank=True, related_name='estudiantes')
 
