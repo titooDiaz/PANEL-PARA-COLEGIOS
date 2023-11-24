@@ -1,0 +1,115 @@
+<head>
+    <title>Ver horario</title>
+</head>
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+<div class="mx-auto max-w-screen-sm text-center">
+    <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-4">HORARIO DE {{grado.grado_nom}}</h2>
+</div> 
+
+
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Hora
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Lunes
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Martes
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Miercoles
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Jueves
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Viernes
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for horas in horario %}
+            <tr class="bg-white border-b hover:bg-gray-100">
+                <th class="px-6 py-4 font-medium">
+                    {{horas.Hora}}
+                    <br>
+                    <button onclick="mostrarVentana('EmergenteHora')">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                </th>
+                <div id="EmergenteHora" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                        <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                            <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                <b>Alumnos Disponibles Para Este Grado</b> 
+                                <button onclick="cerrarVentana('EmergenteHora')" type="button">
+                                    <i class="fas fa-arrow-right mx-4"></i>
+                                </button>
+                            </div>
+                            <div class="w-full lg:grid lg:grid-cols-2">
+                                <div class=" m-4 block">
+                                    <div>{{form.alumnos1}}</div>
+                                </div>
+            
+                                <div class="m-4 block">
+                                    <div>{{form.alumnos2}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <td class="px-6 py-4">
+                    {{horas.lunes}}
+                    <br>
+                    <button>
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                </td>
+                <td class="px-6 py-4">
+                    {{horas.martes}}
+                    <br>
+                    <button>
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                </td>
+                <td class="px-6 py-4">
+                    {{horas.miercoles}}
+                    <br>
+                    <button>
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                </td>
+                <td class="px-6 py-4">
+                    {{horas.jueves}}
+                    <br>
+                    <button>
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                </td>
+                <td class="px-6 py-4">
+                    {{horas.viernes}}
+                    <br>
+                    <button>
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<script src="{% static 'js/ventanas/ventana_emergente_horarios.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/ventanas/ventana_emergente_horario.css' %}">
+
+{% endblock content %}  
