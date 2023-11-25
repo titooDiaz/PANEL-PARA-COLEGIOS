@@ -42,26 +42,26 @@
                 <th class="px-6 py-4 font-medium">
                     {{horas.Hora}}
                     <br>
-                    <button onclick="mostrarVentana('EmergenteHora')">
+                    <button onclick="mostrarVentana('EmergenteHora', '{{horas.pk}}')">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </th>
-                <div id="EmergenteHora" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                <div id="EmergenteHora{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
                     <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
                         <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
                             <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                                <b>Alumnos Disponibles Para Este Grado</b> 
-                                <button onclick="cerrarVentana('EmergenteHora')" type="button">
+                                <b>Rango de Horario ({{horas.pk}}) </b>
+                                <button onclick="cerrarVentana('EmergenteHora','{{horas.pk}}')" type="button">
                                     <i class="fas fa-arrow-right mx-4"></i>
                                 </button>
                             </div>
                             <div class="w-full lg:grid lg:grid-cols-2">
                                 <div class=" m-4 block">
-                                    <div>{{form.alumnos1}}</div>
-                                </div>
-            
-                                <div class="m-4 block">
-                                    <div>{{form.alumnos2}}</div>
+                                    <form action="" method="post">
+                                        <div>{{form.Hora}}</div>
+                                        <div>{{form.hora_inicio}}</div>
+                                        <div>{{form.hora_fin}}</div>
+                                    </form> 
                                 </div>
                             </div>
                         </div>

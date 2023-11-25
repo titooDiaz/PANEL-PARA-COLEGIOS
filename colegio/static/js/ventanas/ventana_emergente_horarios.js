@@ -1,10 +1,9 @@
-function mostrarVentana(modal) {
-    console.log(modal)
-    const ventana = document.getElementById(modal);
+function mostrarVentana(modal, pk) {
+    const ventana = document.getElementById(modal+pk);
     ventana.classList.remove('hidden');
 }
 
-function cerrarVentana(modal) {
-const ventana = document.getElementById(modal);
+function cerrarVentana(modal,pk) {
+const ventana = document.getElementById(modal+pk);
 ventana.classList.add('hidden');
 }
