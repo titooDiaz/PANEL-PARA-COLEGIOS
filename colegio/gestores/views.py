@@ -194,7 +194,7 @@ class CreateGrados(View):
             grado.save()
 
             for i in range(int(horas)):
-                HorarioDiario.objects.create(Hora=f'Hora {i + 1}', grado=grado)
+                HorarioDiario.objects.create(grado=grado)
         else:
             print(form.errors)
         return redirect('CrearGrado')

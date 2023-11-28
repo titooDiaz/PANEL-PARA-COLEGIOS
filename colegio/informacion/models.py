@@ -60,7 +60,6 @@ class HorarioDiario(models.Model):
     grado = models.ForeignKey(Grado, on_delete=models.CASCADE)
     hora_inicio = models.TimeField(blank=True, null=True)
     hora_fin = models.TimeField(blank=True, null=True)
-    Hora = models.CharField(max_length=50)
     lunes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_1')
     martes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_2')
     miercoles = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_3')
@@ -68,7 +67,7 @@ class HorarioDiario(models.Model):
     viernes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_5')
 
     def __str__(self):
-        return f"{self.Hora}"
+        return f"{self.hora_inicio} - {self.hora_fin}"
 
     
 
