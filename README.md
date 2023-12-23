@@ -20,19 +20,19 @@
 > Puedes solucionarlo con este video:
 > https://youtu.be/wTv8rNobJsw?si=6nO7UaryScIcNIo9
 
-
-python manage.py tailwind install
-CommandError: 
-It looks like node.js and/or npm is not installed or cannot be found.
-
-Visit https://nodejs.org to download and install node.js for your system.
-
-If you have npm installed and still getting this error message, set NPM_BIN_PATH variable in settings.py to match path of NPM executable in your system.
-
-Example:
-NPM_BIN_PATH = "/usr/local/bin/npm"
-
-https://nodejs.org/en/download
+> [!CAUTION]
+> python manage.py tailwind install
+> CommandError: 
+> It looks like node.js and/or npm is not installed or cannot be found.
+>
+> Visit https://nodejs.org to download and install node.js for your system.
+>
+>If you have npm installed and still getting this error message, set NPM_BIN_PATH variable in settings.py to match path of NPM executable in your system.
+>
+> Example:
+> NPM_BIN_PATH = "/usr/local/bin/npm"
+>
+> https://nodejs.org/en/download
 
 crear entorno virtual:
 virtualenv env
