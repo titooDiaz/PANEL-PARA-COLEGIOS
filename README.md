@@ -27,24 +27,24 @@
 
 Ahora debes instalar este paquete antes de ejecutar el servidor:
 <br>
-```
-python manage.py tailwind install
-```
+
+```python manage.py tailwind install```
 
 
 Si obtienes el siguiente error:
 <br>
-```
-CommandError: 
-It looks like node.js and/or npm is not installed or cannot be found.
 
-Visit https://nodejs.org to download and install node.js for your system.
+> [!CAUTION]
+> CommandError: 
+> It looks like node.js and/or npm is not installed or cannot be found.
+> 
+> Visit https://nodejs.org to download and install node.js for your system.
+>
+> If you have npm installed and still getting this error message, set NPM_BIN_PATH variable in settings.py to match path of NPM executable in your system.
+>
+> Example:
+> NPM_BIN_PATH = "/usr/local/bin/npm"
 
-If you have npm installed and still getting this error message, set NPM_BIN_PATH variable in settings.py to match path of NPM executable in your system.
-
-Example:
-NPM_BIN_PATH = "/usr/local/bin/npm"
-```
 
 Instala Nodejs con este link: 
 <br>
@@ -52,9 +52,8 @@ Instala Nodejs con este link:
 
 <br>
 y vuelve a ejecutar
-```
-python manage.py tailwind install
-```
+
+```python manage.py tailwind install```
 
 > [!NOTE]
 > Sigue los sigueintes pasos para ejecutar el programa:
