@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="150px" src="https://i.ibb.co/bXvzjXm/LOGO-h1.png" />
+</p>
+
 # PANEL-PARA-COLEGIOS
 
 
@@ -21,7 +25,16 @@
 > https://youtu.be/wTv8rNobJsw?si=6nO7UaryScIcNIo9
 
 
+Ahora debes instalar este paquete antes de ejecutar el servidor:
+<br>
+```
 python manage.py tailwind install
+```
+
+
+Si obtienes el siguiente error:
+<br>
+```
 CommandError: 
 It looks like node.js and/or npm is not installed or cannot be found.
 
@@ -31,8 +44,20 @@ If you have npm installed and still getting this error message, set NPM_BIN_PATH
 
 Example:
 NPM_BIN_PATH = "/usr/local/bin/npm"
+```
 
-https://nodejs.org/en/download
+Instala Nodejs con este link: 
+<br>
+[NodeJs](https://nodejs.org/en/download)
+
+<br>
+y vuelve a ejecutar
+```
+python manage.py tailwind install
+```
+
+> [!NOTE]
+> Sigue los sigueintes pasos para ejecutar el programa:
 
 crear entorno virtual:
 virtualenv env
