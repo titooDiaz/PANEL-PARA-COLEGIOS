@@ -1358,6 +1358,20 @@ select {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-\[\] {
+  background-color: ;
+}
+
+.bg-\[\#fa8752\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(250 135 82 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#ff6a22\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 106 34 / var(--tw-bg-opacity));
+}
+
 .bg-gradient-to-l {
   background-image: linear-gradient(to left, var(--tw-gradient-stops));
 }
