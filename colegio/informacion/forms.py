@@ -13,3 +13,25 @@ class HoraHorarioForm(forms.ModelForm):
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+class MateriasHorarioForm(forms.ModelForm):
+    def __init__(self, *args, materias_grado=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Filtra las materias dependientes de este grado
+        if materias_grado:
+            self.fields['lunes'].queryset = materias_grado
+            self.fields['martes'].queryset = materias_grado
+            self.fields['miercoles'].queryset = materias_grado
+            self.fields['jueves'].queryset = materias_grado
+            self.fields['viernes'].queryset = materias_grado
+    class Meta:
+        model = HorarioDiario
+        fields = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes']
+        widgets = {
+            'lunes': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'martes': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'miercoles': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'jueves': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'viernes': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            }
+        

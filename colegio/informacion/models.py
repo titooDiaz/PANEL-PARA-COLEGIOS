@@ -56,10 +56,13 @@ class Grado(models.Model):
     def __str__(self):
         return self.grado_nom + "(" + self.grado_num + ")"
 
-class HorarioDiario(models.Model):
+class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
     grado = models.ForeignKey(Grado, on_delete=models.CASCADE)
     hora_inicio = models.TimeField(blank=True, null=True)
     hora_fin = models.TimeField(blank=True, null=True)
+    """LOS MODELOS TIENEN NOMBRES DE DIAS PERO REALMENTE SE REFIEREN A LAS MATERIAS DE ESTE DIA
+         |
+        \|/                                                                               """
     lunes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_1')
     martes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_2')
     miercoles = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_3')

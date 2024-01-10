@@ -39,38 +39,12 @@
         <tbody>
         {% for horas in horario %}
             <tr class="bg-white border-b hover:bg-gray-100">
-                <th class="px-6 py-4 font-medium">
+
+                <!--HORA-->
+                <td class="px-6 py-4 font-medium">
                     {{horas.hora_inicio}} - {{horas.hora_fin}}
                     <br>
                     <button onclick="mostrarVentana('EmergenteHora', '{{horas.pk}}')">
-                        <i class="fa-solid fa-pen"></i>
-                    </button>
-                </th>
-                <div id="EmergenteHora{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
-                    <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
-                        <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
-                            <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                                <b>Rango de Horario ({{horas.pk}}) </b>
-                                <button onclick="cerrarVentana('EmergenteHora','{{horas.pk}}')" type="button">
-                                    <i class="fas fa-arrow-right mx-4"></i>
-                                </button>
-                            </div>
-                            <div class="w-full lg:grid lg:grid-cols-2">
-                                <div class=" m-4 block">
-                                    <form action="" method="post">
-                                        <div>{{form.Hora}}</div>
-                                        <div>{{form.hora_inicio}}</div>
-                                        <div>{{form.hora_fin}}</div><!--DEBO TERMINAR TODOS LOS FOMURLARIOAS MA;ANA-->
-                                    </form> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <td class="px-6 py-4">
-                    {{horas.lunes}}
-                    <br>
-                    <button>
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
@@ -86,8 +60,8 @@
                             <div class="w-full lg:grid lg:grid-cols-2">
                                 <div class=" m-4 block">
                                     <form action="" method="post">
-                                        <div>{{form.hora_inicio}}</div>
-                                        <div>{{form.hora_fin}}</div>
+                                        <div>{{formHora.hora_inicio}}</div>
+                                        <div>{{formHora.hora_fin}}</div>
                                     </form> 
                                 </div>
                             </div>
@@ -95,35 +69,149 @@
                     </div>
                 </div>
 
+                <!--LUNES-->
+                <td class="px-6 py-4">
+                    {{horas.lunes}}
+                    <br>
+                    <button onclick="mostrarVentana('EmergenteLunes', '{{horas.pk}}')">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                </td>
+                <div id="EmergenteLunes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                        <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                            <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                <b>LUNES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                <button onclick="cerrarVentana('EmergenteLunes','{{horas.pk}}')" type="button">
+                                    <i class="fas fa-arrow-right mx-4"></i>
+                                </button>
+                            </div>
+                            <div class="w-full lg:grid lg:grid-cols-2">
+                                <div class=" m-4 block">
+                                    <form action="" method="post">
+                                        <div>{{formMaterias.lunes}}</div>
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--MARTES-->
                 <td class="px-6 py-4">
                     {{horas.martes}}
                     <br>
-                    <button>
+                    <button onclick="mostrarVentana('EmergenteMartes', '{{horas.pk}}')">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
+                <div id="EmergenteMartes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                        <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                            <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                <b>MARTES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                <button onclick="cerrarVentana('EmergenteMartes','{{horas.pk}}')" type="button">
+                                    <i class="fas fa-arrow-right mx-4"></i>
+                                </button>
+                            </div>
+                            <div class="w-full lg:grid lg:grid-cols-2">
+                                <div class=" m-4 block">
+                                    <form action="" method="post">
+                                        <div>{{formMaterias.martes}}</div>
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--MIERCOLES-->
                 <td class="px-6 py-4">
                     {{horas.miercoles}}
                     <br>
-                    <button>
+                    <button onclick="mostrarVentana('EmergenteMiercoles', '{{horas.pk}}')">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
+                <div id="EmergenteMiercoles{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                        <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                            <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                <b>MIERCOLES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                <button onclick="cerrarVentana('EmergenteMiercoles','{{horas.pk}}')" type="button">
+                                    <i class="fas fa-arrow-right mx-4"></i>
+                                </button>
+                            </div>
+                            <div class="w-full lg:grid lg:grid-cols-2">
+                                <div class=" m-4 block">
+                                    <form action="" method="post">
+                                        <div>{{formMaterias.miercoles}}</div>
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--JUEVES-->
                 <td class="px-6 py-4">
                     {{horas.jueves}}
                     <br>
-                    <button>
+                    <button onclick="mostrarVentana('EmergenteJueves', '{{horas.pk}}')">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
+                <div id="EmergenteJueves{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                        <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                            <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                <b>JUEVES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                <button onclick="cerrarVentana('EmergenteJueves','{{horas.pk}}')" type="button">
+                                    <i class="fas fa-arrow-right mx-4"></i>
+                                </button>
+                            </div>
+                            <div class="w-full lg:grid lg:grid-cols-2">
+                                <div class=" m-4 block">
+                                    <form action="" method="post">
+                                        <div>{{formMaterias.jueves}}</div>
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--VIERNES-->
                 <td class="px-6 py-4">
                     {{horas.viernes}}
                     <br>
-                    <button>
+                    <button onclick="mostrarVentana('EmergenteViernes', '{{horas.pk}}')">
                         <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
+                <div id="EmergenteViernes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                        <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                            <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                <b>VIERNES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                <button onclick="cerrarVentana('EmergenteViernes','{{horas.pk}}')" type="button">
+                                    <i class="fas fa-arrow-right mx-4"></i>
+                                </button>
+                            </div>
+                            <div class="w-full lg:grid lg:grid-cols-2">
+                                <div class=" m-4 block">
+                                    <form action="" method="post">
+                                        <div>{{formMaterias.viernes}}</div>
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </tr>
+
         {% endfor %}
         </tbody>
     </table>

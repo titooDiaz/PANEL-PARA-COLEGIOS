@@ -260,7 +260,7 @@ class CreateMaterias(View):
         grado = Grado.objects.get(id=pk)
         estudiantes_grado = obtener_estudiantes_por_grado(pk)
         #form = MateriasForm(initial={'alumnos1': estudiantes_grado, 'alumnos2': estudiantes_grado})
-        form = MateriasForm(estudiantes_grado=estudiantes_grado)
+        form = MateriasForm(estudiantes_grado=estudiantes_grado) #mandar alumnos del grado
         vista = 'gestor'
         abierto = 'ajustes'
         id_grado = pk
