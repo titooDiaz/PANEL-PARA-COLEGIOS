@@ -59,25 +59,38 @@ y vuelve a ejecutar
 > Sigue los sigueintes pasos para ejecutar el programa:
 
 crear entorno virtual:
-virtualenv env
+```virtualenv env```
 
 instalar requirements.txt:
-pip install -r requirements.txt
+```pip install -r requirements.txt```
 
 usar manage:
-cd PANEL-PARA-COLEGIOS/colegio
+```cd PANEL-PARA-COLEGIOS/colegio```
 
 iniciar servidor:
-python manage.py runserver
+```python manage.py runserver```
 
 iniciar tailwind:
-python manage.py tailwind start
+```python manage.py tailwind start```
+> [!NOTE]
+> Recuerda tener npm instalado
+
+
+> [!CAUTION]
+> Si estas manjando el codigo recuerda que estos cambios modificaran la base de datos, un error puede eliminar toda la informacion
+> <br>
 
 migrar: 
-python manage.py makemigrations users informacion administradores profesores gestores acudientes alumnos
+```python manage.py makemigrations users informacion administradores profesores gestores acudientes alumnos```
 
 crear base de datos:
-python manage.py migrate
+```python manage.py migrate```
 
 crear usuario par pruebas:
-python manage.py createsuperuser 
+```python manage.py createsuperuser ```
+
+
+RECUERDA QUE CADA CAMBIO DEBE SER DOCUMENTADO
+Un buen codigo siempre debe tener una buena documentacion
+en caso de errores recuerda agregarlos a las inusualidades del proyecto
+</s>
