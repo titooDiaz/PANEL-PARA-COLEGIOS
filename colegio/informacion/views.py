@@ -50,56 +50,57 @@ class VerGradosHorario(View):
         return render(request, 'informacion/grados/horarios/ver_horario.html', context)
 
 class EditarGradosHorarioHora(View):
-    def post(self, request, pk, *args, **kwargs):
-        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk)
+    def post(self, request, pk_post, pk_vista, *args, **kwargs):
+        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk_post)
         formulario = HoraHorarioForm(request.POST, instance=instancia_modelo) #EDITAR EL CAMPO YA EXISTENTE...
         if formulario.is_valid():
             formulario.save()
 
-        return redirect('MirarGradoHorario', pk)
+        return redirect('MirarGradoHorario', pk_vista)
     
-class EditarGradosHorarioLunes(View):
-    def post(self, request, pk, *args, **kwargs):
-        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk)
-        formulario = HoraHorarioForm(request.POST, instance=instancia_modelo) #EDITAR EL CAMPO YA EXISTENTE...
+class EditarGradosHorarioMaterias(View):
+    def post(self, request, pk_post, pk_vista, *args, **kwargs):
+        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk_post)
+        valores_originales = { #evitar que se eliminen
+            'lunes': instancia_modelo.lunes,
+            'martes': instancia_modelo.martes,
+            'miercoles': instancia_modelo.miercoles,
+            'jueves': instancia_modelo.jueves,
+            'viernes': instancia_modelo.viernes,
+        }
+        formulario = MateriasHorarioForm(request.POST, instance=instancia_modelo) #EDITAR EL CAMPO YA EXISTENTE...
         if formulario.is_valid():
+            nuevos_valores = {
+                'lunes': formulario.cleaned_data['lunes'],
+                'martes': formulario.cleaned_data['martes'],
+                'miercoles': formulario.cleaned_data['miercoles'],
+                'jueves': formulario.cleaned_data['jueves'],
+                'viernes': formulario.cleaned_data['viernes'],
+            }
+
+            '''
+            ENTIENDO QUE LA LOGICA PUEDA SER CONFUSA..
+            LO UNICO QUE BUSCAMOS CON ESTAS CONDICIONES ES QUE SI UN VALOR NO FUE MODIFICADO NO SE VACIE, YA QUE
+            DJANGO POR DEFECTO LSO VACIA SI NO LE ASIGNAMOS NINGUN VALOR, ENTONCES LO QUE ESTAMOS HACIENDO ES QUE 
+            COMPARE EL VALOR ANTERIOR CON EL NUEVO, SI EL NUEVO VALOR NO ESTA VACIO (ES DECIR FUE MODIFICADO),
+            Y EL VALOR ORIGINAL NO ES NONE (NO TENDRIA SENTIDO REMPLAZAR UN NONE CON UN NONE...)
+            VAMOS A PONER EL NUEVO CAMPO CON EL CAMPO ANTIGUO
+            '''
+            if nuevos_valores['lunes'] == None and valores_originales['lunes'] != None:
+                instancia_modelo.lunes = valores_originales['lunes']
+
+            if nuevos_valores['martes'] == None and valores_originales['martes'] != None:
+                instancia_modelo.martes = valores_originales['martes']
+
+            if nuevos_valores['miercoles'] == None and valores_originales['miercoles'] != None:
+                instancia_modelo.miercoles = valores_originales['miercoles']
+
+            if nuevos_valores['jueves'] == None and valores_originales['jueves'] != None:
+                instancia_modelo.jueves = valores_originales['jueves']
+
+            if nuevos_valores['viernes'] == None and valores_originales['viernes'] != None:
+                instancia_modelo.viernes = valores_originales['viernes']
+
             formulario.save()
 
-        return redirect('MirarGradoHorario', pk)
-    
-class EditarGradosHorarioMartes(View):
-    def post(self, request, pk, *args, **kwargs):
-        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk)
-        formulario = HoraHorarioForm(request.POST, instance=instancia_modelo) #EDITAR EL CAMPO YA EXISTENTE...
-        if formulario.is_valid():
-            formulario.save()
-
-        return redirect('MirarGradoHorario', pk)
-    
-class EditarGradosHorarioMiercoles(View):
-    def post(self, request, pk, *args, **kwargs):
-        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk)
-        formulario = HoraHorarioForm(request.POST, instance=instancia_modelo) #EDITAR EL CAMPO YA EXISTENTE...
-        if formulario.is_valid():
-            formulario.save()
-
-        return redirect('MirarGradoHorario', pk)
-    
-class EditarGradosHorarioJueves(View):
-    def post(self, request, pk, *args, **kwargs):
-        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk)
-        formulario = HoraHorarioForm(request.POST, instance=instancia_modelo) #EDITAR EL CAMPO YA EXISTENTE...
-        if formulario.is_valid():
-            formulario.save()
-
-        return redirect('MirarGradoHorario', pk)
-
-
-class EditarGradosHorarioViernes(View):
-    def post(self, request, pk, *args, **kwargs):
-        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk)
-        formulario = HoraHorarioForm(request.POST, instance=instancia_modelo) #EDITAR EL CAMPO YA EXISTENTE...
-        if formulario.is_valid():
-            formulario.save()
-
-        return redirect('MirarGradoHorario', pk)
+        return redirect('MirarGradoHorario', pk_vista)

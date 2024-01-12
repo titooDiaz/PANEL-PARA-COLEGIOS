@@ -59,9 +59,11 @@
                             </div>
                             <div class="w-full lg:grid lg:grid-cols-2">
                                 <div class=" m-4 block">
-                                    <form action="" method="post">
+                                    <form action="{% url 'EditarHorarioHora' horas.pk grado.pk %}" method="post">
+                                        {% csrf_token %}
                                         <div>{{formHora.hora_inicio}}</div>
                                         <div>{{formHora.hora_fin}}</div>
+                                        <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                     </form> 
                                 </div>
                             </div>
@@ -88,8 +90,10 @@
                             </div>
                             <div class="w-full lg:grid lg:grid-cols-2">
                                 <div class=" m-4 block">
-                                    <form action="" method="post">
+                                    <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                        {% csrf_token %}
                                         <div>{{formMaterias.lunes}}</div>
+                                        <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                     </form> 
                                 </div>
                             </div>
@@ -116,8 +120,10 @@
                             </div>
                             <div class="w-full lg:grid lg:grid-cols-2">
                                 <div class=" m-4 block">
-                                    <form action="" method="post">
+                                    <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                        {% csrf_token %}
                                         <div>{{formMaterias.martes}}</div>
+                                        <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                     </form> 
                                 </div>
                             </div>
@@ -144,8 +150,10 @@
                             </div>
                             <div class="w-full lg:grid lg:grid-cols-2">
                                 <div class=" m-4 block">
-                                    <form action="" method="post">
+                                    <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                        {% csrf_token %}
                                         <div>{{formMaterias.miercoles}}</div>
+                                        <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                     </form> 
                                 </div>
                             </div>
@@ -172,8 +180,10 @@
                             </div>
                             <div class="w-full lg:grid lg:grid-cols-2">
                                 <div class=" m-4 block">
-                                    <form action="" method="post">
+                                    <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                        {% csrf_token %}
                                         <div>{{formMaterias.jueves}}</div>
+                                        <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                     </form> 
                                 </div>
                             </div>
@@ -200,8 +210,10 @@
                             </div>
                             <div class="w-full lg:grid lg:grid-cols-2">
                                 <div class=" m-4 block">
-                                    <form action="" method="post">
+                                    <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                        {% csrf_token %}
                                         <div>{{formMaterias.viernes}}</div>
+                                        <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                     </form> 
                                 </div>
                             </div>
@@ -223,5 +235,8 @@
 <!--VENTANAS EMERGENTES DE HORARIOS-->
 <script src="{% static 'js/ventanas/ventana_emergente_horarios.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/ventanas/ventana_emergente_horario.css' %}">
+
+<!--BOTONES 3D-->
+<script src="{% static 'js/boton.js' %}"></script>
 
 {% endblock content %}  
