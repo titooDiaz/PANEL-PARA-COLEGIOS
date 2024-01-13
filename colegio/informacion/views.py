@@ -61,7 +61,7 @@ class EditarGradosHorarioHora(View):
 class EditarGradosHorarioMaterias(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
         instancia_modelo = get_object_or_404(HorarioDiario, pk=pk_post)
-        valores_originales = { #evitar que se eliminen
+        valores_originales = { #GUARDAMOS LOS VALORES ORIGINALES PARA QUE NO SE ELIMINENA LA HORA DE HACER EL POST
             'lunes': instancia_modelo.lunes,
             'martes': instancia_modelo.martes,
             'miercoles': instancia_modelo.miercoles,
