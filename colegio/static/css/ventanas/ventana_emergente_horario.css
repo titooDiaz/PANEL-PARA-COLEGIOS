@@ -1,11 +1,11 @@
 #MODAL-BOX{
-    animation: fadeIn1 0.3s ease-in-out;
+    animation: mostrar 0.3s ease-in-out;
 }
 .VENTANA-MODAL{
     background-color: rgba(115, 115, 115, 0.61);
     z-index: 999;
 }
-@keyframes fadeIn1 {
+@keyframes mostrar {
         from {
           opacity: 0;
           scale: 0.2;

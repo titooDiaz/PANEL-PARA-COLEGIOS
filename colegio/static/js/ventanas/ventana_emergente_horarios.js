@@ -1,9 +1,9 @@
-function mostrarVentana(modal, pk) {
+function mostrarVentanaHorarios(modal, pk) {
     const ventana = document.getElementById(modal+pk);
     ventana.classList.remove('hidden');
 }
 
-function cerrarVentana(modal,pk) {
+function cerrarVentanaHorarios(modal,pk) {
 const ventana = document.getElementById(modal+pk);
 ventana.classList.add('hidden');
 }

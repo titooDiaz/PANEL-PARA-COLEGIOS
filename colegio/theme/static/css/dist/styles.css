@@ -807,12 +807,12 @@ select {
   z-index: 50;
 }
 
-.m-4 {
-  margin: 1rem;
-}
-
 .m-10 {
   margin: 2.5rem;
+}
+
+.m-4 {
+  margin: 1rem;
 }
 
 .m-auto {
@@ -837,16 +837,6 @@ select {
 .my-10 {
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
-}
-
-.my-12 {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
-
-.my-6 {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
 }
 
 .mb-16 {
@@ -981,10 +971,6 @@ select {
   height: 100vh;
 }
 
-.h-20 {
-  height: 5rem;
-}
-
 .min-h-\[0vh\] {
   min-height: 0vh;
 }
@@ -1033,6 +1019,10 @@ select {
   width: 100%;
 }
 
+.w-\[20\%\] {
+  width: 20%;
+}
+
 .w-\[70\%\] {
   width: 70%;
 }
@@ -1043,10 +1033,6 @@ select {
 
 .w-full {
   width: 100%;
-}
-
-.w-\[20\%\] {
-  width: 20%;
 }
 
 .min-w-0 {
@@ -1394,16 +1380,6 @@ select {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-gray-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
-}
-
-.bg-gray-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
-}
-
 .bg-gradient-to-l {
   background-image: linear-gradient(to left, var(--tw-gradient-stops));
 }
@@ -1534,11 +1510,6 @@ select {
   padding-bottom: 2rem;
 }
 
-.px-10 {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
-}
-
 .pl-1 {
   padding-left: 0.25rem;
 }
@@ -1609,11 +1580,6 @@ select {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-9xl {
-  font-size: 8rem;
-  line-height: 1;
 }
 
 .font-bold {
