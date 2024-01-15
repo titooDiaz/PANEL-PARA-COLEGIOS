@@ -50,7 +50,7 @@ class CustomUser(AbstractUser):
 ###########################END CUSTOM USER####################################
 def user_directory_path_profile_alumnos(instance, filename):
     # el cero es el format
-    profile_picture_name = 'alumnos/{0}/profile.jpg'.format(instance.user.username)
+    profile_picture_name = 'alumnos/{0}/profile.png'.format(instance.username)
     #que archivo guardamos..
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
 
@@ -79,7 +79,6 @@ class CustomUserAlumno(CustomUser):
     #pagos
     ver_notas = models.BooleanField(default=True)
     
-
     def __str__(self):
         return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario}'
 

@@ -12,9 +12,9 @@
 
 
 
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+<div class="overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right overflow-x-auto text-gray-800">
+        <thead class="text-xs text-white uppercase bg-gray-600">
             <tr>
                 <th scope="col" class="px-6 py-3">
                     Hora
@@ -38,7 +38,7 @@
         </thead>
         <tbody>
         {% for horas in horario %}
-            <tr class="bg-white border-b hover:bg-gray-100">
+            <tr class="bg-gray-100 border-b hover:bg-gray-200">
 
                 <!--HORA-->
                 <td class="px-6 py-4 font-medium">
@@ -104,7 +104,7 @@
                                             <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL LUNES EN ({{grado.grado_nom}})</h6>
                                             <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                         </div>
-                                        <div>{{formMaterias.viernes}}</div>
+                                        <div>{{formMaterias.lunes}}</div>
                                         <div class="w-full h-12 my-10">
                                             <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                         </div>
@@ -140,7 +140,7 @@
                                             <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL MARTES EN ({{grado.grado_nom}})</h6>
                                             <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                         </div>
-                                        <div>{{formMaterias.viernes}}</div>
+                                        <div>{{formMaterias.martes}}</div>
                                         <div class="w-full h-12 my-10">
                                             <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                         </div>
@@ -176,7 +176,7 @@
                                             <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL MIERCOLES EN ({{grado.grado_nom}})</h6>
                                             <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                         </div>
-                                        <div>{{formMaterias.viernes}}</div>
+                                        <div>{{formMaterias.miercoles}}</div>
                                         <div class="w-full h-12 my-10">
                                             <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                         </div>    
@@ -212,7 +212,7 @@
                                             <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL JUEVES EN ({{grado.grado_nom}})</h6>
                                             <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                         </div>
-                                        <div>{{formMaterias.viernes}}</div>
+                                        <div>{{formMaterias.jueves}}</div>
                                         <div class="w-full h-12 my-10">
                                             <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                         </div>    
@@ -228,7 +228,7 @@
                     {{horas.viernes}}
                     <br>
                     <button onclick="mostrarVentanaHorarios('EmergenteViernes', '{{horas.pk}}')">
-                        <i class="fa-solid fa-pen"></i>
+                            <i class="fa-solid fa-pen"></i>
                     </button>
                 </td>
                 <div id="EmergenteViernes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
@@ -266,6 +266,7 @@
         </tbody>
     </table>
 </div>
+<br>
 
 <!--VERIFICAR LA HORA-->
 <script src="{% static 'js/autocompletar/hora.js' %}"></script>

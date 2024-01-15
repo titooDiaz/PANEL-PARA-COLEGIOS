@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Grado, HorarioDiario
 from django.views.generic import TemplateView, View
+from users.models import CustomUserAlumno
 
 from .forms import HoraHorarioForm, MateriasHorarioForm
 
@@ -104,3 +105,18 @@ class EditarGradosHorarioMaterias(View):
             formulario.save()
 
         return redirect('MirarGradoHorario', pk_vista)
+    
+class VerEstudiantesGrado(View):
+    def get(self, request, pk, *args, **kwargs):
+        grado = get_object_or_404(Grado, pk=pk)
+        estudiantes = CustomUserAlumno.objects.filter(grado=grado)
+        print(grado)
+        vista = 'gestor'
+        abierto='ajustes'
+        context = {
+            'grado': grado,
+            'estudiantes': estudiantes,
+            'vista': vista,
+            'abierto':abierto,
+        }
+        return render(request, 'informacion/grados/ver_estudiantes.html', context)
