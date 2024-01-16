@@ -14,9 +14,11 @@
 {% for estudiante in estudiantes %}
 <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
     <div class="block w-full">
-        <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{estudiante.first_name}} {{estudiante.last_name}}</h5>
-        <h6 class="font-mono font-bold text-gray-900 text-2xl text-center"></h6>
+        <h5 class="font-mono font-bold text-gray-900 text-4xl text-left">{{estudiante.first_name}} {{estudiante.last_name}}</h5>
         <img class="w-full p-4" src="{{ estudiante.foto.url }}" alt="Alumno">
+        <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Tipo Documento:</b> {{estudiante.tipo_documento}}</h6>
+        <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Numero Documento:</b> {{estudiante.numero_documento}}</h6>
+        <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Sexo</b>: {{estudiante.sexo}}</h6>
     </div>
 </div>
 {% endfor %}
