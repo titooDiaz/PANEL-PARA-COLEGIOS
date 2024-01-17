@@ -1,5 +1,5 @@
 <head>
-    <title>Estudiantes Del Grado</title>
+    <title>Estudiantes Del Grado </title>
 </head>
 {% extends 'base.html' %}
 
@@ -15,14 +15,55 @@
 <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
     <div class="block w-full">
         <h5 class="font-mono font-bold text-gray-900 text-4xl text-left">{{estudiante.first_name}} {{estudiante.last_name}}</h5>
-        <img class="w-full p-4" src="{{ estudiante.foto.url }}" alt="Alumno">
+
+        <div class="p-8">
+            <img class="w-full rounded-full border-2 border-cyan-950" src="{{ estudiante.foto.url }}" alt="Alumno">
+        </div>
+
         <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Tipo Documento:</b> {{estudiante.tipo_documento}}</h6>
         <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Numero Documento:</b> {{estudiante.numero_documento}}</h6>
         <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Sexo</b>: {{estudiante.sexo}}</h6>
+        <div class="mt-2 pt-full flex">
+            <button class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block" onclick="mostrarVentana('Emergente', '{{estudiante.numero_documento}}')">
+                MAS INFORMACION
+            </button>    
+        </div>
+    </div>
+</div>
+
+<div id="Emergente{{estudiante.numero_documento}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+    <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+        <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+            <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                <b>ESTAS VIENDO A {{estudiante.first_name}} {{estudiante.last_name}}</b>
+                <button onclick="cerrarVentana('Emergente','{{estudiante.numero_documento}}')" type="button">
+                    <i class="fas fa-arrow-right mx-4"></i>
+                </button>
+            </div>
+            <div class="w-full">
+                <div class=" m-10 block">
+                    <!-- <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="p-10 block">
+                            <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL VIERNES EN ({{grado.grado_nom}})</h6>
+                            <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
+                        </div>
+                        <div></div>
+                        <div class="w-full h-12 my-10">
+                            <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
+                        </div>
+                    </form>  -->
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endfor %}
 
 </div>
+
+<!--VENTANAS EMERGENTES-->
+<script src="{% static 'js/ventanas/ventana_emergente_boton.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/ventanas/ventana_emergente_boton.css' %}">
 
 {% endblock content %}  
