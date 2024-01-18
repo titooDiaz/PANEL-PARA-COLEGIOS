@@ -3,7 +3,7 @@ from .models import Grado, HorarioDiario
 from django.views.generic import TemplateView, View
 from users.models import CustomUserAlumno
 
-from .forms import HoraHorarioForm, MateriasHorarioForm
+from .forms import HoraHorarioForm, MateriasHorarioForm, EditarVerNotasAlumnosForm
 
 class VerGrados(View):
     def get(self, request, *args, **kwargs):
@@ -106,6 +106,15 @@ class EditarGradosHorarioMaterias(View):
 
         return redirect('MirarGradoHorario', pk_vista)
     
+class EditarVerNotasAlumnos(View):
+    def post(self, request, pk_post, pk_vista, *args, **kwargs):
+        estudiante = CustomUserAlumno.objects.get(pk=pk_post)
+        formulario = EditarVerNotasAlumnosForm(request.POST, instance=estudiante)
+        if formulario.is_valid():
+            formulario.save()
+
+        return redirect('VerEstudiantesGrado', pk_vista)
+    
 class VerEstudiantesGrado(View):
     def get(self, request, pk, *args, **kwargs):
         grado = get_object_or_404(Grado, pk=pk)
@@ -113,10 +122,13 @@ class VerEstudiantesGrado(View):
         print(grado)
         vista = 'gestor'
         abierto='ajustes'
+        form = EditarVerNotasAlumnosForm()
         context = {
             'grado': grado,
             'estudiantes': estudiantes,
             'vista': vista,
             'abierto':abierto,
+            'form': form,
         }
         return render(request, 'informacion/grados/ver_estudiantes.html', context)
+    

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import HorarioDiario
+from users.models import CustomUserAlumno
 
 class HoraHorarioForm(forms.ModelForm):
     class Meta:
@@ -34,4 +35,15 @@ class MateriasHorarioForm(forms.ModelForm):
             'jueves': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
             'viernes': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
             }
+        
+class EditarVerNotasAlumnosForm(forms.ModelForm):
+    class Meta:
+        model = CustomUserAlumno
+        fields = ['ver_notas']
+        widgets = {
+            'ver_notas': forms.CheckboxInput(attrs={'class': 'w-12 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2', 'id':'Checkbox'}),
+
+            }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         

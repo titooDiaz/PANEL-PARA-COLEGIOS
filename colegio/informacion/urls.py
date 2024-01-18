@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import VerGrados, VerGradosHorario, VerEstudiantesGrado
 
-#'APIS' de formualrio de horarios
-from .views import EditarGradosHorarioHora, EditarGradosHorarioMaterias
+#'APIS'
+from .views import EditarGradosHorarioHora, EditarGradosHorarioMaterias, EditarVerNotasAlumnos
 
 urlpatterns = [
     #editar
@@ -15,4 +15,6 @@ urlpatterns = [
     #'APIS' PARA EL FORMULARIO DE HORARIOS
     path('grados/editar/horario/hora/<int:pk_post>/<int:pk_vista>/', EditarGradosHorarioHora.as_view(), name='EditarHorarioHora'),
     path('grados/editar/horario/materias/<int:pk_post>/<int:pk_vista>/', EditarGradosHorarioMaterias.as_view(), name='EditarHorarioMaterias'),
+    #'APIS' PARA EDITAR VER NOTAS DE ALUMNOS #pk post = alumno
+    path('grados/editar/ver/Notas/<int:pk_post>/<int:pk_vista>/', EditarVerNotasAlumnos.as_view(), name='EditarVerNotasAlumnos'),
 ]

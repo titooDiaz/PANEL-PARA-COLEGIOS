@@ -35,24 +35,32 @@
     <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
         <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
             <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                <b>ESTAS VIENDO A {{estudiante.first_name}} {{estudiante.last_name}}</b>
+                <b>ESTAS VIENDO A {{estudiante.first_name}} {{estudiante.last_name}} ({{estudiante.pk}})</b>
                 <button onclick="cerrarVentana('Emergente','{{estudiante.numero_documento}}')" type="button">
                     <i class="fas fa-arrow-right mx-4"></i>
                 </button>
             </div>
             <div class="w-full">
                 <div class=" m-10 block">
-                    <!-- <form action="" method="post">
+                    <div class="p-10 block">
+                        <h6 class="w-full text-center mb-6 font-bold font-mono text-4xl zoom-4">DATOS MEDICOS DE {{estudiante.first_name}} {{estudiante.last_name}}</h6>
+                        <img class="w-[80%] lg:w-[20%] rounded-full m-auto border-2 border-cyan-950 hover:scale-110 ease-in-out duration-100" src="{{ estudiante.foto.url }}" alt="Alumno">
+                    </div>
+                    <form action="{% url 'EditarVerNotasAlumnos' estudiante.pk grado.pk %}" method="post">
                         {% csrf_token %}
-                        <div class="p-10 block">
-                            <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL VIERNES EN ({{grado.grado_nom}})</h6>
-                            <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
-                        </div>
-                        <div></div>
+                        {{estudiante.ver_notas}}
+                        <div>{{ form.ver_notas }}</div>
                         <div class="w-full h-12 my-10">
                             <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                         </div>
-                    </form>  -->
+                    </form>  
+                    <p><b>DESCRIPCION DEL ESTUDIANTE: </b> {{estudiante.descripcion}} </p>
+                    <p><b>ALERGIAS: </b> {{estudiante.alergias}} </p>
+                    <p><b>CONDICIONES MEDICAS: </b> {{estudiante.condiciones_medicas}} </p>
+                    <p><b>MEDICAMENTOS ACTUALES: </b> {{estudiante.medicamentos_actuales}} </p>
+                    <p><b>GRUPO SANGUINEO: </b> {{estudiante.grupo_sanguineo}} </p>
+                    <p><b>ACUDIENTE PRINCIPAL: </b> {{estudiante.contacto_emergencia_nombre}} </p>
+                    <p><b>NUMERO DE ACUDIENTE: </b> {{estudiante.contacto_emergencia_telefono}} </p>
                 </div>
             </div>
         </div>
