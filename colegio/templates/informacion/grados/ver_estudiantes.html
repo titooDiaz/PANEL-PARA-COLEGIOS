@@ -12,7 +12,12 @@
 <div class="grid gap-6 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
 
 {% for estudiante in estudiantes %}
+{% if estudiante.ver_notas %}
 <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+{% else %}
+<div class="items-center bg-white border-4 border-red-500 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+{% endif %}
+
     <div class="block w-full">
         <h5 class="font-mono font-bold text-gray-900 text-4xl text-left">{{estudiante.first_name}} {{estudiante.last_name}}</h5>
 
@@ -23,14 +28,22 @@
         <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Tipo Documento:</b> {{estudiante.tipo_documento}}</h6>
         <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Numero Documento:</b> {{estudiante.numero_documento}}</h6>
         <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Sexo</b>: {{estudiante.sexo}}</h6>
-        <div class="mt-2 pt-full flex">
+        <div class="mt-2 pt-full flex"> 
             <button class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block" onclick="mostrarVentana('Emergente', '{{estudiante.numero_documento}}')">
                 MAS INFORMACION
             </button>    
         </div>
+
+        <div class="mt-2 pt-full flex"> 
+            <button class="myButton font-semibold text-white px-2 rounded-lg bg-orange-800 border-l border-r border-t border-4 border-black hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block" onclick="mostrarVentana('Emergente', '{{estudiante.numero_documento}}')">
+                VER NOTAS
+            </button>    
+        </div>
+         
     </div>
 </div>
 
+<!--DATOS MEDICOS-->
 <div id="Emergente{{estudiante.numero_documento}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
     <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
         <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
@@ -48,11 +61,20 @@
                     </div>
                     <form action="{% url 'EditarVerNotasAlumnos' estudiante.pk grado.pk %}" method="post">
                         {% csrf_token %}
-                        {{estudiante.ver_notas}}
-                        <div>{{ form.ver_notas }}</div>
-                        <div class="w-full h-12 my-10">
-                            <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
-                        </div>
+                            <div class="flex items-center border p-2 border-gray-200 rounded">
+                                {{ form.ver_notas }}
+                                <label for="bordered-checkbox-1" class="w-[80%]  ms-2 text-sm font-medium text-gray-900">
+                                    {% if estudiante.ver_notas %}
+                                        Este estudiante PUEDE ver las notas
+                                    {% else %}
+                                        Este estudiante NO puede ver las notas
+                                    {% endif %}
+                                </label>
+
+                                <div class="w-[20%] h-12">
+                                    <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
                     </form>  
                     <p><b>DESCRIPCION DEL ESTUDIANTE: </b> {{estudiante.descripcion}} </p>
                     <p><b>ALERGIAS: </b> {{estudiante.alergias}} </p>
@@ -66,6 +88,7 @@
         </div>
     </div>
 </div>
+
 {% endfor %}
 
 </div>

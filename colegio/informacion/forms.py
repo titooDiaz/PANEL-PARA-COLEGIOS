@@ -41,7 +41,7 @@ class EditarVerNotasAlumnosForm(forms.ModelForm):
         model = CustomUserAlumno
         fields = ['ver_notas']
         widgets = {
-            'ver_notas': forms.CheckboxInput(attrs={'class': 'w-12 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2', 'id':'Checkbox'}),
+            'ver_notas': forms.CheckboxInput(attrs={'class': 'h-8 w-8 m-0 text-blue-600 bg-gray-100 border-gray-300 rounded', 'id':'Checkbox'}),
 
             }
     def __init__(self, *args, **kwargs):
