@@ -23,6 +23,13 @@
 
 <body>
   
+  <div class="ripple-background">
+    <div class="circle xxlarge shade1"></div>
+    <div class="circle xlarge shade2"></div>
+    <div class="circle large shade3"></div>
+    <div class="circle mediun shade4"></div>
+    <div class="circle small shade5"></div>
+  </div>
 
   {% if messages %}
     {% include 'messages.html' %}
@@ -36,11 +43,11 @@
         class="nav-links duration-500 md:static absolute md:min-h-fit min-h-[0vh] left-0 top-[-1300%] w-full flex justify-center px-5">
         <div class="flex justify-center md:flex-row flex-col min-[0px]:items-center min-[0px]:bg-white md:bg-transparent md:items-center md:gap-[4vw] gap-2 mt-1 py-4 rounded-xl max-w-md w-full z-10 text-black">
             
-            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Acerca</a>
-            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Precios</a>
-            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Contáctenos</a>
-            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="">Registro</a>
-            <a class="hover:text-orange-600 px-4 hover:text-white font-semibold min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="">Panel</a>
+            <a class="px-4 hover:text-white font-semibold font-mono min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Acerca</a>
+            <a class="px-4 hover:text-white font-semibold font-mono min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Precios</a>
+            <a class="px-4 hover:text-white font-semibold font-mono min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Contáctenos</a>
+            <a class="px-4 hover:text-white font-semibold font-mono min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Registro</a>
+            <a class="px-4 hover:text-white font-semibold font-mono min-[0px]:w-full text-center min-[0px]:hover:bg-orange-400 py-2 md:hover:bg-transparent" href="#">Panel</a>
 
         </div>
       </div>
@@ -50,35 +57,34 @@
     </nav>
   </header>
 
-<section class="bg-no-repeat bg-cover min-h-screen flex items-center justify-center background"
-  style="background-image: url('https://images.pexels.com/photos/8199562/pexels-photo-8199562.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');">
+<section class="bg-no-repeat bg-cover min-h-screen flex items-center justify-center background">
   <!-- login container -->
   <div
     class="border-2 border-gray-200 bg-gray-100 shadow-xl shadow-black rounded-lg py-8 px-4 items-center mx-6 md:py-10">
     <!-- form -->
     <div class="w-full px-4">
-      <p class="font-bold text-[35px] text-orange-500 flex items-center justify-center">Iniciar Sesión</p>
-      <p class="text-m mt-4 text-black">Tienes que iniciar sesión con tu Usuario y Contraseña</p>
+      <p class="font-bold font-mono text-[35px] text-orange-500 flex items-center justify-center">Iniciar Sesión</p>
+      <p class="text-m my-2 text-black font-mono">Ingresa a la pagina con tu usuario!</p>
 
       <form action="{% url 'account_login' %}" method="POST" class="flex flex-col gap-2">
         {% csrf_token %}
         <div class="mt-1">
           {{ form|crispy }}
         </div>
-        <button class="bg-[#002D74] rounded-xl text-white py-2 bg-gradient-to-l from-orange-400 to-orange-600 hover:scale-105 border-l border-t border-r border-4 border-orange-800 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1" type="submit">Ingresar</button>
+        <button class="bg-[#002D74] rounded-xl text-white py-2 bg-gradient-to-l from-orange-400 to-orange-600 border-l border-t border-r border-4 border-orange-800 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1" type="submit">Ingresar</button>
       </form>
       
 
       <div class="mt-2 text-xs flex justify-between items-center border-b border-orange-500 py-2 text-black">
         <p>Olvidaste tu contraseña?</p>
         <button
-          class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 text-orange-500 border-1 border-orange-400 border-l border-t border-r border-4 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">Recuperar</button>
+          class="py-2 px-5 bg-white rounded-xl text-orange-500 border-1 border-orange-400 border-l border-t border-r border-4 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">Recuperar</button>
       </div>
 
       <div class="mt-2 text-xs flex justify-between items-center text-black">
         <p>Tienes algún problema?</p>
         <button
-          class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 text-orange-500 border-1 border-orange-400 border-l border-t border-r border-4 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">Contáctanos</button>
+          class="py-2 px-5 bg-white rounded-xl text-orange-500 border-1 border-orange-400 border-l border-t border-r border-4 transition duration-300 ease-in-out hover:scale-105 focus:border-2 focus:border-t focus:border-l focus:border-r focus:mt-1">Contáctanos</button>
       </div>
     </div>
   </div>
@@ -105,6 +111,91 @@
 .background.blurred {
 filter: blur(5px); /* Puedes ajustar el valor del desenfoque según tus preferencias */
 transition: filter 0.3s ease; /* Agrega una transición suave */
+}
+
+
+/* CAMBIAR FONDO */
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: rgb(255, 226, 192);
+  }
+
+  .circle {
+    z-index: -1 ;
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: ripple 15s infinite;
+  }
+
+.small{
+  width: 200px;
+  height: 200px;
+  left: -100px;
+  bottom: -100px;
+}
+
+.mediun{
+  width: 400px;
+  height: 400px;
+  left: -200px;
+  bottom: -200px;
+}
+
+.large{
+  width: 600px;
+  height: 600px;
+  left: -300px;
+  bottom: -300px;
+}
+
+.xlarge{
+  width: 800px;
+  height: 800px;
+  left: -400px;
+  bottom: -400px;
+}
+
+.xxlarge{
+  width: 1000px;
+  height: 1000px;
+  left: -500px;
+  bottom: -500px;
+}
+
+.shade1{
+  background-color: #ffdca7;
+}
+.shade2{
+  background-color: #ffd494;
+}
+
+.shade3{
+  background-color: #ffb269;
+}
+
+.shade4{
+  background-color: #f1a45b;
+}
+
+.shade5{
+  background-color: #ff9939;
+}
+
+@keyframes ripple{
+  0%{
+    transform: scale(0.8);
+  }
+  
+  50%{
+    transform: scale(1.2);
+  }
+  
+  100%{
+    transform: scale(0.8);
+  }
 }
 </style>
 
