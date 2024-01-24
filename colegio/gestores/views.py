@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
 from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm
 from informacion.models import Grado,Horarios_Partes, HorarioDiario
+from django.contrib import messages
 
 from users.models import CustomUserAlumno
 
@@ -118,6 +119,7 @@ class CreateProfesor(View):
             profesor = form.save(commit=False)
             profesor.numero_documento = username
             profesor.save()
+            messages.success(request, '¡Profesor agregado correctamente!')
         else:
             print(form.errors)
         return redirect('CrearProfesor')
@@ -141,6 +143,7 @@ class CreateAdmin(View):
             profesor = form.save(commit=False)
             profesor.numero_documento = username
             profesor.save()
+            messages.success(request, '¡Administrador agregado correctamente!')
         else:
             print(form.errors)
         return redirect('CrearAdmin')
@@ -164,6 +167,7 @@ class CreateAcudiente(View):
             profesor = form.save(commit=False)
             profesor.numero_documento = username
             profesor.save()
+            messages.success(request, '¡Acudiente agregado correctamente!')
         else:
             print(form.errors)
         return redirect('CrearAcudiente')
@@ -195,6 +199,8 @@ class CreateGrados(View):
 
             for i in range(int(horas)):
                 HorarioDiario.objects.create(grado=grado)
+                
+            messages.success(request, '¡Grado creado correctamente!')
         else:
             print(form.errors)
         return redirect('CrearGrado')
@@ -217,7 +223,9 @@ class CreateHorarios(View):
             horario=form.save(commit=False)
             horario.author = request.user
             horario.save()
+            messages.success(request, '¡Horario agregado correctamente!')
         return redirect('CrearHorarios')
+    
     def get(self, request, *args, **kwargs):
         form = Horarios_PartesForm()
         vista = 'gestor'
@@ -237,6 +245,7 @@ class CreateMaterias(View):
             grado = Grado.objects.get(pk=pk)
             materia.author = request.user
             electiva_value = form.cleaned_data.get('electiva')
+            messages.success(request, '¡Materia creada correctamente!')
             
             # Limpia los campos relacionados con la electiva si no es True
             if not electiva_value:

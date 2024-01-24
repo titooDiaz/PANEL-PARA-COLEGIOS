@@ -11,7 +11,7 @@
     <h5 class="text-5xl font-mono mb-4">CREA UN ADMINISTRADOR</h5>
     <!-- Formulario Para Crear Las Cuentas De Los administradores -->
 
-    <form method="post" action="{% url 'CrearAlumno' %}">
+    <form method="post" action="{% url 'CrearAdmin' %}">
         {% csrf_token %}
         <div>
             <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
@@ -20,7 +20,7 @@
                     {{form.username}}
                 </div>
                 <div>
-                    <label for="correo_electronico" class="block  text-sm font-medium text-gray-900">Correo Electronico: <a href="" class="text-gray-400">(opcional)</a></label>
+                    <label for="correo_electronico" class="block  text-sm font-medium text-gray-900">Correo Electronico: (opcional)</label>
                     {{form.email}}
                 </div>
                 <div>
