@@ -31,5 +31,6 @@ jobs:
         python manage.py tailwind start
     - name: Run Tests
       run: |
+        cd colegio
         python manage.py test
 
