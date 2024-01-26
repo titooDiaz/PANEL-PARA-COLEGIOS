@@ -17,10 +17,9 @@ jobs:
               run: |
                   cd colegio
                   npm publish --access public
-                  npm install
+                  npm i panel-para-colegios
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt
-                  npm install
                   python manage.py tailwind install
                   python manage.py tailwind start
               env:
