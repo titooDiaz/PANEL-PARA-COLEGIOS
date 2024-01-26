@@ -17,11 +17,7 @@ jobs:
               run: |
                   cd colegio
                   npm publish --access public
-                  npm i panel-para-colegios
-                  python -m pip install --upgrade pip
-                  pip install -r requirements.txt
-                  python manage.py tailwind install
-                  python manage.py tailwind start
+                  working-directory: colegio
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
 
@@ -44,6 +40,16 @@ jobs:
         uses: actions/setup-node@v3
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.1
+  
+      - name: Install Dependencies
+        run: |
+          cd colegio
+          npm install
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          npm install
+          python manage.py tailwind install
+          python manage.py tailwind start
   
       - name: Run Tests
         run: |
