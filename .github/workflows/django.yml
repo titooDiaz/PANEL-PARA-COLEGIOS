@@ -22,9 +22,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4  # Puedes ajustar la versión según tus necesidades
+        uses: actions/setup-node@v4
         with:
-          node-version: '14'  # Puedes ajustar la versión según tus necesidades
+          node-version: '14'
 
       - name: Install Dependencies
         run: |
@@ -40,4 +40,3 @@ jobs:
         run: |
           cd colegio
           python manage.py test
-
