@@ -1,0 +1,4 @@
+# .gitignore
+
+#MODULOS DE NPM npm install
+colegio/node_modules
