@@ -10,7 +10,7 @@ class AlumnoBoard(View):
             'vista': vista,
             'abierto':abierto,
         }
-        return render(request, 'users/alumnos/board.html', context)
+        return render(request, 'users/alumnos/inicio.html', context)
     
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
@@ -20,7 +20,7 @@ class AlumnoCalendario(View):
             'vista': vista,
             'abierto':abierto,
         }
-        return render(request, 'users/alumnos/board.html', context)
+        return render(request, 'users/alumnos/inicio.html', context)
     
 class AlumnoMensajes(View):
     def get(self, request, *args, **kwargs):
@@ -30,7 +30,7 @@ class AlumnoMensajes(View):
             'vista': vista,
             'abierto':abierto,
         }
-        return render(request, 'users/alumnos/board.html', context)
+        return render(request, 'users/alumnos/inicio.html', context)
     
 class AlumnoPersonas(View):
     def get(self, request, *args, **kwargs):
@@ -40,7 +40,7 @@ class AlumnoPersonas(View):
             'vista': vista,
             'abierto':abierto,
         }
-        return render(request, 'users/alumnos/board.html', context)
+        return render(request, 'users/alumnos/inicio.html', context)
     
 class AlumnoNotas(View):
     def get(self, request, *args, **kwargs):
@@ -50,4 +50,4 @@ class AlumnoNotas(View):
             'vista': vista,
             'abierto':abierto,
         }
-        return render(request, 'users/alumnos/board.html', context)
+        return render(request, 'users/alumnos/inicio.html', context)
