@@ -1,1 +1,4 @@
 # .gitignore
+
+#IGNORAR ELEMENTOS DE ENTORNO VIRTUAL
+env

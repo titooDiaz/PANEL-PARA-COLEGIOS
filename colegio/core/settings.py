@@ -54,7 +54,7 @@ INSTALLED_APPS = [
 ]
 
 #AGREGAR NODE JS A NUESTRO ENTORNO DE TRABAJO (recuerda agregarlo al path)
-NPM_BIN_PATH = "/usr/bin/npm"  # O la ruta correcta en tu sistema #r"NPM_BIN_PATH = 
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 #autenticacion de usuario...
 SITE_ID = 1
