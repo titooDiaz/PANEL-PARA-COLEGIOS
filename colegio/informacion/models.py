@@ -9,6 +9,18 @@ User = get_user_model()
 UserProfes = CustomUserProfesores
 UserAlumno = CustomUserAlumno
     
+class Colegio(models.Model):
+    colegio_nom = models.TextField()
+    numero = models.TextField()
+    direccion = models.TextField()
+    descripcion = models.TextField()
+    estado = models.BooleanField(default=True)
+    created_on = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_colegio')
+
+    def __str__(self):
+        return self.colegio_nom
+
 class Horarios_Partes(models.Model):
     titulo = models.TextField()
     descripcion = models.TextField()

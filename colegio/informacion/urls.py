@@ -5,6 +5,9 @@ from .views import VerGrados, VerGradosHorario, VerEstudiantesGrado
 from .views import EditarGradosHorarioHora, EditarGradosHorarioMaterias, EditarVerNotasAlumnos
 
 urlpatterns = [
+    #### CREAR COLEGIO
+    path('colegios/', VerGrados.as_view(), name='MirarGrados'),
+    
     #editar
     path('grados/mirar/', VerGrados.as_view(), name='MirarGrados'),
 

@@ -1,7 +1,15 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import HorarioDiario
+from .models import HorarioDiario, Colegio
 from users.models import CustomUserAlumno
+
+class ColegioForm(forms.ModelForm):
+    class Meta:
+        model = Colegio
+        fields = ['colegio_nom', 'numero', 'direccion', 'descripcion']
+        widgets = {}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 class HoraHorarioForm(forms.ModelForm):
     class Meta:
@@ -25,6 +33,7 @@ class MateriasHorarioForm(forms.ModelForm):
             self.fields['miercoles'].queryset = materias_grado
             self.fields['jueves'].queryset = materias_grado
             self.fields['viernes'].queryset = materias_grado
+            
     class Meta:
         model = HorarioDiario
         fields = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes']
