@@ -107,7 +107,7 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'PanelColegios.sqlite3',
+        'NAME': BASE_DIR / 'PanelParaColegios.sqlite3',
     }
 }
 

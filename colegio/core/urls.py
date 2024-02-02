@@ -8,7 +8,6 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     #ADMINISTRADOR DE APP
-    path('AdminAppPanelParaColegios/', lambda request: redirect('admin:index')),  # Redirigir al panel de administración
     path('admin/', admin.site.urls),  # Asegúrate de tener esta línea también
 
     

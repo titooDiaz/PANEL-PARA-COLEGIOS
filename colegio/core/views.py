@@ -16,6 +16,6 @@ class RedirectUser(View):
             elif hasattr(request.user, 'customuseracudiente'):
                 return redirect('BoardAcudiente')
             else:
-                return redirect('admin:index')
+                return redirect('home')
         else:
             return redirect('home')

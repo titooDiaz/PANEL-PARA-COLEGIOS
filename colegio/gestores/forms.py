@@ -2,6 +2,27 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUserGestor, CustomUserAlumno, CustomUserProfesores, CustomUserAdministrador, CustomUserAcudiente
 from informacion.models import Grado, Horarios_Partes, Materias
+#MENEJO DE ERRORES CON BASE DE DATOS
+# COMPROBAR SI HAY TABLAS O LA BASE DE DATOS ESTA VACIA...
+from django.db import connection
+
+def obtener_tablas():
+    engine = connection.settings_dict['ENGINE']
+    if 'sqlite' in engine:
+        # SQLite
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            return [table[0] for table in cursor.fetchall()]
+    elif 'postgresql' in engine:
+        # PostgreSQL
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';")
+            return [table[0] for table in cursor.fetchall()]
+    else:
+        raise NotImplementedError(f"No se implementó soporte para el motor de base de datos {engine}")
+tablas_en_bd = obtener_tablas()
+#ALGUNAS PARTES DE ESTE FORMULARIO ENCESITAS LLAMAR A LOS ESTUDIANTES, PERO ES UN PROBLEMA, YA QUE SI NO TENEMOS BASE DE DATOS PODRIAMOS OBTENER ERRORES
+#POR ESO AGREGAMOS ESTA FUNCION, NOS COMPRUEBA SI HAY O NO TABLAS EN NUESTRA BASE DE DATOS, SI NO HAY TABLAS SE SALTA LASZ FUNCIONES MIENTRAS SE HACEN MIGRACIONES PARA EVITAR ERRORES
 
 class CustomUserAlumnoForm(UserCreationForm):
     class Meta:
@@ -150,11 +171,15 @@ class CustomUserProfesoresForm(UserCreationForm):
 
 class CustomUserAcudienteForm(UserCreationForm):
     class Meta:
-        choices = CustomUserAlumno.objects.all()
+        if tablas_en_bd:
+            choices = CustomUserAlumno.objects.all()
+        else:
+            choices = []
         model = CustomUserAcudiente
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo')
 
         widgets = {
+            
             'estudiante': forms.CheckboxSelectMultiple(choices=choices,attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-orange-600 block w-20 p-2.5 estudiantes', 'placeholder': 'estudiante', 'id':'checkbox'}),
 
             'username': forms.TextInput(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Numero De Documento'}),
