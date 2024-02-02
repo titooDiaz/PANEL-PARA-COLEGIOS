@@ -4,10 +4,7 @@ from .views import VerGrados, VerGradosHorario, VerEstudiantesGrado
 #'APIS'
 from .views import EditarGradosHorarioHora, EditarGradosHorarioMaterias, EditarVerNotasAlumnos
 
-urlpatterns = [
-    #### CREAR COLEGIO
-    path('colegios/', VerGrados.as_view(), name='MirarGrados'),
-    
+urlpatterns = [    
     #editar
     path('grados/mirar/', VerGrados.as_view(), name='MirarGrados'),
 

@@ -39,9 +39,23 @@ TIPO_SANGRE = [
 
 
 
+
 #A SIMPLE VISTA NO PARECE TENER SENTIDO COLOCAR EL COLEGIO EN USUARIOS, PERO DEBEMOS PENSAR QUE LA CARACTERISTICA PRINCIPAL DE LOS USUARIOS ES QUE PERTENENCEN A UN COLEGIO
 #POR ESO DECIDIMOS COLOCAR EL MODELO EN ESTA APLICACION. CAMBIARLA A INFORMACION PUEDE TRAER ALGUNOS CONFLICTOS, ASI QUE EL COLEGIO FUNCIONA CORRECTAMENTE ACA! NO LO MUEVAS.
 #MOVERLO A INFORMACION PODRIA PROVOCAR UNA RELACION INVERSA.
+def colegio_directory_path_profile(instance, filename):
+    profile_picture_name = 'colegiosFoto/{0}/profile.png'.format(instance.colegio_nom)
+    #que archivo guardamos..
+    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+    #si el full_path existe lo sacamos y ponemos otro
+    if os.path.exists(full_path):
+        os.remove(full_path)
+def colegio_directory_path_banner(instance, filename):
+    profile_picture_name = 'colegiosBanner/{0}/banner.png'.format(instance.colegio_nom)
+    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+    if os.path.exists(full_path):
+        os.remove(full_path)
+        
 class Colegio(models.Model):
     colegio_nom = models.TextField()
     numero = models.TextField()
@@ -49,6 +63,8 @@ class Colegio(models.Model):
     descripcion = models.TextField()
     estado = models.BooleanField(default=True)
     created_on = models.DateTimeField(default=timezone.now)
+    foto = models.ImageField(default='colegiosFoto/profile.png', upload_to=colegio_directory_path_profile, null=True, blank=True)
+    banner = models.ImageField(default='colegiosBanner/banner.png', upload_to=colegio_directory_path_banner, null=True, blank=True)
 
     def __str__(self):
         return self.colegio_nom

@@ -1,7 +1,6 @@
 from django import forms
-from allauth.account.forms import PasswordField
 from allauth.account.forms import SignupForm, LoginForm
-from .models import CustomUser
+from .models import Colegio
 
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
@@ -12,3 +11,11 @@ class LoginForm(LoginForm):
         strip=False,
         widget=forms.PasswordInput(attrs={'class': 'password'}),
     )
+    
+class ColegioForm(forms.ModelForm):
+    class Meta:
+        model = Colegio
+        fields = ['colegio_nom', 'numero', 'direccion', 'descripcion', 'foto', 'banner']
+        widgets = {}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

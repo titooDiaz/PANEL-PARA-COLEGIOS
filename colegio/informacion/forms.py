@@ -1,15 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import HorarioDiario, Colegio
+from .models import HorarioDiario
 from users.models import CustomUserAlumno
-
-class ColegioForm(forms.ModelForm):
-    class Meta:
-        model = Colegio
-        fields = ['colegio_nom', 'numero', 'direccion', 'descripcion']
-        widgets = {}
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
 class HoraHorarioForm(forms.ModelForm):
     class Meta:

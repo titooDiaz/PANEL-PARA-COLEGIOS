@@ -1,0 +1,17 @@
+<head>
+    <title>Crear nuevas materias</title>
+</head>
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+
+
+<form method="post" action="{% url 'CrearMaterias' id_grado %}">
+    {% csrf_token %}
+    
+</form>
+
+
+{% endblock content %}  
