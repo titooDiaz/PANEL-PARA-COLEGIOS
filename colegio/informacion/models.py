@@ -1,27 +1,16 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
-from users.models import CustomUserProfesores
-from users.models import CustomUserAlumno
+from users.models import CustomUserAlumno, CustomUserProfesores, Colegio
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
 UserProfes = CustomUserProfesores
 UserAlumno = CustomUserAlumno
-    
-class Colegio(models.Model):
-    colegio_nom = models.TextField()
-    numero = models.TextField()
-    direccion = models.TextField()
-    descripcion = models.TextField()
-    estado = models.BooleanField(default=True)
-    created_on = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_colegio')
 
-    def __str__(self):
-        return self.colegio_nom
 
 class Horarios_Partes(models.Model):
+    colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioHorariosPartes') #COLEGIO AL QUE PERTENECE EL USUARIO
     titulo = models.TextField()
     descripcion = models.TextField()
     estado = models.BooleanField(default=True)
@@ -64,6 +53,7 @@ class Grado(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_grado')
     horario_partes = models.ForeignKey(Horarios_Partes, on_delete=models.SET_NULL, blank=True, null=True)
     materias = models.ManyToManyField(Materias, blank=True, related_name='materias_grado')
+    colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioGrado') #COLEGIO AL QUE PERTENECE EL USUARIO
 
     def __str__(self):
         return self.grado_nom + "(" + self.grado_num + ")"
@@ -75,11 +65,11 @@ class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE
     """LOS MODELOS TIENEN NOMBRES DE DIAS PERO REALMENTE SE REFIEREN A LAS MATERIAS DE ESTE DIA
          |
         \|/                                                                               """
-    lunes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_1')
-    martes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_2')
-    miercoles = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_3')
-    jueves = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_4')
-    viernes = models.ForeignKey(Materias, on_delete=models.CASCADE, blank=True, null=True, related_name='materias_grado_5')
+    lunes = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_1')
+    martes = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_2')
+    miercoles = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_3')
+    jueves = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_4')
+    viernes = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_5')
 
     def __str__(self):
         return f"{self.hora_inicio} - {self.hora_fin}"

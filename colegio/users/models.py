@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.conf import settings # usar los settings
 from django.db import models
 import os
-
+from django.utils import timezone
 
 ##########################START CUSTOM USER###################################
 SEXO = [
@@ -36,16 +36,32 @@ TIPO_SANGRE = [
         ('O-', 'O-'),
         ('Desconocido', 'Desconocido'),
     ]
+
+
+
+#A SIMPLE VISTA NO PARECE TENER SENTIDO COLOCAR EL COLEGIO EN USUARIOS, PERO DEBEMOS PENSAR QUE LA CARACTERISTICA PRINCIPAL DE LOS USUARIOS ES QUE PERTENENCEN A UN COLEGIO
+#POR ESO DECIDIMOS COLOCAR EL MODELO EN ESTA APLICACION. CAMBIARLA A INFORMACION PUEDE TRAER ALGUNOS CONFLICTOS, ASI QUE EL COLEGIO FUNCIONA CORRECTAMENTE ACA! NO LO MUEVAS.
+#MOVERLO A INFORMACION PODRIA PROVOCAR UNA RELACION INVERSA.
+class Colegio(models.Model):
+    colegio_nom = models.TextField()
+    numero = models.TextField()
+    direccion = models.TextField()
+    descripcion = models.TextField()
+    estado = models.BooleanField(default=True)
+    created_on = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.colegio_nom
+    
+    
 class CustomUser(AbstractUser):
     tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
     numero_documento = models.CharField(max_length=20, null=True, blank=True)
     introduccion = models.TextField(null=True, blank=True)
+    colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='usuarios') #COLEGIO AL QUE PERTENECE EL USUARIO
+    
     def __str__(self):
         return self.username + " defecto"
-
-
-
-
 
 ###########################END CUSTOM USER####################################
 def user_directory_path_profile_alumnos(instance, filename):
