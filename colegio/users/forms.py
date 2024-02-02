@@ -15,7 +15,7 @@ class LoginForm(LoginForm):
 class ColegioForm(forms.ModelForm):
     class Meta:
         model = Colegio
-        fields = ['colegio_nom', 'numero', 'direccion', 'descripcion', 'foto', 'banner']
+        fields = ['clave', 'colegio', 'numero', 'direccion', 'descripcion', 'foto', 'banner']
         widgets = {}
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

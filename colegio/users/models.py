@@ -3,6 +3,7 @@ from django.conf import settings # usar los settings
 from django.db import models
 import os
 from django.utils import timezone
+import re
 
 ##########################START CUSTOM USER###################################
 SEXO = [
@@ -44,23 +45,28 @@ TIPO_SANGRE = [
 #POR ESO DECIDIMOS COLOCAR EL MODELO EN ESTA APLICACION. CAMBIARLA A INFORMACION PUEDE TRAER ALGUNOS CONFLICTOS, ASI QUE EL COLEGIO FUNCIONA CORRECTAMENTE ACA! NO LO MUEVAS.
 #MOVERLO A INFORMACION PODRIA PROVOCAR UNA RELACION INVERSA.
 def colegio_directory_path_profile(instance, filename):
-    profile_picture_name = 'colegiosFoto/{0}/profile.png'.format(instance.colegio_nom)
-    #que archivo guardamos..
+    # el cero es el format
+    profile_picture_name = 'colegiosFoto/{0}/profile.png'.format(instance.clave)
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
-    #si el full_path existe lo sacamos y ponemos otro
     if os.path.exists(full_path):
         os.remove(full_path)
+
+    return profile_picture_name
+
 def colegio_directory_path_banner(instance, filename):
-    profile_picture_name = 'colegiosBanner/{0}/banner.png'.format(instance.colegio_nom)
+    # el cero es el format
+    profile_picture_name = 'colegiosBanner/{0}/banner.png'.format(instance.clave)
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
-        
+
+    return profile_picture_name
 class Colegio(models.Model):
-    colegio_nom = models.TextField()
-    numero = models.TextField()
-    direccion = models.TextField()
-    descripcion = models.TextField()
+    clave = models.TextField(max_length=10)
+    colegio = models.TextField(max_length=30)
+    numero = models.TextField(max_length=15)
+    direccion = models.TextField(max_length=100)
+    descripcion = models.TextField(max_length=500)
     estado = models.BooleanField(default=True)
     created_on = models.DateTimeField(default=timezone.now)
     foto = models.ImageField(default='colegiosFoto/profile.png', upload_to=colegio_directory_path_profile, null=True, blank=True)

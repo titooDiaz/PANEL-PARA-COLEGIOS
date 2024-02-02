@@ -7,13 +7,18 @@ class GestionColegios(View):
     def get(self, request):
         colegios = Colegio.objects.all()
         form = ColegioForm()
-        return render(request, self.template_name, {'colegios': colegios, 'form': form})
+        vista = 'gestor'
+        abierto='personas'
+        context = {
+            'form': form,
+            'vista': vista,
+            'abierto':abierto,
+            'colegios': colegios
+        }
+        return render(request, 'colegios/CreateColegio.html', context)
 
     def post(self, request):
-        form = ColegioForm(request.POST)
+        form = ColegioForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('nombre_de_la_url_de_la_vista')  # Reemplaza 'nombre_de_la_url_de_la_vista' con el nombre de la URL a la que deseas redirigir después de agregar un colegio
-        else:
-            colegios = Colegio.objects.all()
-            return render(request, self.template_name, {'colegios': colegios, 'form': form})
+        return redirect('Colegios')

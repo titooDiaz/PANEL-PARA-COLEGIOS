@@ -1,5 +1,5 @@
 <head>
-    <title>Crear nuevas materias</title>
+    <title>Crear nuevo colegio</title>
 </head>
 {% extends 'base.html' %}
 
@@ -7,11 +7,19 @@
 {% block content %}
 {% load static %}
 
+<div>
 
-<form method="post" action="{% url 'CrearMaterias' id_grado %}">
+<form method="post" action="{% url 'Colegios' %}" enctype="multipart/form-data">
     {% csrf_token %}
-    
+    {{ form.as_p }}
+        <button type="submit">Agregar Colegio</button>
 </form>
 
+<ul>
+    {% for colegio in colegios %}
+        <li>{{ colegio.colegio_nom }}</li>
+    {% endfor %}
+</ul>
 
+</div>
 {% endblock content %}  

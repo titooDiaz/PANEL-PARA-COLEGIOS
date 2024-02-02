@@ -20,6 +20,7 @@ urlpatterns = [
     
     #URLS DE PERSONAS
     path('alumnos/', include('alumnos.urls')),
+    path('users/', include('users.urls')),
     path('acudientes/', include('acudientes.urls')),
     path('gestores/', include('gestores.urls')),
     path('informacion/', include('informacion.urls')),
