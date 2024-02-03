@@ -62,6 +62,7 @@ def colegio_directory_path_banner(instance, filename):
 
     return profile_picture_name
 class Colegio(models.Model):
+    cords = models.TextField(null=True, blank=True)
     clave = models.TextField(max_length=10)
     colegio = models.TextField(max_length=30)
     numero = models.TextField(max_length=15)

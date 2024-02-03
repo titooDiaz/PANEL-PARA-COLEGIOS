@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Colegio
 from django.views.generic import TemplateView, View
 from .forms import ColegioForm
+from PIL import Image
+import io
+from django.core.files.base import ContentFile
 
 class GestionColegios(View):
     def get(self, request):
@@ -19,6 +22,31 @@ class GestionColegios(View):
 
     def post(self, request):
         form = ColegioForm(request.POST, request.FILES)
+        # Acceder a la foto del formulario
         if form.is_valid():
-            form.save()
+            foto = form.cleaned_data.get('foto')
+
+            if foto:
+                cords = form['cords'].value()
+                cords = cords.split(',')
+                coordenadas_recorte = (
+                    int(cords[0]),
+                    int(cords[1]),
+                    int(cords[0]) + int(cords[2]),
+                    int(cords[1]) + int(cords[3])
+                )
+
+                imagen_original = Image.open(foto)
+                imagen_recortada = imagen_original.crop(coordenadas_recorte)
+
+                # Crear un objeto de archivo en memoria y guardar la imagen recortada en él
+                image_io = io.BytesIO()
+                imagen_recortada.save(image_io, format='PNG')#GUARDAMOS LA NUEVA IMAGEN EN FORMATO PNG EN LA VARIABLE 'image_io'
+
+                # Asignar el objeto de archivo al campo 'foto'
+                form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
+
+                # Guardar el formulario para actualizar la instancia del modelo
+                form.save()
+
         return redirect('Colegios')
