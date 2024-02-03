@@ -54,11 +54,6 @@
   opacity: 0;
 }
 
-.cropper-modal {
-  background-color: #000;
-  opacity: 0.5;
-}
-
 .cropper-view-box {
   display: block;
   height: 100%;
@@ -274,7 +269,7 @@
 }
 
 .cropper-bg {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC');
+  background-image: url('https://media.istockphoto.com/id/1405339915/es/v%C3%ADdeo/gris-blanco-tecnolog%C3%ADa-geom%C3%A9trica-dise%C3%B1o-de-movimiento-abstracto-m%C3%ADnimo.jpg?s=640x640&k=20&c=94J07XW0MIbN8RR5ez2VK3jCJghuXL9He_GOFCm9QGw=');
 }
 
 .cropper-hide {

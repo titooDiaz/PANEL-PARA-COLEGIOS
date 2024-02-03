@@ -8,19 +8,12 @@
 }
 
 :root{
-    --primary-color: rgb(58,79,105);
-    --secundary-color: rgb(157,167,180);
-    --thir-color: rgb(233,95,133);
-    --primary-color-hover: rgb(30, 50, 75);
-    --secundary-color-hover:rgb(110, 116, 124);
+    --primary-color: rgb(0, 0, 0);
+    --secundary-color: rgb(0, 0, 0);
+    --thir-color: rgb(233, 157, 95);
+
 }
 
-h1{
-    width: 80%;
-    text-align: center;
-    margin: 50px auto 15px auto;
-    color: var(--thir-color);
-}
 .container{
     width: 400px;
     margin: 10px auto;
@@ -46,7 +39,7 @@ h1{
     text-align: center;
     width: 100%;
     margin: auto;
-    background-color: rgba(157, 167, 180, 0.74);
+    background-color: rgba(255, 255, 255, 0.74);
     padding: 30px 70px;
     font-size: 18px;
     bottom: -101%;
@@ -65,7 +58,7 @@ h1{
     background-color: rgba(0, 0, 0, 0.247);
     backdrop-filter: blur(0px);
     position: fixed;
-    z-index: 2;
+    z-index: 100;
     bottom: 0;
     left: 0;
     right: 0;
@@ -146,18 +139,6 @@ h1{
     cursor: pointer;
     color: #fff;
     transition: background-color 300ms ease;
-}
-.modal-footer .primary{
-    background-color: var(--primary-color);
-}
-.modal-footer .secundary{
-    background-color: var(--secundary-color);
-}
-.modal-footer .primary:hover{
-    background-color: var(--primary-color-hover);
-}
-.modal-footer .secundary:hover{
-    background-color: var(--secundary-color-hover);
 }
 
 /* ==== Modal estilos active ==== */
