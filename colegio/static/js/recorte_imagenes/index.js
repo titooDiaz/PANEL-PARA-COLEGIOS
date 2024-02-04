@@ -1,6 +1,9 @@
 let cropper = null;
 
-var img = '';
+var cordenadasfoto;
+var cordenadasbanner;
+var img;
+var cords = document.querySelector('.cords')
 
 $('#input-file').on('change', () => {
     let image = document.getElementById('img-cropper')
@@ -42,8 +45,7 @@ $('#input-file').on('change', () => {
                 console.log(event.detail.rotate);
                 console.log(event.detail.scaleX);
                 console.log(event.detail.scaleY);
-                var cords = document.querySelector('.cords')
-                cords.value = `${Math.round(event.detail.x)},${Math.round(event.detail.y)},${Math.round(event.detail.width)},${Math.round(event.detail.height)}`;
+                cordenadasfoto = `${Math.round(event.detail.x)},${Math.round(event.detail.y)},${Math.round(event.detail.width)},${Math.round(event.detail.height)}`;
 
             }
         })
@@ -78,7 +80,7 @@ $('#input-file-banner').on('change', () => {
         image.src = imagenUrl
 
         cropper = new Cropper(image, {
-            aspectRatio: 1, // es la proporción en la que queremos que recorte en este caso 1:1
+            aspectRatio: 5, // es la proporción en la que queremos que recorte en este caso 1:1
             preview: '.img-sample', // contenedor donde se va a ir viendo en tiempo real la imagen cortada
             zoomable: false, //Para que no haga zoom 
             viewMode: 1, //Para que no estire la imagen al contenedor
@@ -96,8 +98,7 @@ $('#input-file-banner').on('change', () => {
                 console.log(event.detail.rotate);
                 console.log(event.detail.scaleX);
                 console.log(event.detail.scaleY);
-                var cords = document.querySelector('.cords')
-                cords.value = `${Math.round(event.detail.x)},${Math.round(event.detail.y)},${Math.round(event.detail.width)},${Math.round(event.detail.height)}`;
+                cordenadasbanner = `${Math.round(event.detail.x)},${Math.round(event.detail.y)},${Math.round(event.detail.width)},${Math.round(event.detail.height)}`;
 
             }
         })
@@ -115,21 +116,16 @@ $('#input-file-banner').on('change', () => {
 
 $('#close').on('click', () => {
     let image = document.getElementById('img-cropper')
-    let input = document.getElementById('input-file')
-
     image.src = "";
-    
-
     cropper.destroy()
-
     $('.modal').addClass('remove')
     $('.modal-content').addClass('remove')
-
     $('.modal').removeClass('active')
     $('.modal-content').removeClass('active')
 })
 
-$('#cut').on('click', () => {
+$('#cut').on('click', (event) => {
+    event.preventDefault();
     let crop_image = document.getElementById(img)
     let canva = cropper.getCroppedCanvas()
     let image = document.getElementById('img-cropper')
@@ -140,7 +136,7 @@ $('#cut').on('click', () => {
     })
 
     image.src = "";
-    
+    cords.value = cordenadasfoto+':'+cordenadasbanner
 
     cropper.destroy()
 
