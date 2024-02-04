@@ -16,6 +16,6 @@ class RedirectUser(View):
             elif hasattr(request.user, 'customuseracudiente'):
                 return redirect('BoardAcudiente')
             else:
-                return redirect('home')
+                return redirect('Colegios')
         else:
             return redirect('home')

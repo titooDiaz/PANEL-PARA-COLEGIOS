@@ -31,10 +31,10 @@
 .group .crop-image{
     width: 100%;
 }
-.group #input-file{
+.group #input-file, #input-file-banner{
     display: none;
 }
-.group .label-file{
+.group .label-file, .group-banner .label-file{
     position: absolute;
     text-align: center;
     width: 100%;
@@ -48,8 +48,15 @@
     transition: all 150ms ease-in-out;
     color: var(--primary-color);
 }
-.group:hover .label-file{
+.group:hover .label-file, .group-banner:hover .label-file{
     bottom: 0;
+}
+
+.group-banner{
+    position: relative;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
 }
 
 /* ==== Modal estilos ==== */

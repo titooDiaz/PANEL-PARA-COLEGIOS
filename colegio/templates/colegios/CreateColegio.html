@@ -15,13 +15,19 @@
 <div class="bg-white p-8 rounded-lg shadow-lg">
 
 <form method="post" action="{% url 'Colegios' %}" enctype="multipart/form-data" id="formulario">
-    <div class="flex top-10 w-full h-[30vh] z-10">
-        <img src="{% static 'img/colegios/banner.png' %}" alt="" class="w-full h-full rounded-lg" id="">
+    <div class="flex w-full h-[30vh] z-10">
+        <div class="group-banner">
+            <img src="{% static 'img/colegios/banner.png' %}" class="w-full h-full rounded-lg crop-image-banner" id="crop-image-banner">
+            {{form.banner}}
+            <label for="input-file-banner" class="label-file">Haz click aquí para subir una imagen</label>
+        </div>
+        
     </div>
-    <div class="relative z-20 top-[-200px]">
+
+    <div class="z-20 ">
         <div class="container">
             <div class="group">
-                <img src="{% static 'img/colegios/profile.png' %}" alt="" class="crop-image" id="crop-image">
+                <img src="{% static 'img/colegios/profile.png' %}" class="crop-image" id="crop-image">
                 {{form.foto}}
                 <label for="input-file" class="label-file">Haz click aquí para subir una imagen</label>
             </div>
@@ -71,10 +77,6 @@
                     <div>          
                         <label for="descripcion" class="block  text-sm font-medium text-gray-900">DESCRIPCION DEL COLEGIO</label>
                         {{form.descripcion}}
-                    </div>
-                    <div>          
-                        <label for="banner" class="block  text-sm font-medium text-gray-900">BANNER DEL COLEGIO</label>
-                        {{form.banner}}
                     </div>
                 </div>
                 {{form.cords}}

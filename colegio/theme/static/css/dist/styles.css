@@ -783,32 +783,20 @@ select {
   top: 50%;
 }
 
-.top-\[-1300\%\] {
-  top: -1300%;
-}
-
-.top-\[9\%\] {
-  top: 9%;
-}
-
 .top-10 {
   top: 2.5rem;
 }
 
-.top-\[-10px\] {
-  top: -10px;
-}
-
-.top-\[-60px\] {
-  top: -60px;
-}
-
-.top-\[-100px\] {
-  top: -100px;
+.top-\[-1300\%\] {
+  top: -1300%;
 }
 
 .top-\[-200px\] {
   top: -200px;
+}
+
+.top-\[9\%\] {
+  top: 9%;
 }
 
 .z-10 {
@@ -989,6 +977,10 @@ select {
   height: 100vh;
 }
 
+.h-\[30vh\] {
+  height: 30vh;
+}
+
 .h-\[90vh\] {
   height: 90vh;
 }
@@ -999,26 +991,6 @@ select {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-32 {
-  height: 8rem;
-}
-
-.h-56 {
-  height: 14rem;
-}
-
-.h-\[10vh\] {
-  height: 10vh;
-}
-
-.h-\[40vh\] {
-  height: 40vh;
-}
-
-.h-\[30vh\] {
-  height: 30vh;
 }
 
 .min-h-\[0vh\] {
@@ -1452,11 +1424,6 @@ select {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-l {
