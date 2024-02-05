@@ -1,6 +1,6 @@
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
 <head>
-
-    <title>Crear nuevo Alumno</title>
+    <title>Crear nuevo Horario</title>
 </head>
 {% extends 'base.html' %}
 
@@ -14,15 +14,15 @@
         <div>
             <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
                 <div>
-                    <label for=" numero_documento" class="block  text-sm font-medium text-gray-900">Nombre del horario</label>
+                    <label for="titulo" class="block  text-sm font-medium text-gray-900">Nombre del horario</label>
                     {{ form.titulo }}
                 </div>
                 <div>
-                    <label for="correo_electronico" class="block  text-sm font-medium text-gray-900">Descripcion</label>
+                    <label for="descripcion" class="block  text-sm font-medium text-gray-900">Descripcion</label>
                     {{ form.descripcion }}
                 </div>
                 <div>
-                    <label for=" nombres" class="block text-sm font-medium text-gray-900">Numero de horas</label>
+                    <label for="horas" class="block text-sm font-medium text-gray-900">Numero de horas</label>
                     {{ form.horas }}
                 </div>  
             </div>
