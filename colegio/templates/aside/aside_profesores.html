@@ -1,114 +1,63 @@
 <!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
 {% load static %}
-<!-- Navbar Lateral -->
-<aside id="NavBar" class="z-40 mov bg-[#ff7738] text-white w-60 lg:flex lg:flex-col fixed h-full overflow-y-auto rounded-3xl border-8 border-white bg-no-repeat">
-    <!-- Logo -->
-    <div class="p-4 text-2xl font-semibold">NOMBRE DEL COLEGIO</div>
+    <div class="w-full bg-[#ff7738] rounded-xl bg-no-repeat">
+      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div class="flex items-center justify-center w-full mb-4 lg:mb-0 lg:w-auto">
+          <a href="#" class="flex items-center">
+              <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="MDKJ-F" />
+              <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">MDKJ-F</span>
+          </a>
+      </div>
+      <div class="flex flex-wrap items-center justify-between w-full lg:w-auto">   
+      
+      <div class="flex items-center mr-4">
+        <div>
+            <button type="button"  id="user-menu-button"
+            class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1">
+              <img class="w-5 h-5 scale-150 rounded-full border border-orange-800 inline-block mr-4" src="{{ request.user.customuserprofesor.foto.url }}" alt="user photo">{{ request.user.customuserprofesor.first_name }} {{ request.user.customuserprofesor.last_name }}
+            </button>
 
-    <!-- Menú de Navegación -->
-    <nav class="flex-1">
-        <ul class="space-y-2 ml-4">
-          {% if abierto == 'inicio' %}
-            <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'BoardAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
-                    <i class="fas fa-home mr-2"></i> Inicio
-                </a>
-            </li>
-          {% else %}
-            <li>
-                <a href="{% url 'BoardAlumno' %}" class="block hover:bg-gray-700 p-4 transition duration-300 rounded-lg">
-                    <i class="fas fa-home mr-2"></i> Inicio
-                </a>
-            </li>
-          {% endif %}
 
-          {% if abierto == 'calendario' %}
-            <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'CalendarioAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
-                  <i class="fas fa-calendar mr-2"></i> Calendario
-                </a>
-            </li>
-          {% else %}
-            <li>
-                <a href="{% url 'CalendarioAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                  <i class="fas fa-calendar mr-2"></i> Calendario
-                </a>
-            </li>
-          {% endif %}
+            <div class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
+              <div class="px-4 py-3">
+                <span class="block text-sm text-gray-900 ">* {{ request.user.customuserprofesor.tipo_usuario }} *</span>
+                <span class="block text-sm  text-gray-500 truncate ">{{ request.user.customuserprofesor.email }}</span>
+              </div>
+              <ul class="py-2" aria-labelledby="user-menu-button">
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Perfil</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ayuda</a>
+                </li>
+                <li>
+                    <a id="mostrarVentana" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        salir
+                    </a>
+                    {% include 'aside/salir.html' %}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
-          {% if abierto == 'mensajes' %}
-            <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'MensajesAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
-                  <i class="fas fa-envelope mr-2"></i> Mensajes
-                </a>
-            </li>
-          {% else %}
-            <li>
-                <a href="{% url 'MensajesAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                  <i class="fas fa-envelope mr-2"></i> Mensajes
-                </a>
-            </li>
-          {% endif %}
+        
+          <button 
+            onclick="onToggleMenu(this)"
+            type="button" 
+            class="lg:hidden items-center myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1">
+            <i class="fas fa-bars"></i>
+          </button>
 
-          {% if abierto == 'personas' %}
-            <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'PersonasAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
-                  <i class="fas fa-user mr-2"></i> Personas
-                </a>
-            </li>
-          {% else %}
-            <li>
-                <a href="{% url 'PersonasAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                  <i class="fas fa-user mr-2"></i> Personas
-                </a>
-            </li>
-          {% endif %}
-
-          {% if abierto == 'notas' %}
-            <li class="bg-white text-black rounded-l-lg">
-              <a href="{% url 'NotasAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
-                <i class="fas fa-book mr-2"></i> Notas
-              </a>
-            </li>
-          {% else %}
-            <li>
-              <a href="{% url 'NotasAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                <i class="fas fa-book mr-2"></i> Notas
-              </a>
-            </li>
-          {% endif %}
-        </ul>
-    </nav>
-
-    <script>
-        const Navbar = document.getElementById('NavBar');
-        const Boton_navegador = document.getElementById('BotonNav');
-        function onToggleMenu(e){
-         Navbar.classList.toggle('mov');
-        }
-    </script>
-    <style>
-      @media (min-width: 0px) { 
-        #NavBar.mov {
-          transform: translateX(-100%);
-        }
-        #NavBar {
-          transition: transform 0.3s ease-in-out;
-        }
-       }
-       
-       @media (min-width: 1024px) { 
-        #NavBar.mov {
-          transform: translateX(0%);
-        }
-        }
-    </style>
-
-    <!-- Pie de Página del Navbar -->
-    <footer class="p-4 text-sm text-white">
-      <footer class="p-4 text-sm text-white">
-        © <span id="yearAndText"></span>
-    </footer>
-    </footer>
-</aside>
-<script src="{% static 'js/year.js' %}"></script>
+          <button 
+            type="button" 
+            class="hidden lg:flex items-center myButton p-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1">
+            <i class="fas fa-question text-md"></i>
+          </button>
+      </div>
+      </div>
+    </div>
+<script src="{% static 'js/aside.js' %}"></script>
