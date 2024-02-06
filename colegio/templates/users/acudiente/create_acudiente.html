@@ -43,19 +43,19 @@
         <div>
             <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
                 <div>
-                    <label for=" numero_documento" class="block  text-sm font-medium text-gray-900">Numero De Documento: </label>
+                    <label for="username" class="block  text-sm font-medium text-gray-900">Numero De Documento: </label>
                     {{form.username}}
                 </div>
                 <div>
-                    <label for="correo_electronico" class="block  text-sm font-medium text-gray-900">Correo Electronico: (opcional)</label>
+                    <label for="email" class="block  text-sm font-medium text-gray-900">Correo Electronico: (opcional)</label>
                     {{form.email}}
                 </div>
                 <div>
-                    <label for=" nombres" class="block text-sm font-medium text-gray-900">Nombres:</label>
+                    <label for="first_name" class="block text-sm font-medium text-gray-900">Nombres:</label>
                     {{form.first_name}}
                 </div>  
                 <div>
-                    <label for="apellidos" class="block text-sm font-medium text-gray-900">Apellidos:</label>
+                    <label for="last_name" class="block text-sm font-medium text-gray-900">Apellidos:</label>
                    {{form.last_name}}
                 </div>
                 <div>          
@@ -63,7 +63,7 @@
                     {{form.tipo_documento}}
                 </div>
                 <div>
-                    <label for="contraseña" class="block  text-sm font-medium text-gray-900">Contraseña:</label>
+                    <label for="password" class="block  text-sm font-medium text-gray-900">Contraseña:</label>
                     {{form.password}}
                 </div>
                 <div>          
@@ -71,13 +71,12 @@
                     {{form.sexo}}
                 </div>
                 <div>          
-                    <label for="alumnos" class="block  text-sm font-medium text-gray-900">Acudiente de:</label>
+                    <p class="block  text-sm font-medium text-gray-900">Acudiente de:</p>
                     <button type="button"  onclick="mostrarVentana()">
                         <div class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-white block w-full p-2.5 pointer-events-none">Seleccionar Estudiantes</div> 
                     </button>
                 </div>
                 <div class="hidden">          
-                    <label for="password" class="block  text-sm font-medium text-gray-900">password</label>
                     {{form.password2}}
                     {{form.password1}}
                 </div>
