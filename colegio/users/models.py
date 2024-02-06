@@ -78,6 +78,7 @@ class Colegio(models.Model):
     
     
 class CustomUser(AbstractUser):
+    cords = models.TextField(null=True, blank=True)
     tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
     numero_documento = models.CharField(max_length=20, null=True, blank=True)
     introduccion = models.TextField(null=True, blank=True)

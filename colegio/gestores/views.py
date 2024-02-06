@@ -3,8 +3,29 @@ from django.views.generic import TemplateView, View
 from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm
 from informacion.models import Grado,Horarios_Partes, HorarioDiario
 from django.contrib import messages
-
 from users.models import CustomUserAlumno
+
+#trabaja con imagenes y espacios en la memoria
+import io
+from PIL import Image
+from django.core.files.base import ContentFile
+
+def recorte_imagenes(cords, foto):
+    cords = cords.split(',')
+    coordenadas_recorte = (
+        int(cords[0]),
+        int(cords[1]),
+        int(cords[0]) + int(cords[2]),
+        int(cords[1]) + int(cords[3])
+    )
+
+    imagen_original = Image.open(foto)
+    imagen_recortada = imagen_original.crop(coordenadas_recorte)
+
+    # Crear un objeto de archivo en memoria y guardar la imagen recortada en él
+    image_io = io.BytesIO()
+    imagen_recortada.save(image_io, format='PNG')#GUARDAMOS LA NUEVA IMAGEN EN FORMATO PNG EN LA VARIABLE 'image_io'
+    return image_io
 
 def obtener_estudiantes_por_grado(grado_id):
     try:
@@ -19,8 +40,22 @@ class CreateAlumno(View):
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
+            # FOTO
+            foto = form.cleaned_data.get('foto')
+            if foto != 'alumnos/profile.png' :
+                cords = form['cords'].value()
+                cords= cords.split(':')
+                cords = cords[0]
+                
+                image_io = recorte_imagenes(cords, foto)
+                # Asignar el objeto de archivo al campo 'foto'
+                form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
+            
+            #agregamos el resto del fomulario, usertname == documento 
             alumno = form.save(commit=False)
             alumno.numero_documento = username
+                
+            # Guardar el formulario para actualizar la instancia del modelo
             alumno.save()
         else:
             print(form.errors)

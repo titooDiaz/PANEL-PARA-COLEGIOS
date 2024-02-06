@@ -2,6 +2,11 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUserGestor, CustomUserAlumno, CustomUserProfesores, CustomUserAdministrador, CustomUserAcudiente
 from informacion.models import Grado, Horarios_Partes, Materias
+
+#imagenes de usuarios
+from django.forms import ClearableFileInput
+
+
 #MENEJO DE ERRORES CON BASE DE DATOS
 # COMPROBAR SI HAY TABLAS O LA BASE DE DATOS ESTA VACIA...
 from django.db import connection
@@ -27,7 +32,7 @@ tablas_en_bd = obtener_tablas()
 class CustomUserAlumnoForm(UserCreationForm):
     class Meta:
         model = CustomUserAlumno
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto')
 
         widgets = {
             'username': forms.TextInput(attrs={'id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del usuario','autocomplete':'off'}),
@@ -55,6 +60,10 @@ class CustomUserAlumnoForm(UserCreationForm):
             'grado': forms.Select(attrs={'id':'grado','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
             'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            
+            'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
+            'foto': ClearableFileInput(attrs={ "class":"block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
+            
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
