@@ -9,6 +9,11 @@ UserProfes = CustomUserProfesores
 UserAlumno = CustomUserAlumno
 
 
+class Anos_electivos(models.Model):
+    ano = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_Ano_electivo')
+    estado = models.BooleanField(default=True)
+    
 class Horarios_Partes(models.Model):
     colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioHorariosPartes') #COLEGIO AL QUE PERTENECE EL USUARIO
     titulo = models.TextField()
