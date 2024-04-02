@@ -6,6 +6,8 @@ from PIL import Image
 import io
 from django.core.files.base import ContentFile
 
+from .forms import CustomUserGestorForm
+
 def recorte_imagenes(cords, foto):
     cords = cords.split(',')
     coordenadas_recorte = (
@@ -22,6 +24,20 @@ def recorte_imagenes(cords, foto):
     image_io = io.BytesIO()
     imagen_recortada.save(image_io, format='PNG')#GUARDAMOS LA NUEVA IMAGEN EN FORMATO PNG EN LA VARIABLE 'image_io'
     return image_io
+
+class Colegios(View):
+    def get(self, request):
+        colegios = Colegio.objects.all()
+        form = ColegioForm()
+        vista = 'plus'
+        abierto='colegio'
+        context = {
+            'form': form,
+            'vista': vista,
+            'abierto':abierto,
+            'colegios': colegios
+        }
+        return render(request, 'colegios/Opciones.html', context)
 
 class GestionColegios(View):
     def get(self, request):
@@ -67,3 +83,26 @@ class GestionColegios(View):
             form.save()
 
         return redirect('Colegios')
+    
+class CreateGestorColegio(View):
+    def post(self, request, *args, **kwargs):
+        form = CustomUserGestorForm(request.POST)
+        print(form.is_valid())
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            gestor = form.save(commit=False)
+            gestor.numero_documento = username
+            gestor.save()
+        else:
+            print(form.errors)
+        return redirect('ColegiosGestor')
+    def get(self, request, *args, **kwargs):
+        form = CustomUserGestorForm()
+        vista = 'plus'
+        abierto='colegio'
+        context = {
+            'form': form,
+            'vista': vista,
+            'abierto':abierto,
+        }
+        return render(request, 'colegios/AgregarGestor.html', context)

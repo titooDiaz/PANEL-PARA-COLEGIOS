@@ -37,28 +37,28 @@
 
           {% if abierto == 'colegio' %}
             <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'PersonasAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
-                  <i class="fas fa-user mr-2"></i> Colegio
+                <a href="{% url 'Colegios' %}" class="block p-4 transition duration-300 rounded-lg">
+                  <i class="fa-solid fa-school-flag mr-2"></i> Colegio
                 </a>
             </li>
           {% else %}
             <li>
-                <a href="{% url 'PersonasAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                  <i class="fas fa-user mr-2"></i> Colegio
+                <a href="{% url 'Colegios' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                  <i class="fa-solid fa-school-flag mr-2"></i> Colegio
                 </a>
             </li>
           {% endif %}
 
           {% if abierto == 'fecha' %}
           <li class="bg-white text-black rounded-l-lg">
-              <a href="{% url 'CalendarioAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
-                <i class="fas fa-calendar mr-2"></i> Fecha Actual
+              <a href="#" class="block p-4 transition duration-300 rounded-lg">
+                <i class="fa-solid fa-clock mr-2"></i> Fecha Actual
               </a>
           </li>
         {% else %}
           <li>
-              <a href="{% url 'CalendarioAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
-                <i class="fas fa-calendar mr-2"></i> Fecha Actual
+              <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <i class="fa-solid fa-clock mr-2"></i> Fecha Actual
               </a>
           </li>
         {% endif %}
