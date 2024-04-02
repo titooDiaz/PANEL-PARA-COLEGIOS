@@ -110,6 +110,9 @@
             {% if vista == 'gestor' %}
                 {% include 'nav/nav_gestor.html' %}
             {% endif %}
+            {% if vista == 'plus' %}
+                {% include 'nav/nav_plus.html' %}
+            {% endif %}
             {% if vista == 'estudiante' %}
                 {% include 'nav/nav_estudiante.html' %}
             {% endif %}
@@ -120,6 +123,11 @@
                 {% if vista == 'gestor' %}
                     {% include 'aside/aside_gestor.html' %}
                 {% endif %}
+
+                {% if vista == 'plus' %}
+                    {% include 'aside/aside_plus.html' %}
+                {% endif %}
+
                 {% if vista == 'estudiante' %}
                     {% include 'aside/aside_estudiante.html' %}
                 {% endif %}

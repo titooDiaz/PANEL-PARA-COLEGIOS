@@ -3,7 +3,7 @@
 #IGNORAR ELEMENTOS DE ENTORNO VIRTUAL
 env
 venv
-colegio/PanelParaColegios.sqlite3
+colegio/PanelParaColegiosMKDJF.sqlite3
 colegio/acudientes/__pycache__
 colegio/administradores/__pycache__
 colegio/alumnos/__pycache__
@@ -11,3 +11,11 @@ colegio/gestores/__pycache__
 colegio/informacion/__pycache__
 colegio/profesores/__pycache__
 colegio/users/__pycache__
+
+colegio/acudientes/migrations
+colegio/administradores/migrations
+colegio/alumnos/migrations
+colegio/gestores/migrations
+colegio/informacion/migrations
+colegio/profesores/migrations
+colegio/users/migrations

@@ -27,8 +27,8 @@ class GestionColegios(View):
     def get(self, request):
         colegios = Colegio.objects.all()
         form = ColegioForm()
-        vista = 'gestor'
-        abierto='personas'
+        vista = 'plus'
+        abierto='colegio'
         context = {
             'form': form,
             'vista': vista,
