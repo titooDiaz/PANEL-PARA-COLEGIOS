@@ -2,3 +2,12 @@
 
 #IGNORAR ELEMENTOS DE ENTORNO VIRTUAL
 env
+venv
+colegio/PanelParaColegios.sqlite3
+colegio/acudientes/__pycache__
+colegio/administradores/__pycache__
+colegio/alumnos/__pycache__
+colegio/gestores/__pycache__
+colegio/informacion/__pycache__
+colegio/profesores/__pycache__
+colegio/users/__pycache__
