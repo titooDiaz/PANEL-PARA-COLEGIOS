@@ -12,10 +12,10 @@ colegio/informacion/__pycache__
 colegio/profesores/__pycache__
 colegio/users/__pycache__
 
-colegio/acudientes/migrations
-colegio/administradores/migrations
-colegio/alumnos/migrations
-colegio/gestores/migrations
-colegio/informacion/migrations
-colegio/profesores/migrations
-colegio/users/migrations
+colegio/acudientes/migrations/
+colegio/administradores/migrations/
+colegio/alumnos/migrations/
+colegio/gestores/migrations/
+colegio/informacion/migrations/
+colegio/profesores/migrations/
+colegio/users/migrations/

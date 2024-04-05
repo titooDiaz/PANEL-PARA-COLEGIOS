@@ -106,3 +106,27 @@ class CreateGestorColegio(View):
             'abierto':abierto,
         }
         return render(request, 'colegios/AgregarGestor.html', context)
+    
+    
+class CreateGestorColegio(View):
+    def post(self, request, *args, **kwargs):
+        form = CustomUserGestorForm(request.POST)
+        print(form.is_valid())
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            gestor = form.save(commit=False)
+            gestor.numero_documento = username
+            gestor.save()
+        else:
+            print(form.errors)
+        return redirect('ColegiosGestor')
+    def get(self, request, *args, **kwargs):
+        form = CustomUserGestorForm()
+        vista = 'plus'
+        abierto='colegio'
+        context = {
+            'form': form,
+            'vista': vista,
+            'abierto':abierto,
+        }
+        return render(request, 'colegios/AgregarGestor.html', context)

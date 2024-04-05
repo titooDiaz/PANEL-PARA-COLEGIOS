@@ -8,6 +8,10 @@ User = get_user_model()
 UserProfes = CustomUserProfesores
 UserAlumno = CustomUserAlumno
 
+def ano_actual():
+    ano_electivo = timezone.now().year
+    ano_actual = int(ano_electivo)
+    return ano_electivo
 
 class Anos_electivos(models.Model):
     ano = models.TextField()
@@ -21,6 +25,7 @@ class Horarios_Partes(models.Model):
     estado = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_de_materia')
+    ano_creacion = models.IntegerField(default=ano_actual())
     horas = models.IntegerField(
         default=3,
         validators=[MinValueValidator(3), MaxValueValidator(22)]
@@ -31,6 +36,7 @@ class Horarios_Partes(models.Model):
 
 class Materias(models.Model):
     electiva = models.BooleanField(default=True)
+    ano_creacion = models.IntegerField(default=ano_actual())
     ##################electivas##############
     profe1 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, related_name='profesor_0')
     titulo1 = models.TextField(blank=True, null=True)
@@ -50,6 +56,7 @@ class Materias(models.Model):
         return f'{self.titulo1} - {self.profe1}'
 
 class Grado(models.Model):
+    ano_creacion = models.IntegerField(default=ano_actual())
     grado_nom = models.TextField()
     grado_num = models.TextField()
     descripcion = models.TextField()
@@ -64,6 +71,7 @@ class Grado(models.Model):
         return self.grado_nom + "(" + self.grado_num + ")"
 
 class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
+    ano_creacion = models.IntegerField(default=ano_actual())
     grado = models.ForeignKey(Grado, on_delete=models.CASCADE)
     hora_inicio = models.TimeField(blank=True, null=True)
     hora_fin = models.TimeField(blank=True, null=True)
