@@ -240,12 +240,14 @@ class GradoForm(forms.ModelForm):
 class Horarios_PartesForm(forms.ModelForm):
     class Meta:
         model = Horarios_Partes
-        fields = ('titulo', 'descripcion', 'horas')
+        fields = ('titulo', 'descripcion', 'horas', 'cortes')
         opciones_horas = [(i, f'{i} horas') for i in range(3, 23)]
+        opciones_corte = [(i, f'{i} cortes') for i in range(1, 7)]
         widgets = {
             'titulo': forms.TextInput(attrs={'id':'titulo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del Horario'}),
             'descripcion': forms.TextInput(attrs={'id':'descripcion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Este horario...'}),
             'horas': forms.Select(attrs={'id':'horas','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}, choices=opciones_horas),
+            'cortes': forms.Select(attrs={'id':'cortes','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}, choices=opciones_corte),
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

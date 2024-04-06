@@ -10,7 +10,7 @@ UserAlumno = CustomUserAlumno
 
 def ano_actual():
     ano_electivo = timezone.now().year
-    ano_actual = int(ano_electivo)
+    ano_electivo = int(ano_electivo)
     return ano_electivo
 
 class Anos_electivos(models.Model):
@@ -29,6 +29,10 @@ class Horarios_Partes(models.Model):
     horas = models.IntegerField(
         default=3,
         validators=[MinValueValidator(3), MaxValueValidator(22)]
+    )
+    cortes = models.IntegerField(
+        default=3,
+        validators=[MinValueValidator(1), MaxValueValidator(6)]
     )
 
     def __str__(self):
@@ -86,6 +90,14 @@ class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE
 
     def __str__(self):
         return f"{self.hora_inicio} - {self.hora_fin}"
-
     
+class CortesHorario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
+    ano_creacion = models.IntegerField(default=ano_actual())
+    corte_num = models.IntegerField(blank=False)
+    horario = models.ForeignKey(Horarios_Partes, on_delete=models.CASCADE)
+    fecha_inicio = models.TimeField(blank=True, null=True)
+    fecha_fin = models.TimeField(blank=True, null=True)
+    activo = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"{self.horario.titulo} - CORTE {self.corte_num}"
