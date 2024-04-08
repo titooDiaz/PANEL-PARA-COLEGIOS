@@ -32,7 +32,7 @@ tablas_en_bd = obtener_tablas()
 class CustomUserAlumnoForm(UserCreationForm):
     class Meta:
         model = CustomUserAlumno
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto', 'colegio')
 
         widgets = {
             'username': forms.TextInput(attrs={'id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del usuario','autocomplete':'off'}),
@@ -72,7 +72,7 @@ class CustomUserAlumnoForm(UserCreationForm):
 class CustomUserGestorForm(UserCreationForm):
     class Meta:
         model = CustomUserGestor
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio')
 
         widgets = {
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del usuario'}),
@@ -106,7 +106,7 @@ class CustomUserGestorForm(UserCreationForm):
 class CustomUserAdministradorForm(UserCreationForm):
     class Meta:
         model = CustomUserAdministrador
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'colegio')
 
         widgets = {
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Numero De Documento'}),
@@ -144,7 +144,7 @@ class CustomUserAdministradorForm(UserCreationForm):
 class CustomUserProfesoresForm(UserCreationForm):
     class Meta:
         model = CustomUserProfesores
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'colegio')
 
         widgets = {
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Numero De Documento'}),
@@ -185,7 +185,7 @@ class CustomUserAcudienteForm(UserCreationForm):
         else:
             choices = []
         model = CustomUserAcudiente
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo', 'colegio')
 
         widgets = {
             
@@ -223,7 +223,7 @@ class GradoForm(forms.ModelForm):
     class Meta:
         model = Grado
         #fields = '__all__' 
-        fields = ('grado_nom', 'grado_num', 'descripcion', 'horario_partes')
+        fields = ('grado_nom', 'grado_num', 'descripcion', 'horario_partes', 'colegio')
         widgets = {
              'grado_nom': forms.TextInput(attrs={'id':'grado_nom','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del grado'}),
 
@@ -284,38 +284,3 @@ class MateriasForm(forms.ModelForm):
             'alumnos2': forms.CheckboxSelectMultiple(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-orange-600 block w-20 p-2.5', 'placeholder': 'alumnos2', 'id':'checkbox'}),
             }
         
-
-class CustomUserAdministradorForm(UserCreationForm):
-    class Meta:
-        model = CustomUserAdministrador
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'cargo')
-
-        widgets = {
-            'username': forms.TextInput(attrs={'id':'username','autocomplete': 'off','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del usuario'}),
-
-            'first_name': forms.TextInput(attrs={'id':'first_name','autocomplete': 'off','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombres del usuario'}),
-
-            'last_name': forms.TextInput(attrs={'id':'last_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Apellidos del usuario'}),
-
-            'tipo_documento': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
-
-            'password': forms.TextInput(attrs={
-                'id': 'password',
-                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
-                'placeholder': 'Contraseña',
-                'autocomplete': 'current-password',
-                'value': 'mkdj*F2023',
-            }),
-
-            'password1': forms.TextInput(attrs={'id': 'password1','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Contraseña'}),
-
-            'password2': forms.TextInput(attrs={'id': 'password2','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Contraseña'}),
-
-            'email': forms.EmailInput(attrs={'id':'email','autocomplete': 'off','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Email donde se puede contactar al usuario'}),
-
-            'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
-
-            'cargo': forms.TextInput(attrs={'id':'cargo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Cargo del usuario'}),
-        }
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)

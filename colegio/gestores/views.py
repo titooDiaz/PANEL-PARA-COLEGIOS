@@ -53,6 +53,7 @@ class CreateAlumno(View):
             
             #agregamos el resto del fomulario, usertname == documento 
             alumno = form.save(commit=False)
+            alumno.colegio = request.user.colegio
             alumno.numero_documento = username
                 
             # Guardar el formulario para actualizar la instancia del modelo
@@ -228,7 +229,7 @@ class CreateGrados(View):
             horarios = ' '.join(palabras[2:])
             horario = Horarios_Partes.objects.get(titulo=horarios)
             horas = horario.horas
-            
+            grado.colegio = request.user.colegio
             grado.author = request.user  # Asocia el autor con el usuario actual
             grado.save()
 
