@@ -220,6 +220,10 @@ class CustomUserAcudienteForm(UserCreationForm):
 
 
 class GradoForm(forms.ModelForm):
+    def __init__(self, *args, horario_partes=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Filtra los estudiantes por los proporcionados
+        self.fields['horario_partes'].queryset = horario_partes
     class Meta:
         model = Grado
         #fields = '__all__' 
@@ -233,8 +237,6 @@ class GradoForm(forms.ModelForm):
 
              'horario_partes': forms.Select(attrs={'id':'horario_partes','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
         }
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
 
 class Horarios_PartesForm(forms.ModelForm):

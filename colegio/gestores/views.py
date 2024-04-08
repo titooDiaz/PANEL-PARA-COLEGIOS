@@ -33,6 +33,13 @@ def obtener_estudiantes_por_grado(grado_id):
         return estudiantes
     except CustomUserAlumno.DoesNotExist:
         return None
+    
+def obtener_horario_por_colegio(colegio_id):
+    try:
+        horarios = Horarios_Partes.objects.filter(colegio=colegio_id)
+        return horarios
+    except Horarios_Partes.DoesNotExist:
+        return None
 
 class CreateAlumno(View):
     def post(self, request, *args, **kwargs):
@@ -53,7 +60,7 @@ class CreateAlumno(View):
             
             #agregamos el resto del fomulario, usertname == documento 
             alumno = form.save(commit=False)
-            alumno.colegio = request.user.colegio
+            alumno.colegio = request.user.colegio #El colegio del alumno va a ser el colegio del usuario en sesion SOLO SI SE CREA DESDE LA VISTA DEL GESTOR!
             alumno.numero_documento = username
                 
             # Guardar el formulario para actualizar la instancia del modelo
@@ -241,7 +248,11 @@ class CreateGrados(View):
             print(form.errors)
         return redirect('CrearGrado')
     def get(self, request, *args, **kwargs):
-        form = GradoForm()
+        colegio = request.user.colegio.pk
+        print(colegio, "holaa")
+        horarios_partes = obtener_horario_por_colegio(colegio)#obtenemos unicamente los horarios de este colegio
+        print(horarios_partes)
+        form = GradoForm(horario_partes=horarios_partes)
         vista = 'gestor'
         abierto='ajustes'
         context = {
@@ -257,6 +268,7 @@ class CreateHorarios(View):
         form = Horarios_PartesForm(request.POST)
         if form.is_valid():
             horario=form.save(commit=False)
+            horario.colegio=request.user.colegio #el horario del colegio va a ser el usuario en sesion en la vistas de admins!
             horario.author = request.user
             cortes = horario.cortes
             horario.save()
@@ -326,7 +338,7 @@ class CreateMaterias(View):
 
 class CreateMateriasVer(View):
     def get(self, request, *args, **kwargs):
-        grados = Grado.objects.all()
+        grados = Grado.objects.filter(colegio=request.user.colegio)
         print(grados)
         vista = 'gestor'
         abierto='ajustes'
