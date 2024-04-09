@@ -30,6 +30,11 @@ tablas_en_bd = obtener_tablas()
 #POR ESO AGREGAMOS ESTA FUNCION, NOS COMPRUEBA SI HAY O NO TABLAS EN NUESTRA BASE DE DATOS, SI NO HAY TABLAS SE SALTA LASZ FUNCIONES MIENTRAS SE HACEN MIGRACIONES PARA EVITAR ERRORES
 
 class CustomUserAlumnoForm(UserCreationForm):
+    def __init__(self, *args, grado=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Filtra Grados por el colegio del estudiante por agregar (usuario en sesion)
+        if grado:
+            self.fields['grado'].queryset = grado
     class Meta:
         model = CustomUserAlumno
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto', 'colegio')
@@ -65,9 +70,6 @@ class CustomUserAlumnoForm(UserCreationForm):
             'foto': ClearableFileInput(attrs={ "class":"block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
             
         }
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
 
 class CustomUserGestorForm(UserCreationForm):
     class Meta:
@@ -223,7 +225,8 @@ class GradoForm(forms.ModelForm):
     def __init__(self, *args, horario_partes=None, **kwargs):
         super().__init__(*args, **kwargs)
         # Filtra los estudiantes por los proporcionados
-        self.fields['horario_partes'].queryset = horario_partes
+        if horario_partes:
+            self.fields['horario_partes'].queryset = horario_partes
     class Meta:
         model = Grado
         #fields = '__all__' 

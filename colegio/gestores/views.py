@@ -30,6 +30,11 @@ def recorte_imagenes(cords, foto):
     imagen_recortada.save(image_io, format='PNG')#GUARDAMOS LA NUEVA IMAGEN EN FORMATO PNG EN LA VARIABLE 'image_io'
     return image_io
 
+
+
+
+#################################CONSULTAS####################################################
+
 def obtener_estudiantes_por_grado(grado_id):
     try:
         estudiantes = CustomUserAlumno.objects.filter(grado_id=grado_id)
@@ -43,7 +48,15 @@ def obtener_horario_por_colegio(colegio_id):
         return horarios
     except Horarios_Partes.DoesNotExist:
         return None
+    
+def obtener_grados_por_colegio(colegio_id):
+    try:
+        grados = Grado.objects.filter(colegio=colegio_id)
+        return grados
+    except Grado.DoesNotExist:
+        return None
 
+###############################################################################################
 class CreateAlumno(View):
     def post(self, request, *args, **kwargs):
         form = CustomUserAlumnoForm(request.POST)
@@ -72,7 +85,10 @@ class CreateAlumno(View):
             print(form.errors)
         return redirect('CrearAlumno')
     def get(self, request, *args, **kwargs):
-        form = CustomUserAlumnoForm()
+        colegio = request.user.colegio.pk
+        grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
+        print(Colores.CYAN + "--->'Grados' Of the 'Colegio' User:  " + str(grados) + Colores.RESET)
+        form = CustomUserAlumnoForm(grado=grados)
         vista = 'gestor'
         abierto='personas'
         context = {
