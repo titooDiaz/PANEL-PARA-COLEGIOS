@@ -19,3 +19,5 @@ colegio/gestores/migrations/
 colegio/informacion/migrations/
 colegio/profesores/migrations/
 colegio/users/migrations/
+
+colegio/__pycache__/

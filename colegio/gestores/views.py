@@ -5,6 +5,9 @@ from informacion.models import Grado,Horarios_Partes, HorarioDiario, CortesHorar
 from django.contrib import messages
 from users.models import CustomUserAlumno
 
+#colores para consola
+from colores import Colores
+
 #trabaja con imagenes y espacios en la memoria
 import io
 from PIL import Image
@@ -249,9 +252,8 @@ class CreateGrados(View):
         return redirect('CrearGrado')
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
-        print(colegio, "holaa")
         horarios_partes = obtener_horario_por_colegio(colegio)#obtenemos unicamente los horarios de este colegio
-        print(horarios_partes)
+        print(Colores.CYAN + "--->'Horario partes' Of the 'Colegio':  " + str(horarios_partes) + Colores.RESET)
         form = GradoForm(horario_partes=horarios_partes)
         vista = 'gestor'
         abierto='ajustes'
