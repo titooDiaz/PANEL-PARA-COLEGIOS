@@ -338,21 +338,28 @@ class CreateMaterias(View):
     def get(self, request, pk, *args, **kwargs):
         grado = Grado.objects.get(id=pk)
         estudiantes_grado = obtener_estudiantes_por_grado(pk)
-        #form = MateriasForm(initial={'alumnos1': estudiantes_grado, 'alumnos2': estudiantes_grado})
-        form = MateriasForm(estudiantes_grado=estudiantes_grado) #mandar alumnos del grado
         vista = 'gestor'
         abierto = 'ajustes'
-        id_grado = pk
-        grado = Grado.objects.get(pk=pk)
-        materias = grado.materias.all()
-        context = {
-            'id_grado': id_grado,
-            'form': form,
-            'vista': vista,
-            'abierto': abierto,
-            'materias': materias,
-        }
-        return render(request, 'informacion/materias/create_materias.html', context)
+        if estudiantes_grado:
+            form = MateriasForm(estudiantes_grado=estudiantes_grado) #mandar alumnos del grado
+            id_grado = pk
+            grado = Grado.objects.get(pk=pk)
+            materias = grado.materias.all()
+            context = {
+                'id_grado': id_grado,
+                'form': form,
+                'vista': vista,
+                'abierto': abierto,
+                'materias': materias,
+            }
+            return render(request, 'informacion/materias/create_materias.html', context)
+        else:
+            #en caso de ser vacio
+            context= {
+                'vista': vista,
+                'abierto': abierto,
+            }
+            return render(request, 'informacion/materias/error_no_estudiantes.html', context)
 
 class CreateMateriasVer(View):
     def get(self, request, *args, **kwargs):
