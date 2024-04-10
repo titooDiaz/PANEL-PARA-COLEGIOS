@@ -8,6 +8,10 @@
 
 {% block content %}
 {% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/recorte_imagenes/cropper.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/recorte_imagenes/index.css' %}">
+</head>
 <div class="bg-white p-8 rounded-lg shadow-lg">
     <h5 class="text-5xl font-mono mb-4">CREA UN PROFESOR</h5>
     <!-- Formulario Para Crear Las Cuentas De Los Alumnos -->
@@ -15,6 +19,17 @@
     <form method="post" action="{% url 'CrearProfesor' %}">
         {% csrf_token %}
         <div>
+
+            <div class="container">
+                <div class="group">
+                    <img src="{% static 'img/usuarios/profesores.png' %}" class="crop-image" id="crop-image">
+                    {{form.foto}}
+                    <label for="input-file" class="label-file">Haz click aquí para subir una imagen</label>
+                </div>
+            </div>
+
+            {% include 'users/recorte_fotos.html' %}
+
             <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
                 <div>
                     <label for="username" class="block  text-sm font-medium text-gray-900">Numero De Documento: </label>
@@ -52,6 +67,7 @@
                     {{form.password2}}
                     {{form.password1}}
                 </div>
+                {{form.cords}}
                 <div>
                     <label for="password" class="block  text-sm font-medium text-gray-900">Contraseña:</label>
                     {{form.password}}
@@ -66,4 +82,10 @@
 
 <!--PASSWORD INPUTS-->
 <script src="{% static 'js/password_create_users.js' %}"></script>
+
+<!--RECORTE DE IMAGENES-->
+<script src="{% static 'js/recorte_imagenes/jquery.js' %}"></script>
+<script src="{% static 'js/recorte_imagenes/index.js' %}"></script>
+<script src="{% static 'js/recorte_imagenes/cropper.js' %}"></script>
+
 {% endblock content %} 

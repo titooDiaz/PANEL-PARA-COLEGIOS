@@ -13,6 +13,8 @@ import io
 from PIL import Image
 from django.core.files.base import ContentFile
 
+
+############################## RECORTE DE IMAGENES ##################################################
 def recorte_imagenes(cords, foto):
     cords = cords.split(',')
     coordenadas_recorte = (
@@ -29,6 +31,7 @@ def recorte_imagenes(cords, foto):
     image_io = io.BytesIO()
     imagen_recortada.save(image_io, format='PNG')#GUARDAMOS LA NUEVA IMAGEN EN FORMATO PNG EN LA VARIABLE 'image_io'
     return image_io
+################################ FIN RECORTE IMAGENES ##################################################
 
 
 
@@ -52,6 +55,7 @@ def obtener_horario_por_colegio(colegio_id):
 def obtener_grados_por_colegio(colegio_id):
     try:
         grados = Grado.objects.filter(colegio=colegio_id)
+        print(Colores.CYAN + "--->'Grados' Of the 'Colegio' User:  " + str(grados) + Colores.RESET)
         return grados
     except Grado.DoesNotExist:
         return None
@@ -59,13 +63,15 @@ def obtener_grados_por_colegio(colegio_id):
 ###############################################################################################
 class CreateAlumno(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserAlumnoForm(request.POST)
+        form = CustomUserAlumnoForm(request.POST, request.FILES)
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
-            # FOTO
+            
+            ##################### FOTO #########################
             foto = form.cleaned_data.get('foto')
-            if foto != 'alumnos/profile.png' :
+            print(foto,"hola")
+            if foto != 'alumnos/profile.png':
                 cords = form['cords'].value()
                 cords= cords.split(':')
                 cords = cords[0]
@@ -73,6 +79,7 @@ class CreateAlumno(View):
                 image_io = recorte_imagenes(cords, foto)
                 # Asignar el objeto de archivo al campo 'foto'
                 form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
+            ######################################################
             
             #agregamos el resto del fomulario, usertname == documento 
             alumno = form.save(commit=False)
@@ -87,7 +94,6 @@ class CreateAlumno(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
         grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
-        print(Colores.CYAN + "--->'Grados' Of the 'Colegio' User:  " + str(grados) + Colores.RESET)
         form = CustomUserAlumnoForm(grado=grados)
         vista = 'gestor'
         abierto='personas'
@@ -100,7 +106,7 @@ class CreateAlumno(View):
 
 class CreateGestor(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserGestorForm(request.POST)
+        form = CustomUserGestorForm(request.POST, request.FILES)
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -175,18 +181,35 @@ class AjustesGestores(View):
 class CreateProfesor(View):
     def post(self, request, *args, **kwargs):
         form = CustomUserProfesoresForm(request.POST)
-        print(form.is_valid())
+        print(form.is_valid(),"holaaaa")
         if form.is_valid():
             username = form.cleaned_data['username']
+            
+            ##################### FOTO #########################
+            foto = form.cleaned_data.get('foto')
+            print(foto,"hola")
+            if foto != 'profesores/profile.png' : #diferente de la imagen por defecto...
+                cords = form['cords'].value()
+                cords= cords.split(':')
+                cords = cords[0]
+                
+                image_io = recorte_imagenes(cords, foto)
+                # Asignar el objeto de archivo al campo 'foto'
+                form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
+            ######################################################
+            
             profesor = form.save(commit=False)
             profesor.numero_documento = username
+            profesor.colegio = request.user.colegio
             profesor.save()
             messages.success(request, '¡Profesor agregado correctamente!')
         else:
             print(form.errors)
         return redirect('CrearProfesor')
     def get(self, request, *args, **kwargs):
-        form = CustomUserProfesoresForm()
+        colegio = request.user.colegio.pk
+        grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
+        form = CustomUserProfesoresForm(titular=grados)
         vista = 'gestor'
         abierto='personas'
         context = {
@@ -250,12 +273,14 @@ class CreateGrados(View):
         print(form.is_valid())
         if form.is_valid():
             grado = form.save(commit=False)
+            
+            ##############################
+            # OBTENEMOS EL HORARIO SELECCIONADO POR EL FORMULARIO. PARAS PODER CREAR LA TABLA ED LOS HORARIOS DIARIOS
             horarios = form.cleaned_data.get('horario_partes')
-            palabras = str(horarios).split()
-            horarios = ' '.join(palabras[2:])
-            print(horarios)
-            horario = Horarios_Partes.objects.get(titulo=horarios)
+            pk =horarios.pk
+            horario = Horarios_Partes.objects.get(id=pk)
             horas = horario.horas
+            ##############################
             grado.colegio = request.user.colegio
             grado.author = request.user  # Asocia el autor con el usuario actual
             grado.save()

@@ -74,7 +74,7 @@ class CustomUserAlumnoForm(UserCreationForm):
 class CustomUserGestorForm(UserCreationForm):
     class Meta:
         model = CustomUserGestor
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio','cords','foto')
 
         widgets = {
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del usuario'}),
@@ -100,6 +100,9 @@ class CustomUserGestorForm(UserCreationForm):
             'email': forms.EmailInput(attrs={'autocomplete': 'off','id':'email','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Email donde se puede contactar al usuario'}),
 
             'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            
+            'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
+            'foto': ClearableFileInput(attrs={ "class":"block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -108,7 +111,7 @@ class CustomUserGestorForm(UserCreationForm):
 class CustomUserAdministradorForm(UserCreationForm):
     class Meta:
         model = CustomUserAdministrador
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'colegio')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'colegio','cords','foto')
 
         widgets = {
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Numero De Documento'}),
@@ -138,15 +141,23 @@ class CustomUserAdministradorForm(UserCreationForm):
             'introduccion': forms.TextInput(attrs={'id':'introduccion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion'}),
 
             'cargo': forms.TextInput(attrs={'id':'cargo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion'}),
+            
+            'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
+            'foto': ClearableFileInput(attrs={ "class":"block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
 
 class CustomUserProfesoresForm(UserCreationForm):
+    def __init__(self, *args, titular=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Filtra Grados por el colegio del estudiante por agregar (usuario en sesion)
+        if titular:
+            self.fields['titular'].queryset = titular
     class Meta:
         model = CustomUserProfesores
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'colegio')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'colegio','cords','foto')
 
         widgets = {
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Numero De Documento'}),
@@ -176,9 +187,10 @@ class CustomUserProfesoresForm(UserCreationForm):
             'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
             'descripcion': forms.TextInput(attrs={'id':'descripcion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion'}),
+            
+            'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
+            'foto': ClearableFileInput(attrs={ "class":"block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
         }
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
 class CustomUserAcudienteForm(UserCreationForm):
     class Meta:
