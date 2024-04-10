@@ -16,7 +16,7 @@
     <h5 class="text-5xl font-mono mb-4">CREA UN PROFESOR</h5>
     <!-- Formulario Para Crear Las Cuentas De Los Alumnos -->
 
-    <form method="post" action="{% url 'CrearProfesor' %}">
+    <form method="post" action="{% url 'CrearProfesor' %}" enctype="multipart/form-data" id="formulario">
         {% csrf_token %}
         <div>
 

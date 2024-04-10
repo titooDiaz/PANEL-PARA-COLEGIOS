@@ -70,7 +70,6 @@ class CreateAlumno(View):
             
             ##################### FOTO #########################
             foto = form.cleaned_data.get('foto')
-            print(foto,"hola")
             if foto != 'alumnos/profile.png':
                 cords = form['cords'].value()
                 cords= cords.split(':')
@@ -180,7 +179,7 @@ class AjustesGestores(View):
     
 class CreateProfesor(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserProfesoresForm(request.POST)
+        form = CustomUserProfesoresForm(request.POST, request.FILES)
         print(form.is_valid(),"holaaaa")
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -204,6 +203,7 @@ class CreateProfesor(View):
             profesor.save()
             messages.success(request, '¡Profesor agregado correctamente!')
         else:
+            messages.error(request, '¡Hubo un error al agregar el profesor!. Revisa que los campos tengan informacion correcta, o que la contraseña es lo suficientemente segura. Tus datos seran borrados. Aqui tienes una sugerencia:')
             print(form.errors)
         return redirect('CrearProfesor')
     def get(self, request, *args, **kwargs):
