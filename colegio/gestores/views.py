@@ -253,6 +253,7 @@ class CreateGrados(View):
             horarios = form.cleaned_data.get('horario_partes')
             palabras = str(horarios).split()
             horarios = ' '.join(palabras[2:])
+            print(horarios)
             horario = Horarios_Partes.objects.get(titulo=horarios)
             horas = horario.horas
             grado.colegio = request.user.colegio
