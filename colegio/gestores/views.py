@@ -13,6 +13,19 @@ import io
 from PIL import Image
 from django.core.files.base import ContentFile
 
+################## ERRORES DE FORMULARIOS ###################################################
+
+def errores_formularios(form_errors, mensaje, request):
+    error_message = f'{mensaje} \n \n \n'
+    for field, errors in form_errors.items():
+        for error in errors:
+            error_message += f' - **{field}**: {error} \n \n'
+    messages.error(request, error_message)
+
+
+################### FIN ERRORES DE FORMULARIOS ##############################################
+
+
 
 ############################## RECORTE DE IMAGENES ##################################################
 def recorte_imagenes(cords, foto):
@@ -88,6 +101,8 @@ class CreateAlumno(View):
             # Guardar el formulario para actualizar la instancia del modelo
             alumno.save()
         else:
+            mensaje = "¡Hubo un error al agregar el alumno!"
+            errores_formularios(form.errors, mensaje, request)
             print(form.errors)
         return redirect('CrearAlumno')
     def get(self, request, *args, **kwargs):
@@ -203,8 +218,8 @@ class CreateProfesor(View):
             profesor.save()
             messages.success(request, '¡Profesor agregado correctamente!')
         else:
-            messages.error(request, '¡Hubo un error al agregar el profesor!. Revisa que los campos tengan informacion correcta, o que la contraseña es lo suficientemente segura. Tus datos seran borrados. Aqui tienes una sugerencia:')
-            print(form.errors)
+            mensaje = "¡Hubo un error al agregar el profesor!"
+            errores_formularios(form.errors, mensaje, request)
         return redirect('CrearProfesor')
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
