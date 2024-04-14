@@ -124,7 +124,20 @@ class CreateGestor(View):
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
+            ##################### FOTO #########################
+            foto = form.cleaned_data.get('foto')
+            print(foto,"hola")
+            if foto != 'gestores/profile.png' : #diferente de la imagen por defecto...
+                cords = form['cords'].value()
+                cords= cords.split(':')
+                cords = cords[0]
+                
+                image_io = recorte_imagenes(cords, foto)
+                # Asignar el objeto de archivo al campo 'foto'
+                form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
+            ######################################################
             gestor = form.save(commit=False)
+            gestor.colegio = request.user.colegio
             gestor.numero_documento = username
             gestor.save()
         else:
