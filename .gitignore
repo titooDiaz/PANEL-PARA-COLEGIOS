@@ -20,4 +20,6 @@ colegio/informacion/migrations/
 colegio/profesores/migrations/
 colegio/users/migrations/
 
+colegio/theme/
+colegio/core/__pycache__/
 colegio/__pycache__/
