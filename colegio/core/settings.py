@@ -59,10 +59,8 @@ INSTALLED_APPS = [
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 #Ubuntu
 
-#https://youtu.be/HiZfrViARRc?si=hQsbj7OSrkloMjnX
-#sudo apt install npm
 
-NPM_BIN_PATH ="/usr/bin/npm"
+NPM_BIN_PATH ="/home/miguel/nodejs/bin/npm" # whereis npm
 #############################################################################
 
 #autenticacion de usuario...
