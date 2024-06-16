@@ -4,7 +4,11 @@ from django.views.generic import TemplateView, View
 from .forms import ColegioForm
 from PIL import Image
 import io
+from django.contrib import messages
 from django.core.files.base import ContentFile
+
+## MENSAJES DE ERRORES ##
+from message_error import messages_error
 
 from .forms import CustomUserGestorForm
 
@@ -81,8 +85,11 @@ class GestionColegios(View):
 
             # Guardar el formulario para actualizar la instancia del modelo
             form.save()
-
-        return redirect('Colegios')
+            messages.success(request, '¡Profesor agregado correctamente!')
+        else:
+            mensaje = "¡Hubo un error al agregar el alumno!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
+        return redirect('ColegiosCreate')
     
     
 class CreateGestorColegio(View):
