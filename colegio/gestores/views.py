@@ -91,6 +91,7 @@ class CreateAlumno(View):
                 
             # Guardar el formulario para actualizar la instancia del modelo
             alumno.save()
+            messages.success(request, "Alumno agregado correctamente!")
         else:
             mensaje = "¡Hubo un error al agregar el alumno!"
             messages_error.errores_formularios(form.errors, mensaje, request)
