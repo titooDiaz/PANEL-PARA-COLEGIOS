@@ -131,7 +131,10 @@ class CreateGestor(View):
             gestor.colegio = request.user.colegio
             gestor.numero_documento = username
             gestor.save()
+            messages.success(request, "¡Gestor agregado correctamente!")
         else:
+            mensaje = "¡Hubo un error al agregar el gestor!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
             print(form.errors)
         return redirect('CrearGestor')
     def get(self, request, *args, **kwargs):
@@ -249,6 +252,9 @@ class CreateAdmin(View):
             profesor.save()
             messages.success(request, '¡Administrador agregado correctamente!')
         else:
+            mensaje = "¡Hubo un error al agregar el Administrador!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
+            print(form.errors)
             print(form.errors)
         return redirect('CrearAdmin')
     def get(self, request, *args, **kwargs):
@@ -273,6 +279,8 @@ class CreateAcudiente(View):
             profesor.save()
             messages.success(request, '¡Acudiente agregado correctamente!')
         else:
+            mensaje = "¡Hubo un error al agregar el Acudiente!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
             print(form.errors)
         return redirect('CrearAcudiente')
     def get(self, request, *args, **kwargs):
@@ -309,6 +317,9 @@ class CreateGrados(View):
                 
             messages.success(request, '¡Grado creado correctamente!')
         else:
+            mensaje = "¡Hubo un error al agregar el Grado!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
+            print(form.errors)
             print(form.errors)
         return redirect('CrearGrado')
     def get(self, request, *args, **kwargs):
@@ -339,6 +350,10 @@ class CreateHorarios(View):
             for i in range(int(cortes)):
                 CortesHorario.objects.create(corte_num=i+1, horario=horario)
             messages.success(request, '¡Horario agregado correctamente!')
+        else:
+            mensaje = "¡Hubo un error al agregar el Horario!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
+            print(form.errors)
         return redirect('CrearHorarios')
     
     def get(self, request, *args, **kwargs):
@@ -376,8 +391,11 @@ class CreateMaterias(View):
             
             materia.save()
             grado.materias.add(materia)
+        else:
+            mensaje = "¡Hubo un error al agregar esta materia!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
+            print(form.errors)
 
-            return redirect('CrearMaterias', pk=pk)
         return redirect('CrearMaterias', pk=pk)
 
     def get(self, request, pk, *args, **kwargs):

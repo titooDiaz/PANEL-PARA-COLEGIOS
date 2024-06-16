@@ -85,9 +85,9 @@ class GestionColegios(View):
 
             # Guardar el formulario para actualizar la instancia del modelo
             form.save()
-            messages.success(request, '¡Profesor agregado correctamente!')
+            messages.success(request, 'Colegio agregado correctamente!')
         else:
-            mensaje = "¡Hubo un error al agregar el alumno!"
+            mensaje = "¡Hubo un error al agregar el Colegio!"
             messages_error.errores_formularios(form.errors, mensaje, request)
         return redirect('ColegiosCreate')
     
@@ -101,8 +101,11 @@ class CreateGestorColegio(View):
             gestor = form.save(commit=False)
             gestor.numero_documento = username
             gestor.save()
+            messages.success(request, '¡Gestor agregado correctamente!')
         else:
             print(form.errors)
+            mensaje = "¡Hubo un error al agregar el gestor!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
         return redirect('ColegiosGestor')
     def get(self, request, *args, **kwargs):
         form = CustomUserGestorForm()
