@@ -193,17 +193,17 @@ class CustomUserProfesoresForm(UserCreationForm):
         }
 
 class CustomUserAcudienteForm(UserCreationForm):
+    def __init__(self, *args, estudiantes_colegio=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if estudiantes_colegio:
+            self.fields['estudiante'].queryset = CustomUserAlumno.objects.filter(colegio=estudiantes_colegio)
     class Meta:
-        if tablas_en_bd:
-            choices = CustomUserAlumno.objects.all()
-        else:
-            choices = []
         model = CustomUserAcudiente
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo', 'colegio')
 
         widgets = {
             
-            'estudiante': forms.CheckboxSelectMultiple(choices=choices,attrs={'id':'estudiante','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-orange-600 block w-20 p-2.5 estudiantes', 'placeholder': 'estudiante', 'id':'checkbox'}),
+            'estudiante': forms.CheckboxSelectMultiple(attrs={'id':'estudiante','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-orange-600 block w-20 p-2.5 estudiantes', 'placeholder': 'estudiante', 'id':'checkbox'}),
 
             'username': forms.TextInput(attrs={'id':'username','autocomplete': 'off','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Numero De Documento'}),
 
@@ -229,8 +229,6 @@ class CustomUserAcudienteForm(UserCreationForm):
 
             'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
         }
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
 
 class GradoForm(forms.ModelForm):
@@ -238,7 +236,7 @@ class GradoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Filtra los estudiantes por los proporcionados
         if horario_partes:
-            self.fields['horario_partes'].queryset = horario_partes
+            self.fields['horario_partes'].queryset = Horarios_Partes.objects.filter(colegio=horario_partes)
     class Meta:
         model = Grado
         #fields = '__all__' 

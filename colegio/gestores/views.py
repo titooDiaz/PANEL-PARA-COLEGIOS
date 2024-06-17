@@ -49,13 +49,6 @@ def obtener_estudiantes_por_grado(grado_id):
     except CustomUserAlumno.DoesNotExist:
         return None
     
-def obtener_horario_por_colegio(colegio_id):
-    try:
-        horarios = Horarios_Partes.objects.filter(colegio=colegio_id)
-        return horarios
-    except Horarios_Partes.DoesNotExist:
-        return None
-    
 def obtener_grados_por_colegio(colegio_id):
     try:
         grados = Grado.objects.filter(colegio=colegio_id)
@@ -285,7 +278,8 @@ class CreateAcudiente(View):
             print(form.errors)
         return redirect('CrearAcudiente')
     def get(self, request, *args, **kwargs):
-        form = CustomUserAcudienteForm()
+        estudiantes = request.user.colegio.pk
+        form = CustomUserAcudienteForm(estudiantes_colegio=estudiantes)
         vista = 'gestor'
         abierto='personas'
         context = {
@@ -325,9 +319,8 @@ class CreateGrados(View):
         return redirect('CrearGrado')
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
-        horarios_partes = obtener_horario_por_colegio(colegio)#obtenemos unicamente los horarios de este colegio
-        print(Colores.CYAN + "--->'Horario partes' Of the 'Colegio':  " + str(horarios_partes) + Colores.RESET)
-        form = GradoForm(horario_partes=horarios_partes)
+        print(Colores.CYAN + "--->'Horario partes' Of the 'Colegio':  " + str(colegio) + Colores.RESET)
+        form = GradoForm(horario_partes=colegio)
         vista = 'gestor'
         abierto='ajustes'
         context = {
