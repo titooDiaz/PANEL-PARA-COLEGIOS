@@ -7,7 +7,8 @@ from .forms import HoraHorarioForm, MateriasHorarioForm, EditarVerNotasAlumnosFo
 
 class VerGrados(View):
     def get(self, request, *args, **kwargs):
-        grados = Grado.objects.all()
+        colegio = request.user.colegio.pk
+        grados = Grado.objects.filter(colegio=colegio)
         print(grados)
         vista = 'gestor'
         abierto='ajustes'
