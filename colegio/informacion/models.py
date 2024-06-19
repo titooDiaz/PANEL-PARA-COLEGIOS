@@ -43,8 +43,8 @@ class Materias(models.Model):
     ano_creacion = models.IntegerField(default=ano_actual())
     ##################electivas##############
     profe1 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, related_name='profesor_0')
-    titulo1 = models.TextField(blank=True, null=True)
-    descripcion1 = models.TextField(blank=True, null=True)
+    titulo1 = models.TextField(blank=True, null=False)
+    descripcion1 = models.TextField(blank=True, null=False)
     alumnos1 = models.ManyToManyField(UserAlumno, blank=True, related_name='alumnos_electiva1')
 
     profe2 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, null=True, related_name='profesor_1')

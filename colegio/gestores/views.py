@@ -369,26 +369,37 @@ class CreateMaterias(View):
     def post(self, request, pk, *args, **kwargs):
         form = MateriasForm(request.POST)
         if form.is_valid():
-            materia = form.save(commit=False)
-            grado = Grado.objects.get(pk=pk)
-            materia.author = request.user
-            electiva_value = form.cleaned_data.get('electiva')
-            messages.success(request, '¡Materia creada correctamente!')
-            
-            # Limpia los campos relacionados con la electiva si no es True
-            if not electiva_value:
-                materia.profe2 = None
-                materia.titulo2 = ""
-                materia.descripcion2 = ""
-            else:
-                alumnos1 = form.cleaned_data.get('alumnos1')
-                alumnos2 = form.cleaned_data.get('alumnos2')
-                materia.save()
-                materia.alumnos1.set(alumnos1)
-                materia.alumnos2.set(alumnos2)
-            
-            materia.save()
-            grado.materias.add(materia)
+            try:
+                materia = form.save(commit=False)
+                grado = Grado.objects.get(pk=pk)
+                materia.author = request.user
+                electiva_value = form.cleaned_data.get('electiva')
+                
+                # Limpia los campos relacionados con la electiva si no es True
+                if not electiva_value:
+                    materia.profe2 = None
+                    materia.titulo2 = ""
+                    materia.descripcion2 = ""
+                else:
+                    alumnos1 = form.cleaned_data.get('alumnos1')
+                    alumnos2 = form.cleaned_data.get('alumnos2')
+                    materia.save()
+                    materia.alumnos1.set(alumnos1)
+                    materia.alumnos2.set(alumnos2)
+                    if materia.profe1 != materia.profe2 :
+                        if materia.profe1 != None and materia.profe2 != None:
+                            materia.save()
+                            grado.materias.add(materia)
+                            messages.success(request, '¡Materia creada correctamente!')
+                        else:
+                            mensaje = "¡No Dejes profesores vacios!"
+                            messages_error.errores_formularios(form.errors, mensaje, request)
+                    else:
+                        mensaje = "¡No selecciones profesores iguales para la electiva!"
+                        messages_error.errores_formularios(form.errors, mensaje, request) 
+            except:
+                mensaje = "¡Hubo un error al agregar esta materia, NO dejes campos vacios!"
+                messages_error.errores_formularios(form.errors, mensaje, request) 
         else:
             mensaje = "¡Hubo un error al agregar esta materia!"
             messages_error.errores_formularios(form.errors, mensaje, request)
