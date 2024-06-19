@@ -39,7 +39,7 @@ class Horarios_Partes(models.Model):
         return "HORARIO DE " + self.titulo
 
 class Materias(models.Model):
-    electiva = models.BooleanField(default=True)
+    electiva = models.BooleanField(default=False)
     ano_creacion = models.IntegerField(default=ano_actual())
     ##################electivas##############
     profe1 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, related_name='profesor_0')
