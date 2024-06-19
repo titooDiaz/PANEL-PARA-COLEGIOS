@@ -294,23 +294,27 @@ class CreateGrados(View):
         form = GradoForm(request.POST)
         print(form.is_valid())
         if form.is_valid():
-            grado = form.save(commit=False)
-            
-            ##############################
-            # OBTENEMOS EL HORARIO SELECCIONADO POR EL FORMULARIO. PARAS PODER CREAR LA TABLA ED LOS HORARIOS DIARIOS
-            horarios = form.cleaned_data.get('horario_partes')
-            pk =horarios.pk
-            horario = Horarios_Partes.objects.get(id=pk)
-            horas = horario.horas
-            ##############################
-            grado.colegio = request.user.colegio
-            grado.author = request.user  # Asocia el autor con el usuario actual
-            grado.save()
-
-            for i in range(int(horas)):
-                HorarioDiario.objects.create(grado=grado)
+            try:
+                grado = form.save(commit=False)
                 
-            messages.success(request, '¡Grado creado correctamente!')
+                ##############################
+                # OBTENEMOS EL HORARIO SELECCIONADO POR EL FORMULARIO. PARAS PODER CREAR LA TABLA ED LOS HORARIOS DIARIOS
+                horarios = form.cleaned_data.get('horario_partes')
+                pk = horarios.pk
+                horario = Horarios_Partes.objects.get(id=pk)
+                horas = horario.horas
+                ##############################
+                grado.colegio = request.user.colegio
+                grado.author = request.user  # Asocia el autor con el usuario actual
+                grado.save()
+
+                for i in range(int(horas)):
+                    HorarioDiario.objects.create(grado=grado)
+                    
+                messages.success(request, '¡Grado creado correctamente!')
+            except:
+                mensaje = "¡No olvides seleccionar un horario para tu grado!"
+                messages_error.errores_formularios(form.errors, mensaje, request)
         else:
             mensaje = "¡Hubo un error al agregar el Grado!"
             messages_error.errores_formularios(form.errors, mensaje, request)
