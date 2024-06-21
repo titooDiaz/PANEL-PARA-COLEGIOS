@@ -9,4 +9,4 @@ class BoardProfesores(View):
             'vista': vista,
             'abierto':abierto,
         }
-        return render(request, 'users/gestores/personas_views.html', context)
+        return render(request, 'users/profesores/inicio.html', context)

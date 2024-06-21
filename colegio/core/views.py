@@ -7,8 +7,8 @@ class RedirectUser(View):
         if request.user.is_authenticated:
             if hasattr(request.user, 'customuseralumno'):
                 return redirect('BoardAlumno')
-            elif hasattr(request.user, 'customuserprofesor'):
-                return redirect('BoardProfesor')
+            elif hasattr(request.user, 'customuserprofesores'):
+                return redirect('BoardProfesores')
             elif hasattr(request.user, 'customuseradministrador'):
                 return redirect('BoardAdministrador')
             elif hasattr(request.user, 'customusergestor'):
