@@ -386,17 +386,17 @@ class CreateMaterias(View):
                     materia.save()
                     materia.alumnos1.set(alumnos1)
                     materia.alumnos2.set(alumnos2)
-                    if materia.profe1 != materia.profe2 :
-                        if materia.profe1 != None and materia.profe2 != None:
-                            materia.save()
-                            grado.materias.add(materia)
-                            messages.success(request, '¡Materia creada correctamente!')
-                        else:
-                            mensaje = "¡No Dejes profesores vacios!"
-                            messages_error.errores_formularios(form.errors, mensaje, request)
+                if materia.profe1 != materia.profe2 :
+                    if (materia.profe1 != None and materia.profe2 != None and electiva_value) or (not electiva_value and materia.profe1 != None):
+                        materia.save()
+                        grado.materias.add(materia)
+                        messages.success(request, '¡Materia creada correctamente!')
                     else:
-                        mensaje = "¡No selecciones profesores iguales para la electiva!"
-                        messages_error.errores_formularios(form.errors, mensaje, request) 
+                        mensaje = "¡No Dejes profesores vacios!"
+                        messages_error.errores_formularios(form.errors, mensaje, request)
+                else:
+                    mensaje = "¡No selecciones profesores iguales para la electiva!"
+                    messages_error.errores_formularios(form.errors, mensaje, request) 
             except:
                 mensaje = "¡Hubo un error al agregar esta materia, NO dejes campos vacios!"
                 messages_error.errores_formularios(form.errors, mensaje, request) 
