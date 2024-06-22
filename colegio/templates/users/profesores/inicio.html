@@ -6,8 +6,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<div class="bg-white p-4 rounded-lg shadow-lg">
-    <h5 class="text-5xl font-mono font-bold mb-4 text-center">Bienvenido {{request.user.first_name}}!</h5>
+{% load static %}
+<div class="mx-auto max-w-screen-sm text-center">
+    <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8">Bienvenido {{request.user.first_name}}!</h2>
 </div>
+<div class="grid gap-6 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
+
+{% for materias in materias_profesor%}
+<div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+    <div class="block w-full">
+        <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materias.titulo1}}</h5>
+        <p class="">hi</p>
+        <img class="w-full p-4" src="{% static 'img/informacion/libro-abierto.png' %}" alt="Alumno">
+        <div class="mt-2 flex">
+            <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Nueva materia</a>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+</div>
+
+{% for grado in grados %}
+    <h1>{{ grado.grado_nom }} ({{ grado.grado_num }})</h1>
+    {% for materia in grado.materias.all %}
+        {% if materia in materias_profesor %}
+            <div>
+                {% if materia.profe1.pk == request.user.pk %}
+                    <h2>{{ materia.titulo1 }}</h2>
+                    <p>{{ materia.descripcion1 }}</p>
+                    <p>Profesor: {{ materia.profe1 }}</p>
+                {% else %}
+                    <h2>{{ materia.titulo2 }}</h2>
+                    <p>{{ materia.descripcion2 }}</p>
+                    <p>Profesor: {{ materia.profe2 }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
 {% endblock content %}  
