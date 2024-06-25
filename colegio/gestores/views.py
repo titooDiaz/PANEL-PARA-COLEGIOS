@@ -370,6 +370,18 @@ class CreateMaterias(View):
         form = MateriasForm(request.POST)
         if form.is_valid():
             try:
+                ###############################
+                foto = form.cleaned_data.get('picture1')
+                print(foto,"hola")
+                if foto != 'materias/picture.png' : #diferente de la imagen por defecto...
+                    cords = form['cords'].value()
+                    cords= cords.split(':')
+                    cords = cords[0]
+                    
+                    image_io = recorte_imagenes(cords, foto)
+                    # Asignar el objeto de archivo al campo 'foto'
+                    form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
+                ##################################
                 materia = form.save(commit=False)
                 grado = Grado.objects.get(pk=pk)
                 materia.author = request.user
