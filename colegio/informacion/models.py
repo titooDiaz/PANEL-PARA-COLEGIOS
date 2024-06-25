@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 from users.models import CustomUserAlumno, CustomUserProfesores, Colegio
+from django.conf import settings
+import os
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -38,15 +40,32 @@ class Horarios_Partes(models.Model):
     def __str__(self):
         return "HORARIO DE " + self.titulo
 
+def picture_materia_1(instance, filename):
+    # el cero es el format
+    profile_picture_name = 'materias/{0}/picture.png'.format(instance.picture1, "-", instance.pk)
+    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+    if os.path.exists(full_path):
+        os.remove(full_path)
+
+def picture_materia_2(instance, filename):
+    # el cero es el format
+    profile_picture_name = 'materias/{0}/picture.png'.format(instance.picture2, "-", instance.pk)
+    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+    if os.path.exists(full_path):
+        os.remove(full_path)
+
 class Materias(models.Model):
+    
     electiva = models.BooleanField(default=False)
     ano_creacion = models.IntegerField(default=ano_actual())
     ##################electivas##############
+    picture1 = models.ImageField(default='materias/picture.png', upload_to=picture_materia_1, null=True, blank=True)
     profe1 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, related_name='profesor_0')
     titulo1 = models.TextField(blank=True, null=False)
     descripcion1 = models.TextField(blank=True, null=False)
     alumnos1 = models.ManyToManyField(UserAlumno, blank=True, related_name='alumnos_electiva1')
 
+    picture2 = models.ImageField(default='materias/picture.png', upload_to=picture_materia_2, null=True, blank=True)
     profe2 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, null=True, related_name='profesor_1')
     titulo2 = models.TextField(blank=True, null=True)
     descripcion2 = models.TextField(blank=True, null=True)

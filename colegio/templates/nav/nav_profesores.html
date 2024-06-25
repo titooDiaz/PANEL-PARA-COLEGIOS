@@ -2,20 +2,20 @@
 <!-- Navbar Lateral -->
 <aside id="NavBar" class="z-40 mov bg-[#ff7738] text-white w-60 lg:flex lg:flex-col fixed h-full overflow-y-auto rounded-3xl border-8 border-white bg-no-repeat">
     <!-- Logo -->
-    <div class="p-4 text-2xl font-semibold">NOMBRE DEL COLEGIO</div>
+    <div class="p-4 text-2xl font-semibold">{{ request.user.customuserprofesores.colegio.colegio }}</div>
 
     <!-- Menú de Navegación -->
     <nav class="flex-1">
         <ul class="space-y-2 ml-4">
           {% if abierto == 'inicio' %}
             <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'BoardAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
+                <a href="#" class="block p-4 transition duration-300 rounded-lg">
                     <i class="fas fa-home mr-2"></i> Inicio
                 </a>
             </li>
           {% else %}
             <li>
-                <a href="{% url 'BoardAlumno' %}" class="block hover:bg-gray-700 p-4 transition duration-300 rounded-lg">
+                <a href="#" class="block hover:bg-gray-700 p-4 transition duration-300 rounded-lg">
                     <i class="fas fa-home mr-2"></i> Inicio
                 </a>
             </li>
@@ -23,13 +23,13 @@
 
           {% if abierto == 'calendario' %}
             <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'CalendarioAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
+                <a href="#" class="block p-4 transition duration-300 rounded-lg">
                   <i class="fas fa-calendar mr-2"></i> Calendario
                 </a>
             </li>
           {% else %}
             <li>
-                <a href="{% url 'CalendarioAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                   <i class="fas fa-calendar mr-2"></i> Calendario
                 </a>
             </li>
@@ -37,13 +37,13 @@
 
           {% if abierto == 'mensajes' %}
             <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'MensajesAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
+                <a href="#" class="block p-4 transition duration-300 rounded-lg">
                   <i class="fas fa-envelope mr-2"></i> Mensajes
                 </a>
             </li>
           {% else %}
             <li>
-                <a href="{% url 'MensajesAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                   <i class="fas fa-envelope mr-2"></i> Mensajes
                 </a>
             </li>
@@ -51,13 +51,13 @@
 
           {% if abierto == 'personas' %}
             <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'PersonasAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
+                <a href="#" class="block p-4 transition duration-300 rounded-lg">
                   <i class="fas fa-user mr-2"></i> Personas
                 </a>
             </li>
           {% else %}
             <li>
-                <a href="{% url 'PersonasAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                   <i class="fas fa-user mr-2"></i> Personas
                 </a>
             </li>
@@ -65,13 +65,13 @@
 
           {% if abierto == 'notas' %}
             <li class="bg-white text-black rounded-l-lg">
-              <a href="{% url 'NotasAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
+              <a href="#" class="block p-4 transition duration-300 rounded-lg">
                 <i class="fas fa-book mr-2"></i> Notas
               </a>
             </li>
           {% else %}
             <li>
-              <a href="{% url 'NotasAlumno' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+              <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                 <i class="fas fa-book mr-2"></i> Notas
               </a>
             </li>
