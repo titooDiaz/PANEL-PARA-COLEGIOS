@@ -63,11 +63,13 @@ class Materias(models.Model):
     profe1 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, related_name='profesor_0')
     titulo1 = models.TextField(blank=True, null=False)
     descripcion1 = models.TextField(blank=True, null=False)
+    locate1 = models.TextField(blank=True, null=False)
     alumnos1 = models.ManyToManyField(UserAlumno, blank=True, related_name='alumnos_electiva1')
 
     picture2 = models.ImageField(default='materias/picture.png', upload_to=picture_materia_2, null=True, blank=True)
     profe2 = models.ForeignKey(UserProfes,on_delete=models.CASCADE, blank=True, null=True, related_name='profesor_1')
     titulo2 = models.TextField(blank=True, null=True)
+    locate2 = models.TextField(blank=True, null=False)
     descripcion2 = models.TextField(blank=True, null=True)
     alumnos2 = models.ManyToManyField(UserAlumno, blank=True, related_name='alumnos_electiva2')
     ##########################################
