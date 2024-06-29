@@ -25,9 +25,6 @@
 > https://youtu.be/wTv8rNobJsw?si=6nO7UaryScIcNIo9
 
 
-#### LA APLICACION FUNCIONARA EN WINDOWS Y LINUX. ADEGURATE DE EJECUTAR Y CONFIGURAR TODO CORRECTAMENTE PARA TU ENTORNO.
-
-
 Ahora debes instalar este paquete antes de ejecutar el servidor:
 <br>
 
