@@ -7,9 +7,12 @@
 
 {% block content %}
 {% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/recorte_imagenes/cropper.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/recorte_imagenes/index.css' %}">
+</head>
 
-
-<form method="post" action="{% url 'CrearMaterias' id_grado %}">
+<form method="post" enctype="multipart/form-data" action="{% url 'CrearMaterias' id_grado %}" id="formulario">
     {% csrf_token %}
 
     <div id="EmergenteAlumnos" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full">
@@ -47,6 +50,18 @@
 
         <br>
 
+            <div class="container">
+                <div class="group">
+                    <img src="{% static 'img/usuarios/alumnos.png' %}" class="crop-image" id="crop-image">
+                    
+                    <label for="input-file" class="label-file">Haz click aquí para subir una imagen</label>
+                </div>
+            </div>
+            
+        {{form.cords}}
+        {{form.picture1}}
+        {% include 'users/recorte_fotos.html' %}
+
         <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
             <div>          
                 <label for="profe1" class="block  text-sm font-medium text-gray-900">PROFESOR 1</label>
@@ -59,6 +74,10 @@
             <div>          
                 <label for="descripcion1" class="block  text-sm font-medium text-gray-900">Descripcion1</label>
                 {{form.descripcion1}}
+            </div>
+            <div>          
+                <label for="locate1" class="block  text-sm font-medium text-gray-900">locate1</label>
+                {{form.locate1}}
             </div>
         </div>
 
@@ -78,6 +97,10 @@
             <div>          
                 <label for="descripcion2" class="block  text-sm font-medium text-gray-900">Descripcion2</label>
                 {{form.descripcion2}}
+            </div>
+            <div>          
+                <label for="locate2" class="block  text-sm font-medium text-gray-900">Ubicacion</label>
+                {{form.locate2}}
             </div>
             <div>          
                 <p class="block  text-sm font-medium text-gray-900">Alumnos1</p>
@@ -162,5 +185,10 @@
 <!--VENTANA EMERGENTE DE ALUMNOS-->
 <script src="{% static 'js/ventanas/ventana_emergente_alumnos.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/ventanas/ventana_emergente_alumnos.css' %}">
+
+<!--RECORTE DE IMAGENES-->
+<script src="{% static 'js/recorte_imagenes/jquery.js' %}"></script>
+<script src="{% static 'js/recorte_imagenes/index.js' %}"></script>
+<script src="{% static 'js/recorte_imagenes/cropper.js' %}"></script>
 
 {% endblock content %}  
