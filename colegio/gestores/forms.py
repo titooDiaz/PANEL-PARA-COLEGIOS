@@ -278,9 +278,10 @@ class MateriasForm(forms.ModelForm):
             self.fields['alumnos2'].queryset = estudiantes_grado
     class Meta:
         model = Materias
-        fields = ['profe1', 'picture1', 'picture2', 'locate1', 'locate2', 'profe2', 'electiva', 'titulo1', 'descripcion1', 'alumnos1', 'titulo2', 'descripcion2', 'alumnos2']
+        fields = ['profe1', 'picture1', 'cords', 'locate1', 'locate2', 'profe2', 'electiva', 'titulo1', 'descripcion1', 'alumnos1', 'titulo2', 'descripcion2', 'alumnos2']
         widgets = {
             'profe1': forms.Select(attrs={'id':'profe1','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            
             'picture1': ClearableFileInput(attrs={ "class":"block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
 
             'profe2': forms.Select(attrs={'id':'profe2','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
@@ -291,7 +292,7 @@ class MateriasForm(forms.ModelForm):
 
             'descripcion1': forms.TextInput(attrs={'id':'descripcion1','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion1'}),
             
-            'locate1': forms.TextInput(attrs={'id':'descripcion1','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Ubicacion'}),
+            'locate1': forms.TextInput(attrs={'id':'locate1','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Ubicacion'}),
 
 
             'alumnos1': forms.CheckboxSelectMultiple(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-orange-600 block w-20 p-2.5 ', 'placeholder': 'alumnos1', 'id':'checkbox_es_1'}),
@@ -300,10 +301,10 @@ class MateriasForm(forms.ModelForm):
 
             'descripcion2': forms.TextInput(attrs={'id':'descripcion2','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion2'}),
             
-            'locate2': forms.TextInput(attrs={'id':'descripcion1','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Ubicacion'}),
+            'locate2': forms.TextInput(attrs={'id':'locate2','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Ubicacion'}),
 
-            'picture2': ClearableFileInput(attrs={ "class":"block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
-            
             'alumnos2': forms.CheckboxSelectMultiple(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-orange-600 block w-20 p-2.5 ', 'placeholder': 'alumnos2', 'id':'checkbox_es_2'}),
+            
+            'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
             }
         

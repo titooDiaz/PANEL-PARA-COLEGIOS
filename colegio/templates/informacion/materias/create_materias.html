@@ -12,7 +12,7 @@
     <link rel="stylesheet" href=" {% static 'css/recorte_imagenes/index.css' %}">
 </head>
 
-<form method="post" enctype="multipart/form-data" action="{% url 'CrearMaterias' id_grado %}" id="formulario">
+<form method="post" action="{% url 'CrearMaterias' id_grado %}" enctype="multipart/form-data" id="formulario">
     {% csrf_token %}
 
     <div id="EmergenteAlumnos" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full">
@@ -50,19 +50,20 @@
 
         <br>
 
-            <div class="container">
-                <div class="group">
-                    <img src="{% static 'img/usuarios/alumnos.png' %}" class="crop-image" id="crop-image">
-                    
-                    <label for="input-file" class="label-file">Haz click aquí para subir una imagen</label>
-                </div>
+        <div class="container">
+            <div class="group">
+                <img src="{% static 'img/materias/picture.png' %}" class="crop-image" id="crop-image">
+                {{form.picture1}}
+                <label for="input-file" class="label-file">Haz click aquí para subir una imagen</label>
             </div>
-            
-        {{form.cords}}
-        {{form.picture1}}
+        </div>
+        
         {% include 'users/recorte_fotos.html' %}
 
+
+
         <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
+            {{form.cords}}
             <div>          
                 <label for="profe1" class="block  text-sm font-medium text-gray-900">PROFESOR 1</label>
                 {{form.profe1}}
@@ -76,7 +77,7 @@
                 {{form.descripcion1}}
             </div>
             <div>          
-                <label for="locate1" class="block  text-sm font-medium text-gray-900">locate1</label>
+                <label for="locate1" class="block  text-sm font-medium text-gray-900">Ubicacion</label>
                 {{form.locate1}}
             </div>
         </div>
@@ -116,7 +117,6 @@
     <script>
         
     </script>
-
 </form>
     <!--PARA ELETIVAS-->
     <script>

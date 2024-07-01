@@ -367,8 +367,10 @@ class CreateHorarios(View):
     
 class CreateMaterias(View):
     def post(self, request, pk, *args, **kwargs):
-        form = MateriasForm(request.POST)
+        form = MateriasForm(request.POST, request.FILES)
         if form.is_valid():
+            materia = form.save(commit=False)
+            materia.author = request.user
             try:
                 ###############################
                 foto = form.cleaned_data.get('picture1')
@@ -379,12 +381,10 @@ class CreateMaterias(View):
                     cords = cords[0]
                     
                     image_io = recorte_imagenes(cords, foto)
-                    # Asignar el objeto de archivo al campo 'foto'
-                    form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
-                ##################################
-                materia = form.save(commit=False)
+                    # Asignar el objeto de archivo al campo 'picture1'
+                    form.instance.picture1.save('picture.png', ContentFile(image_io.getvalue()))
+                    print('saveee///')
                 grado = Grado.objects.get(pk=pk)
-                materia.author = request.user
                 electiva_value = form.cleaned_data.get('electiva')
                 
                 # Limpia los campos relacionados con la electiva si no es True
@@ -409,8 +409,10 @@ class CreateMaterias(View):
                 else:
                     mensaje = "¡No selecciones profesores iguales para la electiva!"
                     messages_error.errores_formularios(form.errors, mensaje, request) 
-            except:
+            except Exception as e:
+                print(e)
                 mensaje = "¡Hubo un error al agregar esta materia, NO dejes campos vacios!"
+                print(form.errors, "...")
                 messages_error.errores_formularios(form.errors, mensaje, request) 
         else:
             mensaje = "¡Hubo un error al agregar esta materia!"
