@@ -5,6 +5,8 @@
 # PANEL-PARA-COLEGIOS
 
 
+# WINDOWS
+
 > [!CAUTION]
 > Si es la primera vez que ejecutas el programa y no tienes mucha experiencia con django
 > o en general con python puedes obtener algunos errores...
@@ -89,6 +91,7 @@ crear base de datos:
 crear usuario par pruebas:
 ```python manage.py createsuperuser ```
 
+<hr>
 
 RECUERDA QUE CADA CAMBIO DEBE SER DOCUMENTADO
 Un buen codigo siempre debe tener una buena documentacion
