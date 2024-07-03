@@ -1,0 +1,23 @@
+
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Inicio - Estudiantes</title>
+</head>
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="mx-auto max-w-screen-sm text-center">
+    <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grado_nom}} ({{grado.grado_num}})!</h2>
+    <h3 class="text-xl tracking-tight font-bold text-gray-900 mb-8">Agrega una actividad en {{materia.titulo1}}!</h3>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ actividades.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+
+
+{% endblock content %}  

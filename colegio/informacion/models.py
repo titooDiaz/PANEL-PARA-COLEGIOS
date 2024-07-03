@@ -132,6 +132,7 @@ class Archivo(models.Model):
 
     def __str__(self):
         return self.nombre or self.archivo.name
+    
 
 
 
