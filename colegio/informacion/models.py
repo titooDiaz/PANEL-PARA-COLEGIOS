@@ -11,6 +11,17 @@ User = get_user_model()
 UserProfes = CustomUserProfesores
 UserAlumno = CustomUserAlumno
 
+
+TIPO_ACTIVIDAD = [
+        ('EVALUATIVA', 'EVALUATIVA'),
+        ('ASIMILATIVA', 'ASIMILATIVA'),
+        ('EXPERIENCIAL', 'EXPERIENCIAL'),
+        ('GESTION DE INFORMACION', 'GESTION DE INFORMACION'),
+        ('APLICACION', 'APLICACION'),
+        ('COMUNICATIVA', 'COMUNICATIVA'),
+        ('PRODUCTIVA', 'PRODUCTIVA')
+]
+
 def ano_actual():
     ano_electivo = timezone.now().year
     ano_electivo = int(ano_electivo)
@@ -87,6 +98,42 @@ class Grado(models.Model):
 
     def __str__(self):
         return self.grado_nom + "(" + self.grado_num + ")"
+
+
+
+def files(instance, filename):
+    profile_picture_name = 'actividades_profesores/{0}/{1}({2})/{3}'.format(
+        instance.actividad.titulo, instance.actividad.grado, random.randint(1, 9999), filename)
+    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+    if os.path.exists(full_path):
+        os.remove(full_path)
+    return profile_picture_name
+
+class Actividades(models.Model):
+    titulo = models.TextField()
+    descripcion = models.TextField()
+    porcentaje = models.IntegerField()
+    tipo = models.CharField(max_length=50, choices=TIPO_ACTIVIDAD, default='Alumno')
+    
+    ano_creacion = models.IntegerField(default=ano_actual())
+    estado = models.BooleanField(default=True)
+    created_on = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_actividad')
+    horario_partes = models.ForeignKey(Horarios_Partes, on_delete=models.SET_NULL, blank=True, null=True)
+    grado = models.ForeignKey(Grado, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadGrado')
+
+    def __str__(self):
+        return f"{self.titulo} ({self.pk})"
+
+class Archivo(models.Model):
+    actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE, related_name='archivos')
+    archivo = models.FileField(upload_to=files)
+    nombre = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.nombre or self.archivo.name
+
+
 
 class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
     ano_creacion = models.IntegerField(default=ano_actual())
