@@ -17,32 +17,58 @@
 
     <div class="p-4 bg-gray-100 rounded-lg border-2 border-dashed border-black mb-8">
             <div class="mx-auto max-w-screen-sm text-center">
-                <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8">Grado: {{ grado.grado_nom }} ({{ grado.grado_num }})</h2>
+                <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8">Grado: {{ grado.grado_nom }} ({{ grado.grado_num }})</h2>
             </div>
         <div class="grid gap-6 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
         {% for materia in grado.materias.all %}
             {% if materia in materias_profesor %}
                 <div>
                     {% if materia.profe1.pk == request.user.pk %}
+                    <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+                        <div class="block w-full">
+                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
+                            <p class="">{{ materia.descripcion1 }}</p>
+                            <img class="w-full p-4" src="{{ materia.picture1.url }}" alt="Alumno">
+                            
+                            <div class="grid grid-cols-3 gap-4 mt-2">
+                                <div class="w-full flex">
+                                    <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                </div>
+
+                                <div class="w-full flex">
+                                    <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">/</a>
+                                </div>
+
+                                <div class="w-full flex">
+                                    <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">/</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
                         <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
                             <div class="block w-full">
                                 <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
                                 <p class="">{{ materia.descripcion1 }}</p>
+                                <img class="w-full p-4" src="{{ materia.picture1.url }}" alt="Alumno">
                                 <div class="mt-2 flex">
-                                    <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Nueva materia</a>
-                        
-                                </div>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
-                            <div class="block w-full">
-                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo2}}</h5>
-                                <p class="">{{ materia.descripcion2 }}</p>
-                                <img class="w-full p-4" src="{% static 'img/informacion/libro-abierto.png' %}" alt="Alumno">
-                                <div class="mt-2 flex">
-                                    <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Nueva materia</a>
-                        
+                                    <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Nueva Actividad</a>
+                                    <br>
+                                    <div class="grid grid-cols-3">
+                                        <div>
+                                            <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Nueva Actividad</a>
+                                        </div>
+
+                                        <div>
+                                            <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Nueva Actividad</a>
+                                        </div>
+
+                                        <div>
+                                            <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Nueva Actividad</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
