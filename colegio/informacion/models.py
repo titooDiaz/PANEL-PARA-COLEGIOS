@@ -112,15 +112,14 @@ def files(instance, filename):
 class Actividades(models.Model):
     titulo = models.TextField()
     descripcion = models.TextField()
-    porcentaje = models.IntegerField()
+    porcentaje = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
     tipo = models.CharField(max_length=50, choices=TIPO_ACTIVIDAD, default='Alumno')
     
     ano_creacion = models.IntegerField(default=ano_actual())
     estado = models.BooleanField(default=True)
     created_on = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_actividad')
-    horario_partes = models.ForeignKey(Horarios_Partes, on_delete=models.SET_NULL, blank=True, null=True)
-    grado = models.ForeignKey(Grado, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadGrado')
+    materia = models.ForeignKey(Materias, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadMateria')
 
     def __str__(self):
         return f"{self.titulo} ({self.pk})"

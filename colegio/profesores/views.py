@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
 from informacion.models import Materias, Grado, Actividades, Archivo
 from .forms import ActividadesForm, ArchivoForm
+from django.contrib import messages
+## MENSAJES DE ERRORES ##
+from message_error import messages_error
 
 
 class BoardProfesores(View):
@@ -37,8 +40,15 @@ class ViewActividades(View):
         return render(request, 'users/profesores/actividades/create_actividades.html', context)
     def post(self, request, pk, *args, **kwargs):
         actividades_form = ActividadesForm(request.POST)
-        archivo_form = ArchivoForm(request.POST, request.FILES)
+        #archivo_form = ArchivoForm(request.POST, request.FILES)
 
         if actividades_form.is_valid():
-            actividades_form.save()
+            actividades_form.save(commit=False)
+            try:
+                materia = Materias.objects.get(pk=pk)
+                actividades_form.materia = materia
+                actividades_form.author = request.user.pk
+            except:
+                messages.success(request, 'Verifica tus datos')
+                return redirect('BoardProfesores')
             return redirect('BoardProfesores')
