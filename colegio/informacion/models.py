@@ -101,19 +101,25 @@ class Grado(models.Model):
 
 
 
-def files(instance, filename):
-    profile_picture_name = 'actividades_profesores/{0}/{1}({2})/{3}'.format(
-        instance.actividad.titulo, instance.actividad.grado, random.randint(1, 9999), filename)
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
-    if os.path.exists(full_path):
-        os.remove(full_path)
-    return profile_picture_name
+
+
+def get_current_date():
+    return timezone.now().date()
+
+def get_current_time():
+    now = timezone.now()
+    return now.replace(second=0, microsecond=0).time()
+
 
 class Actividades(models.Model):
     titulo = models.TextField()
     descripcion = models.TextField()
     porcentaje = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
     tipo = models.CharField(max_length=50, choices=TIPO_ACTIVIDAD, default='Alumno')
+    fecha_inicio = models.DateField(default=get_current_date)
+    fecha_final = models.DateField(default=get_current_date)
+    hora_inicio = models.TimeField(default=get_current_time)
+    hora_final = models.TimeField(default=get_current_time)
     
     ano_creacion = models.IntegerField(default=ano_actual())
     estado = models.BooleanField(default=True)
@@ -124,6 +130,14 @@ class Actividades(models.Model):
     def __str__(self):
         return f"{self.titulo} ({self.pk})"
 
+
+def files(instance, filename):
+    profile_picture_name = 'actividades_profesores/{0}/{1}({2})/{3}'.format(
+        instance.actividad.titulo, instance.actividad.grado, random.randint(1, 9999), filename)
+    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+    if os.path.exists(full_path):
+        os.remove(full_path)
+    return profile_picture_name
 class Archivo(models.Model):
     actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE, related_name='archivos')
     archivo = models.FileField(upload_to=files)
