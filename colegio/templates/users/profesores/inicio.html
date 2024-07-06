@@ -12,6 +12,15 @@
     <h3 class="text-xl tracking-tight font-bold text-gray-900 mb-8">Aqui tienes todos tus grados!</h3>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtener la zona horaria del navegador
+        var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        // Establecer el valor del campo oculto de zona horaria
+        //document.getElementById('id_timezone').value = timezone;
+        console.log(timezone)
+    });
+</script>
 
 {% for grado in grados %}
 

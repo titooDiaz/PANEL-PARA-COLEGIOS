@@ -62,7 +62,7 @@ def colegio_directory_path_banner(instance, filename):
 
     return profile_picture_name
 class Colegio(models.Model):
-    timezone = models.CharField(max_length=50, default='UTC')
+    time_zone = models.CharField(max_length=50, default='UTC')
     cords = models.TextField(null=True, blank=True)
     clave = models.TextField(max_length=10)
     colegio = models.TextField(max_length=30)
@@ -79,7 +79,7 @@ class Colegio(models.Model):
     
     
 class CustomUser(AbstractUser):
-    timezone = models.CharField(max_length=50, default='UTC')
+    time_zone = models.CharField(max_length=50, default='UTC')
     cords = models.TextField(null=True, blank=True)
     tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
     numero_documento = models.CharField(max_length=20, null=True, blank=True)
