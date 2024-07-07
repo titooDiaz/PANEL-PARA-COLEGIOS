@@ -21,10 +21,13 @@ TIPO_ACTIVIDAD = [
         ('COMUNICATIVA', 'COMUNICATIVA'),
         ('PRODUCTIVA', 'PRODUCTIVA')
 ]
+
+tipo_de_restriccion = 'NO VERAN MAS LA ACTIVIDAD'
 TIPO_RESTRICCION = [
-        ('NO VERAN MAS LA ACTIVIDAD', '0'),
+        (tipo_de_restriccion, '0'),
         ('PUEDEN SUBIR LA ACTIVIDAD PERO CON ADVERTENCIA', '1'),
 ]
+
 
 def ano_actual():
     ano_electivo = timezone.now().year
@@ -125,7 +128,7 @@ class Actividades(models.Model):
     descripcion = models.TextField()
     porcentaje = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
     tipo = models.CharField(max_length=50, choices=TIPO_ACTIVIDAD, default='EVALUATIVA')
-    restriccion = models.CharField(max_length=50, choices=TIPO_RESTRICCION)
+    restriccion = models.CharField(max_length=50, choices=TIPO_RESTRICCION, default=tipo_de_restriccion)
     fecha_inicio = models.DateField(default=get_current_date)
     fecha_final = models.DateField(default=get_current_date)
     hora_inicio = models.TimeField(default=get_current_time)
