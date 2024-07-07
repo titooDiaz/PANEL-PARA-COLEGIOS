@@ -21,6 +21,10 @@ TIPO_ACTIVIDAD = [
         ('COMUNICATIVA', 'COMUNICATIVA'),
         ('PRODUCTIVA', 'PRODUCTIVA')
 ]
+TIPO_RESTRICCION = [
+        ('NO VERAN MAS LA ACTIVIDAD', '0'),
+        ('PUEDEN SUBIR LA ACTIVIDAD PERO CON ADVERTENCIA', '1'),
+]
 
 def ano_actual():
     ano_electivo = timezone.now().year
@@ -120,11 +124,15 @@ class Actividades(models.Model):
     titulo = models.TextField()
     descripcion = models.TextField()
     porcentaje = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
-    tipo = models.CharField(max_length=50, choices=TIPO_ACTIVIDAD, default='Alumno')
+    tipo = models.CharField(max_length=50, choices=TIPO_ACTIVIDAD, default='EVALUATIVA')
+    restriccion = models.CharField(max_length=50, choices=TIPO_RESTRICCION)
     fecha_inicio = models.DateField(default=get_current_date)
     fecha_final = models.DateField(default=get_current_date)
     hora_inicio = models.TimeField(default=get_current_time)
     hora_final = models.TimeField(default=get_current_time)
+    zona_horaria = models.BooleanField(default=True) # cuando este activa significa que sera en el lugar que se encuntre el profesor en este momento
+    #si esta inactiva significa que se colocara la fecha donde se creo su perfil!
+    #esta opcion solo aprece cuando los lugares y la zona horario es diferente
     
     ano_creacion = models.IntegerField(default=ano_actual())
     estado = models.BooleanField(default=True)
