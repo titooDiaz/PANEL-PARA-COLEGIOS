@@ -1,5 +1,6 @@
 from django import forms
 from informacion.models import Actividades, Archivo
+from django.forms.widgets import DateInput, TimeInput
 
 class ActividadesForm(forms.ModelForm):
     class Meta:
@@ -14,9 +15,9 @@ class ActividadesForm(forms.ModelForm):
 
             'tipo': forms.Select(attrs={'id':'tipo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
             
-            'hora_inicio': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
+            'hora_inicio': forms.TimeInput(attrs={'id':'hora_inicio','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
             
-            'fecha_inicio': forms.DateInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
+            'fecha_inicio': forms.DateInput(attrs={'id':'fecha_inicio','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -5,5 +5,10 @@
         // Establecer el valor del campo oculto de zona horaria
         document.getElementById("time_locate").innerHTML=timezone;
         //document.getElementById('id_timezone').value = timezone;
-        console.log(timezone)
+
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        console.log(year, month, day)
     });

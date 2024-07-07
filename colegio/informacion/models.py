@@ -104,7 +104,12 @@ class Grado(models.Model):
 
 
 def get_current_date():
-    return timezone.now().date()
+    fecha_actual = timezone.now().date()
+
+    # Convertir la fecha a una cadena en el formato 'YYYY-MM-DD'
+    fecha_actual_formateada = fecha_actual.strftime('%Y-%m-%d')
+
+    return fecha_actual_formateada
 
 def get_current_time():
     now = timezone.now()
