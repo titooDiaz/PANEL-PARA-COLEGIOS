@@ -21,15 +21,43 @@ class BoardProfesores(View):
             'abierto':abierto,
         }
         return render(request, 'users/profesores/inicio.html', context)
-    
+
+
+import pytz
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+
+def get_user_timezone(user):
+    return user.time_zone
+
+def get_current_date(user):
+    user_timezone_str = get_user_timezone(user)
+    user_timezone = pytz.timezone(user_timezone_str)
+    fecha_actual = timezone.now().astimezone(user_timezone).date()
+    return fecha_actual.strftime('%Y-%m-%d')
+
+def get_current_time(user):
+    user_timezone_str = get_user_timezone(user)
+    user_timezone = pytz.timezone(user_timezone_str)
+    now = timezone.now().astimezone(user_timezone)
+    return now.replace(second=0, microsecond=0).time()
+
+
+
 class ViewActividades(View):
     def get(self, request, pk, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
-        actividades_form = ActividadesForm()
         materia = Materias.objects.get(pk=pk)
         grado = Grado.objects.get(materias=materia)
         print(grado)
+        initial_data = {
+            'fecha_inicio': get_current_date(request.user),
+            'fecha_final': get_current_date(request.user),
+            'hora_inicio': get_current_time(request.user),
+            'hora_final': get_current_time(request.user),
+        }
+        actividades_form = ActividadesForm(initial=initial_data)
         context = {
             'materia': materia,
             'grado': grado,

@@ -18,6 +18,11 @@ class ActividadesForm(forms.ModelForm):
             'hora_inicio': forms.TimeInput(attrs={'id':'hora_inicio','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
             
             'fecha_inicio': forms.DateInput(attrs={'id':'fecha_inicio','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
+            
+            'hora_final': forms.TimeInput(attrs={'id':'hora_final','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
+            
+            'fecha_final': forms.DateInput(attrs={'id':'fecha_final','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
+        
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
