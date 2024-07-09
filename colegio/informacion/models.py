@@ -112,7 +112,6 @@ class Grado(models.Model):
 
 def get_current_date():
     fecha_actual = timezone.now().date()
-
     # Convertir la fecha a una cadena en el formato 'YYYY-MM-DD'
     fecha_actual_formateada = fecha_actual.strftime('%Y-%m-%d')
 
@@ -157,7 +156,8 @@ def files(instance, filename):
 class Archivo(models.Model):
     actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE, related_name='archivos')
     archivo = models.FileField(upload_to=files)
-    nombre = models.CharField(max_length=255, blank=True)
+    nombre = models.CharField(max_length=40, blank=True)
+    descripccion = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.nombre or self.archivo.name
