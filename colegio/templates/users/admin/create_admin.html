@@ -10,6 +10,11 @@
 {% load static %}
 <div class="bg-white p-8 rounded-lg shadow-lg">
     <h5 class="text-5xl font-mono mb-4">CREA UN ADMINISTRADOR</h5>
+
+    <div>
+        <p>Este estudiante se guardara con tu misma zona horaria (<span id="time_locate"></span>)</p>
+    </div>
+    
     <!-- Formulario Para Crear Las Cuentas De Los administradores -->
 
     <form method="post" action="{% url 'CrearAdmin' %}">
@@ -52,6 +57,7 @@
                     {{form.password2}}
                     {{form.password1}}
                 </div>
+                {{form.time_zone}}
             </div>
             <div class="mt-4">
                 <button type="submit" id="myButton" class=" block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
@@ -59,6 +65,9 @@
         </div>              
     </form>
 </div>
+
+<!--HORA-->
+<script src="{% static 'js/hora/localizacion.js' %}"></script>
 
 <!--PASSWORD INPUTS-->
 <script src="{% static 'js/password_create_users.js' %}"></script>

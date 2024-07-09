@@ -76,7 +76,7 @@ class CustomUserAlumnoForm(UserCreationForm):
 class CustomUserGestorForm(UserCreationForm):
     class Meta:
         model = CustomUserGestor
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio','cords','foto')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio','cords','foto', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -114,7 +114,7 @@ class CustomUserGestorForm(UserCreationForm):
 class CustomUserAdministradorForm(UserCreationForm):
     class Meta:
         model = CustomUserAdministrador
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'colegio','cords','foto')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'colegio','cords','foto', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -162,7 +162,7 @@ class CustomUserProfesoresForm(UserCreationForm):
             self.fields['titular'].queryset = titular
     class Meta:
         model = CustomUserProfesores
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'colegio','cords','foto')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'colegio','cords','foto', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -206,7 +206,7 @@ class CustomUserAcudienteForm(UserCreationForm):
             self.fields['estudiante'].queryset = CustomUserAlumno.objects.filter(colegio=estudiantes_colegio)
     class Meta:
         model = CustomUserAcudiente
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo', 'colegio')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo', 'colegio', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),

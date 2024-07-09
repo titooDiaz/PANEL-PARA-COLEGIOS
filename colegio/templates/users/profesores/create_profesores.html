@@ -14,6 +14,11 @@
 </head>
 <div class="bg-white p-8 rounded-lg shadow-lg">
     <h5 class="text-5xl font-mono mb-4">CREA UN PROFESOR</h5>
+
+    <div>
+        <p>Este estudiante se guardara con tu misma zona horaria (<span id="time_locate"></span>)</p>
+    </div>
+    
     <!-- Formulario Para Crear Las Cuentas De Los Alumnos -->
 
     <form method="post" action="{% url 'CrearProfesor' %}" enctype="multipart/form-data" id="formulario">
@@ -68,6 +73,7 @@
                     {{form.password1}}
                 </div>
                 {{form.cords}}
+                {{form.time_zone}}
                 <div>
                     <label for="password" class="block text-xl font-medium text-gray-900">Contraseña:</label>
                     {{form.password}}
@@ -82,6 +88,9 @@
 
 <!--PASSWORD INPUTS-->
 <script src="{% static 'js/password_create_users.js' %}"></script>
+
+<!--HORA-->
+<script src="{% static 'js/hora/localizacion.js' %}"></script>
 
 <!--RECORTE DE IMAGENES-->
 <script src="{% static 'js/recorte_imagenes/jquery.js' %}"></script>
