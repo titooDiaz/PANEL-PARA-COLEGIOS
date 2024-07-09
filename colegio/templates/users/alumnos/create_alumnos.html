@@ -13,6 +13,11 @@
 
 <div class="bg-white p-8 rounded-lg shadow-lg">
     <h5 class="text-5xl font-mono mb-4">CREA UN ALUMNO</h5>
+
+    <div>
+        <p>Este estudiante se guardara con tu misma zona horaria (<span id="time_locate"></span>)</p>
+    </div>
+
     <!-- Formulario Para Crear Las Cuentas De Los Alumnos -->
 
     <form method="post" action="{% url 'CrearAlumno' %}" enctype="multipart/form-data" id="formulario">
@@ -66,7 +71,7 @@
                     {{form.password2}}
                     {{form.password1}}
                 </div>
-
+                {{form.time_zone}}
                 {{form.cords}}
             </div>
             <div class="mt-4 mx-8">
@@ -78,6 +83,9 @@
 </div>
 <!--PASSWORD INPUTS-->
 <script src="{% static 'js/password_create_users.js' %}"></script>
+
+<!--HORA-->
+<script src="{% static 'js/hora/localizacion.js' %}"></script>
 
 <!--RECORTE DE IMAGENES-->
 <script src="{% static 'js/recorte_imagenes/jquery.js' %}"></script>

@@ -37,9 +37,11 @@ class CustomUserAlumnoForm(UserCreationForm):
             self.fields['grado'].queryset = grado
     class Meta:
         model = CustomUserAlumno
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto', 'colegio')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto', 'colegio', 'time_zone')
 
         widgets = {
+            'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
+            
             'username': forms.TextInput(attrs={'id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del usuario','autocomplete':'off'}),
 
             'first_name': forms.TextInput(attrs={'id':'first_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombres del usuario','autocomplete':'off'}),
@@ -77,6 +79,7 @@ class CustomUserGestorForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio','cords','foto')
 
         widgets = {
+            'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del usuario'}),
 
             'first_name': forms.TextInput(attrs={'autocomplete': 'off','id':'first_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombres del usuario'}),
@@ -114,6 +117,8 @@ class CustomUserAdministradorForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'colegio','cords','foto')
 
         widgets = {
+            'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
+            
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Numero De Documento'}),
 
             'first_name': forms.TextInput(attrs={'autocomplete': 'off','id':'first_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombres del usuario'}),
@@ -160,6 +165,8 @@ class CustomUserProfesoresForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'colegio','cords','foto')
 
         widgets = {
+            'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
+            
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Numero De Documento'}),
 
             'first_name': forms.TextInput(attrs={'autocomplete': 'off','id':'first_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombres del usuario'}),
@@ -202,6 +209,7 @@ class CustomUserAcudienteForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo', 'colegio')
 
         widgets = {
+            'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
             
             'estudiante': forms.CheckboxSelectMultiple(attrs={'id':'estudiante','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-orange-600 block w-20 p-2.5 estudiantes', 'placeholder': 'estudiante', 'id':'checkbox'}),
 
