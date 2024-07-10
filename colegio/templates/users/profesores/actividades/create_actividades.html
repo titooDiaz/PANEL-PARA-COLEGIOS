@@ -35,16 +35,59 @@
         <hr class="hidden lg:block mt-4">
         <hr class="mt-4"> 
 
-        <h4 class="text-xl tracking-tight font-bold text-gray-900">Tu hora local: (<span id="time_locate"></span>)</h4>
-        <h4 class="text-xl tracking-tight font-bold text-gray-900"></h4>
+        <div class="flex text-xl tracking-tight font-bold text-gray-900">
+            <h4>Tu actividad tendra zona horaria de: (<span id="time_locate"></span>)</h4> 
+            
+            <div class="flex ml-4">
+                <div class="flex ml-4 relative">
+                    <div id="information" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#ffffff7c]">
+                        
+                        <div class="flex items-center justify-center min-h-screen">
+                            <div class="bg-white border-2 border-black p-2 rounded-lg">
+                                <h5>Tu actividad tendrá zona horaria de: (<span id="time_locate"></span>)</h5>
+                                <p class="text-sm">hola</p> 
+                            </div> 
+                        </div>
+                        
+                    </div>
+                    <a id="active_information" class="hover:cursor-pointer">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                    </a>
+                </div>
+                
+            </div>
+
+            <script >
+                document.getElementById('active_information').addEventListener('click', function() {
+                var infoDiv = document.getElementById('information');
+                if (infoDiv.classList.contains('hidden')) {
+                    infoDiv.classList.remove('hidden');
+                } else {
+                    infoDiv.classList.add('hidden');
+                }
+            });
+
+            </script>
+        
+        </div>
+
+        <div></div>
 
         <div>
-            <label for="hora_inicio" class="block text-xl font-medium text-gray-900">Fecha de inicio de la actividad:</label>
+            <label for="hora_inicio" class="block text-xl font-medium text-gray-900">Hora de inicio de la actividad:</label>
             {{actividades.hora_inicio}}
         </div>
         <div>
             <label for="fecha_inicio" class="block text-xl font-medium text-gray-900">Fecha de inicio de la actividad:</label>
             {{actividades.fecha_inicio}}
+        </div>
+        <div>
+            <label for="hora_final" class="block text-xl font-medium text-gray-900">Hora de limite de la actividad:</label>
+            {{actividades.hora_final}}
+        </div>
+        <div>
+            <label for="fecha_final" class="block text-xl font-medium text-gray-900">Fecha de limite de la actividad:</label>
+            {{actividades.fecha_final}}
         </div>  
     </div>
     <div class="mt-4">
