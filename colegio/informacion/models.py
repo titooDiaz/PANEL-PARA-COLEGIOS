@@ -132,6 +132,7 @@ class Actividades(models.Model):
     fecha_final = models.DateField(default=get_current_date)
     hora_inicio = models.TimeField(default=get_current_time)
     hora_final = models.TimeField(default=get_current_time)
+    lugar_zona_horaria = models.TextField(null=True)
     zona_horaria = models.BooleanField(default=True) # cuando este activa significa que sera en el lugar que se encuntre el profesor en este momento
     #si esta inactiva significa que se colocara la fecha donde se creo su perfil!
     #esta opcion solo aprece cuando los lugares y la zona horario es diferente

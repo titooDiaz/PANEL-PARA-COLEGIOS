@@ -5,9 +5,11 @@ from django.forms.widgets import DateInput, TimeInput
 class ActividadesForm(forms.ModelForm):
     class Meta:
         model = Actividades
-        fields = ['titulo', 'descripcion', 'tipo', 'porcentaje', 'fecha_inicio', 'fecha_final', 'hora_inicio', 'hora_final', 'zona_horaria']
+        fields = ['titulo', 'descripcion', 'tipo', 'porcentaje', 'fecha_inicio', 'fecha_final', 'hora_inicio', 'hora_final', 'zona_horaria', 'lugar_zona_horaria']
         widgets = {
             'titulo': forms.TextInput(attrs={'autocomplete': 'off','id':'titulo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Titulo de la actividad'}),
+            
+            'lugar_zona_horaria': forms.TextInput(attrs={'autocomplete': 'off','id':'lugar_zona_horaria','class': 'hidden'}),
 
             'descripcion': forms.TextInput(attrs={'autocomplete': 'off','id':'descripcion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion de la actividad'}),
             
@@ -23,7 +25,7 @@ class ActividadesForm(forms.ModelForm):
             
             'fecha_final': forms.DateInput(attrs={'id':'fecha_final','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
 
-            'zona_horaria': forms.CheckboxInput(attrs={'id':'zona_horaria','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300 w-full h-12',}),
+            'zona_horaria': forms.CheckboxInput(attrs={'id':'zona_horaria','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300 focus:ring-orange-600 w-full h-12',}),
 
         }
     def __init__(self, *args, **kwargs):

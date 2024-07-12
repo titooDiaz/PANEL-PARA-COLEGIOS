@@ -3,7 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     const locate = document.querySelectorAll('.time_locate');
-    console.log(locate)
+    const zone_locate = document.getElementById('time_locate');
+    const form_zone = document.getElementById('lugar_zona_horaria');
+    form_zone.value = timezone;
+
+    zone_locate.innerHTML = timezone;
 
     locate.forEach(element => {
         element.innerHTML = timezone;
@@ -24,6 +28,8 @@ document.addEventListener('DOMContentLoaded', function () {
             locate.forEach(element => {
                 element.classList.remove('hidden');
             });
+
+            form_zone.value = timezone;
             
         } else {
             zone.forEach(element => {
@@ -32,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
             locate.forEach(element => {
                 element.classList.add('hidden');
             });
+            form_zone.value = "";
             // Aquí puedes poner el código que deseas ejecutar cuando el checkbox esté desmarcado
         }
     });
