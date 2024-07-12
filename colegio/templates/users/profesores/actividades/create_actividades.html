@@ -36,7 +36,7 @@
         <hr class="mt-4"> 
 
         <div class="flex text-xl tracking-tight font-bold text-gray-900">
-            <h4>Tu actividad tendra zona horaria de: (<span id="time_locate"></span>)</h4> 
+            <h4>Tu actividad tendra zona horaria de: (<span class="time_locate"></span> <h5><span class="time_zone hidden">{{request.user.time_zone}}</span></h5>) </h4> 
             
             <div class="flex ml-4">
                 <div class="flex ml-4 relative">
@@ -44,8 +44,19 @@
                         
                         <div class="flex items-center justify-center min-h-screen">
                             <div class="bg-white border-2 border-black p-2 rounded-lg">
-                                <h5>Tu actividad tendrá zona horaria de: (<span id="time_locate"></span>)</h5>
-                                <p class="text-sm">hola</p> 
+                                <a id="close_information" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2">
+                                    <p class="mr-4">cerrar</p>
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </a>
+                                
+                                <h5><span class="time_locate"></span></h5> <!--Localizacion del usuario actual-->
+                                <h5><span class="time_zone hidden">{{request.user.time_zone}}</span></h5> <!--localizacion de hora al crear al usuario-->
+                                {{actividades.zona_horaria}}
+                                <p class="text-sm mt-4">
+                                    ACTIVO PARA ZONA HORARIA LOCAL (<span></span>)
+                                    <br>
+                                    DESACTIVO PARA ZONA HORARIA CON QUE FUISTE CREADO (<span></span>)
+                                </p> 
                             </div> 
                         </div>
                         
@@ -57,17 +68,6 @@
                 
             </div>
 
-            <script >
-                document.getElementById('active_information').addEventListener('click', function() {
-                var infoDiv = document.getElementById('information');
-                if (infoDiv.classList.contains('hidden')) {
-                    infoDiv.classList.remove('hidden');
-                } else {
-                    infoDiv.classList.add('hidden');
-                }
-            });
-
-            </script>
         
         </div>
 
@@ -95,7 +95,9 @@
     </div>
 </form>
 
-<script src="{% static 'js/hora/localizacion.js' %}"></script>
+<script src="{% static 'js/hora/actividades.js' %}"></script>
+
+<script src="{% static 'js/ventanas/emergentes.js' %}"></script>
 
 
 
