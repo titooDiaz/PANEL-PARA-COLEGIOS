@@ -44,18 +44,28 @@
                         
                         <div class="flex items-center justify-center min-h-screen">
                             <div class="bg-white border-2 border-black p-2 rounded-lg">
-                                <a id="close_information" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2">
+                                <a id="close_information" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
                                     <p class="mr-4">cerrar</p>
                                     <i class="fa-solid fa-circle-xmark"></i>
                                 </a>
                                 
-                                <h5><span class="time_locate"></span></h5> <!--Localizacion del usuario actual-->
-                                <h5><span class="time_zone hidden">{{request.user.time_zone}}</span></h5> <!--localizacion de hora al crear al usuario-->
+                                <div class="mb-4">
+                                    <h5 class="flex"><span class="time_locate text-center w-full"></span></h5> <!--Localizacion del usuario actual-->
+                                    <h5 class="flex"><span class="time_zone hidden text-center w-full">{{request.user.time_zone}}</span></h5> <!--localizacion de hora al crear al usuario-->
+                                
+                                </div>
+
                                 {{actividades.zona_horaria}}
                                 <p class="text-sm mt-4">
-                                    ACTIVO PARA ZONA HORARIA LOCAL (<span></span>)
+                                    ACTIVO: 
                                     <br>
-                                    DESACTIVO PARA ZONA HORARIA CON QUE FUISTE CREADO (<span></span>)
+                                    ZONA HORARIA LOCAL (<span class="time_locate"></span>)
+                                    <br>
+                                    
+                                    <br>
+                                    DESACTIVO: 
+                                    <br>
+                                    ZONA HORARIA CON QUE FUISTE CREADO (<span>{{ request.user.time_zone }}</span>)
                                 </p> 
                             </div> 
                         </div>
