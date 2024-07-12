@@ -90,6 +90,7 @@ class ViewActividades(View):
                 
                 # Guarda la instancia del modelo en la base de datos
                 actividad.save()
+                messages.success(request, 'Actividad agregada correctamente!')
             except Materias.DoesNotExist:
                 messages.error(request, 'La materia especificada no existe')
                 return redirect('BoardProfesores')
