@@ -5,7 +5,7 @@ from users.models import CustomUser, CustomUserAdministrador, CustomUserAlumno
 class RedirectUser(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            if hasattr(request.user, 'customuseralumno'):
+            if hasattr(request.user, 'CustomUserAlumno'):
                 return redirect('BoardAlumno')
             elif hasattr(request.user, 'customuserprofesores'):
                 return redirect('BoardProfesores')
