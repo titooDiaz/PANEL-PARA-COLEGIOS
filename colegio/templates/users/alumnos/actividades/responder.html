@@ -1,0 +1,19 @@
+
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Inicio - Estudiantes</title>
+</head>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- otros campos del formulario -->
+    <label for="archivos">Subir archivos:</label>
+    <input type="file" id="archivos" name="archivos" multiple>
+    <button type="submit">Enviar</button>
+</form>
+
+{% endblock content %}  

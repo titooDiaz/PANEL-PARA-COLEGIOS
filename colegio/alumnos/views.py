@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View    
 from informacion.models import Actividades, Grado
+from django.shortcuts import render, redirect
+from django.views import View
+from informacion.models import Actividades_Respuesta_Estudiantes, Archivo
+from .forms import ActividadesRespuestaForm
 
 
 class AlumnoBoard(View):
@@ -26,6 +30,22 @@ class AlumnoBoard(View):
             
         }
         return render(request, 'users/alumnos/inicio.html', context)
+    
+class ActividadesRespuestaView(View):
+    def get(self, request, *args, **kwargs):
+        form = ActividadesRespuestaForm()
+        return render(request, 'users/alumnos/actividades/responder.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = ActividadesRespuestaForm(request.POST)
+        if form.is_valid():
+            respuesta = form.save(commit=False)
+            respuesta.author = request.user
+            respuesta.save()
+            for archivo in request.FILES.getlist('archivos'):
+                Archivo.objects.create(actividad_respuesta=respuesta, archivo=archivo)
+            return redirect('success_url')
+        return render(request, 'users/alumnos/actividades/responder.html', {'form': form})
     
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
