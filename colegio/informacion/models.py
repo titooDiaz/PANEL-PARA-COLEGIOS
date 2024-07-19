@@ -148,12 +148,12 @@ class Actividades(models.Model):
 
 
 def files(instance, filename):
-    profile_picture_name = 'actividades_profesores/{0}/{1}({2})/{3}'.format(
-        instance.actividad.titulo, instance.actividad.grado, random.randint(1, 9999), filename)
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+    archivo_guia = 'actividades_profesores/{0}/{1}({2})/{3}'.format(
+        instance.actividad.titulo, instance.actividad.grado, instance.actividad.pk, filename)
+    full_path = os.path.join(settings.MEDIA_ROOT, archivo_guia)
     if os.path.exists(full_path):
         os.remove(full_path)
-    return profile_picture_name
+    return archivo_guia
 class Archivo(models.Model):
     actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE, related_name='archivos')
     archivo = models.FileField(upload_to=files)
@@ -163,8 +163,41 @@ class Archivo(models.Model):
     def __str__(self):
         return self.nombre or self.archivo.name
     
+    
+    
+class Actividades_Respuesta_Estudiantes(models.Model):
+    respuesta = models.TextField()
+    descripcion = models.TextField()
+    fecha_entrega = models.DateField(default=get_current_date)
+    hora_entrega = models.TimeField(default=get_current_time)
+    lugar_zona_horaria = models.TextField(null=True)
+    misma_zona = models.BooleanField(default=True) #si el estudiante cambia la fecha este elemnto saldra como falso
+    
+    ano_creacion = models.IntegerField(default=ano_actual())
+    estado = models.BooleanField(default=True)
+    created_on = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_respuesta')
+    actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadRespuesta')
 
+    def __str__(self):
+        return f"ACTIVIDAD ENTREGADA POR: {self.author}"
 
+def files_respuesta(instance, filename):
+    archivo_respuesta = 'actividades_profesores/{0}/{1}({2})/{3}'.format(
+        instance.actividad.titulo, instance.actividad.grado, random.randint(1, 9999), filename)
+    full_path = os.path.join(settings.MEDIA_ROOT, archivo_respuesta)
+    if os.path.exists(full_path):
+        os.remove(full_path)
+    return archivo_respuesta
+
+class Archivo_Respuesta(models.Model):
+    respuesta = models.TextField()
+    actividad_respuesta = models.ForeignKey(Actividades_Respuesta_Estudiantes, on_delete=models.CASCADE, related_name='archivos')
+    archivo = models.FileField(upload_to=files_respuesta)
+    descripcion = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.descripcion if self.descripcion else str(self.archivo)
 
 class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
     ano_creacion = models.IntegerField(default=ano_actual())
