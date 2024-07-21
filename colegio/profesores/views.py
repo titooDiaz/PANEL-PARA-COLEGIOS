@@ -14,11 +14,13 @@ class BoardProfesores(View):
         profesor = request.user.pk
         materias_profesor = Materias.objects.filter(profe1=profesor) | Materias.objects.filter(profe2=profesor)
         grados = Grado.objects.filter(materias__in=materias_profesor).distinct()
+        actividades = Actividades.objects.filter(materia__in=materias_profesor)
         context = {
             'grados': grados,
             'materias_profesor': materias_profesor,
             'vista': vista,
             'abierto':abierto,
+            'actividades': actividades,
         }
         return render(request, 'users/profesores/inicio.html', context)
 

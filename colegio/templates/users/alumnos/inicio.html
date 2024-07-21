@@ -29,8 +29,8 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="flex w-full ml-6 bg-red-200 rounded-lg">
+                    {%endif%}
+                    <div class="flex w-full ml-6 bg-white rounded-lg">
                         <div class="w-full">
                             <div class="m-2">
                                 <div>
@@ -39,13 +39,12 @@
                             </div>
                             <hr>
                             <div class="m-2">
-                                <p>{{actividad.titulo}}</p>
+                                <p class="font-bold">{{actividad.titulo}}</p>
                                 <p>{{actividad.descripcion}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                {%endif%}
             {% endfor %}
         </div>
     </div>

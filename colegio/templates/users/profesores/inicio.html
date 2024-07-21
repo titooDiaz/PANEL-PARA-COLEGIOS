@@ -28,14 +28,26 @@
                                 <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
                                 <p class="">{{ materia.descripcion1 }}</p>
                                 <img class="w-full p-4" src="{{ materia.picture1.url }}" alt="Alumno">
-                                
                                 <div class="mt-2">
                                     <div class="w-full flex">
                                         <a type="button" href=" {% url 'ViewActividades' materia.pk %} " class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">
-                                            <i class="fa-solid fa-plus"></i>
+                                            Crear Actividad
                                         </a>
                                     </div>
                                 </div>
+
+                                <!-- Mostrar actividades de la materia -->
+                                <div class="mt-4">
+                                    <h5 class="font-bold text-lg">Actividades:</h5>
+                                    <ul>
+                                        {% for actividad in actividades %}
+                                            {% if actividad.materia == materia %}
+                                                <li>{{ actividad.titulo }}: {{ actividad.descripcion }}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                
                             </div>
                         </div>
                     {% else %}
@@ -58,6 +70,7 @@
                 </div>
             {% endif %}
         {% endfor %}
+
         </div>
     </div>
 {% endfor %}
