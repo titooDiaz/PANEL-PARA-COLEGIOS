@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
 from informacion.models import Materias, Grado, Actividades, Archivo
-from .forms import ActividadesForm, ArchivoForm
+from .forms import ActividadesForm, ArchivoForm, FilesProfesoresForm
 from django.contrib import messages
 ## MENSAJES DE ERRORES ##
 from message_error import messages_error
@@ -117,7 +117,10 @@ class ViewActividades(View):
         grado = Grado.objects.get(materias=materia)
 
         actividades_form = ActividadesForm()
+        
+        form = FilesProfesoresForm()
         context = {
+            'form': form,
             'actividad': actividad,
             'materia': materia,
             'grado': grado,
@@ -126,34 +129,17 @@ class ViewActividades(View):
             'abierto':abierto,
         }
         return render(request, 'users/profesores/actividades/view_actividades.html', context)
-    def post(self, request, pk, *args, **kwargs):
-        actividades_form = ActividadesForm(request.POST)
-        #archivo_form = ArchivoForm(request.POST, request.FILES)
-
-        if actividades_form.is_valid():
-        # Crear una instancia del modelo sin guardar en la base de datos aún
-            actividad = actividades_form.save(commit=False)
-            actividad.author = request.user  # Asigna el usuario actual como autor
-
-            try:
-                materia_colegio = Materias.objects.get(pk=pk)
-                actividad.materia = materia_colegio  # Asigna la materia a la actividad
-                
-                # Guarda la instancia del modelo en la base de datos
-                actividad.save()
-                messages.success(request, 'Actividad agregada correctamente!')
-            except Materias.DoesNotExist:
-                messages.error(request, 'La materia especificada no existe')
-                return redirect('BoardProfesores')
-            except TypeError:
-                messages.error(request, 'Verifica tus datos')
-                return redirect('BoardProfesores')
-            
-            return redirect('BoardProfesores')
-
-        # Si el formulario no es válido, muestra los errores
-        messages.error(request, 'Formulario no válido')
-        return redirect('BoardProfesores')
+    def post(self, request, pk):
+        form = FilesProfesoresForm(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            print('xd')
+            archivo = form.save(commit=False)
+            actividad = Actividades.objects.get(pk=pk)
+            archivo.actividad = actividad
+            archivo.save()
+            return redirect('ViewActividades', pk=pk)
+        return redirect('ViewActividades', pk=pk)
     
 class EditActividades(View):
     def get(self, request, pk, *args, **kwargs):
@@ -201,9 +187,9 @@ class EditActividades(View):
                 messages.error(request, 'Verifica tus datos')
                 return redirect('BoardProfesores')
             
-            return redirect('BoardProfesores')
+            return redirect('ViewActividades', pk=actividad_id)
 
         # Si el formulario no es válido, muestra los errores
         messages.error(request, 'Formulario no válido')
         actividad_id = actividad.pk
-        return redirect('ViewActividades', pk=actividad_id)
+        return redirect('BoardProfesores')

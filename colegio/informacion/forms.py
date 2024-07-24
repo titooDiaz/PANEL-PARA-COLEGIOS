@@ -14,7 +14,6 @@ class HoraHorarioForm(forms.ModelForm):
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
 class MateriasHorarioForm(forms.ModelForm):
     def __init__(self, *args, materias_grado=None, **kwargs):
         super().__init__(*args, **kwargs)

@@ -148,17 +148,18 @@ class Actividades(models.Model):
 
 
 def files(instance, filename):
-    archivo_guia = 'actividades_profesores/{0}/{1}({2})/{3}'.format(
-        instance.actividad.titulo, instance.actividad.grado, instance.actividad.pk, filename)
+    archivo_guia = 'actividades_profesores/grado{0}({1})/{2}'.format(
+        instance.actividad.titulo, instance.actividad.pk, filename)
     full_path = os.path.join(settings.MEDIA_ROOT, archivo_guia)
     if os.path.exists(full_path):
         os.remove(full_path)
+    print(archivo_guia,"holaaa \n")
     return archivo_guia
 class Archivo(models.Model):
     actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE, related_name='archivos')
     archivo = models.FileField(upload_to=files)
     nombre = models.CharField(max_length=40, blank=True)
-    descripccion = models.CharField(max_length=255, blank=True)
+    descripcion = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.nombre or self.archivo.name

@@ -2,6 +2,14 @@ from django import forms
 from informacion.models import Actividades, Archivo
 from django.forms.widgets import DateInput, TimeInput
 
+
+class FilesProfesoresForm(forms.ModelForm):
+    class Meta:
+        model = Archivo
+        fields = ['archivo', 'nombre', 'descripcion']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 class ActividadesForm(forms.ModelForm):
     class Meta:
         model = Actividades
