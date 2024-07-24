@@ -1,0 +1,28 @@
+
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Inicio - Estudiantes</title>
+</head>
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="mx-auto max-w-screen-sm text-center">
+    <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grado_nom}} ({{grado.grado_num}})!</h2>
+    <h3 class="text-xl tracking-tight text-gray-900"><span class="font-bold">MATERIA: </span>{{materia.titulo1}}</h3>
+    <h3 class="text-xl tracking-tight text-gray-900 mb-8"><span class="font-bold">ACTIVIDAD: </span>{{actividad.titulo}}</h3>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    
+</form>
+
+<script src="{% static 'js/hora/actividades.js' %}"></script>
+
+<script src="{% static 'js/ventanas/emergentes.js' %}"></script>
+
+
+
+{% endblock content %}  
