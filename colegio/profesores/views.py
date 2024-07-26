@@ -115,12 +115,14 @@ class ViewActividades(View):
         materia_pk = actividad.materia.pk
         materia = Materias.objects.get(pk=materia_pk)
         grado = Grado.objects.get(materias=materia)
+        files = Archivo.objects.filter(actividad=pk)
 
         actividades_form = ActividadesForm()
         
         form = FilesProfesoresForm()
         context = {
             'form': form,
+            'files': files,
             'actividad': actividad,
             'materia': materia,
             'grado': grado,

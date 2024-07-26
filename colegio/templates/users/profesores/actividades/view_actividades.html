@@ -18,6 +18,14 @@
     <h4 class="font-bold">{{actividad.titulo}}</h4>
     <hr>
     <p>{{actividad.descripcion}}</p>
+
+    {%for file in files%}
+        <div class="">
+            {{file.nombre}}
+            <a href="{{ file.archivo.url }}">descargar archivo</a>
+        </div>
+        <br>
+    {% endfor %}
 </div>
 
 <form method="post" enctype="multipart/form-data">
