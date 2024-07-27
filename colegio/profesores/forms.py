@@ -7,6 +7,13 @@ class FilesProfesoresForm(forms.ModelForm):
     class Meta:
         model = Archivo
         fields = ['archivo', 'nombre', 'descripcion']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'autocomplete': 'off','id':'nombre','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Titulo de la actividad'}),
+            
+            'descripcion': forms.TextInput(attrs={'autocomplete': 'off','id':'descripcion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripccion del documento de la actividad'}),
+            
+            'archivo': forms.FileInput(attrs={'id':'archivo', 'class': 'hidden'}),
+        }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
