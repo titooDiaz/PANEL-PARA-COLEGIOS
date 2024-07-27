@@ -41,7 +41,7 @@
                                     <h5 class="font-bold text-lg mb-4">Actividades Vigentes:</h5>
                                         {% for actividad in actividades %}
                                             {% if actividad.materia == materia %}
-                                                <div class="mb-2"><a href=""><i class="fa-solid fa-pen"></i></a></i>
+                                                <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="fa-solid fa-pen"></i></a></i>
                                                      <span class="font-bold">{{ actividad.titulo }} ({{actividad.porcentaje}}%):</span> 
                                                      {{ actividad.descripcion }}
                                                 </div>

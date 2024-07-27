@@ -14,10 +14,16 @@
     <h3 class="text-xl tracking-tight text-gray-900 mb-8"><span class="font-bold">ACTIVIDAD: </span>{{actividad.titulo}}</h3>
 </div>
 
-<div class="w-full p-4 border-2 border-black rounded-xl">
-    <h4 class="font-bold">{{actividad.titulo}}</h4>
+<div class="w-full p-4 border border-black rounded-xl">
+    <h4 class="font-bold text-4xl mb-2">
+        <i class="fa-solid fa-heading"> - </i>
+        {{actividad.titulo}}
+    </h4>
     <hr>
-    <p>{{actividad.descripcion}}</p>
+    <p class="mt-4">
+        <i class="fa-solid fa-file-prescription"> - </i>
+        {{actividad.descripcion}}
+    </p>
 
     {%for file in files%}
         <div class="">
@@ -28,40 +34,69 @@
     {% endfor %}
 </div>
 
-<div class="mt-4">
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
-            <div>
-                <label for="nombre" class="block text-xl font-medium text-gray-900">Titulo de la actividad </label>
-                {{form.nombre}}
-            </div>
-            <div>
-                <label for="descripcion" class="block text-xl font-medium text-gray-900">descripcion</label>
-                {{form.descripcion}}
-            </div>
-            <div>
-                <p class="block text-xl font-medium text-gray-900">Archivo: </p>
-                <div class="flex items-center justify-center w-full">
-                    <label for="archivo" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                            </svg>
-                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+<div class="text-xl tracking-tight font-bold text-gray-900">
+    <div class="flex mt-4">
+        <h4>Deseas agregar archivos guias?</h4> 
+        <a id="active_information" class="hover:cursor-pointer ml-2">
+            <i class="fa-regular fa-square-plus"></i>
+        </a>
+    </div>  
+
+    <div class="flex ml-4">
+        <div class="flex ml-4 relative">
+            <div id="information" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
+                
+                <div class="flex items-center justify-center min-h-screen">
+                    <div class="bg-white border-2 border-black p-4 rounded-lg">
+                        <a id="close_information" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
+                            <p class="mr-4">cerrar</p>
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </a>
+                        
+                        <div class="mt-4">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
+                                    <div>
+                                        <label for="nombre" class="block text-xl font-medium text-gray-900">Titulo de la actividad </label>
+                                        {{form.nombre}}
+                                    </div>
+                                    <div>
+                                        <label for="descripcion" class="block text-xl font-medium text-gray-900">descripcion</label>
+                                        {{form.descripcion}}
+                                    </div>
+                                    <div>
+                                        <p class="block text-xl font-medium text-gray-900">Archivo: </p>
+                                        <div class="flex items-center justify-center w-full">
+                                            <label for="archivo" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                                    </svg>
+                                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                </div>
+                                                {{form.archivo}}
+                                            </label>
+                                        </div> 
+                                
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <button type="submit" id="myButton" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+                                </div>
+                            </form>
                         </div>
-                        {{form.archivo}}
-                    </label>
-                </div> 
-        
+                        
+                </div>
+                
             </div>
+            
         </div>
-        <div class="p-6">
-            <button type="submit" id="myButton" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
-        </div>
-    </form>
+        
+    </div>
+
 </div>
 
-
+<script src="{% static 'js/ventanas/emergentes.js' %}"></script>
 {% endblock content %}  

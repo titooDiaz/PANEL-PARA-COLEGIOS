@@ -93,14 +93,14 @@ class CreateActividades(View):
                 # Guarda la instancia del modelo en la base de datos
                 actividad.save()
                 messages.success(request, 'Actividad agregada correctamente!')
+                actividad_id = actividad.pk
+                return redirect('ViewActividades', pk=actividad_id)
             except Materias.DoesNotExist:
                 messages.error(request, 'La materia especificada no existe')
                 return redirect('BoardProfesores')
             except TypeError:
                 messages.error(request, 'Verifica tus datos')
                 return redirect('BoardProfesores')
-            
-            return redirect('BoardProfesores')
 
         # Si el formulario no es válido, muestra los errores
         messages.error(request, 'Formulario no válido')
@@ -182,16 +182,15 @@ class EditActividades(View):
                 # Guarda la instancia del modelo en la base de datos
                 actividad.save()
                 messages.success(request, 'Actividad agregada correctamente!')
+                actividad_id = actividad.pk
+                return redirect('ViewActividades', pk=actividad_id)
             except Materias.DoesNotExist:
                 messages.error(request, 'La materia especificada no existe')
                 return redirect('BoardProfesores')
             except TypeError:
                 messages.error(request, 'Verifica tus datos')
                 return redirect('BoardProfesores')
-            
-            return redirect('ViewActividades', pk=actividad_id)
 
         # Si el formulario no es válido, muestra los errores
         messages.error(request, 'Formulario no válido')
-        actividad_id = actividad.pk
         return redirect('BoardProfesores')
