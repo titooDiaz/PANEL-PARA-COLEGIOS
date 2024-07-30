@@ -217,6 +217,15 @@ class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE
     def __str__(self):
         return f"{self.hora_inicio} - {self.hora_fin}"
     
+class HorarioCortes(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
+    ano_creacion = models.IntegerField(default=ano_actual())
+    grado = models.ForeignKey(Grado, on_delete=models.CASCADE)
+    fecha_inicio = models.TimeField(blank=True, null=True)
+    fecha_fin = models.TimeField(blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.fecha_inicio} - {self.fecha_fin}"
+    
 class CortesHorario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
     ano_creacion = models.IntegerField(default=ano_actual())
     corte_num = models.IntegerField(blank=False)
