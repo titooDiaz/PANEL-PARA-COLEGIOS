@@ -23,3 +23,14 @@ colegio/users/migrations/
 colegio/theme/
 colegio/core/__pycache__/
 colegio/__pycache__/
+
+
+#IGNORAR ELEMENTOS PERSONALES DE USUARIOS
+colegio/media/actividad_profesores/media
+colegio/media/administradores/media
+colegio/media/alumnos/media
+colegio/media/colegiosBanner/media
+colegio/media/colegiosFoto/media
+colegio/media/gestores/media
+colegio/media/materias/media
+colegio/media/profesores/media

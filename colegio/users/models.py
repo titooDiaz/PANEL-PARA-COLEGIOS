@@ -55,7 +55,7 @@ def colegio_directory_path_profile(instance, filename):
 
 def colegio_directory_path_banner(instance, filename):
     # el cero es el format
-    profile_picture_name = 'colegiosBanner/{0}/banner.png'.format(instance.clave)
+    profile_picture_name = 'colegiosBanner/media/{0}/banner.png'.format(instance.clave)
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
@@ -92,7 +92,7 @@ class CustomUser(AbstractUser):
 ###########################END CUSTOM USER####################################
 def user_directory_path_profile_alumnos(instance, filename):
     # el cero es el format
-    profile_picture_name = 'alumnos/{0}/profile.png'.format(instance.username)
+    profile_picture_name = 'alumnos/media/{0}/profile.png'.format(instance.username)
     #que archivo guardamos..
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
 
@@ -128,7 +128,7 @@ class CustomUserAlumno(CustomUser):
 ###################################################
 def user_directory_path_profile_gestor(instance, filename):
     # el cero es el format
-    profile_picture_name = 'gestores/{0}/profile.png'.format(instance.username)
+    profile_picture_name = 'gestores/media/{0}/profile.png'.format(instance.username)
     #que archivo guardamos..
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
 
@@ -151,7 +151,7 @@ class CustomUserGestor(CustomUser):
 
 def user_directory_path_profile_profesor(instance, filename):
     # el cero es el format
-    profile_picture_name = 'profesores/{0}/profile.png'.format(instance.username)
+    profile_picture_name = 'profesores/media/{0}/profile.png'.format(instance.username)
     #que archivo guardamos..
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
 
@@ -184,7 +184,7 @@ class CustomUserProfesores(CustomUser):
 #######################################################################################################
 def user_directory_path_profile_administrador(instance, filename):
     # el cero es el format
-    profile_picture_name = 'administradores/{0}/profile.png'.format(instance.username)
+    profile_picture_name = 'administradores/media/{0}/profile.png'.format(instance.username)
     #que archivo guardamos..
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
 

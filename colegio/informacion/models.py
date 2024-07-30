@@ -60,7 +60,7 @@ class Horarios_Partes(models.Model):
         return "HORARIO DE " + self.titulo
 
 def picture_materia_1(instance, filename):
-    profile_picture_name = 'materias/{0}/{1}/{2}/picture.png'.format(instance.titulo1, instance.profe1, random.randint(1, 9999))
+    profile_picture_name = 'materias/media/{0}/{1}/{2}/picture.png'.format(instance.titulo1, instance.profe1, random.randint(1, 9999))
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
@@ -148,7 +148,7 @@ class Actividades(models.Model):
 
 
 def files(instance, filename):
-    archivo_guia = 'actividades_profesores/grado{0}({1})/{2}'.format(
+    archivo_guia = 'actividades_profesores/media/grado{0}({1})/{2}'.format(
         instance.actividad.titulo, instance.actividad.pk, filename)
     full_path = os.path.join(settings.MEDIA_ROOT, archivo_guia)
     if os.path.exists(full_path):
