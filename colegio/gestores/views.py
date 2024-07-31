@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
 from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm
-from informacion.models import Grado,Horarios_Partes, HorarioDiario, CortesHorario
+from informacion.models import Grado,Horarios_Partes, HorarioDiario, HorarioCortes
 from django.contrib import messages
 from users.models import CustomUserAlumno
 
@@ -340,13 +340,14 @@ class CreateHorarios(View):
         form = Horarios_PartesForm(request.POST)
         if form.is_valid():
             horario=form.save(commit=False)
-            horario.colegio=request.user.colegio #el horario del colegio va a ser el usuario en sesion en la vistas de admins!
+            colegio=request.user.colegio
+            horario.colegio=colegio #el horario del colegio va a ser el usuario en sesion en la vistas de admins!
             horario.author = request.user
             cortes = horario.cortes
             horario.save()
             
             for i in range(int(cortes)):
-                CortesHorario.objects.create(corte_num=i+1, horario=horario)
+                HorarioDiario.objects.create(colegio=colegio, corte_num=i+1)
             messages.success(request, '¡Horario agregado correctamente!')
         else:
             mensaje = "¡Hubo un error al agregar el Horario!"
