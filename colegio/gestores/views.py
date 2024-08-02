@@ -347,7 +347,8 @@ class CreateHorarios(View):
             horario.save()
             
             for i in range(int(cortes)):
-                HorarioDiario.objects.create(colegio=colegio, corte_num=i+1)
+                HorarioCortes.objects.create(colegio=colegio, corte_num=i+1)
+                
             messages.success(request, '¡Horario agregado correctamente!')
         else:
             mensaje = "¡Hubo un error al agregar el Horario!"

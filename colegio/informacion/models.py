@@ -65,8 +65,9 @@ def picture_materia_1(instance, filename):
     if os.path.exists(full_path):
         os.remove(full_path)
     return profile_picture_name
-class Materias(models.Model):
-    
+
+
+class Materias(models.Model):   
     electiva = models.BooleanField(default=False)
     ano_creacion = models.IntegerField(default=ano_actual())
     ##################electivas##############
