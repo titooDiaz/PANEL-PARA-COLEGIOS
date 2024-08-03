@@ -461,3 +461,16 @@ class CreateMateriasVer(View):
             'abierto':abierto,
         }
         return render(request, 'informacion/materias/ver_grados.html', context)
+    
+class EditCortesHorarios(View):
+    def get(self, request, *args, **kwargs):
+        horario = Horarios_Partes.objects.filter(colegio=request.user.colegio)
+        print(horario)
+        vista = 'gestor'
+        abierto='ajustes'
+        context = {
+            'horarios': horario,
+            'vista': vista,
+            'abierto':abierto,
+        }
+        return render(request, 'informacion/horarios/list_horarios_cortes.html', context)
