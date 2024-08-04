@@ -347,7 +347,7 @@ class CreateHorarios(View):
             horario.save()
             
             for i in range(int(cortes)):
-                HorarioCortes.objects.create(colegio=colegio, corte_num=i+1)
+                HorarioCortes.objects.create(horario=horario, corte_num=i+1)
                 
             messages.success(request, '¡Horario agregado correctamente!')
         else:
@@ -474,3 +474,35 @@ class EditCortesHorarios(View):
             'abierto':abierto,
         }
         return render(request, 'informacion/horarios/list_horarios_cortes.html', context)
+    
+class CreateCortes(View):
+    def post(self, request, pk, *args, **kwargs):
+        form = Horarios_PartesForm(request.POST)
+        if form.is_valid():
+            horario=form.save(commit=False)
+            colegio=request.user.colegio
+            horario.colegio=colegio #el horario del colegio va a ser el usuario en sesion en la vistas de admins!
+            horario.author = request.user
+            cortes = horario.cortes
+            horario.save()
+                
+            messages.success(request, '¡Horario agregado correctamente!')
+        else:
+            mensaje = "¡Hubo un error al agregar el Horario!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
+            print(form.errors)
+        return redirect('CrearHorarios')
+    
+    def get(self, request, pk, *args, **kwargs):
+        form = Horarios_PartesForm()
+        horario_id = pk
+        cortes = HorarioCortes.objects.filter(horario=horario_id)
+        vista = 'gestor'
+        abierto='ajustes'
+        context = {
+            'cortes': cortes,
+            'vista': vista,
+            'abierto':abierto,
+            'form': form,
+        }
+        return render(request, 'informacion/horarios/edit_cortes.html', context)

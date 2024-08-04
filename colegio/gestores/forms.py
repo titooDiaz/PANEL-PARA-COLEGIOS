@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUserGestor, CustomUserAlumno, CustomUserProfesores, CustomUserAdministrador, CustomUserAcudiente
-from informacion.models import Grado, Horarios_Partes, Materias
+from informacion.models import Grado, Horarios_Partes, Materias, HorarioCortes
 
 #imagenes de usuarios
 from django.forms import ClearableFileInput
@@ -315,4 +315,12 @@ class MateriasForm(forms.ModelForm):
             
             'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
             }
-        
+
+class HorarioCortesForm(forms.ModelForm):
+    class Meta:
+        model = HorarioCortes
+        fields = ['fecha_inicio', 'fecha_fin']
+        widgets = {
+            'fecha_inicio': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
+            'fecha_fin': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
+        }
