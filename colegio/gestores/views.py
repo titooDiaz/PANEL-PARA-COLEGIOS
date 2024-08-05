@@ -346,6 +346,7 @@ class CreateHorarios(View):
             horario.author = request.user
             cortes = horario.cortes
             horario.save()
+            horario_pk = horario.pk
             
             for i in range(int(cortes)):
                 HorarioCortes.objects.create(horario=horario, corte_num=i+1)
@@ -355,7 +356,7 @@ class CreateHorarios(View):
             mensaje = "¡Hubo un error al agregar el Horario!"
             messages_error.errores_formularios(form.errors, mensaje, request)
             print(form.errors)
-        return redirect('CrearHorarios')
+        return redirect('CrearHorariosCortes', pk=horario_pk)
     
     def get(self, request, *args, **kwargs):
         form = Horarios_PartesForm()
@@ -488,7 +489,7 @@ class CreateCortes(View):
             mensaje = "¡Hubo un error al editar el corte!"
             messages_error.errores_formularios(form.errors, mensaje, request)
             print(form.errors)
-        return redirect('CrearMaterias', pk=pk)
+        return redirect('CrearHorariosCortes', pk=pk)
     
     def get(self, request, pk, *args, **kwargs):
         form = HorarioCortesForm()
