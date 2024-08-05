@@ -4,6 +4,7 @@ from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfeso
 from informacion.models import Grado,Horarios_Partes, HorarioDiario, HorarioCortes
 from django.contrib import messages
 from users.models import CustomUserAlumno
+from .forms import HorarioCortesForm
 
 #colores para consola
 from colores import Colores
@@ -477,24 +478,20 @@ class EditCortesHorarios(View):
     
 class CreateCortes(View):
     def post(self, request, pk, *args, **kwargs):
-        form = Horarios_PartesForm(request.POST)
+        form = HorarioCortesForm(request.POST)
         if form.is_valid():
-            horario=form.save(commit=False)
-            colegio=request.user.colegio
-            horario.colegio=colegio #el horario del colegio va a ser el usuario en sesion en la vistas de admins!
-            horario.author = request.user
-            cortes = horario.cortes
-            horario.save()
+            corte=form.save(commit=False)
+            corte.save()
                 
-            messages.success(request, '¡Horario agregado correctamente!')
+            messages.success(request, '¡Editaste el corte correctamente!')
         else:
-            mensaje = "¡Hubo un error al agregar el Horario!"
+            mensaje = "¡Hubo un error al editar el corte!"
             messages_error.errores_formularios(form.errors, mensaje, request)
             print(form.errors)
-        return redirect('CrearHorarios')
+        return redirect('CrearMaterias', pk=pk)
     
     def get(self, request, pk, *args, **kwargs):
-        form = Horarios_PartesForm()
+        form = HorarioCortesForm()
         horario_id = pk
         cortes = HorarioCortes.objects.filter(horario=horario_id)
         vista = 'gestor'

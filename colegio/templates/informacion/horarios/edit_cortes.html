@@ -25,29 +25,36 @@
                             
             <div class="flex items-center justify-center min-h-screen">
                 <div class="bg-white border-2 border-black p-4 rounded-lg">
-                    <button onclick="closeVentana('information', '{{corte.pk}}')" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
+                    <button onclick="closeVentana('information', '{{corte.pk}}')" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 font-bold text-red-500">
                         <p class="mr-4">cerrar</p>
                         <i class="fa-solid fa-circle-xmark"></i>
                     </button>
                     
-                    <div class="mb-4">
-                        <h5 class="flex text-2xl"><span class="time_locate text-center w-full"></span></h5> <!--Localizacion del usuario actual-->
-                        <h5 class="flex text-2xl"><span class="time_zone hidden text-center w-full">{{request.user.time_zone}}</span></h5> <!--localizacion de hora al crear al usuario-->
+                    <div class="mb-4 font-bold">
+                        
+                        <form method="post" action="{% url 'CrearHorariosCortes' corte.pk %}">
+                            {% csrf_token %}
+
+                            <div class="w-[30vh]">
+                                <img class="w-full" src="{% static 'img/informacion/calendario.gif' %}" alt="">
+                            </div>
+                            
+
+                            <div>
+                                <label for="fecha_inicio" class="font-bold">Fecha de inicio:</label>
+                                {{form.fecha_inicio}}
+                            </div>
+                            
+                            <div>
+                                <label for="fecha_fin" class="font-bold">Fecha de fin:</label>
+                                {{form.fecha_fin}}
+                            </div>
+                            <br>
+                            <button type="submit" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg w-full">Editar Fechas</button>
+                            
+                        </form>
                     
                     </div>
-
-                    {{actividades.zona_horaria}}
-                    <p class="text-sm mt-4">
-                        ACTIVO: 
-                        <br>
-                        ZONA HORARIA LOCAL (<span id="time_locate"></span>)
-                        <br>
-                        
-                        <br>
-                        DESACTIVO: 
-                        <br>
-                        ZONA HORARIA CON QUE FUISTE CREADO (<span>{{ request.user.time_zone }}</span>)
-                    </p> 
                 </div> 
             </div>
             
