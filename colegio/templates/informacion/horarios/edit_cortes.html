@@ -32,7 +32,7 @@
                     
                     <div class="mb-4 font-bold">
                         
-                        <form method="post" action="{% url 'CrearHorariosCortes' corte.pk %}">
+                        <form method="post" action="{% url 'EditHorariosCortes' corte.pk horario_pk %}">
                             {% csrf_token %}
 
                             <div class="w-[30vh]">

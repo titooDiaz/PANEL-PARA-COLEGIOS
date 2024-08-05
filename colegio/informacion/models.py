@@ -223,8 +223,8 @@ class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE
 class HorarioCortes(models.Model): 
     ano_creacion = models.IntegerField(default=ano_actual())
     horario = models.ForeignKey(Horarios_Partes, on_delete=models.CASCADE)
-    fecha_inicio = models.TimeField(blank=True, null=True)
-    fecha_fin = models.TimeField(blank=True, null=True)
+    fecha_inicio = models.DateField(blank=True, null=True)
+    fecha_fin = models.DateField(blank=True, null=True)
     corte_num = models.IntegerField(blank=False)
     activo = models.BooleanField(default=False)
     

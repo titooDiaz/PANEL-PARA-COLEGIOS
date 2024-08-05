@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, View
 from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm
 from informacion.models import Grado,Horarios_Partes, HorarioDiario, HorarioCortes
@@ -478,19 +478,6 @@ class EditCortesHorarios(View):
         return render(request, 'informacion/horarios/list_horarios_cortes.html', context)
     
 class CreateCortes(View):
-    def post(self, request, pk, *args, **kwargs):
-        form = HorarioCortesForm(request.POST)
-        if form.is_valid():
-            corte=form.save(commit=False)
-            corte.save()
-                
-            messages.success(request, '¡Editaste el corte correctamente!')
-        else:
-            mensaje = "¡Hubo un error al editar el corte!"
-            messages_error.errores_formularios(form.errors, mensaje, request)
-            print(form.errors)
-        return redirect('CrearHorariosCortes', pk=pk)
-    
     def get(self, request, pk, *args, **kwargs):
         form = HorarioCortesForm()
         horario_id = pk
@@ -498,9 +485,23 @@ class CreateCortes(View):
         vista = 'gestor'
         abierto='ajustes'
         context = {
+            'horario_pk': horario_id,
             'cortes': cortes,
             'vista': vista,
             'abierto':abierto,
             'form': form,
         }
         return render(request, 'informacion/horarios/edit_cortes.html', context)
+   
+class EditCortes(View):
+    def post(self, request, corte_pk, pk, *args, **kwargs):
+        horario = get_object_or_404(HorarioCortes, id=corte_pk)
+        form = HorarioCortesForm(request.POST, instance=horario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '¡Editaste el corte correctamente!')
+        else:
+            mensaje = "¡Hubo un error al editar el corte!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
+            print(form.errors)
+        return redirect('CrearHorariosCortes', pk=pk)
