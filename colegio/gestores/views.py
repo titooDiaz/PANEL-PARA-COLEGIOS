@@ -492,14 +492,39 @@ class CreateCortes(View):
             'form': form,
         }
         return render(request, 'informacion/horarios/edit_cortes.html', context)
-   
+
+
+def verificar_fecha(horario_pk, corte_pk):
+    corte = HorarioCortes.objects.get(id=corte_pk)
+    if not(corte.fecha_inicio < corte.fecha_fin):
+        return False
+    
+    cortes = HorarioCortes.objects.filter(horario=horario_pk)
+    fechas = [(i.fecha_inicio, i.fecha_fin) for i in cortes]
+    
+    for i, (inicio1, fin1) in enumerate(fechas):
+        for j, (inicio2, fin2) in enumerate(fechas):
+            if i != j:
+                if not (fin1 < inicio2 or fin2 < inicio1):
+                    return False
+                if not(fin1 > inicio1 or fin2 > inicio2):
+                    return False
+    return True
+
+
 class EditCortes(View):
     def post(self, request, corte_pk, pk, *args, **kwargs):
         horario = get_object_or_404(HorarioCortes, id=corte_pk)
         form = HorarioCortesForm(request.POST, instance=horario)
         if form.is_valid():
             form.save()
-            messages.success(request, '¡Editaste el corte correctamente!')
+            if verificar_fecha(pk, corte_pk):
+                messages.success(request, '¡Editaste el corte correctamente!')
+            else:
+                messages.error(request, '¡Las fechas estan intersectadas, revisa todos tus registros!')
+                horario.fecha_inicio = None
+                horario.fecha_fin = None
+                horario.save()
         else:
             mensaje = "¡Hubo un error al editar el corte!"
             messages_error.errores_formularios(form.errors, mensaje, request)
