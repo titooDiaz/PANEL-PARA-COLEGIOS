@@ -97,3 +97,8 @@ RECUERDA QUE CADA CAMBIO DEBE SER DOCUMENTADO
 Un buen codigo siempre debe tener una buena documentacion
 en caso de errores recuerda agregarlos a las inusualidades del proyecto
 </s>
+
+# VISTAS:
+## Login:
+
+<img src="./Documentation/images/login.png">
