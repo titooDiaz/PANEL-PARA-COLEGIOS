@@ -117,3 +117,15 @@ class CreateGestorColegio(View):
             'abierto':abierto,
         }
         return render(request, 'colegios/AgregarGestor.html', context)
+    
+class ViewColegios(View):
+    def get(self, request, *args, **kwargs):
+        colegios = Colegio.objects.all()
+        vista = 'plus'
+        abierto='colegio'
+        context = {
+            'colegios': colegios,
+            'vista': vista,
+            'abierto':abierto,
+        }
+        return render(request, 'colegios/VerColegios.html', context)
