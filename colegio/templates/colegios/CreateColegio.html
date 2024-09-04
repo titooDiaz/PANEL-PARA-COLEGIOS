@@ -13,19 +13,25 @@
     <link rel="stylesheet" href=" {% static 'css/recorte_imagenes/index.css' %}">
 </head>
 
-<div class="bg-white p-8 rounded-lg shadow-lg">
+<div class="p-8 rounded-lg shadow-lg">
 
 <form method="post" action="{% url 'ColegiosCreate' %}" enctype="multipart/form-data" id="formulario">
-    <div class="flex w-full h-[30vh] z-10">
-        <div class="group-banner">
-            <img src="{% static 'img/colegios/banner.png' %}" class="w-full h-full rounded-lg border border-black crop-image-banner" id="crop-image-banner">
-            {{form.banner}}
-            <label for="input-file-banner" class="label-file">Haz click aquí para subir una imagen</label>
+
+    <div class="relative">
+        <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+        <div class="relative h-full w-full items-center shadow-2xl duration-300 ease-in-out">
+
+        <div class="flex w-full h-[30vh]">
+            <div class="group-banner">
+                <img src="{% static 'img/colegios/banner.png' %}" class="w-full h-full rounded-lg border border-black crop-image-banner" id="crop-image-banner">
+                {{form.banner}}
+                <label for="input-file-banner" class="label-file">Haz click aquí para subir una imagen</label>
+            </div>
         </div>
-        
+        </div>
     </div>
 
-    <div class="z-20 ">
+    <div class="mt-[-60px]">
         <div class="container">
             <div class="group">
                 <img src="{% static 'img/colegios/profile.png' %}" class="crop-image" id="crop-image">
@@ -33,6 +39,7 @@
                 <label for="input-file" class="label-file">Haz click aquí para subir una imagen</label>
             </div>
         </div>
+    </div>
 
         <!--MODAL PARA RECORTAR IMAGEN-->
         <div class="modal">
