@@ -46,7 +46,7 @@ TIPO_SANGRE = [
 #MOVERLO A INFORMACION PODRIA PROVOCAR UNA RELACION INVERSA.
 def colegio_directory_path_profile(instance, filename):
     # el cero es el format
-    profile_picture_name = 'colegiosFoto/{0}/profile.png'.format(instance.clave)
+    profile_picture_name = 'colegiosFoto/media/{0}/profile.png'.format(instance.clave)
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
