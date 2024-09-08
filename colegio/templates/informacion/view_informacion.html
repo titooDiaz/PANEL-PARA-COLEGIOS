@@ -16,13 +16,13 @@
           
         <div id="{{colegio.id}}" class="relative">
           <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
-          <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+          <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl duration-300 ease-in-out">
             <div class="block w-full">
                 <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Horarios</h5>
                 <img class="w-full p-4" src="{% static 'img/informacion/calendario.png' %}" alt="Alumno">
                 <div class="mt-2 flex">
-                  <a type="button" href="{% url 'CrearHorarios' %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
-                  <button id="dropdownButtonHorario" type="button" href="#" class="myButton cardButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars" ></i>
+                  <a type="button" href="{% url 'CrearHorarios' %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                  <button id="dropdownButtonHorario" type="button" href="#" class="myButton cardButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars" ></i>
                   
                     <div class="absolute mt-4">
                       <div id="horario-dropdown" class="z-50 hidden absolute top-full mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow">
@@ -48,14 +48,14 @@
 
         <div id="{{colegio.id}}" class="relative">
           <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
-          <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+          <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl duration-300 ease-in-out">
               <div class="block w-full">
                   <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Grados</h5>
                   <img class="w-full p-4" src="{% static 'img/informacion/grado.png' %}" alt="Grados">
                   <div class="mt-2 flex">
-                      <a type="button" href="{% url 'CrearGrado' %}" class="myButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                      <a type="button" href="{% url 'CrearGrado' %}" class="myButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
 
-                      <button id="dropdownButtonGrados" type="button"  href="#" class="myButton cardButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i>
+                      <button id="dropdownButtonGrados" type="button"  href="#" class="myButton cardButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i>
                       
                         <div class="absolute mt-4">
                           <div id="grados-dropdown" class="z-50 hidden absolute top-full mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow">
@@ -78,13 +78,13 @@
 
         <div id="{{colegio.id}}" class="relative">
           <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
-          <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+          <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl duration-300 ease-in-out">
               <div class="block w-full">
                   <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Materias</h5>
                   <img class="w-full p-4" src="{% static 'img/informacion/deberes.png' %}" alt="Alumno">
                   <div class="mt-2 flex">
-                      <a type="button" href="{% url 'VerGradosMaterias' %}" class="myButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
-                      <button id="dropdownButtonMaterias" type="button" href="#" class="myButton cardButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i>
+                      <a type="button" href="{% url 'VerGradosMaterias' %}" class="myButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+                      <button id="dropdownButtonMaterias" type="button" href="#" class="myButton cardButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i>
                       
                         <div class="absolute mt-4">
                           <div id="materias-dropdown" class="z-50 hidden absolute top-full mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow">
