@@ -12,7 +12,7 @@
       <div class="mx-auto max-w-screen-sm text-center">
           <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8">OTRAS OPCIONES!</h2>
       </div> 
-      <div class="grid gap-8 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
+      <div class="grid gap-8 mb-6 lg:mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           
         <div id="{{colegio.id}}" class="relative">
           <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
@@ -104,6 +104,35 @@
               </div>
           </div>
         </div>
+
+        <div id="{{colegio.id}}" class="relative">
+          <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+          <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl duration-300 ease-in-out">
+              <div class="block w-full">
+                  <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Actividades</h5>
+                  <img class="w-full p-4" src="{% static 'img/informacion/grado.png' %}" alt="Grados">
+                  <div class="mt-2 flex">
+                      <a type="button" href="{% url 'CrearGrado' %}" class="myButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-8/12 py-2 text-center text-lg"><i class="fas fa-plus"></i></a>
+
+                      <button id="dropdownButtonGrados" type="button"  href="#" class="myButton cardButton  font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 w-3/12 py-2 text-center text-lg ml-auto"><i class="fas fa-bars"></i>
+                      
+                        <div class="absolute mt-4">
+                          <div id="grados-dropdown" class="z-50 hidden absolute top-full mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow">
+                            <ul class="py-2" aria-labelledby="ajuste-menu-button">
+                                <li>
+                                    <a href="{% url 'MirarGrados' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="mirar-dropdown">Mirar</a>
+                                </li>
+                                <li>
+                                    <a href="" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="editar-dropdown">Editar</a>
+                                </li>
+                            </ul>
+                          </div>
+                        </div> 
+
+                      </button>
+                    </div >
+              </div>
+          </div>
             
   </div>
 
