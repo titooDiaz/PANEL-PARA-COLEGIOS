@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, View
 from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm
-from informacion.models import Grado,Horarios_Partes, HorarioDiario, HorarioCortes
+from informacion.models import Grado,Horarios_Partes, HorarioDiario, HorarioCortes, ActividadesTipo
 from django.contrib import messages
 from users.models import CustomUserAlumno
-from .forms import HorarioCortesForm
+from .forms import HorarioCortesForm, ActividadesTipoForm
 
 #colores para consola
 from colores import Colores
@@ -530,3 +530,31 @@ class EditCortes(View):
             messages_error.errores_formularios(form.errors, mensaje, request)
             print(form.errors)
         return redirect('CrearHorariosCortes', pk=pk)
+    
+    
+class CreateActividadTipo(View):
+    def post(self, request, *args, **kwargs):
+        form = ActividadesTipoForm(request.POST)
+        if form.is_valid():
+            tipo_actividad = form.save(commit=False)
+            tipo_actividad.colegio = request.user.colegio
+            tipo_actividad.author = request.user
+            tipo_actividad.save()
+                
+            messages.success(request, '¡Actividad agregada correctamente!')
+        else:
+            mensaje = "¡Hubo un error al agregar este tipo de actividad!"
+            messages_error.errores_formularios(form.errors, mensaje, request)
+            print(form.errors)
+        return redirect('ActividadTipo')
+    
+    def get(self, request, *args, **kwargs):
+        form = ActividadesTipoForm()
+        vista = 'gestor'
+        abierto='ajustes'
+        context = {
+            'vista': vista,
+            'abierto':abierto,
+            'form': form,
+        }
+        return render(request, 'informacion/actividades/actividades.html', context)

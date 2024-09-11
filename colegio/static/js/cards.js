@@ -24,3 +24,12 @@ document.getElementById('dropdownButtonMaterias').addEventListener('click', func
       dropdown.classList.add('hidden');
   }
 });
+
+document.getElementById('dropdownButtonActividades').addEventListener('click', function() {
+  var dropdown = document.getElementById('actividades-dropdown');
+  if (dropdown.classList.contains('hidden')) {
+      dropdown.classList.remove('hidden');
+  } else {
+      dropdown.classList.add('hidden');
+  }
+});

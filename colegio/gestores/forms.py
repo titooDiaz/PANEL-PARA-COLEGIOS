@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUserGestor, CustomUserAlumno, CustomUserProfesores, CustomUserAdministrador, CustomUserAcudiente
-from informacion.models import Grado, Horarios_Partes, Materias, HorarioCortes
+from informacion.models import Grado, Horarios_Partes, Materias, HorarioCortes, ActividadesTipo
 
 #imagenes de usuarios
 from django.forms import ClearableFileInput
@@ -324,3 +324,14 @@ class HorarioCortesForm(forms.ModelForm):
             'fecha_inicio': forms.DateInput(attrs={'id':'fecha_inicio','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
             'fecha_fin': forms.DateInput(attrs={'id':'fecha_inicio','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
         }
+        
+class ActividadesTipoForm(forms.ModelForm):
+    class Meta:
+        model = ActividadesTipo
+        fields = ('titulo', 'descripcion')
+        widgets = {
+            'titulo': forms.TextInput(attrs={'id':'titulo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del Horario'}),
+            'descripcion': forms.TextInput(attrs={'id':'descripcion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Este horario...'}),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
