@@ -552,9 +552,11 @@ class CreateActividadTipo(View):
         form = ActividadesTipoForm()
         vista = 'gestor'
         abierto='ajustes'
+        actividades_creadas = ActividadesTipo.objects.filter(colegio = request.user.colegio)
         context = {
             'vista': vista,
             'abierto':abierto,
             'form': form,
+            'actividades': actividades_creadas,
         }
         return render(request, 'informacion/actividades/actividades.html', context)
