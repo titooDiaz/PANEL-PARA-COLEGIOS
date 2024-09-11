@@ -234,8 +234,8 @@ class HorarioCortes(models.Model):
     
 class ActividadesTipo(models.Model):
     colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadesColegio') #COLEGIO AL QUE PERTENECE EL USUARIO
-    titulo = models.TextField(default="Nombre no asignado.")
-    descripcion = models.TextField(default="Descripcion no asignada.")
+    titulo = models.TextField(null=False, blank=False)
+    descripcion = models.TextField(null=False, blank=False)
     estado = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_de_tipo_actividad')
