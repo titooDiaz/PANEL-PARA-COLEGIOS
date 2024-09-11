@@ -230,3 +230,16 @@ class HorarioCortes(models.Model):
     
     def __str__(self):
         return f"{self.fecha_inicio} - {self.fecha_fin}"
+    
+    
+class Actividades(models.Model):
+    colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadesColegio') #COLEGIO AL QUE PERTENECE EL USUARIO
+    titulo = models.TextField()
+    descripcion = models.TextField()
+    estado = models.BooleanField(default=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_de_tipo_actividad')
+    ano_creacion = models.IntegerField(default=ano_actual())
+    
+    def __str__(self):
+        return f"Actividad: {self.titulo}. Colegio: {self.colegio} "
