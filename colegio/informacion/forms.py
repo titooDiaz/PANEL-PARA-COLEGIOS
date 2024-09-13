@@ -24,6 +24,7 @@ class MateriasHorarioForm(forms.ModelForm):
             self.fields['miercoles'].queryset = materias_grado
             self.fields['jueves'].queryset = materias_grado
             self.fields['viernes'].queryset = materias_grado
+            print("hola")
             
     class Meta:
         model = HorarioDiario

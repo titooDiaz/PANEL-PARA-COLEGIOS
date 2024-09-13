@@ -28,6 +28,8 @@ PARA CADA MOVIMIENTO HYA UNA VISTA DEDICADA, QUE RETORNARA ESTA MISMA VISTA
          |
         \|/
 """
+
+# EN ESTA VISTA PODREMOS VER TODA LA TABLA DE HORARIOS (POR DEFECTO VACIA) EN NUESTROS GRADOS.
 class VerGradosHorario(View):
     def get(self, request, pk, *args, **kwargs):
         grado = Grado.objects.get(id=pk)
@@ -41,6 +43,7 @@ class VerGradosHorario(View):
         formularioHora = HoraHorarioForm()
         formularioMaterias = MateriasHorarioForm(materias_grado=materias_grado)
         context = {
+            'materias': materias_grado,
             'grado': grado,
             'vista': vista,
             'abierto':abierto,
@@ -50,6 +53,7 @@ class VerGradosHorario(View):
             'formMaterias': formularioMaterias,
         }
         return render(request, 'informacion/grados/horarios/ver_horario.html', context)
+#                                  \__--> En la vista manejaremos la logica en la cual aparecera las materias correspondientes a cada grado. en caso de ser vacia mostraremos otra cosa :)
 
 class EditarGradosHorarioHora(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
