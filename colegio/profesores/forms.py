@@ -1,5 +1,5 @@
 from django import forms
-from informacion.models import Actividades, Archivo
+from informacion.models import Actividades, Archivo, ActividadesTipo
 from django.forms.widgets import DateInput, TimeInput
 
 
@@ -18,6 +18,10 @@ class FilesProfesoresForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
 class ActividadesForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+            
     class Meta:
         model = Actividades
         fields = ['titulo', 'descripcion', 'tipo', 'porcentaje', 'fecha_inicio', 'fecha_final', 'hora_inicio', 'hora_final', 'zona_horaria', 'lugar_zona_horaria']
@@ -43,8 +47,6 @@ class ActividadesForm(forms.ModelForm):
             'zona_horaria': forms.CheckboxInput(attrs={'id':'zona_horaria','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300 focus:ring-orange-600 w-full h-12',}),
 
         }
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
 
 class ArchivoForm(forms.Form):
