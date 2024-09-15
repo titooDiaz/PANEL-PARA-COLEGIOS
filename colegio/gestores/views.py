@@ -5,6 +5,7 @@ from informacion.models import Grado,Horarios_Partes, HorarioDiario, HorarioCort
 from django.contrib import messages
 from users.models import CustomUserAlumno
 from .forms import HorarioCortesForm, ActividadesTipoForm
+from datetime import datetime, timedelta
 
 #colores para consola
 from colores import Colores
@@ -336,6 +337,38 @@ class CreateGrados(View):
         return render(request, 'informacion/grados/create_grados.html', context)
 
 
+def dividir_fechas_en_rangos(num_divisiones):
+    # Ano actual
+    ahora = datetime.now()
+    ano_actual = ahora.year
+
+    # (1 enero ano actual)
+    fecha_inicio = datetime(ano_actual, 1, 1)
+
+    # (ojala nunca cambien la fecha JAJAJ (31 diciembre ano actual))
+    fecha_fin = datetime(ano_actual, 12, 31)
+
+    # (duracion total)
+    duracion_total = fecha_fin - fecha_inicio
+
+    # Calcular la division del ano
+    duracion_division = duracion_total / num_divisiones
+
+    # Crear una lista de rangos
+    rangos = []
+    for i in range(num_divisiones):
+        inicio = fecha_inicio + duracion_division * i
+        fin = fecha_inicio + duracion_division * (i + 1) - timedelta(days=1)
+        if i == num_divisiones - 1:  # Asegurar que el último rango termine el 31 de diciembre
+            fin = fecha_fin
+        
+        rangos.append({
+            "inicio": inicio.strftime('%Y-%m-%d'),
+            "fin": fin.strftime('%Y-%m-%d')
+        })
+
+    return rangos
+
 class CreateHorarios(View):
     def post(self, request, *args, **kwargs):
         form = Horarios_PartesForm(request.POST)
@@ -348,8 +381,12 @@ class CreateHorarios(View):
             horario.save()
             horario_pk = horario.pk
             
-            for i in range(int(cortes)):
-                HorarioCortes.objects.create(horario=horario, corte_num=i+1)
+            num_divisiones = cortes # cortes tiene el numero de cortes
+            rangos = dividir_fechas_en_rangos(num_divisiones)
+
+            for i, rango in enumerate(rangos):
+                print(f"Rango {i + 1}: {rango['inicio']}   ---->   {rango['fin']}")
+                HorarioCortes.objects.create(horario=horario, corte_num=i+1, fecha_inicio=rango['inicio'], fecha_fin=rango['fin'])
                 
             messages.success(request, '¡Horario agregado correctamente!')
         else:
