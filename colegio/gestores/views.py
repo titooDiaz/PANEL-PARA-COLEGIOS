@@ -553,27 +553,41 @@ class EditCortes(View):
     def post(self, request, corte_pk, pk, *args, **kwargs):
         horario = get_object_or_404(HorarioCortes, id=corte_pk)
         
-        fecha_inicio = horario.fecha_inicio
-        fecha_fin = horario.fecha_fin
+        # Guardar las fechas originales
+        fecha_inicio_original = horario.fecha_inicio
+        fecha_fin_original = horario.fecha_fin
+
+        print(fecha_fin_original, fecha_inicio_original)  # Para debug
         form = HorarioCortesForm(request.POST, instance=horario)
+
         if form.is_valid():
             # Obtener valores del Formulario
             cleaned_data = form.cleaned_data
-            form.save()
+
+            # Guardar temporalmente las nuevas fechas
+            nueva_fecha_inicio = cleaned_data.get('fecha_inicio')
+            nueva_fecha_fin = cleaned_data.get('fecha_fin')
+
+            form.save()  # Guardar los datos temporalmente en la instancia de horario
+
+            # Verificar las fechas usando los datos del formulario
             if verificar_fecha(pk, corte_pk):
                 messages.success(request, '¡Editaste el corte correctamente!')
             else:
-                horario.fecha_fin = fecha_fin
-                horario.fecha_inicio = fecha_inicio
+                # Revertir las fechas al valor original
+                horario.fecha_inicio = fecha_inicio_original
+                horario.fecha_fin = fecha_fin_original
+                horario.save()  # Guardar los cambios revertidos en la base de datos
                 
-                error_fin = cleaned_data.get('fecha_fin')
-                error_inicio = cleaned_data.get('fecha_inicio')
-                messages.error(request, f'¡Las fechas estan intersectadas o cometiste algun error: ({error_inicio}) con ({error_fin}), revisa tus registros!')
-                # No guardar el formulario.
+                messages.error(
+                    request,
+                    f'¡Las fechas están intersectadas o cometiste algún error: ({nueva_fecha_inicio}) con ({nueva_fecha_fin}), revisa tus registros!'
+                )
         else:
             mensaje = "¡Hubo un error al editar el corte!"
             messages_error.errores_formularios(form.errors, mensaje, request)
             print(form.errors)
+        
         return redirect('CrearHorariosCortes', pk=pk)
     
     
