@@ -552,13 +552,23 @@ def verificar_fecha(horario_pk, corte_pk):
 class EditCortes(View):
     def post(self, request, corte_pk, pk, *args, **kwargs):
         horario = get_object_or_404(HorarioCortes, id=corte_pk)
+        
+        fecha_inicio = horario.fecha_inicio
+        fecha_fin = horario.fecha_fin
         form = HorarioCortesForm(request.POST, instance=horario)
         if form.is_valid():
+            # Obtener valores del Formulario
+            cleaned_data = form.cleaned_data
             form.save()
             if verificar_fecha(pk, corte_pk):
                 messages.success(request, '¡Editaste el corte correctamente!')
             else:
-                messages.error(request, '¡Las fechas estan intersectadas, revisa todos tus registros!')
+                horario.fecha_fin = fecha_fin
+                horario.fecha_inicio = fecha_inicio
+                
+                error_fin = cleaned_data.get('fecha_fin')
+                error_inicio = cleaned_data.get('fecha_inicio')
+                messages.error(request, f'¡Las fechas estan intersectadas o cometiste algun error: ({error_inicio}) con ({error_fin}), revisa tus registros!')
                 # No guardar el formulario.
         else:
             mensaje = "¡Hubo un error al editar el corte!"
