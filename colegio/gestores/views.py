@@ -559,9 +559,7 @@ class EditCortes(View):
                 messages.success(request, '¡Editaste el corte correctamente!')
             else:
                 messages.error(request, '¡Las fechas estan intersectadas, revisa todos tus registros!')
-                horario.fecha_inicio = None
-                horario.fecha_fin = None
-                horario.save()
+                # No guardar el formulario.
         else:
             mensaje = "¡Hubo un error al editar el corte!"
             messages_error.errores_formularios(form.errors, mensaje, request)
