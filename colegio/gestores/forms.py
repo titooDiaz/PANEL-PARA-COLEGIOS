@@ -278,10 +278,12 @@ class Horarios_PartesForm(forms.ModelForm):
 
 
 class MateriasForm(forms.ModelForm):
-    def __init__(self, *args, estudiantes_grado=None, **kwargs):
+    def __init__(self, *args, estudiantes_grado=None, profesores=None, **kwargs):
         super().__init__(*args, **kwargs)
         # Filtra los estudiantes por los proporcionados
         if estudiantes_grado:
+            self.fields['profe1'].queryset = profesores
+            self.fields['profe2'].queryset = profesores
             self.fields['alumnos1'].queryset = estudiantes_grado
             self.fields['alumnos2'].queryset = estudiantes_grado
     class Meta:

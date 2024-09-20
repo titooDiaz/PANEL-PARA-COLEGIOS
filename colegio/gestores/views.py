@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, View
-from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm
+from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm, CustomUserProfesores
 from informacion.models import Grado,Horarios_Partes, HorarioDiario, HorarioCortes, ActividadesTipo
 from django.contrib import messages
 from users.models import CustomUserAlumno
@@ -50,6 +50,10 @@ def obtener_estudiantes_por_grado(grado_id):
         return estudiantes
     except CustomUserAlumno.DoesNotExist:
         return None
+    
+def obtener_profesores_por_colegio(grado_id):
+    profesores = CustomUserProfesores.objects.filter(colegio_id=grado_id)
+    return profesores
     
 def obtener_grados_por_colegio(colegio_id):
     try:
@@ -465,10 +469,12 @@ class CreateMaterias(View):
     def get(self, request, pk, *args, **kwargs):
         grado = Grado.objects.get(id=pk)
         estudiantes_grado = obtener_estudiantes_por_grado(pk)
+        colegio=request.user.colegio
+        profesores_grado = obtener_profesores_por_colegio(colegio)
         vista = 'gestor'
         abierto = 'ajustes'
         if estudiantes_grado:
-            form = MateriasForm(estudiantes_grado=estudiantes_grado) #mandar alumnos del grado
+            form = MateriasForm(estudiantes_grado=estudiantes_grado, profesores=profesores_grado) #mandar alumnos del grado
             id_grado = pk
             grado = Grado.objects.get(pk=pk)
             materias = grado.materias.all()
