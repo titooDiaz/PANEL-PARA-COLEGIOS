@@ -60,12 +60,15 @@ class CreateActividades(View):
         abierto='inicio'
         materia = Materias.objects.get(pk=pk)
         grado = Grado.objects.get(materias=materia)
-
+        tipo_actividades = ActividadesTipo.objects.filter(colegio_id=request.user.colegio)
+        print(tipo_actividades, "holaa")
+        
         initial_data = {
             'fecha_inicio': get_current_date(request.user),
             'fecha_final': get_current_date(request.user),
             'hora_inicio': get_current_time(request.user),
             'hora_final': get_midnight(request.user),
+            'tipo': tipo_actividades,
         }
         actividades_form = ActividadesForm(initial=initial_data)
         print(materia.titulo1,"  -  ")
@@ -75,6 +78,7 @@ class CreateActividades(View):
             'actividades': actividades_form,
             'vista': vista,
             'abierto':abierto,
+            "tipo_actividades": tipo_actividades,
         }
         return render(request, 'users/profesores/actividades/create_actividades.html', context)
     def post(self, request, pk, *args, **kwargs):

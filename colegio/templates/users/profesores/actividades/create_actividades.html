@@ -8,113 +8,159 @@
 
 {% block content %}
 {% load static %}
-<div class="mx-auto max-w-screen-sm text-center">
-    <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grado_nom}} ({{grado.grado_num}})!</h2>
-    <h3 class="text-xl tracking-tight font-bold text-gray-900 mb-8">Agrega una actividad en {{materia.titulo1}}!</h3>
-</div>
 
-<form method="post">
-    {% csrf_token %}
-    <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
-        <div>
-            <label for="titulo" class="block text-xl font-medium text-gray-900">Titulo de la actividad </label>
-            {{actividades.titulo}}
-        </div>
-        <div>
-            <label for="descripcion" class="block text-xl font-medium text-gray-900">descripcion</label>
-            {{actividades.descripcion}}
-        </div>
-        <div>
-            <label for="descripcion" class="block text-xl font-medium text-gray-900">Porcentaje</label>
-            {{actividades.porcentaje}}
-        </div>
-        <div>
-            <label for="tipo" class="block text-xl font-medium text-gray-900">Tipo de Actividad:</label>
-            {{actividades.tipo}}
-        </div>
-        <hr class="hidden md:block mt-4">
-        <hr class="mt-4"> 
+{% if actividades_tipo %}
+    <div class="mx-auto max-w-screen-sm text-center">
+        <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grado_nom}} ({{grado.grado_num}})!</h2>
+        <h3 class="text-xl tracking-tight font-bold text-gray-900 mb-8">Agrega una actividad en {{materia.titulo1}}!</h3>
+    </div>
 
-        <div class="text-xl tracking-tight font-bold text-gray-900">
-            <div class="flex mt-4">
-                {{actividades.lugar_zona_horaria}}
-                <h4>Tu actividad tendra zona horaria de: (<span class="time_locate"></span><span class="time_zone hidden">{{request.user.time_zone}}</span>) </h4> 
-                <a id="active_information" class="hover:cursor-pointer ml-2">
-                    <i class="fa-solid fa-circle-exclamation"></i>
-                </a>
-            </div>  
+    <div class="p-6">
+        <form method="post">
+            {% csrf_token %}
+            <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
+                <div>
+                    <label for="titulo" class="block text-xl font-medium text-gray-900">Titulo de la actividad </label>
+                    {{actividades.titulo}}
+                </div>
+                <div>
+                    <label for="descripcion" class="block text-xl font-medium text-gray-900">descripcion</label>
+                    {{actividades.descripcion}}
+                </div>
+                <div>
+                    <label for="descripcion" class="block text-xl font-medium text-gray-900">Porcentaje</label>
+                    {{actividades.porcentaje}}
+                </div>
+                <div>
+                    <label for="tipo" class="block text-xl font-medium text-gray-900">Tipo de Actividad:</label>
+                    {{actividades.tipo}}
+                </div>
+                <hr class="hidden md:block mt-4">
+                <hr class="mt-4"> 
 
-            <div class="flex ml-4">
-                <div class="flex ml-4 relative">
-                    <div id="information" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
-                        
-                        <div class="flex items-center justify-center min-h-screen">
-                            <div class="bg-white border-2 border-black p-4 rounded-lg">
-                                <a id="close_information" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
-                                    <p class="mr-4">cerrar</p>
-                                    <i class="fa-solid fa-circle-xmark"></i>
-                                </a>
+                <div class="text-xl tracking-tight font-bold text-gray-900">
+                    <div class="flex mt-4">
+                        {{actividades.lugar_zona_horaria}}
+                        <h4>Tu actividad tendra zona horaria de: (<span class="time_locate"></span><span class="time_zone hidden">{{request.user.time_zone}}</span>) </h4> 
+                        <a id="active_information" class="hover:cursor-pointer ml-2">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                        </a>
+                    </div>  
+
+                    <div class="flex ml-4">
+                        <div class="flex ml-4 relative">
+                            <div id="information" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
                                 
-                                <div class="mb-4">
-                                    <h5 class="flex text-2xl"><span class="time_locate text-center w-full"></span></h5> <!--Localizacion del usuario actual-->
-                                    <h5 class="flex text-2xl"><span class="time_zone hidden text-center w-full">{{request.user.time_zone}}</span></h5> <!--localizacion de hora al crear al usuario-->
-                                
+                                <div class="flex items-center justify-center min-h-screen">
+                                    <div class="bg-white border-2 border-black p-4 rounded-lg">
+                                        <a id="close_information" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
+                                            <p class="mr-4">cerrar</p>
+                                            <i class="fa-solid fa-circle-xmark"></i>
+                                        </a>
+                                        
+                                        <div class="mb-4">
+                                            <h5 class="flex text-2xl"><span class="time_locate text-center w-full"></span></h5> <!--Localizacion del usuario actual-->
+                                            <h5 class="flex text-2xl"><span class="time_zone hidden text-center w-full">{{request.user.time_zone}}</span></h5> <!--localizacion de hora al crear al usuario-->
+                                        
+                                        </div>
+
+                                        {{actividades.zona_horaria}}
+                                        <p class="text-sm mt-4">
+                                            ACTIVO: 
+                                            <br>
+                                            ZONA HORARIA LOCAL (<span id="time_locate"></span>)
+                                            <br>
+                                            
+                                            <br>
+                                            DESACTIVO: 
+                                            <br>
+                                            ZONA HORARIA CON QUE FUISTE CREADO (<span>{{ request.user.time_zone }}</span>)
+                                        </p> 
+                                    </div> 
                                 </div>
-
-                                {{actividades.zona_horaria}}
-                                <p class="text-sm mt-4">
-                                    ACTIVO: 
-                                    <br>
-                                    ZONA HORARIA LOCAL (<span id="time_locate"></span>)
-                                    <br>
-                                    
-                                    <br>
-                                    DESACTIVO: 
-                                    <br>
-                                    ZONA HORARIA CON QUE FUISTE CREADO (<span>{{ request.user.time_zone }}</span>)
-                                </p> 
-                            </div> 
+                                
+                            </div>
+                            
                         </div>
                         
                     </div>
-                    
+
                 </div>
+
+                <div></div>
+                <hr class="hidden md:block mt-4">
+                <hr class="mt-4"> 
+
                 
+                <div class="mt-4">
+                    <label for="hora_inicio" class="block text-xl font-medium text-gray-900">Hora de inicio de la actividad:</label>
+                    {{actividades.hora_inicio}}
+                </div>
+                <div class="mt-4">
+                    <label for="fecha_inicio" class="block text-xl font-medium text-gray-900">Fecha de inicio de la actividad:</label>
+                    {{actividades.fecha_inicio}}
+                </div>
+                <div class="mt-4">
+                    <label for="hora_final" class="block text-xl font-medium text-gray-900">Hora de limite de la actividad:</label>
+                    {{actividades.hora_final}}
+                </div>
+                <div class="mt-4">
+                    <label for="fecha_final" class="block text-xl font-medium text-gray-900">Fecha de limite de la actividad:</label>
+                    {{actividades.fecha_final}}
+                </div>  
             </div>
+            <div class="p-6">
+                <button type="submit" id="myButton" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+            </div>
+        </form>
 
-        </div>
+        <script src="{% static 'js/hora/actividades.js' %}"></script>
 
-        <div></div>
-        <hr class="hidden md:block mt-4">
-        <hr class="mt-4"> 
+        <script src="{% static 'js/ventanas/emergentes.js' %}"></script>
 
-        
-        <div class="mt-4">
-            <label for="hora_inicio" class="block text-xl font-medium text-gray-900">Hora de inicio de la actividad:</label>
-            {{actividades.hora_inicio}}
-        </div>
-        <div class="mt-4">
-            <label for="fecha_inicio" class="block text-xl font-medium text-gray-900">Fecha de inicio de la actividad:</label>
-            {{actividades.fecha_inicio}}
-        </div>
-        <div class="mt-4">
-            <label for="hora_final" class="block text-xl font-medium text-gray-900">Hora de limite de la actividad:</label>
-            {{actividades.hora_final}}
-        </div>
-        <div class="mt-4">
-            <label for="fecha_final" class="block text-xl font-medium text-gray-900">Fecha de limite de la actividad:</label>
-            {{actividades.fecha_final}}
-        </div>  
+
     </div>
-    <div class="p-6">
-        <button type="submit" id="myButton" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+{% else %}
+<section class="relative z-10 bg-[#ff7738] py-[120px] rounded-lg">
+    <div class="container mx-auto">
+       <div class="-mx-4 flex">
+          <div class="w-full px-4">
+             <div class="mx-auto max-w-[400px] text-center">
+                <h2
+                   class="mb-2 text-[50px] font-bold leading-none text-white sm:text-[80px] md:text-[100px]"
+                   >
+                   nooo!
+                </h2>
+                <h4
+                   class="mb-3 text-[22px] font-semibold leading-tight text-white"
+                   >
+                   El colegio en el que estas registrado no tiene tipos de actividades.
+                   <br>
+                   Por esta razon aun no puedes crear actividades!
+                </h4>
+             </div>
+          </div>
+       </div>
     </div>
-</form>
-
-<script src="{% static 'js/hora/actividades.js' %}"></script>
-
-<script src="{% static 'js/ventanas/emergentes.js' %}"></script>
-
-
+    <div
+       class="absolute top-0 left-0 -z-10 flex h-full w-full items-center justify-between space-x-5 md:space-x-8 lg:space-x-14 rounded-lg"
+       >
+       <div
+          class="h-full w-1/3 bg-gradient-to-t from-[#ffa176] to-[#ff7738] rounded-lg"
+          ></div>
+       <div class="flex h-full w-1/3">
+          <div
+             class="h-full w-1/2 hidden lg:block bg-gradient-to-b from-[#ffa176] to-[#ff7738] rounded-lg"
+             ></div>
+          <div
+             class="h-full w-1/2 hidden lg:block bg-gradient-to-t from-[#ffa176] to-[#ff7738] rounded-lg"
+             ></div>
+       </div>
+       <div
+          class="h-full w-1/3 bg-gradient-to-b from-[#ffa176] to-[#ff7738] rounded-lg"
+          ></div>
+    </div>
+ </section>
+{% endif %}
 
 {% endblock content %}  
