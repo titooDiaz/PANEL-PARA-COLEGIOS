@@ -71,6 +71,7 @@ class CreateActividades(View):
             'tipo': tipo_actividades,
         }
         actividades_form = ActividadesForm(initial=initial_data)
+        actividades_form.fields['tipo'].queryset = tipo_actividades
         print(materia.titulo1,"  -  ")
         context = {
             'materia': materia,
