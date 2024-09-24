@@ -23,7 +23,9 @@
             {% if materia in materias_profesor %}
                 <div>
                     {% if materia.profe1.pk == request.user.pk %}
-                        <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
+                    <div id="{{colegio.id}}" class="relative">
+                        <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
+                        <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
                             <div class="block w-full">
                                 <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
                                 <p class="">{{ materia.descripcion1 }}</p>
@@ -53,6 +55,7 @@
 
                             </div>
                         </div>
+                    </div>
                     {% else %}
                         <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
                             <div class="block w-full">
