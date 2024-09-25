@@ -12,19 +12,22 @@
 </div> 
 <div class="grid gap-6 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
 {% for grado in grados %}
-<div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
-    <div class="block w-full">
-        <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{grado.grado_nom}}</h5>
-        <h6 class="font-mono font-bold text-gray-900 text-2xl text-center">({{grado.grado_num}})</h6>
-        <img class="w-full p-4" src="{% static 'img/informacion/habla.png' %}" alt="Alumno">
-        <div class="mt-2 flex">
-            <a type="button" href="{% url 'VerEstudiantesGrado' grado.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-800 border-l border-r border-t border-4 border-black hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block">Ver Estudiantes</a>      
-        </div>
-        <div class="mt-2 flex">
-            <a type="button" href="{% url 'MirarGradoHorario' grado.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block">Ver Horario</a>      
+    <div class="relative">
+        <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
+        <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl">
+            <div class="block w-full">
+                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{grado.grado_nom}}</h5>
+                <h6 class="font-mono font-bold text-gray-900 text-2xl text-center">({{grado.grado_num}})</h6>
+                <img class="w-full p-4" src="{% static 'img/informacion/habla.png' %}" alt="Alumno">
+                <div class="mt-2 flex">
+                    <a type="button" href="{% url 'VerEstudiantesGrado' grado.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-800 border-l border-r border-t border-4 border-black hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block">Ver Estudiantes</a>      
+                </div>
+                <div class="mt-2 flex">
+                    <a type="button" href="{% url 'MirarGradoHorario' grado.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block">Ver Horario</a>      
+                </div>
+            </div>
         </div>
     </div>
-</div>
 {% endfor %}
 </div>
 

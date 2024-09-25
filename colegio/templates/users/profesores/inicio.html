@@ -23,7 +23,7 @@
             {% if materia in materias_profesor %}
                 <div>
                     {% if materia.profe1.pk == request.user.pk %}
-                    <div id="{{colegio.id}}" class="relative">
+                    <div class="relative">
                         <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
                         <div class="relative h-full items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl">
                             <div class="block w-full">
