@@ -27,42 +27,18 @@ class BoardProfesores(View):
         zona_horaria_usuario = pytz.timezone(request.user.time_zone)
 
         # Obtener la hora actual en la zona horaria del usuario
-        hora_actual = datetime.now(zona_horaria_usuario)
-        print(hora_actual, "holaa")
+        fecha_actual = datetime.now(zona_horaria_usuario).date()
+        hora_actual = datetime.now(zona_horaria_usuario).time()
 
-        # Lista para almacenar las actividades con el nuevo campo
-        actividades_con_estado = []
-
-        for actividad in actividades:
-            fecha_actividad = actividad.fecha_final  # Asegúrate de que esto sea un objeto datetime
-            hora_actividad = actividad.hora_final  # Esto debería ser un objeto time
-
-            # Combinar fecha y hora
-            fecha_hora_combinada = datetime.combine(fecha_actividad, hora_actividad)
-
-            # Localizar la fecha y hora combinada en la zona horaria del usuario
-            fecha_hora_combinada = zona_horaria_usuario.localize(fecha_hora_combinada)
-
-            # Comparar
-            on_time = fecha_hora_combinada >= hora_actual
-
-            # Crear un diccionario de atributos de la actividad sin modificar el objeto original
-            actividad_dict = vars(actividad).copy()  # Hacemos una copia del diccionario de atributos
-            actividad_dict['on_time'] = on_time  # Agregamos el nuevo campo
-
-            actividades_con_estado.append(actividad_dict)
-
-        # Ahora `actividades_con_estado` contiene la información deseada sin alterar los objetos originales
-
-        # Mostrar las actividades con el nuevo campo
-        print(actividades_con_estado)
             
         context = {
             'grados': grados,
             'materias_profesor': materias_profesor,
             'vista': vista,
             'abierto':abierto,
-            'actividades': actividades_con_estado,
+            'actividades': actividades,
+            'hora_actual': hora_actual,
+            'fecha_actual': fecha_actual,
         }
         return render(request, 'users/profesores/inicio.html', context)
 
