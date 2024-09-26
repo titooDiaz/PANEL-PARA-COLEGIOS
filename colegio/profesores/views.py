@@ -6,8 +6,15 @@ from django.contrib import messages
 ## MENSAJES DE ERRORES ##
 from message_error import messages_error
 
+# LIBRERIAS DE FECHAS
+from datetime import datetime
+import pytz
+import time
+import tzlocal #pip install tzlocal
+
 
 class BoardProfesores(View):
+    
     def get(self, request, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
@@ -15,12 +22,47 @@ class BoardProfesores(View):
         materias_profesor = Materias.objects.filter(profe1=profesor) | Materias.objects.filter(profe2=profesor)
         grados = Grado.objects.filter(materias__in=materias_profesor).distinct()
         actividades = Actividades.objects.filter(materia__in=materias_profesor)
+
+        # Obtener la zona horaria local
+        zona_horaria_usuario = pytz.timezone(request.user.time_zone)
+
+        # Obtener la hora actual en la zona horaria del usuario
+        hora_actual = datetime.now(zona_horaria_usuario)
+        print(hora_actual, "holaa")
+
+        # Lista para almacenar las actividades con el nuevo campo
+        actividades_con_estado = []
+
+        for actividad in actividades:
+            fecha_actividad = actividad.fecha_final  # Asegúrate de que esto sea un objeto datetime
+            hora_actividad = actividad.hora_final  # Esto debería ser un objeto time
+
+            # Combinar fecha y hora
+            fecha_hora_combinada = datetime.combine(fecha_actividad, hora_actividad)
+
+            # Localizar la fecha y hora combinada en la zona horaria del usuario
+            fecha_hora_combinada = zona_horaria_usuario.localize(fecha_hora_combinada)
+
+            # Comparar
+            on_time = fecha_hora_combinada >= hora_actual
+
+            # Crear un diccionario de atributos de la actividad sin modificar el objeto original
+            actividad_dict = vars(actividad).copy()  # Hacemos una copia del diccionario de atributos
+            actividad_dict['on_time'] = on_time  # Agregamos el nuevo campo
+
+            actividades_con_estado.append(actividad_dict)
+
+        # Ahora `actividades_con_estado` contiene la información deseada sin alterar los objetos originales
+
+        # Mostrar las actividades con el nuevo campo
+        print(actividades_con_estado)
+            
         context = {
             'grados': grados,
             'materias_profesor': materias_profesor,
             'vista': vista,
             'abierto':abierto,
-            'actividades': actividades,
+            'actividades': actividades_con_estado,
         }
         return render(request, 'users/profesores/inicio.html', context)
 
