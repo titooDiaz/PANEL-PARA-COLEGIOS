@@ -6,6 +6,12 @@ from django.views import View
 from informacion.models import Actividades_Respuesta_Estudiantes, Archivo
 from .forms import ActividadesRespuestaForm
 
+# LIBRERIAS DE FECHAS
+from datetime import datetime
+import pytz
+import time
+import tzlocal #pip install tzlocal
+
 
 class AlumnoBoard(View):
     def get(self, request, *args, **kwargs):
@@ -19,7 +25,12 @@ class AlumnoBoard(View):
         materias_user = grado_user.materias.all() #materias del estudainte
         actividades_user = Actividades.objects.filter(materia__in=materias_user)
         
-        #actividades = Actividades.objects.flter()
+        ## Obtener la zona horaria local
+        zona_horaria_usuario = pytz.timezone(request.user.time_zone)
+
+        # Obtener la hora actual en la zona horaria del usuario
+        fecha_actual = datetime.now(zona_horaria_usuario).date()
+        hora_actual = datetime.now(zona_horaria_usuario).time()
         
         context = {
             'vista': vista,
@@ -27,6 +38,8 @@ class AlumnoBoard(View):
             'grado': grado_user,
             'materias': materias_user,
             'actividades': actividades_user,
+            'fecha_actual': fecha_actual,
+            'hora_actual': hora_actual,
             
         }
         return render(request, 'users/alumnos/inicio.html', context)
