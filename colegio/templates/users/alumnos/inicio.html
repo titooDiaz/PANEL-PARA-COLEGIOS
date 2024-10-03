@@ -18,60 +18,76 @@
         </div>
 
         
-        <div class="w-full grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
-            {% for actividad in actividades %}
-                
+        <div class="w-full">
+            <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
                 <div class="flex">
-                    <div class="m-2">
-                        {% if fecha_actual == actividad.fecha_final %}
-                            {% if hora_actual > actividad.hora_final %}
-                                <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
-                                    <div class="flex w-full items-center align-middle justify-center text-white">
-                                        <i class="fa-solid fa-clock"></i>
-                                    </div>
-                                </div>
-                            {%else%}
-                                <div class="rounded-full w-12 h-12 bg-orange-400 flex col-span-2">
-                                    <div class="flex w-full items-center align-middle justify-center text-white">
-                                        <i class="fa-solid fa-clock"></i>
-                                    </div>
-                                </div>
-                            {%endif%}
-                        {% else %}
-                            {% if fecha_actual > actividad.fecha_final %}
-                                <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
-                                    <div class="flex w-full items-center align-middle justify-center text-white">
-                                        <i class="fa-solid fa-clock"></i>
-                                    </div>
-                                </div>
-                            {%else%}
-                                <div class="rounded-full w-12 h-12 bg-green-400 flex col-span-2">
-                                    <div class="flex w-full items-center align-middle justify-center text-white">
-                                        <i class="fa-solid fa-clock"></i>
-                                    </div>
-                                </div>
-                            {%endif%}
-                        {% endif %}
-
-                        
-                    </div>
-                    <div class="flex w-full ml-6 bg-gray-100 rounded-lg">
-                        <div class="w-full">
-                            <div class="m-2">
-                                <div>
-                                    <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="m-2">
-                                <p class="font-bold">{{actividad.titulo}}</p>
-                                <p>{{actividad.descripcion}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
+                    <button class="w-full" data-collapse-target="collapse-{{materia.pk}}">
+                        <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
+                        <h5 class="font-bold text-lg mb-4 text-left">Actividades Propuestas:</h5>
+                        <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
+                    </button>
                 </div>
-            {% endfor %}
+                <div data-collapse="collapse-{{materia.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
+                    <div class="bg-gray-300 p-4 grid gap-4 sm:grid-cols-1 lg:grid-cols-2 rounded-lg">
+                        
+                        {% for actividad in actividades %}
+                            
+                            <div class="flex">
+                                <div class="m-2">
+                                    {% if fecha_actual == actividad.fecha_final %}
+                                        {% if hora_actual > actividad.hora_final %}
+                                            <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                <div class="flex w-full items-center align-middle justify-center text-white">
+                                                    <i class="fa-solid fa-clock"></i>
+                                                </div>
+                                            </div>
+                                        {%else%}
+                                            <div class="rounded-full w-12 h-12 bg-orange-400 flex col-span-2">
+                                                <div class="flex w-full items-center align-middle justify-center text-white">
+                                                    <i class="fa-solid fa-clock"></i>
+                                                </div>
+                                            </div>
+                                        {%endif%}
+                                    {% else %}
+                                        {% if fecha_actual > actividad.fecha_final %}
+                                            <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                <div class="flex w-full items-center align-middle justify-center text-white">
+                                                    <i class="fa-solid fa-clock"></i>
+                                                </div>
+                                            </div>
+                                        {%else%}
+                                            <div class="rounded-full w-12 h-12 bg-green-400 flex col-span-2">
+                                                <div class="flex w-full items-center align-middle justify-center text-white">
+                                                    <i class="fa-solid fa-clock"></i>
+                                                </div>
+                                            </div>
+                                        {%endif%}
+                                    {% endif %}
+
+                                    
+                                </div>
+                                <div class="flex w-full ml-6 bg-gray-100 rounded-lg">
+                                    <div class="w-full">
+                                        <div class="m-2">
+                                            <div>
+                                                <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="m-2">
+                                            <p class="font-bold">{{actividad.titulo}}</p>
+                                            <p>{{actividad.descripcion}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div> 
+            
         </div>
     </div>
 
@@ -115,5 +131,8 @@
         </div>
     </div>
 </div>
+
+<!-- from cdn -->
+<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js"></script>
 
 {% endblock content %}  
