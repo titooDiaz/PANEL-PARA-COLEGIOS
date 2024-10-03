@@ -132,7 +132,7 @@ class ActividadesTipo(models.Model):
     ano_creacion = models.IntegerField(default=ano_actual())
     
     def __str__(self):
-        return f"Actividad: {self.titulo}. Colegio: {self.colegio} "
+        return f"Actividad: {self.titulo}"
 
 class Actividades(models.Model):
     titulo = models.TextField()

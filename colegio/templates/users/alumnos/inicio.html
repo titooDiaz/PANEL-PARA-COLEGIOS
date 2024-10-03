@@ -76,39 +76,41 @@
     </div>
 
 
-    <div class="p-4 bg-gray-100 rounded-lg border-2 border-dashed border-black mb-8">
+    <div class="p-4 mb-8">
         <div class="mx-auto max-w-screen-sm text-center">
             <h6 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8">Materias:</h2>
         </div>
 
         
-        <div class="grid gap-6 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
+        <div class="grid gap-12 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
             {% for materia in materias %}
-
-                                    <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
-                                        <div class="block w-full">
-                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
-                                            <br>
-                                            <p class="text-lg">
-                                                <span class="font-bold">PROFESOR:</span>
-                                                <br>
-                                                {{ materia.profe1.first_name }} {{ materia.profe1.last_name }} 
-                                            </p>
-                                            <p class="text-lg"></p>
-                                            <img class="w-full p-4" src="{{ materia.picture1.url }}" alt="Alumno">
-                                            
-                                            <p class="text-lg text-center my-4 font-light">- {{ materia.descripcion1 }} -</p>
-
-                                            <div class="mt-2">
-                                                <div class="w-full flex">
-                                                    <a type="button" href=" {% url 'ViewActividades' materia.pk %} " class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+            <div class="relative">
+                <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
+                <div class="relative h-full items-center bg-gray-300 rounded-lg flex p-4 shadow-2xl">
+                        <div class="block w-full">
+                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
+                            <br>
+                            <p class="text-lg">
+                                <span class="font-bold">PROFESOR:</span>
+                                <br>
+                                {{ materia.profe1.first_name }} {{ materia.profe1.last_name }} 
+                            </p>
+                            <p class="text-lg"></p>
+                            <img class="w-full p-4" src="{{ materia.picture1.url }}" alt="Alumno">
                             
+                            <p class="text-lg text-center my-4 font-light">- {{ materia.descripcion1 }} -</p>
+
+                            <div class="mt-2">
+                                <div class="w-full flex">
+                                    <a type="button" href=" {% url 'ViewActividades' materia.pk %} " class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 w-full py-2 text-center text-lg">
+                                        Ver
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+            </div>          
             {% endfor %}
         </div>
     </div>
