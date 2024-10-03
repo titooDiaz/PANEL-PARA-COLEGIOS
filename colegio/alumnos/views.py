@@ -23,21 +23,35 @@ class AlumnoBoard(View):
         #vista de estudiantes (obviamente tiene modelo de estudiante)
         grado_user = user.customuseralumno.grado #grado del estudiante
         materias_user = grado_user.materias.all() #materias del estudainte
-        actividades_user = Actividades.objects.filter(materia__in=materias_user)
+        
         
         ## Obtener la zona horaria local
         zona_horaria_usuario = pytz.timezone(request.user.time_zone)
-
+        
         # Obtener la hora actual en la zona horaria del usuario
         fecha_actual = datetime.now(zona_horaria_usuario).date()
         hora_actual = datetime.now(zona_horaria_usuario).time()
+        
+        
+        actividades_user_on_time = Actividades.objects.filter(
+            materia__in=materias_user,
+            fecha_final__gt=fecha_actual
+        )
+        
+        
+        actividades_user_off_time = Actividades.objects.filter(
+            materia__in=materias_user,
+            fecha_final__lte=fecha_actual
+        )
+    
         
         context = {
             'vista': vista,
             'abierto':abierto,
             'grado': grado_user,
             'materias': materias_user,
-            'actividades': actividades_user,
+            'actividades': actividades_user_on_time,
+            'actividades_pasadas': actividades_user_off_time,
             'fecha_actual': fecha_actual,
             'hora_actual': hora_actual,
             
