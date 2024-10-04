@@ -27,62 +27,68 @@
                         <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
                     </button>
                 </div>
-                <div data-collapse="collapse-actividades_actuales" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
+                <hr>
+                <div data-collapse="collapse-actividades_actuales" class="h-0 overflow-hidden transition-all duration-100 ease-in-out m-2">
                     <div class="bg-gray-300 p-4 grid gap-4 sm:grid-cols-1 lg:grid-cols-2 rounded-lg">
-                        
-                        {% for actividad in actividades %}
-                            
-                            <div class="flex">
-                                <div class="m-2">
-                                    {% if fecha_actual == actividad.fecha_final %}
-                                        {% if hora_actual > actividad.hora_final %}
-                                            <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
-                                                <div class="flex w-full items-center align-middle justify-center text-white">
-                                                    <i class="fa-solid fa-clock"></i>
-                                                </div>
-                                            </div>
-                                        {%else%}
-                                            <div class="rounded-full w-12 h-12 bg-orange-400 flex col-span-2">
-                                                <div class="flex w-full items-center align-middle justify-center text-white">
-                                                    <i class="fa-solid fa-clock"></i>
-                                                </div>
-                                            </div>
-                                        {%endif%}
-                                    {% else %}
-                                        {% if fecha_actual > actividad.fecha_final %}
-                                            <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
-                                                <div class="flex w-full items-center align-middle justify-center text-white">
-                                                    <i class="fa-solid fa-clock"></i>
-                                                </div>
-                                            </div>
-                                        {%else%}
-                                            <div class="rounded-full w-12 h-12 bg-green-400 flex col-span-2">
-                                                <div class="flex w-full items-center align-middle justify-center text-white">
-                                                    <i class="fa-solid fa-clock"></i>
-                                                </div>
-                                            </div>
-                                        {%endif%}
-                                    {% endif %}
 
-                                    
-                                </div>
-                                <div class="flex w-full ml-6 bg-gray-100 rounded-lg">
-                                    <div class="w-full">
-                                        <div class="m-2">
-                                            <div>
-                                                <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
+                        {% if actividades %}
+                            
+                            {% for actividad in actividades %}
+                                <div class="flex">
+                                    <div class="m-2">
+                                        {% if fecha_actual == actividad.fecha_final %}
+                                            {% if hora_actual > actividad.hora_final %}
+                                                <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%else%}
+                                                <div class="rounded-full w-12 h-12 bg-orange-400 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%endif%}
+                                        {% else %}
+                                            {% if fecha_actual > actividad.fecha_final %}
+                                                <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%else%}
+                                                <div class="rounded-full w-12 h-12 bg-green-400 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%endif%}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="flex w-full ml-6 bg-gray-100 rounded-lg">
+                                        <div class="w-full">
+                                            <div class="m-2">
+                                                <div>
+                                                    <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
+                                                </div>
                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div class="m-2">
-                                            <p class="font-bold">{{actividad.titulo}}</p>
-                                            <p>{{actividad.descripcion}}</p>
+                                            <hr>
+                                            <div class="m-2">
+                                                <p class="font-bold">{{actividad.titulo}}</p>
+                                                <p>{{actividad.descripcion}}</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    
                                 </div>
-                                <hr>
+                            {% endfor %}
+                        {% else %}
+                            <div>
+                                <p>Felicitaciones! No tienes actividades asignadas!</p>
                             </div>
-                        {% endfor %}
+                        {% endif %}
 
                     </div>
                 </div>
@@ -188,7 +194,7 @@
 
                             <div class="mt-2">
                                 <div class="w-full flex">
-                                    <a type="button" href=" {% url 'ViewActividades' materia.pk %} " class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 w-full py-2 text-center text-lg">
+                                    <a type="button" href=" {% url 'ViewActividades' materia.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 w-full py-2 text-center text-lg">
                                         Ver
                                     </a>
                                 </div>
