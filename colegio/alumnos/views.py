@@ -13,6 +13,33 @@ import time
 import tzlocal #pip install tzlocal
 
 
+# Frases motivadoras
+import random
+mensajes_motivadores = [
+    "¡Genial! Empezar a revisar tus tareas es un gran paso para terminarlas.",
+    "Cada página que repasas es un paso más cerca de alcanzar tus metas.",
+    "¡Vas muy bien! Todo pequeño esfuerzo te lleva más cerca del éxito.",
+    "Recuerda, no se trata de hacerlo rápido, sino de hacerlo bien. ¡Sigue así!",
+    "Estás construyendo tu futuro, una tarea a la vez. ¡Sigue adelante!",
+    "Cada minuto que inviertes ahora, es un regalo para tu yo del futuro.",
+    "El camino puede ser largo, pero cada paso que das es progreso. ¡No te detengas!",
+    "Estás más cerca de lo que piensas. ¡Confía en ti mismo y sigue avanzando!",
+    "El esfuerzo de hoy es la recompensa de mañana. ¡Lo estás haciendo excelente!",
+    "Si te sientes abrumado, recuerda lo lejos que ya has llegado. ¡Sigue adelante!",
+    "No importa cuán lento avances, lo importante es que sigas moviéndote hacia adelante.",
+    "El éxito no se mide por la velocidad, sino por la constancia. ¡Tú puedes!",
+    "Cada desafío que enfrentas ahora es una oportunidad para aprender y mejorar.",
+    "Lo que haces hoy puede parecer pequeño, pero está construyendo algo grande para mañana.",
+    "Respira hondo y sigue. Cada esfuerzo cuenta, y cada paso te acerca a tus objetivos.",
+    "No hay esfuerzo inútil. Cada minuto que dedicas es un ladrillo en el camino hacia tu éxito.",
+    "Toma un descanso si lo necesitas, pero no te rindas. ¡Estás haciendo un gran trabajo!",
+    "Aprender no es fácil, pero la satisfacción de haberlo hecho bien valdrá todo el esfuerzo.",
+    "¡Vamos! Cada tarea completada es una victoria. ¡Sigue acumulando logros!",
+    "Recuerda que las mejores cosas toman tiempo. Tu esfuerzo dará frutos, ¡confía en el proceso!"
+]
+
+
+
 class AlumnoBoard(View):
     def get(self, request, *args, **kwargs):
         vista = 'estudiante'
@@ -62,13 +89,17 @@ class ActividadesRespuestaView(View):
     def get(self, request, pk, *args, **kwargs):
         form = ActividadesRespuestaForm()
         
+        #Seleccionar frase para el estudiante
+        frase = random.choice(mensajes_motivadores)
+        
         # Retorno del contexto
         vista = 'estudiante'
         abierto='calendario'
         context = {
             'vista': vista,
             'abierto':abierto,
-            'form': form
+            'form': form,
+            'frase': frase
         }
         return render(request, 'users/alumnos/actividades/responder.html', context)
 
