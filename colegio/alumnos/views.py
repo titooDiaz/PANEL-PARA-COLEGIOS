@@ -59,11 +59,11 @@ class AlumnoBoard(View):
         return render(request, 'users/alumnos/inicio.html', context)
     
 class ActividadesRespuestaView(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, pk, *args, **kwargs):
         form = ActividadesRespuestaForm()
         return render(request, 'users/alumnos/actividades/responder.html', {'form': form})
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, pk, *args, **kwargs):
         form = ActividadesRespuestaForm(request.POST)
         if form.is_valid():
             respuesta = form.save(commit=False)
