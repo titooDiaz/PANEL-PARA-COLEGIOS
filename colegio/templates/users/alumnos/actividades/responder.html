@@ -10,21 +10,56 @@
 
 <div>
 
-    <div class="m-8 relative">
+    <div class="m-2 relative">
         <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-[98%] rounded-xl bg-gray-700 "></span>
-        <div class="relative w-[98%] bg-gray-300 text-center py-16 rounded-xl">
-            <h2 class="text-4xl font-sans font-bold text-black m-4">{{frase}}</h2>
+        <div class="relative w-[98%] bg-[#ff7738] text-center py-16 rounded-xl">
+            <h2 class="text-4xl font-sans font-extrabold text-white m-4">{{frase}}</h2>
         </div>
     </div>
 
+
     <div>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <!-- otros campos del formulario -->
-            <label for="archivos">Subir archivos:</label>
-            <input type="file" id="archivos" name="archivos" multiple>
-            <button type="submit">Enviar</button>
-        </form>
+        <section class="bg-white">
+            <div class="grid px-4 py-8 mx-auto xl:gap-0 lg:py-16 lg:grid-cols-12">
+        
+                <div class="hidden lg:mt-0 lg:col-span-8 lg:flex">
+                    <div class="bg-gray-300 p-4 mx-6 w-full rounded-xl">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- otros campos del formulario -->
+                            <label for="archivos">Subir archivos:</label>
+                            <input type="file" id="archivos" name="archivos" multiple>
+                            <button type="submit">Enviar</button>
+                        </form>
+                    </div>
+                </div> 
+        
+                <div class="lg:col-span-4">
+                    <div class="relative">
+                        <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded-xl bg-gray-700 "></span>
+                        <div class="bg-gray-300 w-full p-6 text-center text-black rounded-xl relative">
+                            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">{{actividad.descripcion}}</h1>
+                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.descripcion}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex lg:mt-0 lg:col-span-8 lg:hidden">
+                    <div class="bg-gray-300">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- otros campos del formulario -->
+                            <label for="archivos">Subir archivos:</label>
+                            <input type="file" id="archivos" name="archivos" multiple>
+                            <button type="submit">Enviar</button>
+                        </form>
+                    </div>
+                </div> 
+        
+            </div>
+        </section>
+        
+        
     </div>
     
 

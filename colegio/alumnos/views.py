@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View    
-from informacion.models import Actividades, Grado
+from informacion.models import Actividades, Grado, Materias
 from django.shortcuts import render, redirect
 from django.views import View
 from informacion.models import Actividades_Respuesta_Estudiantes, Archivo
@@ -92,6 +92,9 @@ class ActividadesRespuestaView(View):
         #Seleccionar frase para el estudiante
         frase = random.choice(mensajes_motivadores)
         
+        # Obtener materia
+        actividad = Actividades.objects.get(pk=pk)
+        
         # Retorno del contexto
         vista = 'estudiante'
         abierto='calendario'
@@ -99,7 +102,8 @@ class ActividadesRespuestaView(View):
             'vista': vista,
             'abierto':abierto,
             'form': form,
-            'frase': frase
+            'frase': frase,
+            'actividad': actividad,
         }
         return render(request, 'users/alumnos/actividades/responder.html', context)
 
