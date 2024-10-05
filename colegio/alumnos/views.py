@@ -61,7 +61,16 @@ class AlumnoBoard(View):
 class ActividadesRespuestaView(View):
     def get(self, request, pk, *args, **kwargs):
         form = ActividadesRespuestaForm()
-        return render(request, 'users/alumnos/actividades/responder.html', {'form': form})
+        
+        # Retorno del contexto
+        vista = 'estudiante'
+        abierto='calendario'
+        context = {
+            'vista': vista,
+            'abierto':abierto,
+            'form': form
+        }
+        return render(request, 'users/alumnos/actividades/responder.html', context)
 
     def post(self, request, pk, *args, **kwargs):
         form = ActividadesRespuestaForm(request.POST)
@@ -71,8 +80,14 @@ class ActividadesRespuestaView(View):
             respuesta.save()
             for archivo in request.FILES.getlist('archivos'):
                 Archivo.objects.create(actividad_respuesta=respuesta, archivo=archivo)
+                
+            # Retorno del contexto
+            context = {
+                'form': form
+            }
             return redirect('success_url')
-        return render(request, 'users/alumnos/actividades/responder.html', {'form': form})
+            
+        return render(request, 'users/alumnos/actividades/responder.html', context)
     
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
