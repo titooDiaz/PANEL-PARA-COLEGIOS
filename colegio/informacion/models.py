@@ -175,7 +175,15 @@ class Archivo(models.Model):
 
     def __str__(self):
         return self.nombre or self.archivo.name
-    
+
+
+def files_respuesta(instance, filename):
+    archivo_respuesta = 'actividades_profesores/{0}/{1}({2})/{3}'.format(
+        instance.actividad.titulo, instance.actividad.grado, random.randint(1, 9999), filename)
+    full_path = os.path.join(settings.MEDIA_ROOT, archivo_respuesta)
+    if os.path.exists(full_path):
+        os.remove(full_path)
+    return archivo_respuesta
     
     
 class Actividades_Respuesta_Estudiantes(models.Model):
@@ -185,6 +193,7 @@ class Actividades_Respuesta_Estudiantes(models.Model):
     hora_entrega = models.TimeField(default=get_current_time)
     lugar_zona_horaria = models.TextField(null=True)
     misma_zona = models.BooleanField(default=True) #si el estudiante cambia la fecha este elemnto saldra como falso
+    archivo = models.FileField(upload_to=files_respuesta)
     
     ano_creacion = models.IntegerField(default=ano_actual())
     estado = models.BooleanField(default=True)
@@ -194,23 +203,6 @@ class Actividades_Respuesta_Estudiantes(models.Model):
 
     def __str__(self):
         return f"ACTIVIDAD ENTREGADA POR: {self.author}"
-
-def files_respuesta(instance, filename):
-    archivo_respuesta = 'actividades_profesores/{0}/{1}({2})/{3}'.format(
-        instance.actividad.titulo, instance.actividad.grado, random.randint(1, 9999), filename)
-    full_path = os.path.join(settings.MEDIA_ROOT, archivo_respuesta)
-    if os.path.exists(full_path):
-        os.remove(full_path)
-    return archivo_respuesta
-
-class Archivo_Respuesta(models.Model):
-    respuesta = models.TextField()
-    actividad_respuesta = models.ForeignKey(Actividades_Respuesta_Estudiantes, on_delete=models.CASCADE, related_name='archivos')
-    archivo = models.FileField(upload_to=files_respuesta)
-    descripcion = models.CharField(max_length=255, blank=True)
-
-    def __str__(self):
-        return self.descripcion if self.descripcion else str(self.archivo)
 
 
 class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
