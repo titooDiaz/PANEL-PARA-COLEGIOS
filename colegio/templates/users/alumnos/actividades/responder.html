@@ -29,8 +29,15 @@
                             {% csrf_token %}
                             
                             <!--ARCHIVO-->
+
                             <p class="block text-xl text-center font-medium text-gray-900 mb-2">ARCHIVO: </p>
                             <div>
+                                <div class="w-full bg-green-400 rounded-lg my-4">
+                                    <div class="p-4 flex">
+                                        <div><i class="fa-solid fa-file"></i></div>
+                                        <div class="ml-4">nombre del archivo</div>
+                                    </div>
+                                </div>
                                 <label for="archivo" class="flex items-center justify-center w-full">
                                     <div id="drop-area" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
                                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
