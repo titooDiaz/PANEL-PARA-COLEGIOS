@@ -28,9 +28,23 @@
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             
-                            <!--ARCHIVO-->
+                            <div class="mb-4">
 
-                            <p class="block text-xl text-center font-medium text-gray-900 mb-2">ARCHIVO: </p>
+                                <p class="block text-xl text-left font-medium text-gray-900 mb-2">Titulo: </p>
+                                <div class="mb-4">
+                                    {{form.respuesta}}
+                                </div>
+
+                                <p class="block text-xl text-left font-medium text-gray-900 mb-2">Detalles:  </p>
+                                <div class="mb-4">
+                                    {{form.descripcion}}
+                                </div>
+                                
+                            </div>
+                            
+
+                            <!--ARCHIVO-->
+                            <p class="block text-xl text-left font-medium text-gray-900 mb-2">Sube tus archivos: </p>
                             <div>
                                 <div class="w-full bg-green-400 rounded-lg my-4">
                                     <div class="p-4 flex">
@@ -51,7 +65,9 @@
                                     </div>
                                 </label>
                             </div>
-
+                            <div class="my-4">
+                                <button type="submit" id="myButton" class="block py-2 font-semibold text-xl text-white rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 w-full">SUBIR</button>
+                            </div>
                         </form>
                     </div>
                 </div> 
@@ -65,6 +81,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!--VISTA DEL FORMULARIO PARA CELULARES-->
 
                 <div class="flex lg:mt-0 lg:col-span-8 lg:hidden">
                     <div class="bg-gray-300">
