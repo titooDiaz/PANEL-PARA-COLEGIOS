@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, View
 from informacion.models import Actividades, Grado, Materias
 from django.shortcuts import render, redirect
 from django.views import View
-from informacion.models import Actividades_Respuesta_Estudiantes, Archivo
+from informacion.models import Actividades_Respuesta_Estudiantes, Archivo, ArchivoEstudiantes
 from .forms import ActividadesRespuestaForm
 
 # LIBRERIAS DE FECHAS
@@ -108,21 +108,16 @@ class ActividadesRespuestaView(View):
         return render(request, 'users/alumnos/actividades/responder.html', context)
 
     def post(self, request, pk, *args, **kwargs):
-        form = ActividadesRespuestaForm(request.POST)
+        form = ActividadesRespuestaForm(request.POST, request.FILES)
         if form.is_valid():
             respuesta = form.save(commit=False)
             respuesta.author = request.user
+            respuesta.actividad = Actividades.objects.get(pk=pk)
             respuesta.save()
-            for archivo in request.FILES.getlist('archivos'):
-                Archivo.objects.create(actividad_respuesta=respuesta, archivo=archivo)
-                
-            # Retorno del contexto
-            context = {
-                'form': form
-            }
-            return redirect('success_url')
-            
-        return render(request, 'users/alumnos/actividades/responder.html', context)
+            for archivo in request.FILES.getlist('archivo'):
+                ArchivoEstudiantes.objects.create(actividad_respuesta=respuesta, archivo=archivo)
+            return redirect('ResponderActividades', pk)
+        return redirect('ResponderActividades', pk)
     
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
