@@ -31,30 +31,42 @@ function handleDrop(e) {
     fileInput.files = files;  // Asignar los archivos al input de tipo file
     console.log("Archivo cargado en el formulario:", fileInput.files[0]);  // Opcional: ver el archivo en la consola
 
-    // Crear un elemento HTML e insertarlo en el DOM
-    const div = document.createElement('div');
-    div.innerHTML = `<div class="p-4 flex w-full bg-green-400 rounded-lg my-4">
-                        <div><i class="fa-solid fa-file"></i></div>
-                        <div class="ml-4">${files[0].name}</div>
-                    </div>`;
-    
-    filesList.appendChild(div);
+    // Limpiar la lista de archivos anterior (opcional)
+    filesList.innerHTML = '';
+
+    // Recorrer todos los archivos seleccionados
+    for (let i = 0; i < files.length; i++) {
+        // Crear un elemento HTML e insertarlo en el DOM para cada archivo
+        const div = document.createElement('div');
+        div.innerHTML = `
+                        <div class="p-4 flex w-full bg-green-400 rounded-lg my-4 ">
+                            <div><i class="fa-solid fa-file"></i></div>
+                            <div class="ml-4">${files[i].name}</div>
+                        </div>
+                        `;
+        
+        filesList.appendChild(div);
+    }
 }
 
 // SUBIDO MANUALMNTE
 fileInput.addEventListener('change', function() {
     const files = fileInput.files;
-    if (files.length > 0) {
-        console.log("Archivo seleccionado:", files[0]);  // Muestra el nombre del archivo seleccionado
-    }
 
-    // Crear un elemento HTML e insertarlo en el DOM
-    const div = document.createElement('div');
-    div.innerHTML = `
-                    <div class="p-4 flex w-full bg-green-400 rounded-lg my-4 ">
-                        <div><i class="fa-solid fa-file"></i></div>
-                        <div class="ml-4">${files[0].name}</div>
-                    </div>`;
-    
-    filesList.appendChild(div);
+    // Limpiar la lista de archivos anterior (opcional)
+    filesList.innerHTML = '';
+
+    // Recorrer todos los archivos seleccionados
+    for (let i = 0; i < files.length; i++) {
+        // Crear un elemento HTML e insertarlo en el DOM para cada archivo
+        const div = document.createElement('div');
+        div.innerHTML = `
+                        <div class="p-4 flex w-full bg-green-400 rounded-lg my-4 ">
+                            <div><i class="fa-solid fa-file"></i></div>
+                            <div class="ml-4">${files[i].name}</div>
+                        </div>
+                        `;
+        
+        filesList.appendChild(div);
+    }
 });
