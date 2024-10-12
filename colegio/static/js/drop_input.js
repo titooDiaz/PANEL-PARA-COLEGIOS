@@ -31,8 +31,6 @@ function handleDrop(e) {
     fileInput.files = files;  // Asignar los archivos al input de tipo file
     console.log("Archivo cargado en el formulario:", fileInput.files[0]);  // Opcional: ver el archivo en la consola
 
-    // Limpiar la lista de archivos anterior (opcional)
-    filesList.innerHTML = '';
 
     // Recorrer todos los archivos seleccionados
     for (let i = 0; i < files.length; i++) {
@@ -52,9 +50,6 @@ function handleDrop(e) {
 // SUBIDO MANUALMNTE
 fileInput.addEventListener('change', function() {
     const files = fileInput.files;
-
-    // Limpiar la lista de archivos anterior (opcional)
-    filesList.innerHTML = '';
 
     // Recorrer todos los archivos seleccionados
     for (let i = 0; i < files.length; i++) {
