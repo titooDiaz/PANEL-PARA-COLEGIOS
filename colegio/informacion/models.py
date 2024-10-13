@@ -165,7 +165,6 @@ def files(instance, filename):
     full_path = os.path.join(settings.MEDIA_ROOT, archivo_guia)
     if os.path.exists(full_path):
         os.remove(full_path)
-    print(archivo_guia,"holaaa \n")
     return archivo_guia
 class Archivo(models.Model):
     actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE, related_name='archivos')
