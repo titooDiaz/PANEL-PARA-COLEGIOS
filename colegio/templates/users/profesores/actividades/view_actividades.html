@@ -114,6 +114,19 @@
         </div>
         
     </div>
+</div>
+
+<div>
+    {% for author, respuestas in respuestas_agrupadas %}
+        <h2>Estudiante: {{ author}}</h2>  <!-- Mostrar el nombre del estudiante -->
+        <ul>
+            {% for respuesta in respuestas %}
+                <li>Respuesta: {{ respuesta.campo_respuesta }}</li> <!-- Mostrar cada respuesta -->
+                <li>Fecha de envío: {{ respuesta.fecha_envio }}</li> <!-- Otros campos -->
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
 
 
 <script src="{% static 'js/ventanas/emergentes.js' %}"></script>

@@ -1,10 +1,16 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
-from informacion.models import Materias, Grado, Actividades, Archivo, ActividadesTipo
+from informacion.models import Materias, Grado, Actividades, Archivo, ActividadesTipo, Actividades_Respuesta_Estudiantes
 from .forms import ActividadesForm, ArchivoForm, FilesProfesoresForm
 from django.contrib import messages
 ## MENSAJES DE ERRORES ##
 from message_error import messages_error
+
+## Contar, Agrupar, un modelo
+from itertools import groupby
+from operator import attrgetter
+from django.db.models import Count
+from collections import defaultdict
 
 # LIBRERIAS DE FECHAS
 from datetime import datetime
@@ -129,7 +135,7 @@ class CreateActividades(View):
         messages.error(request, 'Formulario no válido')
         return redirect('BoardProfesores')
     
-
+# En esta vista los profesores pueden agregar archivos y ver a los estudiantes que respondeieron su actividad.
 class ViewActividades(View):
     def get(self, request, pk, *args, **kwargs):
         vista = 'profesores'
@@ -142,6 +148,17 @@ class ViewActividades(View):
 
         actividades_form = ActividadesForm()
         
+        # Obtener las respuestas relacionadas con una actividad específica
+        respuestas = Actividades_Respuesta_Estudiantes.objects.filter(actividad=actividad).select_related('author')
+
+        # Ordenar las respuestas por el autor antes de agrupar
+        respuestas = respuestas.order_by('author')
+
+        # Agrupar las respuestas por el campo 'author' usando groupby
+        respuestas_agrupadas = [(author, list(respuestas)) for author, respuestas in groupby(respuestas, key=attrgetter('author'))]
+
+
+        
         form = FilesProfesoresForm()
         context = {
             'form': form,
@@ -152,13 +169,13 @@ class ViewActividades(View):
             'actividades': actividades_form,
             'vista': vista,
             'abierto':abierto,
+            'respuestas_agrupadas': respuestas_agrupadas,
         }
         return render(request, 'users/profesores/actividades/view_actividades.html', context)
     def post(self, request, pk):
         form = FilesProfesoresForm(request.POST, request.FILES)
         print(form.errors)
         if form.is_valid():
-            print('xd')
             archivo = form.save(commit=False)
             actividad = Actividades.objects.get(pk=pk)
             archivo.actividad = actividad
@@ -194,7 +211,6 @@ class EditActividades(View):
         return render(request, 'users/profesores/actividades/create_actividades.html', context)
     def post(self, request, pk, *args, **kwargs):
         actividades_form = ActividadesForm(request.POST)
-        #archivo_form = ArchivoForm(request.POST, request.FILES)
 
         if actividades_form.is_valid():
         # Crear una instancia del modelo sin guardar en la base de datos aún
