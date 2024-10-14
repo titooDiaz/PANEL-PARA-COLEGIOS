@@ -108,7 +108,7 @@
                         
                         {% for actividad in actividades_pasadas %}
                             
-                            <div class="flex">
+                            <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
                                 <div class="m-2">
                                     {% if fecha_actual == actividad.fecha_final %}
                                         {% if hora_actual > actividad.hora_final %}
@@ -157,7 +157,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                            </div>
+                            </a>
                         {% endfor %}
 
                     </div>
@@ -194,7 +194,7 @@
 
                             <div class="mt-2">
                                 <div class="w-full flex">
-                                    <a type="button" href=" {% url 'ResponderActividades' materia.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 w-full py-2 text-center text-lg">
+                                    <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 w-full py-2 text-center text-lg">
                                         Ver
                                     </a>
                                 </div>
