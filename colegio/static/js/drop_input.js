@@ -12,15 +12,6 @@ function preventDefaults(e) {
     e.stopPropagation();
 }
 
-// Añadir efectos visuales cuando se arrastra un archivo
-['dragenter', 'dragover'].forEach(eventName => {
-    dropArea.addEventListener(eventName, () => dropArea.classList.add('border-blue-500'), false);
-});
-
-['dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, () => dropArea.classList.remove('border-blue-500'), false);
-});
-
 // Manejar el evento "drop"
 dropArea.addEventListener('drop', handleDrop, false);
 
