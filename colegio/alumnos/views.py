@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from informacion.models import Actividades_Respuesta_Estudiantes, Archivo, ArchivoEstudiantes
 from .forms import ActividadesRespuestaForm
+from django.contrib import messages
 
 # LIBRERIAS DE FECHAS
 from datetime import datetime
@@ -114,8 +115,11 @@ class ActividadesRespuestaView(View):
             respuesta.author = request.user
             respuesta.actividad = Actividades.objects.get(pk=pk)
             respuesta.save()
+            archivos_publicados = ""
             for archivo in request.FILES.getlist('archivo'):
+                archivos_publicados = archivo.name + "\n "
                 ArchivoEstudiantes.objects.create(actividad_respuesta=respuesta, archivo=archivo)
+            messages.success(request, 'Wow! Subiste todo correctamente! \n Tus archivos: ')
             return redirect('ResponderActividades', pk)
         return redirect('ResponderActividades', pk)
     
