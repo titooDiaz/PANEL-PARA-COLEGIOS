@@ -177,7 +177,7 @@ class Archivo(models.Model):
 
 
 def files_respuesta(instance, filename):
-    archivo_respuesta = 'resuesta_estudiantes_actividades/{0}/{1}'.format(
+    archivo_respuesta = 'respuesta_estudiantes_actividades/{0}/{1}'.format(
         instance.actividad_respuesta.actividad, filename)
     full_path = os.path.join(settings.MEDIA_ROOT, archivo_respuesta)
     if os.path.exists(full_path):

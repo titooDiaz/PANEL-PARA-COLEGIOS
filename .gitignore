@@ -34,3 +34,6 @@ colegio/media/colegiosFoto/media
 colegio/media/gestores/media
 colegio/media/materias/media
 colegio/media/profesores/media
+
+#IGNORAR ELEMENTOS DEL COLEGIO
+colegio/media/respuesta_estudiantes_actividades/
