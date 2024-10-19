@@ -11,20 +11,46 @@
 
 <div>
 
+    <!--Frase motivadora para los estudiantes-->
     <div class="m-2 relative">
-        <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-[98%] rounded-xl bg-gray-700 "></span>
-        <div class="relative w-[98%] bg-[#ff7738] text-center py-16 rounded-xl">
-            <h2 class="text-4xl font-sans font-extrabold text-white m-4">{{frase}}</h2>
+        <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-[98%] rounded-xl bg-gray-700 "></span>
+        <div class="relative w-[98%] bg-[#ff7738] text-center py-4 rounded-xl">
+            <h2 class="text-2xl lg:text-4xl font-sans font-extrabold text-white m-4">{{frase}}</h2>
         </div>
     </div>
 
 
     <div>
-        <section class="bg-white">
-            <div class="grid px-4 py-8 mx-auto xl:gap-0 lg:py-16 lg:grid-cols-12">
+
         
-                <div class="hidden lg:mt-0 lg:col-span-8 lg:flex">
-                    <div class="bg-gray-300 p-4 mx-6 w-full rounded-xl">
+        <section class="bg-white">
+
+             <!--VISTA DEL FORMULARIO PARA CELULARES-->
+
+             <div class="lg:hidden mt-8">
+                    
+                <div class="lg:col-span-4">
+                    <div class="relative">
+                        <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded-xl bg-gray-700 "></span>
+                        <div class="bg-gray-300 w-full p-6 text-center text-black rounded-xl relative">
+                            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">{{actividad.titulo}}</h1>
+                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.descripcion}}</p>
+                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.porcentaje}}%</p>
+
+                            <!--LISTA DE ARCHIVOS SUBIDOS-->
+                            <div id="files_list">
+                                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> 
+
+
+            <div class="grid px-4 py-8 mx-auto gap-4 lg:py-16 lg:grid-cols-12">
+                <div class="lg:mt-0 lg:col-span-8 lg:flex">
+                    <div class="bg-gray-300 p-4 w-full rounded-xl">
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             
@@ -46,9 +72,6 @@
                             <!--ARCHIVO-->
                             <p class="block text-xl text-left font-medium text-gray-900 mb-2">Sube tus archivos: </p>
                             <div>
-                                <div id="files_list">
-                                    
-                                </div>
 
                                 <label for="archivo" class="flex items-center justify-center w-full">
                                     <div id="drop-area" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
@@ -56,8 +79,8 @@
                                             <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                             </svg>
-                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Clic para subir</span> o arrastra tus archivos</p>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400">Puedes subir cualquier tipo de archivo</p>
                                         </div>
                                         <input type="file" id="archivo" name="archivo" class="hidden" multiple>
                                     </div>
@@ -70,38 +93,21 @@
                     </div>
                 </div> 
         
-                <div class="lg:col-span-4">
+                <div class="hidden lg:mt-0 lg:col-span-4 lg:block">
                     <div class="relative">
                         <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded-xl bg-gray-700 "></span>
                         <div class="bg-gray-300 w-full p-6 text-center text-black rounded-xl relative">
-                            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">{{actividad.descripcion}}</h1>
+                            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">{{actividad.titulo}}</h1>
                             <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.descripcion}}</p>
                             <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.porcentaje}}%</p>
+
+                            <!--LISTA DE ARCHIVOS SUBIDOS-->
+                            <div id="files_list">
+                                    
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!--VISTA DEL FORMULARIO PARA CELULARES-->
-
-                <div class="flex lg:mt-0 lg:col-span-8 lg:hidden">
-
-                    <div id="files_list">
-                                    
-                    </div>
-                    
-                    <label for="archivo" class="flex items-center justify-center w-full">
-                        <div id="drop-area" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                </svg>
-                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                            </div>
-                            <input type="file" id="archivo" name="archivo" class="hidden" multiple>
-                        </div>
-                    </label>
-                </div> 
         
             </div>
         </section>
