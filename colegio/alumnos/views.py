@@ -117,9 +117,9 @@ class ActividadesRespuestaView(View):
             respuesta.save()
             archivos_publicados = ""
             for archivo in request.FILES.getlist('archivo'):
-                archivos_publicados = archivo.name + "\n "
+                archivos_publicados = "\n - " + archivo.name + archivos_publicados
                 ArchivoEstudiantes.objects.create(actividad_respuesta=respuesta, archivo=archivo)
-            messages.success(request, 'Wow! Subiste todo correctamente! \n Tus archivos: ')
+            messages.success(request, f'Wow! Subiste todo correctamente! \n Tus archivos: {archivos_publicados}')
             return redirect('ResponderActividades', pk)
         return redirect('ResponderActividades', pk)
     
