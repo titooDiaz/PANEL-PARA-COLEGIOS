@@ -156,8 +156,16 @@ class ViewActividades(View):
 
         # Agrupar las respuestas por el campo 'author' usando groupby
         respuestas_agrupadas = [(author, list(respuestas)) for author, respuestas in groupby(respuestas, key=attrgetter('author'))]
-
-
+        
+        #COlor de las actividades
+            ## Obtener la zona horaria local
+        zona_horaria_usuario = pytz.timezone(request.user.time_zone)
+        fecha_hora_actual_usuario = datetime.now(zona_horaria_usuario)
+            #Vamos a convertir esto a fecha universal
+        fecha_hora_actual_utc = fecha_hora_actual_usuario.astimezone(pytz.utc)
+            # Separar la fecha y la hora en UTC
+        fecha_actual = fecha_hora_actual_utc.date()
+        hora_actual = fecha_hora_actual_utc.time()
         
         form = FilesProfesoresForm()
         context = {
@@ -170,6 +178,8 @@ class ViewActividades(View):
             'vista': vista,
             'abierto':abierto,
             'respuestas_agrupadas': respuestas_agrupadas,
+            'fecha_actual': fecha_actual,
+            "hora_actual": hora_actual,
         }
         return render(request, 'users/profesores/actividades/view_actividades.html', context)
     def post(self, request, pk):
