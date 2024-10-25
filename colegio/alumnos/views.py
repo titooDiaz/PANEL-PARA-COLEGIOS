@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, View
 from informacion.models import Actividades, Grado, Materias
 from django.shortcuts import render, redirect
 from django.views import View
-from informacion.models import Actividades_Respuesta_Estudiantes, Archivo, ArchivoEstudiantes, HorarioDiario, Colegio
+from informacion.models import Actividades_Respuesta_Estudiantes, Archivo, ArchivoEstudiantes, HorarioDiario, Colegio, Grado
 from .forms import ActividadesRespuestaForm
 from django.contrib import messages
 
@@ -126,13 +126,14 @@ class ActividadesRespuestaView(View):
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        colegio = Colegio.objects.get(pk=request.user.colegio.pk)
-        horario = HorarioDiario.objects.filter(colegio=colegio)
+        grado_user = user.customuseralumno.grado 
+        horario = HorarioDiario.objects.filter(grado=grado_user)
 
         
         vista = 'estudiante'
         abierto='calendario'
         context = {
+            'user': user,
             'vista': vista,
             'abierto':abierto,
             'horario': horario,

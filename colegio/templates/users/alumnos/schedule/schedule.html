@@ -8,10 +8,10 @@
 {% block content %}
 {% load static %}
 <div class="mx-auto max-w-screen-sm text-center">
-    <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{reques.user.first_name}}, Aqui tienes tu horario.</h2>
+    <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{user.first_name}}, Aqui tienes tu horario.</h2>
 </div> 
 
-
+<div class="mx-2 lg:mx-20">
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right overflow-x-auto text-gray-800">
             <thead class="text-xs text-white uppercase bg-gray-600">
@@ -87,7 +87,7 @@
             </tbody>
         </table>
     </div>
-
+</div>
     <br>
 
 {% endblock content %}  
