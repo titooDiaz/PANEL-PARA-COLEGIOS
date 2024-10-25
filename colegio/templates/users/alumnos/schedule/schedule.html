@@ -1,0 +1,93 @@
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Ver horario</title>
+</head>
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+<div class="mx-auto max-w-screen-sm text-center">
+    <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{reques.user.first_name}}, Aqui tienes tu horario.</h2>
+</div> 
+
+
+    <div class="overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right overflow-x-auto text-gray-800">
+            <thead class="text-xs text-white uppercase bg-gray-600">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Hora
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Lunes
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Martes
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Miercoles
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Jueves
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Viernes
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for horas in horario %}
+                <tr class="bg-gray-100 border-b hover:bg-gray-200">
+
+                    <!--HORA-->
+                    <td class="px-6 py-4 font-medium">
+                        {{horas.hora_inicio}} - {{horas.hora_fin}}
+                        <br>
+                            <i class="fa-solid fa-pen"></i>
+                    </td>
+
+                    <!--LUNES-->
+                    <td class="px-6 py-4">
+                        {{horas.lunes}}
+                        <br>
+                            <i class="fa-solid fa-pen"></i>
+                    </td>
+
+                    <!--MARTES-->
+                    <td class="px-6 py-4">
+                        {{horas.martes}}
+                        <br>
+                            <i class="fa-solid fa-pen"></i>
+                    </td>
+
+                    <!--MIERCOLES-->
+                    <td class="px-6 py-4">
+                        {{horas.miercoles}}
+                        <br>
+                            <i class="fa-solid fa-pen"></i>
+                    </td>
+
+                    <!--JUEVES-->
+                    <td class="px-6 py-4">
+                        {{horas.jueves}}
+                        <br>
+                            <i class="fa-solid fa-pen"></i>
+                    </td>
+                    
+                    <!--VIERNES-->
+                    <td class="px-6 py-4">
+                        {{horas.viernes}}
+                        <br>
+                                <i class="fa-solid fa-pen"></i>
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+{% endblock content %}  

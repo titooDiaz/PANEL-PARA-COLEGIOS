@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, View
 from informacion.models import Actividades, Grado, Materias
 from django.shortcuts import render, redirect
 from django.views import View
-from informacion.models import Actividades_Respuesta_Estudiantes, Archivo, ArchivoEstudiantes
+from informacion.models import Actividades_Respuesta_Estudiantes, Archivo, ArchivoEstudiantes, HorarioDiario, Colegio
 from .forms import ActividadesRespuestaForm
 from django.contrib import messages
 
@@ -98,7 +98,7 @@ class ActividadesRespuestaView(View):
         
         # Retorno del contexto
         vista = 'estudiante'
-        abierto='calendario'
+        abierto='inicio'
         context = {
             'vista': vista,
             'abierto':abierto,
@@ -125,13 +125,19 @@ class ActividadesRespuestaView(View):
     
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
+        user = request.user
+        colegio = Colegio.objects.get(pk=request.user.colegio.pk)
+        horario = HorarioDiario.objects.filter(colegio=colegio)
+
+        
         vista = 'estudiante'
         abierto='calendario'
         context = {
             'vista': vista,
             'abierto':abierto,
+            'horario': horario,
         }
-        return render(request, 'users/alumnos/inicio.html', context)
+        return render(request, 'users/alumnos/schedule/schedule.html', context)
     
 class AlumnoMensajes(View):
     def get(self, request, *args, **kwargs):
