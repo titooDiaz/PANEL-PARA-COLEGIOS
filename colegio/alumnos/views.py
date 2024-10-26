@@ -8,10 +8,9 @@ from .forms import ActividadesRespuestaForm
 from django.contrib import messages
 
 # LIBRERIAS DE FECHAS
-from datetime import datetime
+from django.utils import timezone
 import pytz
-import time
-import tzlocal #pip install tzlocal
+from datetime import datetime 
 
 
 # Frases motivadoras
@@ -128,16 +127,35 @@ class AlumnoCalendario(View):
         user = request.user
         grado_user = user.customuseralumno.grado 
         horario = HorarioDiario.objects.filter(grado=grado_user)
-
+        
+        # Obtener la zona horaria del usuario
+        user_zone = pytz.timezone(request.user.time_zone)
+        
+        # Obtener el día de la semana en la zona horaria del usuario
+        day = timezone.now().astimezone(user_zone).strftime('%A')
+        
+        # Traducir el día al español si es necesario
+        day_number_text = {
+            "Monday": "1",
+            "Tuesday": "2",
+            "Wednesday": "3",
+            "Thursday": "4",
+            "Friday": "5",
+            "Saturday": "6",
+            "Sunday": "7",
+        }
+        day_numer = day_number_text.get(day, day)
         
         vista = 'estudiante'
-        abierto='calendario'
+        abierto = 'calendario'
         context = {
             'user': user,
             'vista': vista,
-            'abierto':abierto,
+            'abierto': abierto,
             'horario': horario,
+            'day': day_numer,
         }
+        
         return render(request, 'users/alumnos/schedule/schedule.html', context)
     
 class AlumnoMensajes(View):
