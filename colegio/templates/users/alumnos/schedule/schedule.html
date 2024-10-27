@@ -91,7 +91,7 @@
 
     <!-- Vista de horario para celulares -->
     <div class="py-4 px-4 mx-auto max-w-screen-xl lg:py-2 lg:px-6 ">
-        <div class="grid gap-8 m-6 lg:mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div class="grid gap-8 m-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             
             {% for horas in horario %}
 
@@ -150,12 +150,12 @@
                     </div>
                     {% endif %}
                     
-                    {% if day == "6" %}
+                    {% if day == "7" %}
                     <div class="relative">
                         <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
                         <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                             <div class="block w-full">
-                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.viernes.picture1}}</h5>
+                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.viernes.titulo1}}</h5>
                                 <p class="text-center">{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
                                 <img class="w-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
                             </div>
