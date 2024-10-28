@@ -1,0 +1,197 @@
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Ver horario</title>
+</head>
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div>
+    <!-- Vista de horario para tables o computadoras!-->
+    <div class="hidden lg:flex">
+        <div class="mx-auto text-center">
+            <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{user.first_name}}, Aqui tienes tu horario.</h2>
+        </div> 
+
+        <div class="mx-2 lg:mx-20">
+            <div class="overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right overflow-x-auto text-gray-800">
+                    <thead class="text-xs text-white uppercase bg-gray-600">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Hora
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Lunes
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Martes
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Miercoles
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Jueves
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Viernes
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for horas in horario %}
+                        <tr class="bg-gray-100 border-b hover:bg-gray-200">
+
+                            <!--HORA-->
+                            <td class="px-6 py-4 font-medium">
+                                {{horas.hora_inicio}} - {{horas.hora_fin}}
+                                <br>
+                            </td>
+
+                            <!--LUNES-->
+                            <td class="px-6 py-4">
+                                {{horas.lunes}}
+                                <br>
+                            </td>
+
+                            <!--MARTES-->
+                            <td class="px-6 py-4">
+                                {{horas.martes}}
+                                <br>
+                            </td>
+
+                            <!--MIERCOLES-->
+                            <td class="px-6 py-4">
+                                {{horas.miercoles}}
+                                <br>
+                            </td>
+
+                            <!--JUEVES-->
+                            <td class="px-6 py-4">
+                                {{horas.jueves}}
+                                <br>
+                            </td>
+                            
+                            <!--VIERNES-->
+                            <td class="px-6 py-4">
+                                {{horas.viernes}}
+                                <br>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Vista de horario para celulares -->
+    <div class="py-4 px-4 mx-auto max-w-screen-xl lg:py-2 lg:px-6 ">
+        <div class="grid gap-8 m-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            
+            {% for horas in horario %}
+
+                    {% if day == "1" %}
+                    <div class="relative">
+                        <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+                        <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
+                            <div class="block w-full">
+                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.lunes}}</h5>
+                                <p>{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                <img class="w-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    
+                    {% if day == "2" %}
+                    <div class="relative">
+                        <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+                        <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
+                            <div class="block w-full">
+                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.martes}}</h5>
+                                <p class="text-center">{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                <img class="w-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    
+                    {% if day == "3" %}
+                    <div class="relative">
+                        <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+                        <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
+                            <div class="block w-full">
+                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.miercoles}}</h5>
+                                <p class="text-center">{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                <img class="w-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+
+                    {% if day == "4" %}
+                    <div class="relative">
+                        <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+                        <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
+                            <div class="block w-full">
+                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.jueves}}</h5>
+                                <p class="text-center">{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                <img class="w-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if day == "7" %}
+                    <div class="relative">
+                        <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+                        <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
+                            <div class="block w-full">
+                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.viernes.titulo1}}</h5>
+                                <p class="text-center">{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                <img class="w-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+            {% endfor %}
+
+            {% if day == "6" %}
+                <div class="relative">
+                    <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+                    <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
+                        <div class="block w-full">
+                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Hoy no tienes clases! <br> Es sabado!</h5>
+                            <img class="w-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if day == "7" %}
+                <div class="relative">
+                    <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+                    <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
+                        <div class="block w-full">
+                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">Hoy no tienes clases!<br> Es domingo!</h5>
+                            <img class="w-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+<br>
+
+{% endblock content %}  
