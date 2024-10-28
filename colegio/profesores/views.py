@@ -246,3 +246,42 @@ class EditActividades(View):
         # Si el formulario no es válido, muestra los errores
         messages.error(request, 'Formulario no válido')
         return redirect('BoardProfesores')
+    
+# Horario para dictar clases de profresores...
+class AlumnoCalendario(View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        grado_user = user.customuseralumno.grado 
+        subject_profesor = Materias.objects.filter(profe1=user) | Materias.objects.filter(profe2=user)
+        grades = Grado.objects.filter(materias__in=subject_profesor).distinct()
+        schedule = 0
+        
+        # Obtener la zona horaria del usuario
+        user_zone = pytz.timezone(request.user.time_zone)
+        
+        # Obtener el día de la semana en la zona horaria del usuario
+        day = timezone.now().astimezone(user_zone).strftime('%A')
+        
+        # Traducir el día al español si es necesario
+        day_number_text = {
+            "Monday": "1",
+            "Tuesday": "2",
+            "Wednesday": "3",
+            "Thursday": "4",
+            "Friday": "5",
+            "Saturday": "6",
+            "Sunday": "7",
+        }
+        day_numer = day_number_text.get(day, day)
+        
+        vista = 'estudiante'
+        abierto = 'calendario'
+        context = {
+            'user': user,
+            'vista': vista,
+            'abierto': abierto,
+            'schedule': schedule,
+            'day': day_numer,
+        }
+        
+        return render(request, 'users/alumnos/schedule/schedule.html', context)

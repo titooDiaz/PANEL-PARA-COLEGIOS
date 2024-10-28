@@ -107,10 +107,6 @@ class Grado(models.Model):
     def __str__(self):
         return self.grado_nom + "(" + self.grado_num + ")"
 
-
-
-
-
 def get_current_date():
     fecha_actual = timezone.now().date()
     # Convertir la fecha a una cadena en el formato 'YYYY-MM-DD'
