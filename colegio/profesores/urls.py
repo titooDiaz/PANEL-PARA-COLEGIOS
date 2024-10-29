@@ -9,5 +9,5 @@ urlpatterns = [
     
     # es - Ver horario
     # en - View schedule
-    path('view/schedule/', EditActividades.as_view(), name='ViewScheduleProfessor'),
+    path('view/schedule/', ProfessorSchedule.as_view(), name='ViewScheduleProfessor'),
 ]

@@ -23,13 +23,13 @@
 
           {% if abierto == 'calendario' %}
             <li class="bg-white text-black rounded-l-lg">
-                <a href="{% url 'ViewScheduleProfessor' %}" class="block p-4 transition duration-300 rounded-lg">
+                <a href="#" class="block p-4 transition duration-300 rounded-lg">
                   <i class="fas fa-calendar mr-2"></i> Calendario
                 </a>
             </li>
           {% else %}
             <li>
-                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <a href="{% url 'ViewScheduleProfessor' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                   <i class="fas fa-calendar mr-2"></i> Calendario
                 </a>
             </li>

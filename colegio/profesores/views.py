@@ -248,7 +248,7 @@ class EditActividades(View):
         return redirect('BoardProfesores')
     
 # Horario para dictar clases de profresores...
-class ProfesorCalendario(View):
+class ProfessorSchedule(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         grado_user = user.customuseralumno.grado 
@@ -284,4 +284,4 @@ class ProfesorCalendario(View):
             'day': day_numer,
         }
         
-        return render(request, 'users/alumnos/schedule/schedule.html', context)
+        return render(request, 'users/profesores/schedule/schedule.html', context)
