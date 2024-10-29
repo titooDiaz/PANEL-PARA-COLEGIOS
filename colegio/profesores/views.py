@@ -6,6 +6,13 @@ from django.contrib import messages
 ## MENSAJES DE ERRORES ##
 from message_error import messages_error
 
+#
+from django.contrib.auth import get_user_model
+from users.models import CustomUserAlumno, CustomUserProfesores
+User = get_user_model()
+UserProfes = CustomUserProfesores
+UserAlumno = CustomUserAlumno
+
 ## Contar, Agrupar, un modelo
 from itertools import groupby
 from operator import attrgetter
@@ -251,7 +258,7 @@ class EditActividades(View):
 class ProfessorSchedule(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        grado_user = user.customuseralumno.grado 
+        grado_user = user.Customuserprofesores.titular
         subject_profesor = Materias.objects.filter(profe1=user) | Materias.objects.filter(profe2=user)
         grades = Grado.objects.filter(materias__in=subject_profesor).distinct()
         schedule = 0
