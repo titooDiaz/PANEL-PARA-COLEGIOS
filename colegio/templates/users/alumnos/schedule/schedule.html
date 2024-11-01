@@ -10,7 +10,7 @@
 
 <div>
     <!-- Vista de horario para tables o computadoras!-->
-    <div class="hidden lg:flex">
+    <div class="hidden lg:block">
         <div class="mx-auto text-center">
             <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{user.first_name}}, Aqui tienes tu horario.</h2>
         </div> 
@@ -90,7 +90,7 @@
 
 
     <!-- Vista de horario para celulares -->
-    <div class="py-4 px-4 mx-auto max-w-screen-xl lg:py-2 lg:px-6 ">
+    <div class="flex lg:hidden py-4 px-4 mx-auto max-w-screen-xl lg:py-2 lg:px-6 ">
         <div class="grid gap-8 m-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             
             {% for horas in horario %}
