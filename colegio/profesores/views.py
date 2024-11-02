@@ -263,8 +263,7 @@ class ProfessorSchedule(View):
         grades = Grado.objects.filter(materias__in=subject_profesor).distinct()
         print(grades)
         schedules = []
-        for grade in grades:
-            schedules.append(HorarioDiario.objects.filter(grado=grade))
+        schedules = HorarioDiario.objects.filter(grado__in=grades).order_by('hora_inicio')
         
         # Obtener la zona horaria del usuario
         user_zone = pytz.timezone(request.user.time_zone)
