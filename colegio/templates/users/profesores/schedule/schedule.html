@@ -51,10 +51,24 @@
                             </td>
 
                             <!--LUNES-->
+                            
+                            {% if time.lunes.profe1.pk == request.user.pk %}
                             <td class="px-6 py-4">
                                 {{time.lunes}}
                                 <br>
                             </td>
+                            {% else %}
+                            <td class="px-6 py-4 flex">
+                                <div class="w-[30px] h-[30px] flex">
+                                    <img src="{% static 'img/time/break.png' %}" alt="">
+                                </div>
+                                <div class="ml-2 flex items-center justify-center">
+                                    <p>libre</p>
+                                </div>
+                                
+                                <br>
+                            </td>
+                            {% endif %}
 
                             <!--MARTES-->
                             <td class="px-6 py-4">
