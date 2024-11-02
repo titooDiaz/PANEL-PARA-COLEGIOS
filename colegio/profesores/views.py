@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
-from informacion.models import Materias, Grado, Actividades, Archivo, ActividadesTipo, Actividades_Respuesta_Estudiantes
+from informacion.models import Materias, Grado, Actividades, Archivo, ActividadesTipo, Actividades_Respuesta_Estudiantes, HorarioDiario
 from .forms import ActividadesForm, ArchivoForm, FilesProfesoresForm
 from django.contrib import messages
 ## MENSAJES DE ERRORES ##
@@ -259,8 +259,12 @@ class ProfessorSchedule(View):
         user = request.user
         grado_user = user.customuserprofesores.titular
         subject_profesor = Materias.objects.filter(profe1=user) | Materias.objects.filter(profe2=user)
+        print(subject_profesor)
         grades = Grado.objects.filter(materias__in=subject_profesor).distinct()
-        schedule = 0
+        print(grades)
+        schedules = []
+        for grade in grades:
+            schedules.append(HorarioDiario.objects.filter(grado=grade))
         
         # Obtener la zona horaria del usuario
         user_zone = pytz.timezone(request.user.time_zone)
@@ -280,13 +284,13 @@ class ProfessorSchedule(View):
         }
         day_numer = day_number_text.get(day, day)
         
-        vista = 'estudiante'
+        vista = 'profesores'
         abierto = 'calendario'
         context = {
             'user': user,
             'vista': vista,
             'abierto': abierto,
-            'schedule': schedule,
+            'schedules': schedules,
             'day': day_numer,
         }
         

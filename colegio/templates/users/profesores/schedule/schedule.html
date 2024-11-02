@@ -14,7 +14,6 @@
         <div class="mx-auto text-center">
             <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{user.first_name}}, Aqui tienes tu horario.</h2>
         </div> 
-
         <div class="mx-2 lg:mx-20">
             <div class="overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right overflow-x-auto text-gray-800">
@@ -41,46 +40,47 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for horas in horario %}
+                    {% for schedule in schedules %}
+                    {% for time in schedule %}
                         <tr class="bg-gray-100 border-b hover:bg-gray-200">
 
                             <!--HORA-->
                             <td class="px-6 py-4 font-medium">
-                                {{horas.hora_inicio}} - {{horas.hora_fin}}
+                                {{time.hora_inicio}} - {{time.hora_fin}}
                                 <br>
                             </td>
 
                             <!--LUNES-->
                             <td class="px-6 py-4">
-                                {{horas.lunes}}
+                                {{time.lunes}}
                                 <br>
                             </td>
 
                             <!--MARTES-->
                             <td class="px-6 py-4">
-                                {{horas.martes}}
+                                {{time.martes}}
                                 <br>
                             </td>
 
                             <!--MIERCOLES-->
                             <td class="px-6 py-4">
-                                {{horas.miercoles}}
+                                {{time.miercoles}}
                                 <br>
                             </td>
 
                             <!--JUEVES-->
                             <td class="px-6 py-4">
-                                {{horas.jueves}}
+                                {{time.jueves}}
                                 <br>
                             </td>
                             
                             <!--VIERNES-->
                             <td class="px-6 py-4">
-                                {{horas.viernes}}
+                                {{time.viernes}}
                                 <br>
                             </td>
                         </tr>
-
+                        {% endfor %}
                     {% endfor %}
                     </tbody>
                 </table>
