@@ -12,7 +12,7 @@
     <!-- Vista de horario para tables o computadoras!-->
     <div class="hidden lg:block">
         <div class="mx-auto text-center">
-            <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{user.first_name}}, Aqui tienes tu horario.</h2>
+            <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{user.first_name}}, Aqui tienes tu horario.</h2>
         </div> 
 
         <div class="mx-2 lg:mx-20">
@@ -51,34 +51,106 @@
                             </td>
 
                             <!--LUNES-->
-                            <td class="px-6 py-4">
-                                {{horas.lunes}}
-                                <br>
-                            </td>
+                            
+                            {% if horas.lunes %}
+                                <td class="px-6 py-4">
+                                    {{horas.lunes}}
+                                    <br>
+                                </td>
+                            {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p><span class="font-bold">No</span> Asignador</p>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </td>
+                            {% endif %}
+                            
 
                             <!--MARTES-->
-                            <td class="px-6 py-4">
-                                {{horas.martes}}
-                                <br>
-                            </td>
+                            {% if horas.martes %}
+                                <td class="px-6 py-4">
+                                    {{horas.martes}}
+                                    <br>
+                                </td>
+                            {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p><span class="font-bold">No</span> Asignador</p>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </td>
+                            {% endif %}
 
                             <!--MIERCOLES-->
-                            <td class="px-6 py-4">
-                                {{horas.miercoles}}
-                                <br>
-                            </td>
+                            {% if horas.miercoles %}
+                                <td class="px-6 py-4">
+                                    {{horas.miercoles}}
+                                    <br>
+                                </td>
+                            {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p><span class="font-bold">No</span> Asignador</p>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </td>
+                            {% endif %}
 
                             <!--JUEVES-->
-                            <td class="px-6 py-4">
-                                {{horas.jueves}}
-                                <br>
-                            </td>
+                            {% if horas.jueves %}
+                                <td class="px-6 py-4">
+                                    {{horas.jueves}}
+                                    <br>
+                                </td>
+                            {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p><span class="font-bold">No</span> Asignador</p>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </td>
+                            {% endif %}
                             
                             <!--VIERNES-->
-                            <td class="px-6 py-4">
-                                {{horas.viernes}}
-                                <br>
-                            </td>
+                            {% if horas.viernes %}
+                                <td class="px-6 py-4">
+                                    {{horas.viernes}}
+                                    <br>
+                                </td>
+                            {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p><span class="font-bold">No</span> Asignador</p>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </td>
+                            {% endif %}
                         </tr>
 
                     {% endfor %}
@@ -90,9 +162,23 @@
 
 
     <!-- Vista de horario para celulares -->
+
     <div class="flex lg:hidden py-4 px-4 mx-auto max-w-screen-xl lg:py-2 lg:px-6 ">
-        <div class="grid gap-8 m-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            
+        <div class="block">
+            <!-- menu -->
+            <div class="flex justify-center space-x-2">
+                <button onclick="showSection('monday')" type="button" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Lunes</button>
+                <button onclick="showSection('tuesday')" type="button" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Martes</button>
+                <button onclick="showSection('wednesday')" type="button" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Miercoles</button>
+            </div>
+                <br>    
+            <div class="flex justify-center space-x-2 mb-4">
+                <button onclick="showSection('thursday')" type="button" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Jueves</button>
+                <button onclick="showSection('friday')" type="button" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Viernes</button>
+                <button onclick="showSection('saturday')" type="button" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Sabado</button>
+                <button onclick="showSection('sunday')" type="button" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">Domingo</button>
+            </div>
+
             {% for horas in horario %}
 
                     {% if day == "1" %}
@@ -150,7 +236,7 @@
                     </div>
                     {% endif %}
                     
-                    {% if day == "7" %}
+                    {% if day == "5" %}
                     <div class="relative">
                         <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
                         <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
@@ -187,11 +273,28 @@
                     </div>
                 </div>
             {% endif %}
+        <!-- Contenido -->
+        <div id="content_schedule" class="p-6 bg-white rounded shadow-md w-full max-w-md text-center">
+            <div id="monday" class="content_schedule_active_default">
+              <h2 class="text-2xl font-bold mb-4">Bienvenido a la Página de Inicio</h2>
+              <p>Esta es la sección de inicio.</p>
+            </div>
+            <div id="tuesday" class="hidden">
+              <h2 class="text-2xl font-bold mb-4">Contáctanos</h2>
+              <p>Esta es la sección de contacto.</p>
+            </div>
+            <div id="wednesday" class="hidden">
+              <h2 class="text-2xl font-bold mb-4">Acerca de Nosotros</h2>
+              <p>Esta es la sección de acerca de nosotros.</p>
+            </div>
+          </div>
         </div>
 
     </div>
 </div>
 
 <br>
+
+<script src="{%static 'js/schedule/menu.js'%}"></script>
 
 {% endblock content %}  
