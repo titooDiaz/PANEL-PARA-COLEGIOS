@@ -41,115 +41,117 @@
                     </thead>
                     <tbody>
                     {% for time in schedules %}
-                        <tr class="bg-gray-100 border-b hover:bg-gray-200">
+                        {% if time.lunes.profe1.pk == request.user.pk or time.martes.profe1.pk == request.user.pk or time.miercoles.profe1.pk == request.user.pk or time.jueves.profe1.pk == request.user.pk or time.viernes.profe1.pk == request.user.pk %}
+                            <tr class="bg-gray-100 border-b hover:bg-gray-200">
 
-                            <!--HORA-->
-                            <td class="px-6 py-4 font-medium">
-                                {{time.hora_inicio}} - {{time.hora_fin}}
-                                <br>
-                            </td>
+                                <!--HORA-->
+                                <td class="px-6 py-4 font-medium">
+                                    {{time.hora_inicio}} - {{time.hora_fin}}
+                                    <br>
+                                </td>
 
-                            <!--LUNES-->
-                            
-                            {% if time.lunes.profe1.pk == request.user.pk %}
-                            <td class="px-6 py-4">
-                                {{time.lunes}}
-                                <br>
-                            </td>
-                            {% else %}
-                            <td class="px-6 py-4">
-                                <div class="flex">
-                                    <div class="w-[30px] h-[30px] flex">
-                                        <img src="{% static 'img/time/break.png' %}" alt="">
+                                <!--LUNES-->
+                                
+                                {% if time.lunes.profe1.pk == request.user.pk %}
+                                <td class="px-6 py-4">
+                                    {{time.lunes}}
+                                    <br>
+                                </td>
+                                {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p>libre</p>
+                                        </div>
                                     </div>
-                                    <div class="ml-2 flex items-center justify-center">
-                                        <p>libre</p>
-                                    </div>
-                                </div>
-                                <br>
-                            </td>
-                            {% endif %}
+                                    <br>
+                                </td>
+                                {% endif %}
 
-                            <!--MARTES-->
-                            {% if time.martes.profe1.pk == request.user.pk %}
-                            <td class="px-6 py-4">
-                                {{time.martes}}
-                                <br>
-                            </td>
-                            {% else %}
-                            <td class="px-6 py-4">
-                                <div class="flex">
-                                    <div class="w-[30px] h-[30px] flex">
-                                        <img src="{% static 'img/time/break.png' %}" alt="">
+                                <!--MARTES-->
+                                {% if time.martes.profe1.pk == request.user.pk %}
+                                <td class="px-6 py-4">
+                                    {{time.martes}}
+                                    <br>
+                                </td>
+                                {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p>libre</p>
+                                        </div>
                                     </div>
-                                    <div class="ml-2 flex items-center justify-center">
-                                        <p>libre</p>
-                                    </div>
-                                </div>
-                                <br>
-                            </td>
-                            {% endif %}
+                                    <br>
+                                </td>
+                                {% endif %}
 
-                            <!--MIERCOLES-->
-                            {% if time.miercoles.profe1.pk == request.user.pk %}
-                            <td class="px-6 py-4">
-                                {{time.miercoles}}
-                                <br>
-                            </td>
-                            {% else %}
-                            <td class="px-6 py-4">
-                                <div class="flex">
-                                    <div class="w-[30px] h-[30px] flex">
-                                        <img src="{% static 'img/time/break.png' %}" alt="">
+                                <!--MIERCOLES-->
+                                {% if time.miercoles.profe1.pk == request.user.pk %}
+                                <td class="px-6 py-4">
+                                    {{time.miercoles}}
+                                    <br>
+                                </td>
+                                {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p>libre</p>
+                                        </div>
                                     </div>
-                                    <div class="ml-2 flex items-center justify-center">
-                                        <p>libre</p>
-                                    </div>
-                                </div>
-                                <br>
-                            </td>
-                            {% endif %}
+                                    <br>
+                                </td>
+                                {% endif %}
 
-                            <!--JUEVES-->
-                            {% if time.jueves.profe1.pk == request.user.pk %}
-                            <td class="px-6 py-4">
-                                {{time.jueves}}
-                                <br>
-                            </td>
-                            {% else %}
-                            <td class="px-6 py-4">
-                                <div class="flex">
-                                    <div class="w-[30px] h-[30px] flex">
-                                        <img src="{% static 'img/time/break.png' %}" alt="">
+                                <!--JUEVES-->
+                                {% if time.jueves.profe1.pk == request.user.pk %}
+                                <td class="px-6 py-4">
+                                    {{time.jueves}}
+                                    <br>
+                                </td>
+                                {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p>libre</p>
+                                        </div>
                                     </div>
-                                    <div class="ml-2 flex items-center justify-center">
-                                        <p>libre</p>
+                                    <br>
+                                </td>
+                                {% endif %}
+                                
+                                <!--VIERNES-->
+                                {% if time.viernes.profe1.pk == request.user.pk %}
+                                <td class="px-6 py-4">
+                                    {{time.viernes}}
+                                    <br>
+                                </td>
+                                {% else %}
+                                <td class="px-6 py-4">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p>libre</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <br>
-                            </td>
-                            {% endif %}
-                            
-                            <!--VIERNES-->
-                            {% if time.viernes.profe1.pk == request.user.pk %}
-                            <td class="px-6 py-4">
-                                {{time.viernes}}
-                                <br>
-                            </td>
-                            {% else %}
-                            <td class="px-6 py-4">
-                                <div class="flex">
-                                    <div class="w-[30px] h-[30px] flex">
-                                        <img src="{% static 'img/time/break.png' %}" alt="">
-                                    </div>
-                                    <div class="ml-2 flex items-center justify-center">
-                                        <p>libre</p>
-                                    </div>
-                                </div>
-                                <br>
-                            </td>
-                            {% endif %}
-                        </tr>
+                                    <br>
+                                </td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
