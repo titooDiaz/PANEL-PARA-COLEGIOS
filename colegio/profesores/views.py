@@ -259,10 +259,8 @@ class ProfessorSchedule(View):
         user = request.user
         grado_user = user.customuserprofesores.titular
         subject_profesor = Materias.objects.filter(profe1=user) | Materias.objects.filter(profe2=user)
-        print(subject_profesor)
         grades = Grado.objects.filter(materias__in=subject_profesor).distinct()
-        print(grades)
-        schedules = []
+
         schedules = HorarioDiario.objects.filter(grado__in=grades).order_by('hora_inicio')
         
         # Obtener la zona horaria del usuario

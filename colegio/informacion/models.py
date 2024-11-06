@@ -90,7 +90,7 @@ class Materias(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_materia')
 
     def __str__(self):
-        return f'{self.titulo1} - {self.profe1}'
+        return f'{self.titulo1}'
 
 class Grado(models.Model):
     ano_creacion = models.IntegerField(default=ano_actual())
