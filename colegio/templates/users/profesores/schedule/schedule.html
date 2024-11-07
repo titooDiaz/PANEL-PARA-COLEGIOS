@@ -188,7 +188,7 @@
                                     <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                         <div class="block w-full">
                                             <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{time.lunes}}</h5>
-                                            <p>{{time.hora_inicio}} - {{time.hora_fin}}</p>
+                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
                                             <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
                                         </div>
                                     </div>
@@ -218,7 +218,7 @@
                                     <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                         <div class="block w-full">
                                             <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{time.martes}}</h5>
-                                            <p>{{time.hora_inicio}} - {{time.hora_fin}}</p>
+                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
                                             <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
                                         </div>
                                     </div>
@@ -248,7 +248,7 @@
                                     <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                         <div class="block w-full">
                                             <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{time.miercoles}}</h5>
-                                            <p>{{time.hora_inicio}} - {{time.hora_fin}}</p>
+                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
                                             <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
                                         </div>
                                     </div>
@@ -278,7 +278,7 @@
                                     <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                         <div class="block w-full">
                                             <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{time.jueves}}</h5>
-                                            <p>{{time.hora_inicio}} - {{time.hora_fin}}</p>
+                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
                                             <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
                                         </div>
                                     </div>
@@ -302,18 +302,16 @@
                     </div> 
                     {% for time in schedules %}
                         {% if time.viernes %}
-                            {% if time.viernes.profe1.pk == request.user.pk %}
-                                <div class="relative mt-8">
-                                    <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
-                                    <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
-                                        <div class="block w-full">
-                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{time.viernes}}</h5>
-                                            <p>{{time.hora_inicio}} - {{time.hora_fin}}</p>
-                                            <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
-                                        </div>
+                            <div class="relative mt-8">
+                                <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+                                <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
+                                    <div class="block w-full">
+                                        <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{time.viernes}}</h5>
+                                        <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
+                                        <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
                                     </div>
                                 </div>
-                            {% endif %}
+                            </div>
                         {% endif %}
                     {% endfor %}
                 </div>
