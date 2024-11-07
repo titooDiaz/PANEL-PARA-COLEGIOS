@@ -17,27 +17,28 @@
             <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{user.first_name}}, Aqui tienes tu horario.</h2>
         </div> 
 
-        <div class="mx-2 lg:mx-20">
-            <div class="overflow-x-auto shadow-md sm:rounded-lg">
+        <div class="mx-2 lg:mx-20 relative">
+            <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700"></span>
+            <div class="overflow-x-auto shadow-md sm:rounded-lg relative">
                 <table class="w-full text-sm text-left rtl:text-right overflow-x-auto text-gray-800">
                     <thead class="text-xs text-white uppercase bg-gray-600">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-2 py-3">
                                 Hora
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-2 py-3">
                                 Lunes
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-2 py-3">
                                 Martes
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-2 py-3">
                                 Miercoles
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-2 py-3">
                                 Jueves
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-2 py-3">
                                 Viernes
                             </th>
                         </tr>
@@ -47,7 +48,7 @@
                         <tr class="bg-gray-100 border-b hover:bg-gray-200">
 
                             <!--HORA-->
-                            <td class="px-6 py-4 font-medium">
+                            <td class="px-2 py-2 font-medium">
                                 {{horas.hora_inicio}} - {{horas.hora_fin}}
                                 <br>
                             </td>
@@ -55,12 +56,12 @@
                             <!--LUNES-->
                             
                             {% if horas.lunes %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     {{horas.lunes}}
                                     <br>
                                 </td>
                             {% else %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     <div class="flex">
                                         <div class="w-[30px] h-[30px] flex">
                                             <img src="{% static 'img/time/break.png' %}">
@@ -76,12 +77,12 @@
 
                             <!--MARTES-->
                             {% if horas.martes %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     {{horas.martes}}
                                     <br>
                                 </td>
                             {% else %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     <div class="flex">
                                         <div class="w-[30px] h-[30px] flex">
                                             <img src="{% static 'img/time/break.png' %}" alt="">
@@ -96,12 +97,12 @@
 
                             <!--MIERCOLES-->
                             {% if horas.miercoles %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     {{horas.miercoles}}
                                     <br>
                                 </td>
                             {% else %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     <div class="flex">
                                         <div class="w-[30px] h-[30px] flex">
                                             <img src="{% static 'img/time/break.png' %}" alt="">
@@ -116,12 +117,12 @@
 
                             <!--JUEVES-->
                             {% if horas.jueves %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     {{horas.jueves}}
                                     <br>
                                 </td>
                             {% else %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     <div class="flex">
                                         <div class="w-[30px] h-[30px] flex">
                                             <img src="{% static 'img/time/break.png' %}" alt="">
@@ -136,12 +137,12 @@
                             
                             <!--VIERNES-->
                             {% if horas.viernes %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     {{horas.viernes}}
                                     <br>
                                 </td>
                             {% else %}
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-2">
                                     <div class="flex">
                                         <div class="w-[30px] h-[30px] flex">
                                             <img src="{% static 'img/time/break.png' %}" alt="">
@@ -166,10 +167,10 @@
     <!-- Vista de horario para celulares -->
     <!-- View of schedule for phones -->
 
-    <div class="flex lg:hidden py-4 px-4 lg:py-2 lg:px-6">
+    <div class="block lg:hidden py-2 px-4 lg:py-2 lg:px-2">
         <div class="block">
 
-        <div id="content_schedule" class="flex lg:hidden py-4 px-4 lg:py-2 lg:px-6">
+        <div id="content_schedule" class="block lg:hidden py-2 px-4 lg:py-2 lg:px-2">
             <!--
                 Day one
                 Dia uno
@@ -189,7 +190,7 @@
                                 <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                     <div class="block w-full">
                                         <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.lunes}}</h5>
-                                        <p>{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                        <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{horas.hora_inicio}} - {{horas.hora_fin}}</p>
                                         <img class="w-full p-4" src="{{horas.lunes.picture1.url }}" alt="Alumno">
                                     </div>
                                 </div>
@@ -217,7 +218,7 @@
                                 <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                     <div class="block w-full">
                                         <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.martes}}</h5>
-                                        <p>{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                        <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{horas.hora_inicio}} - {{horas.hora_fin}}</p>
                                         <img class="w-full p-4" src="{{horas.lunes.picture1.url }}" alt="Alumno">
                                     </div>
                                 </div>
@@ -245,7 +246,7 @@
                                 <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                     <div class="block w-full">
                                         <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.miercoles}}</h5>
-                                        <p>{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                        <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{horas.hora_inicio}} - {{horas.hora_fin}}</p>
                                         <img class="w-full p-4" src="{{horas.lunes.picture1.url }}" alt="Alumno">
                                     </div>
                                 </div>
@@ -273,7 +274,7 @@
                                 <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                     <div class="block w-full">
                                         <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.jueves}}</h5>
-                                        <p>{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                        <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{horas.hora_inicio}} - {{horas.hora_fin}}</p>
                                         <img class="w-full p-4" src="{{horas.lunes.picture1.url }}" alt="Alumno">
                                     </div>
                                 </div>
@@ -301,7 +302,7 @@
                                 <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                     <div class="block w-full">
                                         <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horas.viernes}}</h5>
-                                        <p>{{horas.hora_inicio}} - {{horas.hora_fin}}</p>
+                                        <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{horas.hora_inicio}} - {{horas.hora_fin}}</p>
                                         <img class="w-full p-4" src="{{horas.lunes.picture1.url }}" alt="Alumno">
                                     </div>
                                 </div>
