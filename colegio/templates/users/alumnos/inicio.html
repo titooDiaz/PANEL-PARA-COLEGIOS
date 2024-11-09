@@ -8,9 +8,7 @@
 {% block content %}
 
 <div class="my-6">
-    <h5 class="text-5xl font-mono font-bold mb-4 text-center">Bienvenido {{request.user.first_name}}!</h5>
-    <h5 class="text-2xl font-mono font-bold mb-4 text-center">{{grado.grado_nom}} ({{grado.grado_num}})</h5>
-
+    <h5 class="text-5xl text-center font-bold whitespace-nowrap text-black zoom-4">Bienvenido {{request.user.first_name}}!</h5>
 
     <div class="p-4 mb-8">
         <div class="mx-auto max-w-screen-sm text-center">
@@ -19,7 +17,7 @@
 
         
         <div class="w-full">
-            <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
+            <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center font-semibold text-left transition-all ease-in" >
                 <div class="flex">
                     <button class="w-full" data-collapse-target="collapse-actividades_actuales">
                         <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
@@ -174,35 +172,35 @@
         </div>
 
         
-        <div class="grid gap-12 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
+        <div class="grid gap-12 mb-6 lg:mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-col-4">
             {% for materia in materias %}
-            <div class="relative">
-                <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
-                <div class="relative h-full items-center bg-gray-300 rounded-lg flex p-4 shadow-2xl">
-                        <div class="block w-full">
-                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
-                            <br>
-                            <p class="text-lg">
-                                <span class="font-bold">PROFESOR:</span>
+                <div class="relative">
+                    <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
+                    <div class="relative h-full items-center bg-gray-300 rounded-lg flex p-4 shadow-2xl">
+                            <div class="block w-full">
+                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
                                 <br>
-                                {{ materia.profe1.first_name }} {{ materia.profe1.last_name }} 
-                            </p>
-                            <p class="text-lg"></p>
-                            <img class="w-full p-4" src="{{ materia.picture1.url }}" alt="Alumno">
-                            
-                            <p class="text-lg text-center my-4 font-light">- {{ materia.descripcion1 }} -</p>
+                                <p class="text-lg">
+                                    <span class="font-bold">PROFESOR:</span>
+                                    <br>
+                                    {{ materia.profe1.first_name }} {{ materia.profe1.last_name }} 
+                                </p>
+                                <p class="text-lg"></p>
+                                <img class="w-full p-4" src="{{ materia.picture1.url }}" alt="Alumno">
+                                
+                                <p class="text-lg text-center my-4 font-light">- {{ materia.descripcion1 }} -</p>
 
-                            <div class="mt-2">
-                                <div class="w-full flex">
-                                    <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 w-full py-2 text-center text-lg">
-                                        Ver
-                                    </a>
+                                <div class="mt-2">
+                                    <div class="w-full flex">
+                                        <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 w-full py-2 text-center text-lg">
+                                            Ver
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                </div>
-            </div>          
+                    </div>
+                </div>          
             {% endfor %}
         </div>
     </div>

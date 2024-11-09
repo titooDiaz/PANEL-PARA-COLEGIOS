@@ -1,11 +1,11 @@
 <!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
 {% load static %}
-    <div class="w-full bg-[#ff7738] rounded-xl bg-no-repeat">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div class="flex items-center justify-center w-full mb-4 lg:mb-0 lg:w-auto">
-          <a href="#" class="flex items-center">
-              <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="MDKJ-F" />
-              <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">MDKJ-F</span>
+  <div class="w-full bg-[#ff7738] rounded-xl">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div class="flex items-center justify-center w-full mb-4 lg:mb-0 lg:w-auto">
+        <a href="#" class="flex items-center">
+            <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="MDKJ-F" />
+              <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">{{grade.grado_nom}} ({{grade.grado_num}})</span>
           </a>
       </div>
       <div class="flex flex-wrap items-center justify-between w-full lg:w-auto">   

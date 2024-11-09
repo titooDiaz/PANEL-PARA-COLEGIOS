@@ -48,8 +48,8 @@ class AlumnoBoard(View):
         user = request.user
         
         #vista de estudiantes (obviamente tiene modelo de estudiante)
-        grado_user = user.customuseralumno.grado #grado del estudiante
-        materias_user = grado_user.materias.all() #materias del estudainte
+        grade_user = user.customuseralumno.grado #grado del estudiante
+        materias_user = grade_user.materias.all() #materias del estudainte
         
         
         ## Obtener la zona horaria local
@@ -75,7 +75,7 @@ class AlumnoBoard(View):
         context = {
             'vista': vista,
             'abierto':abierto,
-            'grado': grado_user,
+            'grade': grade_user,
             'materias': materias_user,
             'actividades': actividades_user_on_time,
             'actividades_pasadas': actividades_user_off_time,
@@ -87,6 +87,11 @@ class AlumnoBoard(View):
     
 class ActividadesRespuestaView(View):
     def get(self, request, pk, *args, **kwargs):
+        
+        # Grade
+        user = request.user
+        grade_user = user.customuseralumno.grado #grado del estudiante
+        
         form = ActividadesRespuestaForm()
         
         #Seleccionar frase para el estudiante
@@ -125,8 +130,8 @@ class ActividadesRespuestaView(View):
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        grado_user = user.customuseralumno.grado 
-        horario = HorarioDiario.objects.filter(grado=grado_user)
+        grade_user = user.customuseralumno.grado 
+        horario = HorarioDiario.objects.filter(grado=grade_user)
         
         # Obtener la zona horaria del usuario
         user_zone = pytz.timezone(request.user.time_zone)
@@ -154,6 +159,7 @@ class AlumnoCalendario(View):
             'abierto': abierto,
             'horario': horario,
             'day': day_numer,
+            'grade': grade_user,
         }
         
         return render(request, 'users/alumnos/schedule/schedule.html', context)
