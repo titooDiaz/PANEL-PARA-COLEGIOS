@@ -109,6 +109,7 @@ class ActividadesRespuestaView(View):
             'form': form,
             'frase': frase,
             'actividad': actividad,
+            'grade': grade_user,
         }
         return render(request, 'users/alumnos/actividades/responder.html', context)
 
@@ -166,11 +167,16 @@ class AlumnoCalendario(View):
     
 class AlumnoMensajes(View):
     def get(self, request, *args, **kwargs):
+        # Grade
+        user = request.user
+        grade_user = user.customuseralumno.grado #grado del estudiante
+        
         vista = 'estudiante'
         abierto='mensajes'
         context = {
             'vista': vista,
             'abierto':abierto,
+            'grade': grade_user
         }
         return render(request, 'users/alumnos/inicio.html', context)
     
@@ -178,18 +184,30 @@ class AlumnoPersonas(View):
     def get(self, request, *args, **kwargs):
         vista = 'estudiante'
         abierto='personas'
+        
+        # Grade
+        user = request.user
+        grade_user = user.customuseralumno.grado #grado del estudiante
+        
         context = {
             'vista': vista,
             'abierto':abierto,
+            'grade': grade_user,
         }
         return render(request, 'users/alumnos/inicio.html', context)
     
 class AlumnoNotas(View):
     def get(self, request, *args, **kwargs):
+        # Grade
+        user = request.user
+        grade_user = user.customuseralumno.grado #grado del estudiante
+        
         vista = 'estudiante'
         abierto='notas'
+        
         context = {
             'vista': vista,
             'abierto':abierto,
+            'grade': grade_user,
         }
         return render(request, 'users/alumnos/inicio.html', context)

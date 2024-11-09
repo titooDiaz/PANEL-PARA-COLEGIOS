@@ -102,62 +102,80 @@
                     </button>
                 </div>
                 <div data-collapse="collapse-actividades_pasadas" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
-                    <div class="bg-gray-300 p-4 grid gap-4 sm:grid-cols-1 lg:grid-cols-2 rounded-lg">
-                        
-                        {% for actividad in actividades_pasadas %}
-                            
-                            <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
-                                <div class="m-2">
-                                    {% if fecha_actual == actividad.fecha_final %}
-                                        {% if hora_actual > actividad.hora_final %}
-                                            <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
-                                                <div class="flex w-full items-center align-middle justify-center text-white">
-                                                    <i class="fa-solid fa-clock"></i>
-                                                </div>
-                                            </div>
-                                        {%else%}
-                                            <div class="rounded-full w-12 h-12 bg-orange-400 flex col-span-2">
-                                                <div class="flex w-full items-center align-middle justify-center text-white">
-                                                    <i class="fa-solid fa-clock"></i>
-                                                </div>
-                                            </div>
-                                        {%endif%}
-                                    {% else %}
-                                        {% if fecha_actual > actividad.fecha_final %}
-                                            <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
-                                                <div class="flex w-full items-center align-middle justify-center text-white">
-                                                    <i class="fa-solid fa-clock"></i>
-                                                </div>
-                                            </div>
-                                        {%else%}
-                                            <div class="rounded-full w-12 h-12 bg-green-400 flex col-span-2">
-                                                <div class="flex w-full items-center align-middle justify-center text-white">
-                                                    <i class="fa-solid fa-clock"></i>
-                                                </div>
-                                            </div>
-                                        {%endif%}
-                                    {% endif %}
 
-                                    
-                                </div>
-                                <div class="flex w-full ml-6 bg-gray-100 rounded-lg">
-                                    <div class="w-full">
-                                        <div class="m-2">
-                                            <div>
-                                                <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
+                    <div>
+                        <div class="w-full flex items-center justify-center my-4">
+                            <div class="w-[85%] text-lg font-medium">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                      <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                    <input type="text" id="input-group-1" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full ps-10 p-2.5" placeholder="Recuerdas tu actividad? Escribe aqui el nombre!">
+                                  </div>
+                            </div>
+                            <div class="w-[5%] flex items-center justify-center">
+                                <i class="fa-solid fa-arrow-down-wide-short"></i>
+                            </div>
+                        </div>
+                    
+
+                        <div class="bg-gray-300 p-4 grid gap-4 sm:grid-cols-1 lg:grid-cols-2 rounded-lg">
+                            
+                            {% for actividad in actividades_pasadas %}
+                                
+                                <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
+                                    <div class="m-2">
+                                        {% if fecha_actual == actividad.fecha_final %}
+                                            {% if hora_actual > actividad.hora_final %}
+                                                <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%else%}
+                                                <div class="rounded-full w-12 h-12 bg-orange-400 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%endif%}
+                                        {% else %}
+                                            {% if fecha_actual > actividad.fecha_final %}
+                                                <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%else%}
+                                                <div class="rounded-full w-12 h-12 bg-green-400 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%endif%}
+                                        {% endif %}
+
+                                        
+                                    </div>
+                                    <div class="flex w-full ml-6 bg-gray-100 rounded-lg">
+                                        <div class="w-full">
+                                            <div class="m-2">
+                                                <div>
+                                                    <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
+                                                </div>
                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div class="m-2">
-                                            <p class="font-bold">{{actividad.titulo}}</p>
-                                            <p>{{actividad.descripcion}}</p>
+                                            <hr>
+                                            <div class="m-2">
+                                                <p class="font-bold">{{actividad.titulo}}</p>
+                                                <p>{{actividad.descripcion}}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <hr>
-                            </a>
-                        {% endfor %}
+                                    <hr>
+                                </a>
+                            {% endfor %}
 
+                        </div>
                     </div>
                 </div>
             </div> 
