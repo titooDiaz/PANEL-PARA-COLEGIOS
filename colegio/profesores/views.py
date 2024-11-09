@@ -270,6 +270,7 @@ class ProfessorSchedule(View):
         day = timezone.now().astimezone(user_zone).strftime('%A')
         
         # Traducir el día al español si es necesario
+        # Transalate day
         day_number_text = {
             "Monday": "1",
             "Tuesday": "2",
