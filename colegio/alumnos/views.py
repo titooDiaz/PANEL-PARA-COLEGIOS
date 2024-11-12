@@ -62,7 +62,7 @@ class AlumnoBoard(View):
         
         actividades_user_on_time = Actividades.objects.filter(
             materia__in=materias_user,
-            fecha_final__gt=fecha_actual
+            fecha_final__gte=fecha_actual
         )
         
         
