@@ -47,7 +47,7 @@
                             {% if actividades %}
                                 
                                 {% for actividad in actividades %}
-                                    <div class="flex">
+                                    <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
                                         <div class="m-2">
                                             {% if fecha_actual == actividad.fecha_final %}
                                                 {% if hora_actual > actividad.hora_final %}
@@ -95,7 +95,7 @@
                                             </div>
                                         </div>
                                         
-                                    </div>
+                                    </a>
                                 {% endfor %}
                             {% else %}
                                 <div>
