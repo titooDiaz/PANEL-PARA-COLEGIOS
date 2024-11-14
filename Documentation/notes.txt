@@ -60,3 +60,8 @@ decidi hacer la aplicacion aun mas amplia, tener un mismo servidor para varios c
 Es decir, ahora todos los datos iran asociados a un colegio creado unicamente por el administrador. Al colegio se le ofrecera un usuario de tipo gestor.
 Con este usuario puede crear muchos mas!
 Tambien esta en pensamiento agregar costes por numero de usuarios. Es decir, que un colegio solo pueda agregar cierta cantidad de usuarios. Cada parte de usuarios coste un dinero!
+
+
+13/11/2024
+Hasta el momento los alumnos ya peuden subir las actividades propuestas por los docentes.
+Tambien decidimos empezar a escribir todo el codigo en ingles, ya que creemos que puede beneficiar a futuro.
