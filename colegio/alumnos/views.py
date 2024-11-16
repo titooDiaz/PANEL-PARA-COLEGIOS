@@ -180,7 +180,7 @@ class StudentMessages(View):
         }
         return render(request, 'users/alumnos/messages/messages.html', context)
     
-class AlumnoPersonas(View):
+class StudentPeople(View):
     def get(self, request, *args, **kwargs):
         vista = 'estudiante'
         abierto='personas'
@@ -194,7 +194,7 @@ class AlumnoPersonas(View):
             'abierto':abierto,
             'grade': grade_user,
         }
-        return render(request, 'users/alumnos/inicio.html', context)
+        return render(request, 'users/alumnos/people/people.html', context)
     
 class AlumnoNotas(View):
     def get(self, request, *args, **kwargs):

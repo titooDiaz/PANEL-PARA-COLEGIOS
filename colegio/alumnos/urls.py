@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AlumnoBoard, AlumnoCalendario, StudentMessages, AlumnoNotas, AlumnoPersonas, ActividadesRespuestaView
+from .views import AlumnoBoard, AlumnoCalendario, StudentMessages, AlumnoNotas, StudentPeople, ActividadesRespuestaView
 
 urlpatterns = [
     #vista estudiantes
@@ -20,5 +20,5 @@ urlpatterns = [
     
     # es - Personas
     # en - People
-    path('personas/', AlumnoPersonas.as_view(), name='PersonasAlumno'),
+    path('personas/', StudentPeople.as_view(), name='PeopleStudent'),
 ]
