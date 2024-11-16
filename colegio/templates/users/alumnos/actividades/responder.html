@@ -36,11 +36,6 @@
                             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">{{actividad.titulo}}</h1>
                             <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.descripcion}}</p>
                             <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.porcentaje}}%</p>
-
-                            <!--LISTA DE ARCHIVOS SUBIDOS-->
-                            <div id="files_list">
-                                    
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -56,12 +51,12 @@
                             
                             <div class="mb-4">
 
-                                <p class="block text-xl text-left font-medium text-gray-900 mb-2">Titulo: </p>
+                                <p class="block text-xl font-medium text-gray-900 mb-2 text-center">Titulo</p>
                                 <div class="mb-4">
                                     {{form.respuesta}}
                                 </div>
 
-                                <p class="block text-xl text-left font-medium text-gray-900 mb-2">Detalles:  </p>
+                                <p class="block text-xl text-center font-medium text-gray-900 mb-2">Detalles</p>
                                 <div class="mb-4">
                                     {{form.descripcion}}
                                 </div>
@@ -70,7 +65,11 @@
                             
 
                             <!--ARCHIVO-->
-                            <p class="block text-xl text-left font-medium text-gray-900 mb-2">Sube tus archivos: </p>
+                            <!--LISTA DE ARCHIVOS SUBIDOS-->
+                            <div id="files_list">
+                                    
+                            </div>
+                            <p class="block text-xl text-center font-medium text-gray-900 mb-2">Sube tus archivos</p>
                             <div>
 
                                 <label for="archivo" class="flex items-center justify-center w-full">
