@@ -165,7 +165,7 @@ class AlumnoCalendario(View):
         
         return render(request, 'users/alumnos/schedule/schedule.html', context)
     
-class AlumnoMensajes(View):
+class StudentMessages(View):
     def get(self, request, *args, **kwargs):
         # Grade
         user = request.user
@@ -178,7 +178,7 @@ class AlumnoMensajes(View):
             'abierto':abierto,
             'grade': grade_user
         }
-        return render(request, 'users/alumnos/inicio.html', context)
+        return render(request, 'users/alumnos/messages/messages.html', context)
     
 class AlumnoPersonas(View):
     def get(self, request, *args, **kwargs):
