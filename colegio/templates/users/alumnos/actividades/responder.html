@@ -101,6 +101,9 @@
                             <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.porcentaje}}%</p>
 
                             <!--Time info-->
+                            <div class="hidden">
+                                <span id="date">{{date}}</span>
+                            </div>
                             <div class="flex w-full max-w-5xl bg-white rounded-lg shadow-lg">
                                 <div class="flex-1 flex flex-col items-center justify-center border-r border-gray-200 p-4">
                                   <div id="days" class="text-4xl font-bold text-gray-800 md:text-6xl lg:text-4xl">0</div>
@@ -133,7 +136,8 @@
 </div>
   
     <script>
-      const COUNTDOWN_FROM = "2024-10-01";
+      const COUNTDOWN_FROM = document.getElementById('date').textContent;
+      console.log(COUNTDOWN_FROM);
       const SECOND = 1000;
       const MINUTE = SECOND * 60;
       const HOUR = MINUTE * 60;
