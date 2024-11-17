@@ -110,6 +110,23 @@ class ActividadesRespuestaView(View):
         )
         
         activity = Actividades.objects.get(pk=pk)
+        # Extraer los datos de los campos
+        date = activity.fecha_final  # Esto es un objeto date (año, mes, día)
+        hour = activity.hora_final    # Esto es un objeto time (hora, minuto, segundo, etc.)
+
+        # Construir la fecha completa
+        date = date.strftime('%Y-%m-%d')
+
+        # Extraer valores específicos de la hora
+        second = 0
+        minute = hour.minute
+        final_hour = hour.hour
+        times = {
+            'date':date,
+            'second':second,
+            'minute':minute,
+            'final_hour':final_hour,
+        }
         if activity in actividades_user_off_time:
             if activity.hora_final > hora_actual:
                 print("a tiempo")
@@ -140,6 +157,7 @@ class ActividadesRespuestaView(View):
             'frase': frase,
             'actividad': actividad,
             'grade': grade_user,
+            'times': times,
         }
         return render(request, 'users/alumnos/actividades/responder.html', context)
 
