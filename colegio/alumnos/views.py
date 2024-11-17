@@ -51,7 +51,6 @@ class AlumnoBoard(View):
         grade_user = user.customuseralumno.grado #grado del estudiante
         materias_user = grade_user.materias.all() #materias del estudainte
         
-        
         ## Obtener la zona horaria local
         zona_horaria_usuario = pytz.timezone(request.user.time_zone)
         
@@ -88,6 +87,37 @@ class AlumnoBoard(View):
 class ActividadesRespuestaView(View):
     def get(self, request, pk, *args, **kwargs):
         
+        ## Obtener la zona horaria local
+        zona_horaria_usuario = pytz.timezone(request.user.time_zone)
+        
+        # Obtener la hora actual en la zona horaria del usuario
+        fecha_actual = datetime.now(zona_horaria_usuario).date()
+        hora_actual = datetime.now(zona_horaria_usuario).time()
+        
+        #vista de estudiantes (obviamente tiene modelo de estudiante)
+        user = request.user
+        grade_user = user.customuseralumno.grado #grado del estudiante
+        materias_user = grade_user.materias.all() #materias del estudainte
+        
+        actividades_user_on_time = Actividades.objects.filter(
+            materia__in=materias_user,
+            fecha_final__gte=fecha_actual
+        )
+        
+        actividades_user_off_time = Actividades.objects.filter(
+            materia__in=materias_user,
+            fecha_final__lte=fecha_actual
+        )
+        
+        activity = Actividades.objects.get(pk=pk)
+        if activity in actividades_user_off_time:
+            if activity.hora_final > hora_actual:
+                print("a tiempo")
+            else:
+                print("fuera de tiempo")
+        elif activity in actividades_user_on_time:
+            print("a tiempo por mucho")
+            
         # Grade
         user = request.user
         grade_user = user.customuseralumno.grado #grado del estudiante
