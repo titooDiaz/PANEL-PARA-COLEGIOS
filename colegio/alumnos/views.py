@@ -115,13 +115,25 @@ class ActividadesRespuestaView(View):
         hour = activity.hora_final    # Esto es un objeto time (hora, minuto, segundo, etc.)
 
         combined_datetime = datetime.combine(date, hour)
+        
+        # on_time
+        # 1 --> On time
+        # 2 --> Out time
+        # 3 --> on time (today)
+        
         if activity in actividades_user_off_time:
             if activity.hora_final > hora_actual:
-                print("a tiempo")
+                # on time
+                on_time = 3
             else:
-                print("fuera de tiempo")
+                # the time has ended
+                on_time = 2
         elif activity in actividades_user_on_time:
-            print("a tiempo por mucho")
+            # They still have plenty of time
+            on_time = 1
+        else:
+            # This case should never exist, but if something fails we will have to say that it is too late to upload it.
+            on_time = 2
             
         # Grade
         user = request.user
@@ -146,6 +158,7 @@ class ActividadesRespuestaView(View):
             'actividad': actividad,
             'grade': grade_user,
             'date': combined_datetime.isoformat(),
+            'on_time': on_time,
         }
         return render(request, 'users/alumnos/actividades/responder.html', context)
 
