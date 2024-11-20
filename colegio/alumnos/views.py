@@ -123,7 +123,7 @@ class ActividadesRespuestaView(View):
         
         if activity in actividades_user_off_time:
             if activity.hora_final > hora_actual:
-                # on time
+                # on time (Today)
                 on_time = 3
             else:
                 # the time has ended
