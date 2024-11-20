@@ -122,7 +122,7 @@ class ActividadesRespuestaView(View):
         # 3 --> on time (today)
         
         if activity in actividades_user_off_time:
-            if activity.hora_final > hora_actual:
+            if activity.hora_final > hora_actual and activity.fecha_final > fecha_actual:
                 # on time (Today)
                 on_time = 3
             else:
@@ -135,8 +135,12 @@ class ActividadesRespuestaView(View):
             # This case should never exist, but if something fails we will have to say that it is too late to upload it.
             on_time = 2
             
-        # Grade
+            
+        #User activity...
         user = request.user
+        user_answers = Actividades_Respuesta_Estudiantes.objects.filter(actividad=activity.pk)
+            
+        # Grade
         grade_user = user.customuseralumno.grado #grado del estudiante
         
         form = ActividadesRespuestaForm()
@@ -159,6 +163,7 @@ class ActividadesRespuestaView(View):
             'grade': grade_user,
             'date': combined_datetime.isoformat(),
             'on_time': on_time,
+            'answers': user_answers,
         }
         return render(request, 'users/alumnos/actividades/responder.html', context)
 

@@ -88,7 +88,9 @@
 
             </div> 
 
+            
             <div class="grid px-4 py-8 mx-auto gap-4 lg:grid-cols-12">
+                {% if on_time != 2%}
                 <div class="lg:mt-0 lg:col-span-8 lg:flex">
                     <div class="bg-gray-300 p-4 w-full rounded-xl">
                         <form method="POST" enctype="multipart/form-data">
@@ -136,6 +138,11 @@
                         </form>
                     </div>
                 </div> 
+                {% else %}
+                    <h4>LA actividad ya acabo...</h4>
+                    {{answers}}
+                {% endif %}
+            
         
                 <div class="hidden lg:mt-0 lg:col-span-4 lg:block">
                     <div class="relative">
