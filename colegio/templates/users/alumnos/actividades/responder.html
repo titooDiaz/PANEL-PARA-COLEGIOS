@@ -139,7 +139,11 @@
                     </div>
                 </div> 
                 {% else %}
-                    <div class="lg:mt-0 lg:col-span-8 lg:flex">
+                    <!--Avoid console errors-->
+                    <div id="drop-area" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"><input type="file" id="archivo" name="archivo" class="hidden" multiple></div>
+                    <!------------------------>
+
+                    <div class="lg:mt-0 lg:col-span-8 ">
                         <div class="bg-gray-200 rounded-lg p-4">
                             <h4 class="mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl text-center text-wrap">Actividad Finalizada!</h4>
                             <div class="flex items-center justify-center">
@@ -211,20 +215,22 @@
 
 <!--SCRIPTS-->
 
-<!--
-en:
-Remaining time
+    <!--
+    en:
+    Remaining time
 
-es:
-Tiempo restante
--->
-<script src="{% static 'js/activities/remaining_time.js' %}"></script>
-<!--
-en
-Drop effect on fileinput
+    es:
+    Tiempo restante
+    -->
+    <script src="{% static 'js/activities/remaining_time.js' %}"></script>
+    <!--
+    en
+    Drop effect on fileinput
 
-es
-Efecto drop en el input-->
-<script src="{% static 'js/activities/drop_input.js' %}"></script>
+    es
+    Efecto drop en el input-->
+    <script src="{% static 'js/activities/drop_input.js' %}"></script>
+
+<!--END SCRIPTS-->
 
 {% endblock content %}  
