@@ -122,11 +122,11 @@
                                 <label for="archivo" class="flex items-center justify-center w-full">
                                     <div id="drop-area" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
                                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                            <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                             </svg>
-                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Clic para subir</span> o arrastra tus archivos</p>
-                                            <p class="text-xs text-gray-500 dark:text-gray-400">Puedes subir cualquier tipo de archivo</p>
+                                            <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Clic para subir</span> o arrastra tus archivos</p>
+                                            <p class="text-xs text-gray-500">Puedes subir cualquier tipo de archivo</p>
                                         </div>
                                         <input type="file" id="archivo" name="archivo" class="hidden" multiple>
                                     </div>
@@ -141,12 +141,42 @@
                 {% else %}
                     <div class="lg:mt-0 lg:col-span-8 lg:flex">
                         <div class="bg-gray-200 rounded-lg p-4">
-                            <h4 class="mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl text-center text-wrap">La actividad ya termino!</h4>
-                            <p class="mb-4 font-extrabold leading-none md:text-lg xl:text-2xl text-center text-wrap">Aqui tienes tus respuestas a la actividad</p>
-                            <div>
-                                {% for answer in answers %}
-                                    {{answer.respuesta}}
-                                {% endfor %}
+                            <h4 class="mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl text-center text-wrap">Actividad Finalizada!</h4>
+                            <div class="flex items-center justify-center">
+                                <div class="w-[100%] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h5 class="text-xl font-bold leading-none text-gray-900">Respuestas a la actividad</h5>
+                                        <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                                            Ver
+                                        </a>
+                                    </div>
+                                    <div class="flow-root">
+                                            <ul role="list" class="divide-y divide-gray-200">
+                                                {% for answer in answers %}
+                                                    <li class="py-3 sm:py-4">
+                                                        <div class="flex items-center">
+                                                            <div class="flex-1 min-w-0 ms-4">
+                                                                <p class="text-sm font-medium text-gray-900">
+                                                                    {{answer.respuesta}}
+                                                                </p>
+                                                                <p class="text-sm text-gray-500 text-wrap">
+                                                                    {{answer.descripcion}}
+                                                                </p>
+                                                            </div>
+                                                            <a href="#" class="inline-flex items-center text-base font-semibold text-gray-900">
+                                                                <div class="relative inline-block">
+                                                                    <i class="fa-solid fa-file text-2xl"></i>
+                                                                    <span class="absolute top-full left-full transform -translate-x-1/2 -translate-y-2 rounded-full bg-gray-200 w-4 h-4 flex items-center justify-center text-xs">
+                                                                        {{ answer.archivos.count }}
+                                                                    </span>
+                                                                </div>                                                                
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
