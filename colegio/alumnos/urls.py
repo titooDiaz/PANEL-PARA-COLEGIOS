@@ -1,9 +1,13 @@
 from django.urls import path
-from .views import AlumnoBoard, AlumnoCalendario, StudentMessages, StudentGrades, StudentPeople, ActividadesRespuestaView
+from .views import AlumnoBoard, AlumnoCalendario, StudentMessages, StudentGrades, StudentPeople, ActividadesRespuestaView, SubjectsView
 
 urlpatterns = [
     #vista estudiantes
     path('board/', AlumnoBoard.as_view(), name='BoardAlumno'),
+    
+    # es - Materias
+    # en - Subjects
+    path('materias/ver/<int:pk>', SubjectsView.as_view(), name='SubjectsView'),
     
     # es - Actividades
     # en - activities

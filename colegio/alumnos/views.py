@@ -181,6 +181,24 @@ class ActividadesRespuestaView(View):
             messages.success(request, f'Wow! Subiste todo correctamente! \n Tus archivos: {archivos_publicados}')
             return redirect('ResponderActividades', pk)
         return redirect('ResponderActividades', pk)
+
+#Subjects View
+class SubjectsView(View):
+    def get(self, request, pk, *args, **kwargs):
+        # Grade
+        user = request.user
+        grade_user = user.customuseralumno.grado #grado del estudiante
+        subject = Materias.objects.get(pk=pk)
+        
+        vista = 'estudiante'
+        abierto='mensajes'
+        context = {
+            'vista': vista,
+            'abierto':abierto,
+            'grade': grade_user,
+            'subject':subject,
+        }
+        return render(request, 'users/alumnos/subjects/subjects.html', context)
     
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
