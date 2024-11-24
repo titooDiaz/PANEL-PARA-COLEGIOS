@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Grado, HorarioDiario
+from .models import Grade, DailySchedule
 from django.views.generic import TemplateView, View
 from users.models import CustomUserAlumno
 
@@ -8,7 +8,7 @@ from .forms import HoraHorarioForm, MateriasHorarioForm, EditarVerNotasAlumnosFo
 class VerGrados(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
-        grados = Grado.objects.filter(colegio=colegio)
+        grados = Grade.objects.filter(colegio=colegio)
         print(grados)
         vista = 'gestor'
         abierto='ajustes'
@@ -32,8 +32,8 @@ PARA CADA MOVIMIENTO HYA UNA VISTA DEDICADA, QUE RETORNARA ESTA MISMA VISTA
 # EN ESTA VISTA PODREMOS VER TODA LA TABLA DE HORARIOS (POR DEFECTO VACIA) EN NUESTROS GRADOS.
 class VerGradosHorario(View):
     def get(self, request, pk, *args, **kwargs):
-        grado = Grado.objects.get(id=pk)
-        horarios_del_grado = HorarioDiario.objects.filter(grado=grado)
+        grado = Grade.objects.get(id=pk)
+        horarios_del_grado = DailySchedule.objects.filter(grado=grado)
         vista = 'gestor'
         abierto='ajustes'
 
@@ -57,7 +57,7 @@ class VerGradosHorario(View):
 
 class EditarGradosHorarioHora(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
-        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk_post)
+        instancia_modelo = get_object_or_404(DailySchedule, pk=pk_post)
         formulario = HoraHorarioForm(request.POST, instance=instancia_modelo) #EDITAR EL CAMPO YA EXISTENTE...
         if formulario.is_valid():
             formulario.save()
@@ -66,7 +66,7 @@ class EditarGradosHorarioHora(View):
     
 class EditarGradosHorarioMaterias(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
-        instancia_modelo = get_object_or_404(HorarioDiario, pk=pk_post)
+        instancia_modelo = get_object_or_404(DailySchedule, pk=pk_post)
         valores_originales = { #GUARDAMOS LOS VALORES ORIGINALES PARA QUE NO SE ELIMINENA LA HORA DE HACER EL POST
             'lunes': instancia_modelo.lunes,
             'martes': instancia_modelo.martes,
@@ -122,7 +122,7 @@ class EditarVerNotasAlumnos(View):
     
 class VerEstudiantesGrado(View):
     def get(self, request, pk, *args, **kwargs):
-        grado = get_object_or_404(Grado, pk=pk)
+        grado = get_object_or_404(Grade, pk=pk)
         estudiantes = CustomUserAlumno.objects.filter(grado=grado)
         print(grado)
         vista = 'gestor'

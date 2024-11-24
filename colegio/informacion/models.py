@@ -34,12 +34,14 @@ def ano_actual():
     ano_electivo = int(ano_electivo)
     return ano_electivo
 
-class Anos_electivos(models.Model):
+# Translate class: Anos_Electivos
+class ElectiveYears(models.Model):
     ano = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_Ano_electivo')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Creator_Elective_Year')
     estado = models.BooleanField(default=True)
-    
-class Horarios_Partes(models.Model):
+
+# Translate class: Horarios_Partes
+class ScheduleParts(models.Model):
     colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioHorariosPartes') #COLEGIO AL QUE PERTENECE EL USUARIO
     titulo = models.TextField()
     descripcion = models.TextField()
@@ -67,7 +69,8 @@ def picture_materia_1(instance, filename):
     return profile_picture_name
 
 
-class Materias(models.Model):   
+# Translate class: Materias
+class Subjects(models.Model):   
     electiva = models.BooleanField(default=False)
     ano_creacion = models.IntegerField(default=ano_actual())
     ##################electivas##############
@@ -92,7 +95,8 @@ class Materias(models.Model):
     def __str__(self):
         return f'{self.titulo1}'
 
-class Grado(models.Model):
+# Translate class: Grado 
+class Grade(models.Model):
     ano_creacion = models.IntegerField(default=ano_actual())
     grado_nom = models.TextField()
     grado_num = models.TextField()
@@ -100,8 +104,8 @@ class Grado(models.Model):
     estado = models.BooleanField(default=True)
     created_on = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_grado')
-    horario_partes = models.ForeignKey(Horarios_Partes, on_delete=models.SET_NULL, blank=True, null=True)
-    materias = models.ManyToManyField(Materias, blank=True, related_name='materias_grado')
+    horario_partes = models.ForeignKey(ScheduleParts, on_delete=models.SET_NULL, blank=True, null=True)
+    materias = models.ManyToManyField(Subjects, blank=True, related_name='materias_grado')
     colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioGrado') #COLEGIO AL QUE PERTENECE EL USUARIO
 
     def __str__(self):
@@ -118,7 +122,9 @@ def get_current_time():
     now = timezone.now()
     return now.replace(second=0, microsecond=0).time()
 
-class ActividadesTipo(models.Model):
+
+# Translate class: ActividadesTipo
+class ActivitiesType(models.Model):
     colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadesColegio') #COLEGIO AL QUE PERTENECE EL USUARIO
     titulo = models.TextField(null=False, blank=False)
     descripcion = models.TextField(null=False, blank=False)
@@ -130,11 +136,13 @@ class ActividadesTipo(models.Model):
     def __str__(self):
         return f"Actividad: {self.titulo}"
 
-class Actividades(models.Model):
+
+# Translate class: Actividades
+class Activities(models.Model):
     titulo = models.TextField()
     descripcion = models.TextField()
     porcentaje = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
-    tipo = models.ForeignKey(ActividadesTipo, on_delete=models.CASCADE, related_name='actividades')
+    tipo = models.ForeignKey(ActivitiesType, on_delete=models.CASCADE, related_name='actividades')
     restriccion = models.CharField(max_length=50, choices=TIPO_RESTRICCION, default=tipo_de_restriccion)
     fecha_inicio = models.DateField(default=get_current_date)
     fecha_final = models.DateField(default=get_current_date)
@@ -149,7 +157,7 @@ class Actividades(models.Model):
     estado = models.BooleanField(default=True)
     created_on = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_actividad')
-    materia = models.ForeignKey(Materias, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadMateria')
+    materia = models.ForeignKey(Subjects, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadMateria')
 
     def __str__(self):
         return f"{self.titulo} ({self.pk})"
@@ -162,8 +170,10 @@ def files(instance, filename):
     if os.path.exists(full_path):
         os.remove(full_path)
     return archivo_guia
-class Archivo(models.Model):
-    actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE, related_name='archivos')
+
+# Translate class: Archivo
+class File(models.Model):
+    actividad = models.ForeignKey(Activities, on_delete=models.CASCADE, related_name='archivos')
     archivo = models.FileField(upload_to=files)
     nombre = models.CharField(max_length=40, blank=True)
     descripcion = models.CharField(max_length=255, blank=True)
@@ -181,7 +191,8 @@ def files_respuesta(instance, filename):
     return archivo_respuesta
 
 
-class Actividades_Respuesta_Estudiantes(models.Model):
+# Translate class: Actividades_Respuesta_Estudiantes
+class StudentResponse(models.Model):
     respuesta = models.TextField()
     descripcion = models.TextField()
     fecha_entrega = models.DateField(default=get_current_date)
@@ -192,40 +203,42 @@ class Actividades_Respuesta_Estudiantes(models.Model):
     estado = models.BooleanField(default=True)
     created_on = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_respuesta')
-    actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadRespuesta')
+    actividad = models.ForeignKey(Activities, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadRespuesta')
 
     def __str__(self):
         return f"ACTIVIDAD ENTREGADA POR: {self.author}"
 
-class ArchivoEstudiantes(models.Model):
-    actividad_respuesta = models.ForeignKey(Actividades_Respuesta_Estudiantes, on_delete=models.CASCADE, related_name='archivos')
+# Translate class: ArchivoEstudiantes
+class StudentFiles(models.Model):
+    actividad_respuesta = models.ForeignKey(StudentResponse, on_delete=models.CASCADE, related_name='archivos')
     archivo = models.FileField(upload_to=files_respuesta)
 
     def __str__(self):
         return f"Archivo para {self.actividad_respuesta.author}: {self.archivo.name}"
 
-
-class HorarioDiario(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
+# Translate class: HorarioDiario
+class DailySchedule(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
     ano_creacion = models.IntegerField(default=ano_actual())
-    grado = models.ForeignKey(Grado, on_delete=models.CASCADE)
+    grado = models.ForeignKey(Grade, on_delete=models.CASCADE)
     hora_inicio = models.TimeField(blank=True, null=True)
     hora_fin = models.TimeField(blank=True, null=True)
     """LOS MODELOS TIENEN NOMBRES DE DIAS PERO REALMENTE SE REFIEREN A LAS MATERIAS DE ESTE DIA
          |
         \|/                                                                               """
-    lunes = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_1')
-    martes = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_2')
-    miercoles = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_3')
-    jueves = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_4')
-    viernes = models.ForeignKey(Materias, on_delete=models.SET_NULL, blank=True, null=True, related_name='materias_grado_5')
+    lunes = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_1')
+    martes = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_2')
+    miercoles = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_3')
+    jueves = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_4')
+    viernes = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_5')
 
     def __str__(self):
         return f"{self.hora_inicio} - {self.hora_fin}"
 
-  
-class HorarioCortes(models.Model): 
+
+# Translate class: HorarioCortes
+class ScheduleCourts(models.Model): 
     ano_creacion = models.IntegerField(default=ano_actual())
-    horario = models.ForeignKey(Horarios_Partes, on_delete=models.CASCADE)
+    horario = models.ForeignKey(ScheduleParts, on_delete=models.CASCADE)
     fecha_inicio = models.DateField(blank=True, null=True)
     fecha_fin = models.DateField(blank=True, null=True)
     corte_num = models.IntegerField(blank=False)

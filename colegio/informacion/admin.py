@@ -1,28 +1,28 @@
 from django.contrib import admin
-from .models import Horarios_Partes, Grado, Materias, HorarioDiario
+from .models import ScheduleParts, Grade, Subjects, DailySchedule
 
 
-class Horarios_PartesProxy(Horarios_Partes):
+class SchedulePartsProxy(ScheduleParts):
     class Meta:
         proxy = True
         verbose_name_plural = 'Fraccion de horarios'
 
-class MateriasProxy(Materias):
+class SubjectsProxy(Subjects):
     class Meta:
         proxy = True
-        verbose_name_plural = 'Materias Escolares'
+        verbose_name_plural = 'Subjects Escolares'
 
-class GradoProxy(Grado):
+class GradeProxy(Grade):
     class Meta:
         proxy = True
-        verbose_name_plural = 'Grados Escolares'
+        verbose_name_plural = 'Grades Escolares'
 
-class HorarioDiarioProxy(HorarioDiario):
+class DailyScheduleProxy(DailySchedule):
     class Meta:
         proxy = True
         verbose_name_plural = 'Horarios Escolares'
 
-admin.site.register(HorarioDiarioProxy)
-admin.site.register(Horarios_PartesProxy)
-admin.site.register(GradoProxy)
-admin.site.register(MateriasProxy)
+admin.site.register(DailyScheduleProxy)
+admin.site.register(SchedulePartsProxy)
+admin.site.register(GradeProxy)
+admin.site.register(SubjectsProxy)

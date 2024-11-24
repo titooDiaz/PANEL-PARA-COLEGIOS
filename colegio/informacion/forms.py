@@ -1,11 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import HorarioDiario
+from .models import DailySchedule
 from users.models import CustomUserAlumno
 
 class HoraHorarioForm(forms.ModelForm):
     class Meta:
-        model = HorarioDiario
+        model = DailySchedule
         fields = ('hora_inicio', 'hora_fin')
 
         widgets = {
@@ -27,7 +27,7 @@ class MateriasHorarioForm(forms.ModelForm):
             print("hola")
             
     class Meta:
-        model = HorarioDiario
+        model = DailySchedule
         fields = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes']
         widgets = {
             'lunes': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
