@@ -1,9 +1,9 @@
 from django import forms
-from informacion.models import Actividades_Respuesta_Estudiantes
+from informacion.models import StudentResponse
 
 class ActividadesRespuestaForm(forms.ModelForm):
     class Meta:
-        model = Actividades_Respuesta_Estudiantes
+        model = StudentResponse
         fields = ['respuesta', 'descripcion']  # OJO NUESTRO ELEMENTO ARCIVO ESTARA EN LAVISTA HTML!
         widgets = {
             'respuesta': forms.TextInput(attrs={

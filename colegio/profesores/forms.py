@@ -1,11 +1,11 @@
 from django import forms
-from informacion.models import Actividades, Archivo, ActividadesTipo
+from informacion.models import Activities, File, ActivitiesType
 from django.forms.widgets import DateInput, TimeInput
 
 
 class FilesProfesoresForm(forms.ModelForm):
     class Meta:
-        model = Archivo
+        model = File
         fields = ['archivo', 'nombre', 'descripcion']
         widgets = {
             'nombre': forms.TextInput(attrs={'autocomplete': 'off','id':'nombre','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Titulo de la actividad'}),
@@ -23,7 +23,7 @@ class ActividadesForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
             
     class Meta:
-        model = Actividades
+        model = Activities
         fields = ['titulo', 'descripcion', 'tipo', 'porcentaje', 'fecha_inicio', 'fecha_final', 'hora_inicio', 'hora_final', 'zona_horaria', 'lugar_zona_horaria']
         widgets = {
             'titulo': forms.TextInput(attrs={'autocomplete': 'off','id':'titulo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Titulo de la actividad'}),

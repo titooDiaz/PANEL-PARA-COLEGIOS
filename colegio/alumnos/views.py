@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View    
-from informacion.models import Actividades, Grado, Materias
+from informacion.models import Activities, Subjects
 from django.shortcuts import render, redirect
 from django.views import View
-from informacion.models import Actividades_Respuesta_Estudiantes, Archivo, ArchivoEstudiantes, HorarioDiario, Colegio, Grado
+from informacion.models import StudentResponse, File, StudentFiles, DailySchedule, Colegio, Grade
 from .forms import ActividadesRespuestaForm
 from django.contrib import messages
 
@@ -59,13 +59,13 @@ class AlumnoBoard(View):
         hora_actual = datetime.now(zona_horaria_usuario).time()
         
         
-        actividades_user_on_time = Actividades.objects.filter(
+        actividades_user_on_time = Activities.objects.filter(
             materia__in=materias_user,
             fecha_final__gte=fecha_actual
         )
         
         
-        actividades_user_off_time = Actividades.objects.filter(
+        actividades_user_off_time = Activities.objects.filter(
             materia__in=materias_user,
             fecha_final__lte=fecha_actual
         )
@@ -99,17 +99,17 @@ class ActividadesRespuestaView(View):
         grade_user = user.customuseralumno.grado #grado del estudiante
         materias_user = grade_user.materias.all() #materias del estudainte
         
-        actividades_user_on_time = Actividades.objects.filter(
+        actividades_user_on_time = Activities.objects.filter(
             materia__in=materias_user,
             fecha_final__gte=fecha_actual
         )
         
-        actividades_user_off_time = Actividades.objects.filter(
+        actividades_user_off_time = Activities.objects.filter(
             materia__in=materias_user,
             fecha_final__lte=fecha_actual
         )
         
-        activity = Actividades.objects.get(pk=pk)
+        activity = Activities.objects.get(pk=pk)
         # Extraer los datos de los campos
         date = activity.fecha_final  # Esto es un objeto date (año, mes, día)
         hour = activity.hora_final    # Esto es un objeto time (hora, minuto, segundo, etc.)
@@ -138,7 +138,7 @@ class ActividadesRespuestaView(View):
             
         #User activity...
         user = request.user
-        user_answers = Actividades_Respuesta_Estudiantes.objects.filter(actividad=activity.pk)
+        user_answers = StudentResponse.objects.filter(actividad=activity.pk)
             
         # Grade
         grade_user = user.customuseralumno.grado #grado del estudiante
@@ -149,7 +149,7 @@ class ActividadesRespuestaView(View):
         frase = random.choice(mensajes_motivadores)
         
         # Obtener materia
-        actividad = Actividades.objects.get(pk=pk)
+        actividad = Activities.objects.get(pk=pk)
         
         # Retorno del contexto
         vista = 'estudiante'
@@ -172,12 +172,12 @@ class ActividadesRespuestaView(View):
         if form.is_valid():
             respuesta = form.save(commit=False)
             respuesta.author = request.user
-            respuesta.actividad = Actividades.objects.get(pk=pk)
+            respuesta.actividad = Activities.objects.get(pk=pk)
             respuesta.save()
             archivos_publicados = ""
             for archivo in request.FILES.getlist('archivo'):
                 archivos_publicados = "\n - " + archivo.name + archivos_publicados
-                ArchivoEstudiantes.objects.create(actividad_respuesta=respuesta, archivo=archivo)
+                StudentFiles.objects.create(actividad_respuesta=respuesta, archivo=archivo)
             messages.success(request, f'Wow! Subiste todo correctamente! \n Tus archivos: {archivos_publicados}')
             return redirect('ResponderActividades', pk)
         return redirect('ResponderActividades', pk)
@@ -188,7 +188,7 @@ class SubjectsView(View):
         # Grade
         user = request.user
         grade_user = user.customuseralumno.grado #grado del estudiante
-        subject = Materias.objects.get(pk=pk)
+        subject = Subjects.objects.get(pk=pk)
         
         vista = 'estudiante'
         abierto='mensajes'
@@ -204,7 +204,7 @@ class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         grade_user = user.customuseralumno.grado 
-        horario = HorarioDiario.objects.filter(grado=grade_user)
+        horario = DailySchedule.objects.filter(grado=grade_user)
         
         # Obtener la zona horaria del usuario
         user_zone = pytz.timezone(request.user.time_zone)

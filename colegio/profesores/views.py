@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
-from informacion.models import Materias, Grado, Actividades, Archivo, ActividadesTipo, Actividades_Respuesta_Estudiantes, HorarioDiario
+from informacion.models import Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, DailySchedule
 from .forms import ActividadesForm, ArchivoForm, FilesProfesoresForm
 from django.contrib import messages
 ## MENSAJES DE ERRORES ##
@@ -31,9 +31,9 @@ class BoardProfesores(View):
         vista = 'profesores'
         abierto='inicio'
         profesor = request.user.pk
-        materias_profesor = Materias.objects.filter(profe1=profesor) | Materias.objects.filter(profe2=profesor)
-        grados = Grado.objects.filter(materias__in=materias_profesor).distinct()
-        actividades = Actividades.objects.filter(materia__in=materias_profesor)
+        materias_profesor = Subjects.objects.filter(profe1=profesor) | Subjects.objects.filter(profe2=profesor)
+        grados = Grade.objects.filter(materias__in=materias_profesor).distinct()
+        actividades = Activities.objects.filter(materia__in=materias_profesor)
 
         # Obtener la zona horaria local
         zona_horaria_usuario = pytz.timezone(request.user.time_zone)
@@ -88,9 +88,9 @@ class CreateActividades(View):
     def get(self, request, pk, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
-        materia = Materias.objects.get(pk=pk)
-        grado = Grado.objects.get(materias=materia)
-        tipo_actividades = ActividadesTipo.objects.filter(colegio_id=request.user.colegio)
+        materia = Subjects.objects.get(pk=pk)
+        grado = Grade.objects.get(materias=materia)
+        tipo_actividades = ActivitiesType.objects.filter(colegio_id=request.user.colegio)
         print(tipo_actividades, "holaa")
         
         initial_data = {
@@ -122,7 +122,7 @@ class CreateActividades(View):
             actividad.author = request.user  # Asigna el usuario actual como autor
 
             try:
-                materia_colegio = Materias.objects.get(pk=pk)
+                materia_colegio = Subjects.objects.get(pk=pk)
                 actividad.materia = materia_colegio  # Asigna la materia a la actividad
                 
                 # Guarda la instancia del modelo en la base de datos
@@ -130,7 +130,7 @@ class CreateActividades(View):
                 messages.success(request, 'Actividad agregada correctamente!')
                 actividad_id = actividad.pk
                 return redirect('ViewActividades', pk=actividad_id)
-            except Materias.DoesNotExist:
+            except Subjects.DoesNotExist:
                 messages.error(request, 'La materia especificada no existe')
                 return redirect('BoardProfesores')
             except TypeError:
@@ -146,16 +146,16 @@ class ViewActividades(View):
     def get(self, request, pk, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
-        actividad = Actividades.objects.get(pk=pk)
+        actividad = Subjects.objects.get(pk=pk)
         materia_pk = actividad.materia.pk
-        materia = Materias.objects.get(pk=materia_pk)
-        grado = Grado.objects.get(materias=materia)
-        files = Archivo.objects.filter(actividad=pk)
+        materia = Subjects.objects.get(pk=materia_pk)
+        grado = Grade.objects.get(materias=materia)
+        files = File.objects.filter(actividad=pk)
 
         actividades_form = ActividadesForm()
         
         # Obtener las respuestas relacionadas con una actividad específica
-        respuestas = Actividades_Respuesta_Estudiantes.objects.filter(actividad=actividad).select_related('author')
+        respuestas = StudentResponse.objects.filter(actividad=actividad).select_related('author')
 
         # Ordenar las respuestas por el autor antes de agrupar
         respuestas = respuestas.order_by('author')
@@ -193,7 +193,7 @@ class ViewActividades(View):
         print(form.errors)
         if form.is_valid():
             archivo = form.save(commit=False)
-            actividad = Actividades.objects.get(pk=pk)
+            actividad = Activities.objects.get(pk=pk)
             archivo.actividad = actividad
             archivo.save()
             return redirect('ViewActividades', pk=pk)
@@ -203,10 +203,10 @@ class EditActividades(View):
     def get(self, request, pk, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
-        materia = Materias.objects.get(pk=pk)
-        grado = Grado.objects.get(materias=materia)
+        materia = Subjects.objects.get(pk=pk)
+        grado = Grade.objects.get(materias=materia)
 
-        actividades_tipo = ActividadesTipo.objects.filter(colegio=request.user.colegio)
+        actividades_tipo = ActivitiesType.objects.filter(colegio=request.user.colegio)
         
         initial_data = {
             'fecha_inicio': get_current_date(request.user),
@@ -234,7 +234,7 @@ class EditActividades(View):
             actividad.author = request.user  # Asigna el usuario actual como autor
 
             try:
-                materia_colegio = Materias.objects.get(pk=pk)
+                materia_colegio = Subjects.objects.get(pk=pk)
                 actividad.materia = materia_colegio  # Asigna la materia a la actividad
                 
                 # Guarda la instancia del modelo en la base de datos
@@ -242,7 +242,7 @@ class EditActividades(View):
                 messages.success(request, 'Actividad agregada correctamente!')
                 actividad_id = actividad.pk
                 return redirect('ViewActividades', pk=actividad_id)
-            except Materias.DoesNotExist:
+            except Subjects.DoesNotExist:
                 messages.error(request, 'La materia especificada no existe')
                 return redirect('BoardProfesores')
             except TypeError:
@@ -258,10 +258,10 @@ class ProfessorSchedule(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         grado_user = user.customuserprofesores.titular
-        subject_profesor = Materias.objects.filter(profe1=user) | Materias.objects.filter(profe2=user)
-        grades = Grado.objects.filter(materias__in=subject_profesor).distinct()
+        subject_profesor = Subjects.objects.filter(profe1=user) | Subjects.objects.filter(profe2=user)
+        grades = Grade.objects.filter(materias__in=subject_profesor).distinct()
 
-        schedules = HorarioDiario.objects.filter(grado__in=grades).order_by('hora_inicio')
+        schedules = DailySchedule.objects.filter(grado__in=grades).order_by('hora_inicio')
         
         # Obtener la zona horaria del usuario
         user_zone = pytz.timezone(request.user.time_zone)
