@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, View
 from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm, CustomUserProfesores
-from informacion.models import Grado,Horarios_Partes, HorarioDiario, HorarioCortes, ActividadesTipo
+from informacion.models import Grade,ScheduleParts, DailySchedule, ScheduleCourts, ActivitiesType
 from django.contrib import messages
 from users.models import CustomUserAlumno
 from .forms import HorarioCortesForm, ActividadesTipoForm
@@ -57,10 +57,10 @@ def obtener_profesores_por_colegio(grado_id):
     
 def obtener_grados_por_colegio(colegio_id):
     try:
-        grados = Grado.objects.filter(colegio=colegio_id)
+        grados = Grade.objects.filter(colegio=colegio_id)
         print(Colores.CYAN + "--->'Grados' Of the 'Colegio' User:  " + str(grados) + Colores.RESET)
         return grados
-    except Grado.DoesNotExist:
+    except Grade.DoesNotExist:
         return None
 
 ###############################################################################################
@@ -307,7 +307,7 @@ class CreateGrados(View):
                 # OBTENEMOS EL HORARIO SELECCIONADO POR EL FORMULARIO. PARAS PODER CREAR LA TABLA ED LOS HORARIOS DIARIOS
                 horarios = form.cleaned_data.get('horario_partes')
                 pk = horarios.pk
-                horario = Horarios_Partes.objects.get(id=pk)
+                horario = ScheduleParts.objects.get(id=pk)
                 horas = horario.horas
                 ##############################
                 grado.colegio = request.user.colegio
@@ -315,7 +315,7 @@ class CreateGrados(View):
                 grado.save()
 
                 for i in range(int(horas)):
-                    HorarioDiario.objects.create(grado=grado)
+                    DailySchedule.objects.create(grado=grado)
                     
                 messages.success(request, '¡Grado creado correctamente!')
             except:
@@ -390,7 +390,7 @@ class CreateHorarios(View):
 
             for i, rango in enumerate(rangos):
                 print(f"Rango {i + 1}: {rango['inicio']}   ---->   {rango['fin']}")
-                HorarioCortes.objects.create(horario=horario, corte_num=i+1, fecha_inicio=rango['inicio'], fecha_fin=rango['fin'])
+                ScheduleCourts.objects.create(horario=horario, corte_num=i+1, fecha_inicio=rango['inicio'], fecha_fin=rango['fin'])
                 
             messages.success(request, '¡Horario agregado correctamente!')
         else:
@@ -429,7 +429,7 @@ class CreateMaterias(View):
                     # Asignar el objeto de archivo al campo 'picture1'
                     form.instance.picture1.save('picture.png', ContentFile(image_io.getvalue()))
                     print('saveee///')
-                grado = Grado.objects.get(pk=pk)
+                grado = Grade.objects.get(pk=pk)
                 electiva_value = form.cleaned_data.get('electiva')
                 
                 # Limpia los campos relacionados con la electiva si no es True
@@ -467,7 +467,7 @@ class CreateMaterias(View):
         return redirect('CrearMaterias', pk=pk)
 
     def get(self, request, pk, *args, **kwargs):
-        grado = Grado.objects.get(id=pk)
+        grado = Grade.objects.get(id=pk)
         estudiantes_grado = obtener_estudiantes_por_grado(pk)
         colegio=request.user.colegio
         profesores_grado = obtener_profesores_por_colegio(colegio)
@@ -476,7 +476,7 @@ class CreateMaterias(View):
         if estudiantes_grado:
             form = MateriasForm(estudiantes_grado=estudiantes_grado, profesores=profesores_grado) #mandar alumnos del grado
             id_grado = pk
-            grado = Grado.objects.get(pk=pk)
+            grado = Grade.objects.get(pk=pk)
             materias = grado.materias.all()
             context = {
                 'id_grado': id_grado,
@@ -496,7 +496,7 @@ class CreateMaterias(View):
 
 class CreateMateriasVer(View):
     def get(self, request, *args, **kwargs):
-        grados = Grado.objects.filter(colegio=request.user.colegio)
+        grados = Grade.objects.filter(colegio=request.user.colegio)
         print(grados)
         vista = 'gestor'
         abierto='ajustes'
@@ -509,7 +509,7 @@ class CreateMateriasVer(View):
     
 class EditCortesHorarios(View):
     def get(self, request, *args, **kwargs):
-        horario = Horarios_Partes.objects.filter(colegio=request.user.colegio)
+        horario = ScheduleParts.objects.filter(colegio=request.user.colegio)
         print(horario)
         vista = 'gestor'
         abierto='ajustes'
@@ -524,7 +524,7 @@ class CreateCortes(View):
     def get(self, request, pk, *args, **kwargs):
         form = HorarioCortesForm()
         horario_id = pk
-        cortes = HorarioCortes.objects.filter(horario=horario_id)
+        cortes = ScheduleCourts.objects.filter(horario=horario_id)
         vista = 'gestor'
         abierto='ajustes'
         context = {
@@ -538,11 +538,11 @@ class CreateCortes(View):
 
 
 def verificar_fecha(horario_pk, corte_pk):
-    corte = HorarioCortes.objects.get(id=corte_pk)
+    corte = ScheduleCourts.objects.get(id=corte_pk)
     if not(corte.fecha_inicio < corte.fecha_fin):
         return False
     
-    cortes = HorarioCortes.objects.filter(horario=horario_pk)
+    cortes = ScheduleCourts.objects.filter(horario=horario_pk)
     fechas = [(i.fecha_inicio, i.fecha_fin) for i in cortes]
     
     for i, (inicio1, fin1) in enumerate(fechas):
@@ -557,7 +557,7 @@ def verificar_fecha(horario_pk, corte_pk):
 
 class EditCortes(View):
     def post(self, request, corte_pk, pk, *args, **kwargs):
-        horario = get_object_or_404(HorarioCortes, id=corte_pk)
+        horario = get_object_or_404(ScheduleCourts, id=corte_pk)
         
         # Guardar las fechas originales
         fecha_inicio_original = horario.fecha_inicio
@@ -617,7 +617,7 @@ class CreateActividadTipo(View):
         form = ActividadesTipoForm()
         vista = 'gestor'
         abierto='ajustes'
-        actividades_creadas = ActividadesTipo.objects.filter(colegio = request.user.colegio)
+        actividades_creadas = ActivitiesType.objects.filter(colegio = request.user.colegio)
         context = {
             'vista': vista,
             'abierto':abierto,

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUserGestor, CustomUserAlumno, CustomUserProfesores, CustomUserAdministrador, CustomUserAcudiente
-from informacion.models import Grado, Horarios_Partes, Materias, HorarioCortes, ActividadesTipo
+from informacion.models import Grade, ScheduleParts, Subjects, ScheduleCourts, ActivitiesType
 
 #imagenes de usuarios
 from django.forms import ClearableFileInput
@@ -244,9 +244,9 @@ class GradoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Filtra los estudiantes por los proporcionados
         if horario_partes:
-            self.fields['horario_partes'].queryset = Horarios_Partes.objects.filter(colegio=horario_partes)
+            self.fields['horario_partes'].queryset = ScheduleParts.objects.filter(colegio=horario_partes)
     class Meta:
-        model = Grado
+        model = Grade
         #fields = '__all__' 
         fields = ('grado_nom', 'grado_num', 'descripcion', 'horario_partes', 'colegio')
         widgets = {
@@ -262,7 +262,7 @@ class GradoForm(forms.ModelForm):
 
 class Horarios_PartesForm(forms.ModelForm):
     class Meta:
-        model = Horarios_Partes
+        model = ScheduleParts
         fields = ('titulo', 'descripcion', 'horas', 'cortes')
         opciones_horas = [(i, f'{i} horas') for i in range(3, 23)]
         opciones_corte = [(i, f'{i} cortes') for i in range(1, 7)]
@@ -287,7 +287,7 @@ class MateriasForm(forms.ModelForm):
             self.fields['alumnos1'].queryset = estudiantes_grado
             self.fields['alumnos2'].queryset = estudiantes_grado
     class Meta:
-        model = Materias
+        model = Subjects
         fields = ['profe1', 'picture1', 'cords', 'locate1', 'locate2', 'profe2', 'electiva', 'titulo1', 'descripcion1', 'alumnos1', 'titulo2', 'descripcion2', 'alumnos2']
         widgets = {
             'profe1': forms.Select(attrs={'id':'profe1','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
@@ -320,7 +320,7 @@ class MateriasForm(forms.ModelForm):
 
 class HorarioCortesForm(forms.ModelForm):
     class Meta:
-        model = HorarioCortes
+        model = ScheduleCourts
         fields = ['fecha_inicio', 'fecha_fin']
         widgets = {
             'fecha_inicio': forms.DateInput(attrs={'id':'fecha_inicio','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
@@ -329,7 +329,7 @@ class HorarioCortesForm(forms.ModelForm):
         
 class ActividadesTipoForm(forms.ModelForm):
     class Meta:
-        model = ActividadesTipo
+        model = ActivitiesType
         fields = ('titulo', 'descripcion')
         widgets = {
             'titulo': forms.TextInput(attrs={'id':'titulo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del Horario'}),
