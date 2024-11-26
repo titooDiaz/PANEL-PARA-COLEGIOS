@@ -107,7 +107,7 @@ class CustomUserAlumno(CustomUser):
     foto = models.ImageField(default='alumnos/profile.png', upload_to=user_directory_path_profile_alumnos, null=True, blank=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Alumno')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    grado = models.ForeignKey('informacion.Grado', on_delete=models.SET_NULL, blank=True, null=True)  # Utiliza 'informacion.Grado')  # Campo ForeignKey para relacionar con Grado
+    grado = models.ForeignKey('informacion.Grade', on_delete=models.SET_NULL, blank=True, null=True)  # Utiliza 'informacion.Grade')  # Campo ForeignKey para relacionar con Grado
     sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
     estado = models.BooleanField(default=True)
     #Salud
@@ -166,7 +166,7 @@ class CustomUserProfesores(CustomUser):
     descripcion = models.TextField(blank=True, null=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Profesor')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    titular = models.ForeignKey('informacion.Grado', on_delete=models.SET_NULL, blank=True, null=True,related_name='profesor_titulares')  # Utiliza 'informacion.Grado')  # Campo ForeignKey para relacionar con Grado
+    titular = models.ForeignKey('informacion.Grade', on_delete=models.SET_NULL, blank=True, null=True,related_name='profesor_titulares')  # Utiliza 'informacion.Grade')  # Campo ForeignKey para relacionar con Grado
     sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
     estado = models.BooleanField(default=True)
     #Salud

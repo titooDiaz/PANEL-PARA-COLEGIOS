@@ -245,6 +245,9 @@ class GradoForm(forms.ModelForm):
         # Filtra los estudiantes por los proporcionados
         if horario_partes:
             self.fields['horario_partes'].queryset = ScheduleParts.objects.filter(colegio=horario_partes)
+        else:
+            self.fields['horario_partes'].queryset = ScheduleParts.objects.none()
+
     class Meta:
         model = Grade
         #fields = '__all__' 
