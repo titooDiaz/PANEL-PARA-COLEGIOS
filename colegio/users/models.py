@@ -216,7 +216,7 @@ class CustomUserAdmin(CustomUser):
 alumno = CustomUserStudent
 
 #Class translate: CustomUserAcudiente
-class CustomUserAcudiente(CustomUser):
+class CustomUserGuardian(CustomUser):
     sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Acudiente')
     estudiante = models.ManyToManyField(alumno, blank=True, related_name='estudiantes')

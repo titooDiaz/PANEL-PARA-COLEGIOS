@@ -8,9 +8,9 @@ from message_error import messages_error
 
 #
 from django.contrib.auth import get_user_model
-from users.models import CustomUserAlumno, CustomUserProfesores
-UserProfes = CustomUserProfesores
-UserAlumno = CustomUserAlumno
+from users.models import CustomUserTeachers, CustomUserStudent
+UserProfes = CustomUserTeachers
+UserAlumno = CustomUserStudent
 
 ## Contar, Agrupar, un modelo
 from itertools import groupby
@@ -257,7 +257,7 @@ class EditActividades(View):
 class ProfessorSchedule(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        grado_user = user.customuserprofesores.titular
+        grado_user = user.CustomUserTeachers.titular
         subject_profesor = Subjects.objects.filter(profe1=user) | Subjects.objects.filter(profe2=user)
         grades = Grade.objects.filter(materias__in=subject_profesor).distinct()
 
