@@ -141,7 +141,7 @@ def user_directory_path_profile_gestor(instance, filename):
     return profile_picture_name
 
 #Class translate: CustomUserGestor
-class CustomUserManger(CustomUser):
+class CustomUserManager(CustomUser):
     foto = models.ImageField(default='gestores/profile.png', upload_to=user_directory_path_profile_gestor, null=True, blank=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Gestor')
     fecha_creacion = models.DateTimeField(auto_now_add=True)

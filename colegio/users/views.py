@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Colegio
+from .models import School
 from django.views.generic import TemplateView, View
 from .forms import ColegioForm
 from PIL import Image
@@ -31,7 +31,7 @@ def recorte_imagenes(cords, foto):
 
 class Colegios(View):
     def get(self, request):
-        colegios = Colegio.objects.all()
+        colegios = School.objects.all()
         form = ColegioForm()
         vista = 'plus'
         abierto='colegio'
@@ -45,7 +45,7 @@ class Colegios(View):
 
 class GestionColegios(View):
     def get(self, request):
-        colegios = Colegio.objects.all()
+        colegios = School.objects.all()
         form = ColegioForm()
         vista = 'plus'
         abierto='colegio'
@@ -55,7 +55,7 @@ class GestionColegios(View):
             'abierto':abierto,
             'colegios': colegios
         }
-        return render(request, 'colegios/CreateColegio.html', context)
+        return render(request, 'colegios/School.html', context)
 
     def post(self, request):
         form = ColegioForm(request.POST, request.FILES)
@@ -120,7 +120,7 @@ class CreateGestorColegio(View):
     
 class ViewColegios(View):
     def get(self, request, *args, **kwargs):
-        colegios = Colegio.objects.all()
+        colegios = School.objects.all()
         vista = 'plus'
         abierto='colegio'
         context = {

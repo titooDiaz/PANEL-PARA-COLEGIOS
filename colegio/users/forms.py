@@ -1,8 +1,8 @@
 from django import forms
 from allauth.account.forms import SignupForm, LoginForm
-from .models import Colegio
+from .models import School
 from django.forms import ClearableFileInput
-from .models import CustomUserGestor
+from .models import CustomUserManager
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -18,7 +18,7 @@ class LoginForm(LoginForm):
     
 class ColegioForm(forms.ModelForm):
     class Meta:
-        model = Colegio
+        model = School
         fields = ['clave', 'colegio', 'numero', 'direccion', 'descripcion', 'cords', 'foto', 'banner']
         widgets = {
             'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
@@ -35,7 +35,7 @@ class ColegioForm(forms.ModelForm):
         
 class CustomUserGestorForm(UserCreationForm):
     class Meta:
-        model = CustomUserGestor
+        model = CustomUserManager
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio')
 
         widgets = {
