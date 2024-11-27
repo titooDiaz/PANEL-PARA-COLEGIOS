@@ -61,7 +61,9 @@ def colegio_directory_path_banner(instance, filename):
         os.remove(full_path)
 
     return profile_picture_name
-class Colegio(models.Model):
+
+#Class translate: Colegio
+class School(models.Model):
     time_zone = models.CharField(max_length=50, default='UTC')
     cords = models.TextField(null=True, blank=True)
     clave = models.TextField(max_length=10)
@@ -84,7 +86,7 @@ class CustomUser(AbstractUser):
     tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
     numero_documento = models.CharField(max_length=20, null=True, blank=True)
     introduccion = models.TextField(null=True, blank=True)
-    colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='usuarios') #COLEGIO AL QUE PERTENECE EL USUARIO
+    colegio = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True, related_name='usuarios') #COLEGIO AL QUE PERTENECE EL USUARIO
     
     def __str__(self):
         return self.username + " defecto"
@@ -102,8 +104,8 @@ def user_directory_path_profile_alumnos(instance, filename):
 
     return profile_picture_name
 
-
-class CustomUserAlumno(CustomUser):
+#Class translate: CustomUserAlumno
+class CustomUserStudent(CustomUser):
     foto = models.ImageField(default='alumnos/profile.png', upload_to=user_directory_path_profile_alumnos, null=True, blank=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Alumno')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
@@ -137,7 +139,9 @@ def user_directory_path_profile_gestor(instance, filename):
         os.remove(full_path)
 
     return profile_picture_name
-class CustomUserGestor(CustomUser):
+
+#Class translate: CustomUserGestor
+class CustomUserManger(CustomUser):
     foto = models.ImageField(default='gestores/profile.png', upload_to=user_directory_path_profile_gestor, null=True, blank=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Gestor')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
@@ -161,7 +165,8 @@ def user_directory_path_profile_profesor(instance, filename):
 
     return profile_picture_name
 
-class CustomUserProfesores(CustomUser):
+#Class translate: CustomUserProfesor
+class CustomUserTeachers(CustomUser):
     foto = models.ImageField(default='profesores/profile.png', upload_to=user_directory_path_profile_profesor, null=True, blank=True)
     descripcion = models.TextField(blank=True, null=True)
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Profesor')
@@ -194,7 +199,8 @@ def user_directory_path_profile_administrador(instance, filename):
 
     return profile_picture_name
 
-class CustomUserAdministrador(CustomUser):
+#Class translate: CustomUserAdministrador
+class CustomUserAdmin(CustomUser):
     foto = models.ImageField(default='administradores/profile.png', upload_to=user_directory_path_profile_administrador, null=True, blank=True)
     cargo = models.TextField()
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Administrador')
@@ -207,7 +213,9 @@ class CustomUserAdministrador(CustomUser):
 
 
 ###################INICIO PADRES###################
-alumno = CustomUserAlumno
+alumno = CustomUserStudent
+
+#Class translate: CustomUserAcudiente
 class CustomUserAcudiente(CustomUser):
     sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
     tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Acudiente')
