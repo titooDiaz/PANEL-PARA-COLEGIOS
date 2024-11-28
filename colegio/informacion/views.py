@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Grade, DailySchedule
 from django.views.generic import TemplateView, View
-from users.models import CustomUserAlumno
+from users.models import CustomUserStudent
 
 from .forms import HoraHorarioForm, MateriasHorarioForm, EditarVerNotasAlumnosForm
 
@@ -113,7 +113,7 @@ class EditarGradosHorarioMaterias(View):
     
 class EditarVerNotasAlumnos(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
-        estudiante = CustomUserAlumno.objects.get(pk=pk_post)
+        estudiante = CustomUserStudent.objects.get(pk=pk_post)
         formulario = EditarVerNotasAlumnosForm(request.POST, instance=estudiante)
         if formulario.is_valid():
             formulario.save()
@@ -123,7 +123,7 @@ class EditarVerNotasAlumnos(View):
 class VerEstudiantesGrado(View):
     def get(self, request, pk, *args, **kwargs):
         grado = get_object_or_404(Grade, pk=pk)
-        estudiantes = CustomUserAlumno.objects.filter(grado=grado)
+        estudiantes = CustomUserStudent.objects.filter(grado=grado)
         print(grado)
         vista = 'gestor'
         abierto='ajustes'

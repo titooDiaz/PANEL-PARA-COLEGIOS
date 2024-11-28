@@ -1,15 +1,15 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
-from users.models import CustomUserAlumno, CustomUserProfesores, Colegio
+from users.models import CustomUserStudent, CustomUserTeachers, School
 from django.conf import settings
 import os
 import random
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
-UserProfes = CustomUserProfesores
-UserAlumno = CustomUserAlumno
+UserProfes = CustomUserTeachers
+UserAlumno = CustomUserStudent
 
 
 TIPO_ACTIVIDAD = [
@@ -42,7 +42,7 @@ class ElectiveYears(models.Model):
 
 # Translate class: Horarios_Partes
 class ScheduleParts(models.Model):
-    colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioHorariosPartes') #COLEGIO AL QUE PERTENECE EL USUARIO
+    colegio = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioHorariosPartes') #COLEGIO AL QUE PERTENECE EL USUARIO
     titulo = models.TextField()
     descripcion = models.TextField()
     estado = models.BooleanField(default=True)
@@ -106,7 +106,7 @@ class Grade(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_grado')
     horario_partes = models.ForeignKey(ScheduleParts, on_delete=models.SET_NULL, blank=True, null=True)
     materias = models.ManyToManyField(Subjects, blank=True, related_name='materias_grado')
-    colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioGrado') #COLEGIO AL QUE PERTENECE EL USUARIO
+    colegio = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioGrado') #COLEGIO AL QUE PERTENECE EL USUARIO
 
     def __str__(self):
         return self.grado_nom + "(" + self.grado_num + ")"
@@ -125,7 +125,7 @@ def get_current_time():
 
 # Translate class: ActividadesTipo
 class ActivitiesType(models.Model):
-    colegio = models.ForeignKey(Colegio, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadesColegio') #COLEGIO AL QUE PERTENECE EL USUARIO
+    colegio = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadesColegio') #COLEGIO AL QUE PERTENECE EL USUARIO
     titulo = models.TextField(null=False, blank=False)
     descripcion = models.TextField(null=False, blank=False)
     estado = models.BooleanField(default=True)
