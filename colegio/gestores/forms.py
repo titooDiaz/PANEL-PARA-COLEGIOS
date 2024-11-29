@@ -11,6 +11,15 @@ from django.forms import ClearableFileInput
 # COMPROBAR SI HAY TABLAS O LA BASE DE DATOS ESTA VACIA...
 from django.db import connection
 
+
+# es
+#ALGUNAS PARTES DE ESTE FORMULARIO ENCESITAS LLAMAR A LOS ESTUDIANTES, PERO ES UN PROBLEMA, YA QUE SI NO TENEMOS BASE DE DATOS PODRIAMOS OBTENER ERRORES
+#POR ESO AGREGAMOS ESTA FUNCION, NOS COMPRUEBA SI HAY O NO TABLAS EN NUESTRA BASE DE DATOS, SI NO HAY TABLAS SE SALTA LAS FUNCIONES MIENTRAS SE HACEN MIGRACIONES PARA EVITAR ERRORES
+#
+# en
+#SOME PARTS OF THIS FORM NEED TO CALL STUDENTS, BUT IT IS A PROBLEM, SINCE IF WE DO NOT HAVE A DATABASE WE COULD GET ERRORS
+#THAT IS WHY WE ADDED THIS FUNCTION, IT CHECKS IF THERE ARE TABLES OR NOT IN OUR DATABASE, IF THERE ARE NO TABLES, THE FUNCTIONS ARE SKIPTED WHILE MIGRATIONS ARE BEING MADE TO AVOID ERRORS
+
 def obtener_tablas():
     engine = connection.settings_dict['ENGINE']
     if 'sqlite' in engine:
@@ -26,10 +35,10 @@ def obtener_tablas():
     else:
         raise NotImplementedError(f"No se implementó soporte para el motor de base de datos {engine}")
 tablas_en_bd = obtener_tablas()
-#ALGUNAS PARTES DE ESTE FORMULARIO ENCESITAS LLAMAR A LOS ESTUDIANTES, PERO ES UN PROBLEMA, YA QUE SI NO TENEMOS BASE DE DATOS PODRIAMOS OBTENER ERRORES
-#POR ESO AGREGAMOS ESTA FUNCION, NOS COMPRUEBA SI HAY O NO TABLAS EN NUESTRA BASE DE DATOS, SI NO HAY TABLAS SE SALTA LASZ FUNCIONES MIENTRAS SE HACEN MIGRACIONES PARA EVITAR ERRORES
 
-class CustomUserAlumnoForm(UserCreationForm):
+
+#Translate: CustomUserAlumnoForm
+class CustomUserStudentForm(UserCreationForm):
     def __init__(self, *args, grado=None, **kwargs):
         super().__init__(*args, **kwargs)
         # Filtra Grados por el colegio del estudiante por agregar (usuario en sesion)
@@ -73,7 +82,8 @@ class CustomUserAlumnoForm(UserCreationForm):
             
         }
 
-class CustomUserGestorForm(UserCreationForm):
+#Translate: CustomUserGestorForm
+class CustomUserManagerForm(UserCreationForm):
     class Meta:
         model = CustomUserManager
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio','cords','foto', 'time_zone')
@@ -111,7 +121,8 @@ class CustomUserGestorForm(UserCreationForm):
         super().__init__(*args, **kwargs)
 
 
-class CustomUserAdministradorForm(UserCreationForm):
+#Translate: CustomUserAdministradorForm
+class CustomUserAdminForm(UserCreationForm):
     class Meta:
         model = CustomUserAdmin
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'colegio','cords','foto', 'time_zone')
@@ -154,7 +165,8 @@ class CustomUserAdministradorForm(UserCreationForm):
         super().__init__(*args, **kwargs)
 
 
-class CustomUserProfesoresForm(UserCreationForm):
+#Translate: CustomUserProfesoresForm
+class CustomUserTeachersForm(UserCreationForm):
     def __init__(self, *args, titular=None, **kwargs):
         super().__init__(*args, **kwargs)
         # Filtra Grados por el colegio del estudiante por agregar (usuario en sesion)
@@ -199,7 +211,9 @@ class CustomUserProfesoresForm(UserCreationForm):
             'foto': ClearableFileInput(attrs={ "class":"block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
         }
 
-class CustomUserAcudienteForm(UserCreationForm):
+
+#Translate: CustomUserAcudienteForm
+class CustomUserGuardianForm(UserCreationForm):
     def __init__(self, *args, estudiantes_colegio=None, **kwargs):
         super().__init__(*args, **kwargs)
         if estudiantes_colegio:
@@ -238,8 +252,8 @@ class CustomUserAcudienteForm(UserCreationForm):
             'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
         }
 
-
-class GradoForm(forms.ModelForm):
+#Tranlate: GradoForm
+class GradeForm(forms.ModelForm):
     def __init__(self, *args, horario_partes=None, **kwargs):
         super().__init__(*args, **kwargs)
         # Filtra los estudiantes por los proporcionados
@@ -263,7 +277,8 @@ class GradoForm(forms.ModelForm):
         }
 
 
-class Horarios_PartesForm(forms.ModelForm):
+#Translate: Horarios_PartesForm
+class SchedulePartsForm(forms.ModelForm):
     class Meta:
         model = ScheduleParts
         fields = ('titulo', 'descripcion', 'horas', 'cortes')
@@ -279,8 +294,8 @@ class Horarios_PartesForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
 
-
-class MateriasForm(forms.ModelForm):
+#Tranlate: MateriasForm
+class SubjectsForm(forms.ModelForm):
     def __init__(self, *args, estudiantes_grado=None, profesores=None, **kwargs):
         super().__init__(*args, **kwargs)
         # Filtra los estudiantes por los proporcionados
@@ -321,7 +336,9 @@ class MateriasForm(forms.ModelForm):
             'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
             }
 
-class HorarioCortesForm(forms.ModelForm):
+
+#Tranlate: HrarioCortesForm
+class ScheduleCourtsForm(forms.ModelForm):
     class Meta:
         model = ScheduleCourts
         fields = ['fecha_inicio', 'fecha_fin']
@@ -329,8 +346,9 @@ class HorarioCortesForm(forms.ModelForm):
             'fecha_inicio': forms.DateInput(attrs={'id':'fecha_inicio','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
             'fecha_fin': forms.DateInput(attrs={'id':'fecha_inicio','class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'date'}),
         }
-        
-class ActividadesTipoForm(forms.ModelForm):
+
+#Tranlate: ActividadesTipoForm     
+class ActivitiesTypeForm(forms.ModelForm):
     class Meta:
         model = ActivitiesType
         fields = ('titulo', 'descripcion')
