@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from users.models import CustomUserGestor, CustomUserAlumno, CustomUserProfesores, CustomUserAdministrador, CustomUserAcudiente
+from users.models import CustomUserManager, CustomUserStudent, CustomUserTeachers, CustomUserManager, CustomUserGuardian, CustomUserAdmin
 from informacion.models import Grade, ScheduleParts, Subjects, ScheduleCourts, ActivitiesType
 
 #imagenes de usuarios
@@ -36,7 +36,7 @@ class CustomUserAlumnoForm(UserCreationForm):
         if grado:
             self.fields['grado'].queryset = grado
     class Meta:
-        model = CustomUserAlumno
+        model = CustomUserStudent
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto', 'colegio', 'time_zone')
 
         widgets = {
@@ -75,7 +75,7 @@ class CustomUserAlumnoForm(UserCreationForm):
 
 class CustomUserGestorForm(UserCreationForm):
     class Meta:
-        model = CustomUserGestor
+        model = CustomUserManager
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio','cords','foto', 'time_zone')
 
         widgets = {
@@ -113,7 +113,7 @@ class CustomUserGestorForm(UserCreationForm):
 
 class CustomUserAdministradorForm(UserCreationForm):
     class Meta:
-        model = CustomUserAdministrador
+        model = CustomUserAdmin
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'colegio','cords','foto', 'time_zone')
 
         widgets = {
@@ -161,7 +161,7 @@ class CustomUserProfesoresForm(UserCreationForm):
         if titular:
             self.fields['titular'].queryset = titular
     class Meta:
-        model = CustomUserProfesores
+        model = CustomUserTeachers
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'colegio','cords','foto', 'time_zone')
 
         widgets = {
@@ -203,9 +203,9 @@ class CustomUserAcudienteForm(UserCreationForm):
     def __init__(self, *args, estudiantes_colegio=None, **kwargs):
         super().__init__(*args, **kwargs)
         if estudiantes_colegio:
-            self.fields['estudiante'].queryset = CustomUserAlumno.objects.filter(colegio=estudiantes_colegio)
+            self.fields['estudiante'].queryset = CustomUserStudent.objects.filter(colegio=estudiantes_colegio)
     class Meta:
-        model = CustomUserAcudiente
+        model = CustomUserGuardian
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo', 'colegio', 'time_zone')
 
         widgets = {

@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, View
-from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm, CustomUserProfesores
-from informacion.models import Grade,ScheduleParts, DailySchedule, ScheduleCourts, ActivitiesType
+from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm, CustomUserTeachers
+from informacion.models import Grade, ScheduleParts, DailySchedule, ScheduleCourts, ActivitiesType
 from django.contrib import messages
-from users.models import CustomUserAlumno
+from users.models import CustomUserStudent
 from .forms import HorarioCortesForm, ActividadesTipoForm
 from datetime import datetime, timedelta
 
@@ -46,13 +46,13 @@ def recorte_imagenes(cords, foto):
 
 def obtener_estudiantes_por_grado(grado_id):
     try:
-        estudiantes = CustomUserAlumno.objects.filter(grado_id=grado_id)
+        estudiantes = CustomUserTeachers.objects.filter(grado_id=grado_id)
         return estudiantes
-    except CustomUserAlumno.DoesNotExist:
+    except CustomUserTeachers.DoesNotExist:
         return None
     
 def obtener_profesores_por_colegio(grado_id):
-    profesores = CustomUserProfesores.objects.filter(colegio_id=grado_id)
+    profesores = CustomUserTeachers.objects.filter(colegio_id=grado_id)
     return profesores
     
 def obtener_grados_por_colegio(colegio_id):

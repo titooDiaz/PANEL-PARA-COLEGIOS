@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, View
 from informacion.models import Activities, Subjects
 from django.shortcuts import render, redirect
 from django.views import View
-from informacion.models import StudentResponse, File, StudentFiles, DailySchedule, Colegio, Grade
+from informacion.models import StudentResponse, File, StudentFiles, DailySchedule, School, Grade
 from .forms import ActividadesRespuestaForm
 from django.contrib import messages
 
