@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import DailySchedule
-from users.models import CustomUserAlumno
+from users.models import CustomUserStudent
 
 class HoraHorarioForm(forms.ModelForm):
     class Meta:
@@ -39,7 +39,7 @@ class MateriasHorarioForm(forms.ModelForm):
         
 class EditarVerNotasAlumnosForm(forms.ModelForm):
     class Meta:
-        model = CustomUserAlumno
+        model = CustomUserStudent
         fields = ['ver_notas']
         widgets = {
             'ver_notas': forms.CheckboxInput(attrs={'class': 'h-8 w-8 m-0 text-blue-600 bg-gray-100 border-gray-300 rounded', 'id':'Checkbox'}),

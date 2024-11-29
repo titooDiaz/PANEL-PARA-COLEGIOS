@@ -1,27 +1,27 @@
 from django.contrib import admin
-from .models import CustomUserAlumno, CustomUserAdministrador, CustomUserGestor, CustomUserProfesores, CustomUserAcudiente, CustomUser, Colegio
+from .models import CustomUserStudent, CustomUserAdmin, CustomUserManager, CustomUserTeachers, CustomUserGuardian, CustomUser, School
 
-class CustomUserAlumnoProxy(CustomUserAlumno):
+class CustomUserStudentProxy(CustomUserStudent):
     class Meta:
         proxy = True
         verbose_name_plural = 'Alumnos'
 
-class CustomUserAdministradorProxy(CustomUserAdministrador):
+class CustomUserAdminProxy(CustomUserAdmin):
     class Meta:
         proxy = True
         verbose_name_plural = 'Administradores'
 
-class CustomUserGestorProxy(CustomUserGestor):
+class CustomUserManagerProxy(CustomUserManager):
     class Meta:
         proxy = True
         verbose_name_plural = 'Gestores'
 
-class CustomUserProfesoresProxy(CustomUserProfesores):
+class CustomUserTeachersProxy(CustomUserTeachers):
     class Meta:
         proxy = True
         verbose_name_plural = 'Profesores'
 
-class CustomUserAcudienteProxy(CustomUserAcudiente):
+class CustomUserGuardianProxy(CustomUserGuardian):
     class Meta:
         proxy = True
         verbose_name_plural = 'Acudiente'
@@ -30,15 +30,15 @@ class CustomUserProxy(CustomUser):
     class Meta:
         proxy = True
         verbose_name_plural = 'General'
-class ColegioProxy(Colegio):
+class SchoolProxy(School):
     class Meta:
         proxy = True
-        verbose_name_plural = 'Colegios'
+        verbose_name_plural = 'Schools'
 
 admin.site.register(CustomUser)
-admin.site.register(CustomUserAlumnoProxy)
-admin.site.register(CustomUserAcudienteProxy)
-admin.site.register(CustomUserAdministradorProxy)
-admin.site.register(CustomUserGestorProxy)
-admin.site.register(CustomUserProfesoresProxy)
-admin.site.register(Colegio)
+admin.site.register(CustomUserStudentProxy)
+admin.site.register(CustomUserGuardianProxy)
+admin.site.register(CustomUserAdminProxy)
+admin.site.register(CustomUserManagerProxy)
+admin.site.register(CustomUserTeachersProxy)
+admin.site.register(School)
