@@ -1,7 +1,8 @@
 from django import forms
 from informacion.models import StudentResponse
 
-class ActividadesRespuestaForm(forms.ModelForm):
+#Translate: ActividadesRespuestaForm
+class ActivitiesAnswerForm(forms.ModelForm):
     class Meta:
         model = StudentResponse
         fields = ['respuesta', 'descripcion']  # OJO NUESTRO ELEMENTO ARCIVO ESTARA EN LAVISTA HTML!

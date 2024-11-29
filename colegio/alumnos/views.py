@@ -4,7 +4,7 @@ from informacion.models import Activities, Subjects
 from django.shortcuts import render, redirect
 from django.views import View
 from informacion.models import StudentResponse, File, StudentFiles, DailySchedule, School, Grade
-from .forms import ActividadesRespuestaForm
+from .forms import ActivitiesAnswerForm
 from django.contrib import messages
 
 # LIBRERIAS DE FECHAS
@@ -48,7 +48,7 @@ class AlumnoBoard(View):
         user = request.user
         
         #vista de estudiantes (obviamente tiene modelo de estudiante)
-        grade_user = user.customuseralumno.grado #grado del estudiante
+        grade_user = user.customuserstudent.grado #grado del estudiante
         materias_user = grade_user.materias.all() #materias del estudainte
         
         ## Obtener la zona horaria local
@@ -96,7 +96,7 @@ class ActividadesRespuestaView(View):
         
         #vista de estudiantes (obviamente tiene modelo de estudiante)
         user = request.user
-        grade_user = user.customuseralumno.grado #grado del estudiante
+        grade_user = user.customuserstudent.grado #grado del estudiante
         materias_user = grade_user.materias.all() #materias del estudainte
         
         actividades_user_on_time = Activities.objects.filter(
@@ -141,9 +141,9 @@ class ActividadesRespuestaView(View):
         user_answers = StudentResponse.objects.filter(actividad=activity.pk)
             
         # Grade
-        grade_user = user.customuseralumno.grado #grado del estudiante
+        grade_user = user.customuserstudent.grado #grado del estudiante
         
-        form = ActividadesRespuestaForm()
+        form = ActivitiesAnswerForm()
         
         #Seleccionar frase para el estudiante
         frase = random.choice(mensajes_motivadores)
@@ -168,7 +168,7 @@ class ActividadesRespuestaView(View):
         return render(request, 'users/alumnos/actividades/responder.html', context)
 
     def post(self, request, pk, *args, **kwargs):
-        form = ActividadesRespuestaForm(request.POST, request.FILES)
+        form = ActivitiesAnswerForm(request.POST, request.FILES)
         if form.is_valid():
             respuesta = form.save(commit=False)
             respuesta.author = request.user
@@ -187,7 +187,7 @@ class SubjectsView(View):
     def get(self, request, pk, *args, **kwargs):
         # Grade
         user = request.user
-        grade_user = user.customuseralumno.grado #grado del estudiante
+        grade_user = user.customuserstudent.grado #grado del estudiante
         subject = Subjects.objects.get(pk=pk)
         
         vista = 'estudiante'
@@ -203,7 +203,7 @@ class SubjectsView(View):
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        grade_user = user.customuseralumno.grado 
+        grade_user = user.customuserstudent.grado 
         horario = DailySchedule.objects.filter(grado=grade_user)
         
         # Obtener la zona horaria del usuario
@@ -241,7 +241,7 @@ class StudentMessages(View):
     def get(self, request, *args, **kwargs):
         # Grade
         user = request.user
-        grade_user = user.customuseralumno.grado #grado del estudiante
+        grade_user = user.customuserstudent.grado #grado del estudiante
         
         vista = 'estudiante'
         abierto='mensajes'
@@ -259,7 +259,7 @@ class StudentPeople(View):
         
         # Grade
         user = request.user
-        grade_user = user.customuseralumno.grado #grado del estudiante
+        grade_user = user.customuserstudent.grado #grado del estudiante
         
         context = {
             'vista': vista,
@@ -272,7 +272,7 @@ class StudentGrades(View):
     def get(self, request, *args, **kwargs):
         # Grade
         user = request.user
-        grade_user = user.customuseralumno.grado #grado del estudiante
+        grade_user = user.customuserstudent.grado #grado del estudiante
         
         vista = 'estudiante'
         abierto='notas'
