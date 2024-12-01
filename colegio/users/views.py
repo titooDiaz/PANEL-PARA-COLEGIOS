@@ -55,7 +55,7 @@ class GestionColegios(View):
             'abierto':abierto,
             'colegios': colegios
         }
-        return render(request, 'colegios/School.html', context)
+        return render(request, 'colegios/CreateColegio.html', context)
 
     def post(self, request):
         form = ColegioForm(request.POST, request.FILES)
