@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, View
-from .forms import CustomUserGestorForm, CustomUserAlumnoForm, CustomUserProfesoresForm, GradoForm, MateriasForm, Horarios_PartesForm, CustomUserAcudienteForm, CustomUserAdministradorForm, CustomUserTeachers
+from .forms import CustomUserManagerForm, CustomUserStudentForm, CustomUserTeachersForm, GradeForm, SubjectsForm, SchedulePartsForm, CustomUserGuardianForm, CustomUserAdminForm, CustomUserTeachers
 from informacion.models import Grade, ScheduleParts, DailySchedule, ScheduleCourts, ActivitiesType
 from django.contrib import messages
 from users.models import CustomUserStudent
-from .forms import HorarioCortesForm, ActividadesTipoForm
+from .forms import ScheduleCourtsForm, ActivitiesTypeForm
 from datetime import datetime, timedelta
 
 #colores para consola
@@ -66,7 +66,7 @@ def obtener_grados_por_colegio(colegio_id):
 ###############################################################################################
 class CreateAlumno(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserAlumnoForm(request.POST, request.FILES)
+        form = CustomUserStudentForm(request.POST, request.FILES)
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -99,7 +99,7 @@ class CreateAlumno(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
         grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
-        form = CustomUserAlumnoForm(grado=grados)
+        form = CustomUserStudentForm(grado=grados)
         vista = 'gestor'
         abierto='personas'
         context = {
@@ -111,7 +111,7 @@ class CreateAlumno(View):
 
 class CreateGestor(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserGestorForm(request.POST, request.FILES)
+        form = CustomUserManagerForm(request.POST, request.FILES)
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -138,7 +138,7 @@ class CreateGestor(View):
             print(form.errors)
         return redirect('CrearGestor')
     def get(self, request, *args, **kwargs):
-        form = CustomUserGestorForm()
+        form = CustomUserManagerForm()
         vista = 'gestor'
         abierto='personas'
         context = {
@@ -201,7 +201,7 @@ class AjustesGestores(View):
     
 class CreateProfesor(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserProfesoresForm(request.POST, request.FILES)
+        form = CustomUserTeachersForm(request.POST, request.FILES)
         print(form.is_valid(),"holaaaa")
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -231,7 +231,7 @@ class CreateProfesor(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
         grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
-        form = CustomUserProfesoresForm(titular=grados)
+        form = CustomUserTeachersForm(titular=grados)
         vista = 'gestor'
         abierto='personas'
         context = {
@@ -243,7 +243,7 @@ class CreateProfesor(View):
     
 class CreateAdmin(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserAdministradorForm(request.POST)
+        form = CustomUserAdminForm(request.POST)
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -258,7 +258,7 @@ class CreateAdmin(View):
             print(form.errors)
         return redirect('CrearAdmin')
     def get(self, request, *args, **kwargs):
-        form = CustomUserAdministradorForm()
+        form = CustomUserAdminForm()
         vista = 'gestor'
         abierto='personas'
         context = {
@@ -270,7 +270,7 @@ class CreateAdmin(View):
     
 class CreateAcudiente(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserAcudienteForm(request.POST)
+        form = CustomUserGuardianForm(request.POST)
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -285,7 +285,7 @@ class CreateAcudiente(View):
         return redirect('CrearAcudiente')
     def get(self, request, *args, **kwargs):
         estudiantes = request.user.colegio.pk
-        form = CustomUserAcudienteForm(estudiantes_colegio=estudiantes)
+        form = CustomUserGuardianForm(estudiantes_colegio=estudiantes)
         vista = 'gestor'
         abierto='personas'
         context = {
@@ -297,7 +297,7 @@ class CreateAcudiente(View):
     
 class CreateGrados(View):
     def post(self, request, *args, **kwargs):
-        form = GradoForm(request.POST)
+        form = GradeForm(request.POST)
         print(form.is_valid())
         if form.is_valid():
             try:
@@ -330,7 +330,7 @@ class CreateGrados(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
         print(Colores.CYAN + "--->'Horario partes' Of the 'Colegio':  " + str(colegio) + Colores.RESET)
-        form = GradoForm(horario_partes=colegio)
+        form = GradeForm(horario_partes=colegio)
         vista = 'gestor'
         abierto='ajustes'
         context = {
@@ -375,7 +375,7 @@ def dividir_fechas_en_rangos(num_divisiones):
 
 class CreateHorarios(View):
     def post(self, request, *args, **kwargs):
-        form = Horarios_PartesForm(request.POST)
+        form = SchedulePartsForm(request.POST)
         if form.is_valid():
             horario=form.save(commit=False)
             colegio=request.user.colegio
@@ -400,7 +400,7 @@ class CreateHorarios(View):
         return redirect('CrearHorariosCortes', pk=horario_pk)
     
     def get(self, request, *args, **kwargs):
-        form = Horarios_PartesForm()
+        form = SchedulePartsForm()
         vista = 'gestor'
         abierto='ajustes'
         context = {
@@ -412,7 +412,7 @@ class CreateHorarios(View):
     
 class CreateMaterias(View):
     def post(self, request, pk, *args, **kwargs):
-        form = MateriasForm(request.POST, request.FILES)
+        form = SubjectsForm(request.POST, request.FILES)
         if form.is_valid():
             materia = form.save(commit=False)
             materia.author = request.user
@@ -474,7 +474,7 @@ class CreateMaterias(View):
         vista = 'gestor'
         abierto = 'ajustes'
         if estudiantes_grado:
-            form = MateriasForm(estudiantes_grado=estudiantes_grado, profesores=profesores_grado) #mandar alumnos del grado
+            form = SubjectsForm(estudiantes_grado=estudiantes_grado, profesores=profesores_grado) #mandar alumnos del grado
             id_grado = pk
             grado = Grade.objects.get(pk=pk)
             materias = grado.materias.all()
@@ -522,7 +522,7 @@ class EditCortesHorarios(View):
     
 class CreateCortes(View):
     def get(self, request, pk, *args, **kwargs):
-        form = HorarioCortesForm()
+        form = ScheduleCourtsForm()
         horario_id = pk
         cortes = ScheduleCourts.objects.filter(horario=horario_id)
         vista = 'gestor'
@@ -564,7 +564,7 @@ class EditCortes(View):
         fecha_fin_original = horario.fecha_fin
 
         print(fecha_fin_original, fecha_inicio_original)  # Para debug
-        form = HorarioCortesForm(request.POST, instance=horario)
+        form = ScheduleCourtsForm(request.POST, instance=horario)
 
         if form.is_valid():
             # Obtener valores del Formulario
@@ -599,7 +599,7 @@ class EditCortes(View):
     
 class CreateActividadTipo(View):
     def post(self, request, *args, **kwargs):
-        form = ActividadesTipoForm(request.POST)
+        form = ActivitiesTypeForm(request.POST)
         if form.is_valid():
             tipo_actividad = form.save(commit=False)
             tipo_actividad.colegio = request.user.colegio
@@ -614,7 +614,7 @@ class CreateActividadTipo(View):
         return redirect('ActividadTipo')
     
     def get(self, request, *args, **kwargs):
-        form = ActividadesTipoForm()
+        form = ActivitiesTypeForm()
         vista = 'gestor'
         abierto='ajustes'
         actividades_creadas = ActivitiesType.objects.filter(colegio = request.user.colegio)
