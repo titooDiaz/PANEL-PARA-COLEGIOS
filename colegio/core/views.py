@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
-from users.models import CustomUser, CustomUserAdmin, CustomUserStudent
+from users.models import CustomUser, CustomUserAdmin, CustomUserStudent, CustomUserManager
 
 class RedirectUser(View):
     def get(self, request, *args, **kwargs):
@@ -11,7 +11,7 @@ class RedirectUser(View):
                 return redirect('BoardProfesores')
             elif hasattr(request.user, 'customuseradmin'):
                 return redirect('BoardAdministrador')
-            elif hasattr(request.user, 'customusergestor'):
+            elif hasattr(request.user, 'customusermanager'):
                 return redirect('BoardGestores')
             elif hasattr(request.user, 'customuserguardian'):
                 return redirect('BoardAcudiente')
