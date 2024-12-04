@@ -1,104 +1,141 @@
 <p align="center">
-  <img width="150px" src="https://i.ibb.co/bXvzjXm/LOGO-h1.png" />
+  <img width="150px" src="https://i.ibb.co/bXvzjXm/LOGO-h1.png" alt="Logo del proyecto" />
 </p>
 
 # PANEL-PARA-COLEGIOS
 
+Este proyecto es un sistema de gestión escolar desarrollado en Django, diseñado para facilitar las operaciones administrativas y académicas en colegios.
 
-# WINDOWS
+---
 
-> [!CAUTION]
-> Si es la primera vez que ejecutas el programa y no tienes mucha experiencia con django
-> o en general con python puedes obtener algunos errores...
-> <br>
-> ### error al instalar paquetes
-> si despues de ejecutar ```pip install -r requirements.txt```
-> obtienes un error como:
-> ```python
-> error: subprocess-exited-with-error
-> 
-> × Getting requirements to build wheel did not run successfully.
-> │ exit code: 1
-> ╰─> See above for output.
-> ```
-> <br>
-> Es un error de copilacion por no tener instaldo c++
-> Puedes solucionarlo con este video:
-> https://youtu.be/wTv8rNobJsw?si=6nO7UaryScIcNIo9
+## Requisitos previos
 
+1. **Python**  
+   Asegúrate de tener Python instalado. Recomendamos usar la última versión estable.  
 
-Ahora debes instalar este paquete antes de ejecutar el servidor:
-<br>
+2. **Virtualenv**  
+   Necesitarás un entorno virtual para gestionar las dependencias del proyecto. Instálalo con:  
+   ```bash
+   pip install virtualenv
+   ```  
 
-```python manage.py tailwind install```
+3. **Node.js y npm**  
+   Este proyecto utiliza Tailwind CSS, que requiere Node.js. Descarga e instala Node.js desde su [página oficial](https://nodejs.org/en/download).  
 
+---
 
-Si obtienes el siguiente error:
-<br>
+## Instalación y configuración
 
-> [!CAUTION]
-> CommandError: 
-> It looks like node.js and/or npm is not installed or cannot be found.
-> 
-> Visit https://nodejs.org to download and install node.js for your system.
->
-> If you have npm installed and still getting this error message, set NPM_BIN_PATH variable in settings.py to match path of NPM executable in your system.
->
-> Example:
-> NPM_BIN_PATH = "/usr/local/bin/npm"
+### 1. Crear un entorno virtual  
+Crea un entorno virtual para aislar las dependencias:  
+```bash
+virtualenv env
+```
 
+### 2. Activar el entorno virtual  
+En Windows:  
+```bash
+env\Scripts\activate
+```
+En Linux/Mac:  
+```bash
+source env/bin/activate
+```
 
-Instala Nodejs con este link: 
-<br>
-[NodeJs](https://nodejs.org/en/download)
+### 3. Instalar dependencias  
+Ejecuta el siguiente comando para instalar las dependencias necesarias:  
+```bash
+pip install -r requirements.txt
+```
 
-<br>
-y vuelve a ejecutar
+#### Problema común: Error al instalar dependencias  
+Si al instalar las dependencias obtienes un error como:  
+```plaintext
+error: subprocess-exited-with-error
 
-```python manage.py tailwind install```
+× Getting requirements to build wheel did not run successfully.
+│ exit code: 1
+╰─> See above for output.
+```
+Este error ocurre debido a la falta de herramientas de compilación (como un compilador de C++). Puedes solucionarlo siguiendo [este video](https://youtu.be/wTv8rNobJsw?si=6nO7UaryScIcNIo9).  
 
-> [!NOTE]
-> Sigue los sigueintes pasos para ejecutar el programa:
+### 4. Instalar Tailwind CSS  
+Ejecuta:  
+```bash
+python manage.py tailwind install
+```
 
-crear entorno virtual:
-```virtualenv env```
+#### Problema común: Error relacionado con Node.js  
+Si ves un error como:  
+```plaintext
+CommandError: 
+It looks like node.js and/or npm is not installed or cannot be found.
+```
+Asegúrate de que Node.js y npm están instalados correctamente. Si el problema persiste, define la ruta de `npm` en `settings.py` de la siguiente manera:  
+```python
+NPM_BIN_PATH = "/ruta/a/tu/npm"
+```
 
-instalar requirements.txt:
-```pip install -r requirements.txt```
+---
 
-usar manage:
-```cd PANEL-PARA-COLEGIOS/colegio```
+## Iniciar el proyecto
 
-iniciar servidor:
-```python manage.py runserver```
+1. Navega al directorio del proyecto:  
+   ```bash
+   cd PANEL-PARA-COLEGIOS/colegio
+   ```
 
-iniciar tailwind:
-```python manage.py tailwind start```
-> [!NOTE]
-> Recuerda tener npm instalado
+2. Inicia el servidor Django:  
+   ```bash
+   python manage.py runserver
+   ```
 
+3. Inicia Tailwind en modo desarrollo:  
+   ```bash
+   python manage.py tailwind start
+   ```
 
-> [!CAUTION]
-> Si estas manjando el codigo recuerda que estos cambios modificaran la base de datos, un error puede eliminar toda la informacion
-> <br>
+---
 
-migrar: 
-```python manage.py makemigrations users informacion administradores profesores gestores acudientes alumnos```
+## Migraciones y base de datos
 
-crear base de datos:
-```python manage.py migrate```
+1. **Realizar migraciones**  
+   ```bash
+   python manage.py makemigrations users informacion administradores profesores gestores acudientes alumnos
+   ```
 
-crear usuario par pruebas:
-```python manage.py createsuperuser ```
+2. **Crear la base de datos**  
+   ```bash
+   python manage.py migrate
+   ```
 
-<hr>
+3. **Crear un usuario administrador**  
+   ```bash
+   python manage.py createsuperuser
+   ```
 
-RECUERDA QUE CADA CAMBIO DEBE SER DOCUMENTADO
-Un buen codigo siempre debe tener una buena documentacion
-en caso de errores recuerda agregarlos a las inusualidades del proyecto
-</s>
+> **Nota:** Asegúrate de documentar todos los cambios realizados en las migraciones y bases de datos para evitar pérdida de información.
 
-# VISTAS:
-## Login:
+---
 
-<img src="./Documentation/images/login.png">
+## Funcionalidades del sistema
+
+### Vista de Login  
+<p align="center">
+  <img src="./Documentation/images/login.png" alt="Vista de Login">
+</p>
+
+---
+
+## Notas importantes
+
+- **Documentación de cambios:**  
+  Es fundamental documentar cualquier cambio realizado en el código o la base de datos.  
+
+- **Precaución:**  
+  Manipular las migraciones o realizar cambios incorrectos en el código puede provocar la pérdida de datos.  
+
+---
+
+**¡Gracias por contribuir al proyecto!**  
+Un buen código siempre viene acompañado de una buena documentación.
