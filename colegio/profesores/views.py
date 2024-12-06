@@ -146,22 +146,26 @@ class ViewActividades(View):
     def get(self, request, pk, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
-        actividad = Subjects.objects.get(pk=pk)
-        materia_pk = actividad.materia.pk
+        subject = Subjects.objects.get(pk=pk)
+        materia_pk = subject.pk
         materia = Subjects.objects.get(pk=materia_pk)
         grado = Grade.objects.get(materias=materia)
         files = File.objects.filter(actividad=pk)
 
         actividades_form = ActividadesForm()
         
-        # Obtener las respuestas relacionadas con una actividad específica
-        respuestas = StudentResponse.objects.filter(actividad=actividad).select_related('author')
+        
+        try:
+            # Obtener las respuestas relacionadas con una actividad específica
+            respuestas = StudentResponse.objects.filter(actividad=subject).select_related('author')
 
-        # Ordenar las respuestas por el autor antes de agrupar
-        respuestas = respuestas.order_by('author')
+            # Ordenar las respuestas por el autor antes de agrupar
+            respuestas = respuestas.order_by('author')
 
-        # Agrupar las respuestas por el campo 'author' usando groupby
-        respuestas_agrupadas = [(author, list(respuestas)) for author, respuestas in groupby(respuestas, key=attrgetter('author'))]
+            # Agrupar las respuestas por el campo 'author' usando groupby
+            respuestas_agrupadas = [(author, list(respuestas)) for author, respuestas in groupby(respuestas, key=attrgetter('author'))]
+        except:
+            respuestas_agrupadas = None
         
         #COlor de las actividades
             ## Obtener la zona horaria local
@@ -177,7 +181,7 @@ class ViewActividades(View):
         context = {
             'form': form,
             'files': files,
-            'actividad': actividad,
+            'actividad': subject,
             'materia': materia,
             'grado': grado,
             'actividades': actividades_form,
@@ -257,7 +261,6 @@ class EditActividades(View):
 class ProfessorSchedule(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        grado_user = user.CustomUserTeachers.titular
         subject_profesor = Subjects.objects.filter(profe1=user) | Subjects.objects.filter(profe2=user)
         grades = Grade.objects.filter(materias__in=subject_profesor).distinct()
 

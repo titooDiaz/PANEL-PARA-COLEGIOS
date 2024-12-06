@@ -46,9 +46,9 @@ def recorte_imagenes(cords, foto):
 
 def obtener_estudiantes_por_grado(grado_id):
     try:
-        estudiantes = CustomUserTeachers.objects.filter(grado_id=grado_id)
+        estudiantes = CustomUserStudent.objects.filter(grado_id=grado_id)
         return estudiantes
-    except CustomUserTeachers.DoesNotExist:
+    except CustomUserStudent.DoesNotExist:
         return None
     
 def obtener_profesores_por_colegio(grado_id):
@@ -297,7 +297,8 @@ class CreateAcudiente(View):
     
 class CreateGrados(View):
     def post(self, request, *args, **kwargs):
-        form = GradeForm(request.POST)
+        colegio = request.user.colegio.pk
+        form = GradeForm(request.POST, horario_partes=colegio)
         print(form.is_valid())
         if form.is_valid():
             try:
