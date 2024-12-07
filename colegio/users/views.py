@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import School
 from django.views.generic import TemplateView, View
-from .forms import ColegioForm
+
+#import users forms
+from .forms import SchoolForm, CustomUserManagerForm
 from PIL import Image
 import io
 from django.contrib import messages
@@ -10,7 +12,6 @@ from django.core.files.base import ContentFile
 ## MENSAJES DE ERRORES ##
 from message_error import messages_error
 
-from .forms import CustomUserGestorForm
 
 def recorte_imagenes(cords, foto):
     cords = cords.split(',')
@@ -32,7 +33,7 @@ def recorte_imagenes(cords, foto):
 class Colegios(View):
     def get(self, request):
         colegios = School.objects.all()
-        form = ColegioForm()
+        form = SchoolForm()
         vista = 'plus'
         abierto='colegio'
         context = {
@@ -46,7 +47,7 @@ class Colegios(View):
 class GestionColegios(View):
     def get(self, request):
         colegios = School.objects.all()
-        form = ColegioForm()
+        form = SchoolForm()
         vista = 'plus'
         abierto='colegio'
         context = {
@@ -58,7 +59,7 @@ class GestionColegios(View):
         return render(request, 'colegios/CreateColegio.html', context)
 
     def post(self, request):
-        form = ColegioForm(request.POST, request.FILES)
+        form = SchoolForm(request.POST, request.FILES)
         # Acceder a la foto del formulario
         if form.is_valid():
             foto = form.cleaned_data.get('foto')
@@ -94,7 +95,7 @@ class GestionColegios(View):
     
 class CreateGestorColegio(View):
     def post(self, request, *args, **kwargs):
-        form = CustomUserGestorForm(request.POST)
+        form = CustomUserManagerForm(request.POST)
         print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -108,7 +109,7 @@ class CreateGestorColegio(View):
             messages_error.errores_formularios(form.errors, mensaje, request)
         return redirect('ColegiosGestor')
     def get(self, request, *args, **kwargs):
-        form = CustomUserGestorForm()
+        form = CustomUserManagerForm()
         vista = 'plus'
         abierto='colegio'
         context = {
