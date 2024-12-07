@@ -3,6 +3,7 @@ from informacion.models import Activities, File, ActivitiesType
 from django.forms.widgets import DateInput, TimeInput
 
 
+#TRANSLATE: FilesProfesoresForm
 class FilesProfesoresForm(forms.ModelForm):
     class Meta:
         model = File
@@ -17,7 +18,9 @@ class FilesProfesoresForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-class ActividadesForm(forms.ModelForm):
+
+#TRANSLATE: ActividadesForm
+class ActivitiesForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -49,5 +52,5 @@ class ActividadesForm(forms.ModelForm):
         }
 
 
-class ArchivoForm(forms.Form):
+class FileForm(forms.Form):
     archivo = forms.FileField(widget=forms.ClearableFileInput())
