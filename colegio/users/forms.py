@@ -15,8 +15,10 @@ class LoginForm(LoginForm):
         strip=False,
         widget=forms.PasswordInput(attrs={'class': 'password'}),
     )
-    
-class ColegioForm(forms.ModelForm):
+
+
+#Translate: ColegioForm
+class SchoolForm(forms.ModelForm):
     class Meta:
         model = School
         fields = ['clave', 'colegio', 'numero', 'direccion', 'descripcion', 'cords', 'foto', 'banner']
@@ -33,7 +35,9 @@ class ColegioForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-class CustomUserGestorForm(UserCreationForm):
+        
+#Translate: CustomUserGestorForm
+class CustomUserManagerForm(UserCreationForm):
     class Meta:
         model = CustomUserManager
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio')
