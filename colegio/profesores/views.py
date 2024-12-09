@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
 from informacion.models import Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, DailySchedule
-from .forms import ActividadesForm, ArchivoForm, FilesProfesoresForm
+from .forms import ActivitiesForm, FileForm, FilesProfesoresForm
 from django.contrib import messages
 ## MENSAJES DE ERRORES ##
 from message_error import messages_error
@@ -100,7 +100,7 @@ class CreateActividades(View):
             'hora_final': get_midnight(request.user),
             'tipo': tipo_actividades,
         }
-        actividades_form = ActividadesForm(initial=initial_data)
+        actividades_form = ActivitiesForm(initial=initial_data)
         actividades_form.fields['tipo'].queryset = tipo_actividades
         print(materia.titulo1,"  -  ")
         context = {
@@ -113,8 +113,8 @@ class CreateActividades(View):
         }
         return render(request, 'users/profesores/actividades/create_actividades.html', context)
     def post(self, request, pk, *args, **kwargs):
-        actividades_form = ActividadesForm(request.POST)
-        #archivo_form = ArchivoForm(request.POST, request.FILES)
+        actividades_form = ActivitiesForm(request.POST)
+        #archivo_form = FileForm(request.POST, request.FILES)
 
         if actividades_form.is_valid():
         # Crear una instancia del modelo sin guardar en la base de datos aún
@@ -152,7 +152,7 @@ class ViewActividades(View):
         grado = Grade.objects.get(materias=materia)
         files = File.objects.filter(actividad=pk)
 
-        actividades_form = ActividadesForm()
+        actividades_form = ActivitiesForm()
         
         
         try:
@@ -219,7 +219,7 @@ class EditActividades(View):
             'hora_final': get_midnight(request.user),
             'tipo': actividades_tipo,
         }
-        actividades_form = ActividadesForm(initial=initial_data)
+        actividades_form = ActivitiesForm(initial=initial_data)
         print(materia.titulo1,"  -  ")
         context = {
             'materia': materia,
@@ -230,7 +230,7 @@ class EditActividades(View):
         }
         return render(request, 'users/profesores/actividades/create_actividades.html', context)
     def post(self, request, pk, *args, **kwargs):
-        actividades_form = ActividadesForm(request.POST)
+        actividades_form = ActivitiesForm(request.POST)
 
         if actividades_form.is_valid():
         # Crear una instancia del modelo sin guardar en la base de datos aún
