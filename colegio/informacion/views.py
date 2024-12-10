@@ -7,7 +7,7 @@ from .forms import HoraHorarioForm, MateriasHorarioForm, EditarVerNotasAlumnosFo
 
 
 #Translate VerGrados
-class VerGrados(View):
+class SeeGrades(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
         grados = Grade.objects.filter(colegio=colegio)
@@ -33,7 +33,7 @@ PARA CADA MOVIMIENTO HYA UNA VISTA DEDICADA, QUE RETORNARA ESTA MISMA VISTA
 
 # EN ESTA VISTA PODREMOS VER TODA LA TABLA DE HORARIOS (POR DEFECTO VACIA) EN NUESTROS GRADOS.
 #Translate VerGradosHorarios
-class VerGradosHorario(View):
+class SeeGradesSchedules(View):
     def get(self, request, pk, *args, **kwargs):
         grado = Grade.objects.get(id=pk)
         horarios_del_grado = DailySchedule.objects.filter(grado=grado)
@@ -60,7 +60,7 @@ class VerGradosHorario(View):
 
 
 #Translate EditarGradosHorarioHora
-class EditarGradosHorarioHora(View):
+class EditGradesScheduleHour(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
         instancia_modelo = get_object_or_404(DailySchedule, pk=pk_post)
         formulario = HoraHorarioForm(request.POST, instance=instancia_modelo) #EDITAR EL CAMPO YA EXISTENTE...
@@ -71,7 +71,7 @@ class EditarGradosHorarioHora(View):
 
 
 #Translate EditarGradosHorarioMaterias
-class EditarGradosHorarioMaterias(View):
+class EditGradesScheduleSubjects(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
         instancia_modelo = get_object_or_404(DailySchedule, pk=pk_post)
         valores_originales = { #GUARDAMOS LOS VALORES ORIGINALES PARA QUE NO SE ELIMINENA LA HORA DE HACER EL POST
@@ -120,7 +120,7 @@ class EditarGradosHorarioMaterias(View):
 
 
 #Translate EditarVerNotasAlumnos
-class EditarVerNotasAlumnos(View):
+class EditSeeRatingsStudents(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
         estudiante = CustomUserStudent.objects.get(pk=pk_post)
         formulario = EditarVerNotasAlumnosForm(request.POST, instance=estudiante)
@@ -131,7 +131,7 @@ class EditarVerNotasAlumnos(View):
 
 
 #Translate VerEstudiantesGrado
-class VerEstudiantesGrado(View):
+class SeeStudentsGrades(View):
     def get(self, request, pk, *args, **kwargs):
         grado = get_object_or_404(Grade, pk=pk)
         estudiantes = CustomUserStudent.objects.filter(grado=grado)
