@@ -5,6 +5,8 @@ from users.models import CustomUserStudent
 
 from .forms import HoraHorarioForm, MateriasHorarioForm, EditarVerNotasAlumnosForm
 
+
+#Translate VerGrados
 class VerGrados(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.colegio.pk
@@ -30,6 +32,7 @@ PARA CADA MOVIMIENTO HYA UNA VISTA DEDICADA, QUE RETORNARA ESTA MISMA VISTA
 """
 
 # EN ESTA VISTA PODREMOS VER TODA LA TABLA DE HORARIOS (POR DEFECTO VACIA) EN NUESTROS GRADOS.
+#Translate VerGradosHorarios
 class VerGradosHorario(View):
     def get(self, request, pk, *args, **kwargs):
         grado = Grade.objects.get(id=pk)
@@ -55,6 +58,8 @@ class VerGradosHorario(View):
         return render(request, 'informacion/grados/horarios/ver_horario.html', context)
 #                                  \__--> En la vista manejaremos la logica en la cual aparecera las materias correspondientes a cada grado. en caso de ser vacia mostraremos otra cosa :)
 
+
+#Translate EditarGradosHorarioHora
 class EditarGradosHorarioHora(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
         instancia_modelo = get_object_or_404(DailySchedule, pk=pk_post)
@@ -63,7 +68,9 @@ class EditarGradosHorarioHora(View):
             formulario.save()
 
         return redirect('MirarGradoHorario', pk_vista)
-    
+
+
+#Translate EditarGradosHorarioMaterias
 class EditarGradosHorarioMaterias(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
         instancia_modelo = get_object_or_404(DailySchedule, pk=pk_post)
@@ -110,7 +117,9 @@ class EditarGradosHorarioMaterias(View):
             formulario.save()
 
         return redirect('MirarGradoHorario', pk_vista)
-    
+
+
+#Translate EditarVerNotasAlumnos
 class EditarVerNotasAlumnos(View):
     def post(self, request, pk_post, pk_vista, *args, **kwargs):
         estudiante = CustomUserStudent.objects.get(pk=pk_post)
@@ -119,7 +128,9 @@ class EditarVerNotasAlumnos(View):
             formulario.save()
 
         return redirect('VerEstudiantesGrado', pk_vista)
-    
+
+
+#Translate VerEstudiantesGrado
 class VerEstudiantesGrado(View):
     def get(self, request, pk, *args, **kwargs):
         grado = get_object_or_404(Grade, pk=pk)
