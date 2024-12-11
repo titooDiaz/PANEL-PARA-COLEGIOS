@@ -1,20 +1,20 @@
 from django.urls import path
-from .views import VerGrados, VerGradosHorario, VerEstudiantesGrado
+from .views import SeeGrades, SeeGradesSchedules, SeeStudentsGrades
 
 #'APIS'
-from .views import EditarGradosHorarioHora, EditarGradosHorarioMaterias, EditarVerNotasAlumnos
+from .views import EditGradesScheduleHour, EditGradesScheduleSubjects, EditSeeRatingsStudents
 
 urlpatterns = [    
     #editar
-    path('grados/mirar/', VerGrados.as_view(), name='MirarGrados'),
+    path('grados/mirar/', SeeGrades.as_view(), name='MirarGrados'),
 
     #MIRAR ESTUDIANTES
-    path('grados/mirar/estudiantes/<int:pk>/', VerEstudiantesGrado.as_view(), name='VerEstudiantesGrado'),
+    path('grados/mirar/estudiantes/<int:pk>/', SeeStudentsGrades.as_view(), name='VerEstudiantesGrado'),
     #MIRAR HORARIOS
-    path('grados/mirar/horario/<int:pk>/', VerGradosHorario.as_view(), name='MirarGradoHorario'),
+    path('grados/mirar/horario/<int:pk>/', SeeGradesSchedules.as_view(), name='MirarGradoHorario'),
     #'APIS' PARA EL FORMULARIO DE HORARIOS
-    path('grados/editar/horario/hora/<int:pk_post>/<int:pk_vista>/', EditarGradosHorarioHora.as_view(), name='EditarHorarioHora'),
-    path('grados/editar/horario/materias/<int:pk_post>/<int:pk_vista>/', EditarGradosHorarioMaterias.as_view(), name='EditarHorarioMaterias'),
+    path('grados/editar/horario/hora/<int:pk_post>/<int:pk_vista>/', EditGradesScheduleHour.as_view(), name='EditarHorarioHora'),
+    path('grados/editar/horario/materias/<int:pk_post>/<int:pk_vista>/', EditGradesScheduleSubjects.as_view(), name='EditarHorarioMaterias'),
     #'APIS' PARA EDITAR VER NOTAS DE ALUMNOS #pk post = alumno
-    path('grados/editar/ver/Notas/<int:pk_post>/<int:pk_vista>/', EditarVerNotasAlumnos.as_view(), name='EditarVerNotasAlumnos'),
+    path('grados/editar/ver/Notas/<int:pk_post>/<int:pk_vista>/', EditSeeRatingsStudents.as_view(), name='EditarVerNotasAlumnos'),
 ]
