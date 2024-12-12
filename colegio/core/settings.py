@@ -156,3 +156,33 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+"""
+es - AJUSTES DE SEGURIDAD
+en - SECURITY SETTINGS
+"""
+
+# Redirigir a HTTPS desactivado
+SECURE_SSL_REDIRECT = False
+
+# Cookies no seguras (para desarrollo local)
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
+# HSTS desactivado (para desarrollo local)
+SECURE_HSTS_SECONDS = 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+
+# Proxy SSL desactivado (si no usas un proxy en local)
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Protección adicional contra XSS y MIME desactivado (opcional para desarrollo)
+SECURE_BROWSER_XSS_FILTER = False
+SECURE_CONTENT_TYPE_NOSNIFF = False
+
+# Configuración adicional de cookies (solo en desarrollo)
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
