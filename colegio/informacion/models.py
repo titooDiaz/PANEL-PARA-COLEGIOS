@@ -36,9 +36,9 @@ def ano_actual():
 
 # Translate class: Anos_Electivos
 class ElectiveYears(models.Model):
-    ano = models.TextField()
+    year = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Creator_Elective_Year')
-    estado = models.BooleanField(default=True)
+    state = models.BooleanField(default=True)
 
 # Translate class: Horarios_Partes
 class ScheduleParts(models.Model):
