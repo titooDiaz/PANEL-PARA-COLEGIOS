@@ -146,8 +146,8 @@ class ViewActividades(View):
     def get(self, request, pk, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
-        subject = Subjects.objects.get(pk=pk)
-        materia_pk = subject.pk
+        activity = Activities.objects.get(pk=pk)
+        materia_pk = activity.materia.pk
         materia = Subjects.objects.get(pk=materia_pk)
         grado = Grade.objects.get(materias=materia)
         files = File.objects.filter(actividad=pk)
@@ -157,7 +157,7 @@ class ViewActividades(View):
         
         try:
             # Obtener las respuestas relacionadas con una actividad específica
-            respuestas = StudentResponse.objects.filter(actividad=subject).select_related('author')
+            respuestas = StudentResponse.objects.filter(actividad=activity).select_related('author')
 
             # Ordenar las respuestas por el autor antes de agrupar
             respuestas = respuestas.order_by('author')
@@ -167,29 +167,22 @@ class ViewActividades(View):
         except:
             respuestas_agrupadas = None
         
-        #COlor de las actividades
-            ## Obtener la zona horaria local
-        zona_horaria_usuario = pytz.timezone(request.user.time_zone)
-        fecha_hora_actual_usuario = datetime.now(zona_horaria_usuario)
-            #Vamos a convertir esto a fecha universal
-        fecha_hora_actual_utc = fecha_hora_actual_usuario.astimezone(pytz.utc)
-            # Separar la fecha y la hora en UTC
-        fecha_actual = fecha_hora_actual_utc.date()
-        hora_actual = fecha_hora_actual_utc.time()
+        final_date = activity.fecha_final
+        final_hour = activity.hora_final
         
         form = FilesProfesoresForm()
         context = {
             'form': form,
             'files': files,
-            'actividad': subject,
+            'actividad': activity,
             'materia': materia,
             'grado': grado,
             'actividades': actividades_form,
             'vista': vista,
             'abierto':abierto,
             'respuestas_agrupadas': respuestas_agrupadas,
-            'fecha_actual': fecha_actual,
-            "hora_actual": hora_actual,
+            'final_date': final_date,
+            'final_hour': final_hour,
         }
         return render(request, 'users/profesores/actividades/view_actividades.html', context)
     def post(self, request, pk):

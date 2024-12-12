@@ -131,29 +131,29 @@
                                     <a>
                                             <h5 class="font-bold text-lg mb-4">Respuestas:</h5>
                                     </a>
-                                    <button class="flex" data-collapse-target="collapse-{{materia.pk}}">
+                                    <button class="flex" data-collapse-target="collapse-{{author.pk}}">
                                         <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
                                         <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
                                     </button>
                                 </div>
-                                <div data-collapse="collapse-{{materia.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
+                                <div data-collapse="collapse-{{author.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
                                     <div class="bg-gray-300">
                                         {% for respuesta in respuestas %}
                                             <div class="flex justify-between items-center mb-4">
-                                                {% if fecha_actual == respuesta.fecha_entrega %}
-                                                    {% if hora_actual > respuesta.hora_entrega %}
+                                                {% if final_date == respuesta.fecha_entrega %}
+                                                    {% if final_hour < respuesta.hora_entrega %}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.respuesta }} ({{respuesta.descripcion}}%):</span> 
+                                                            <span class="font-bold">{{ respuesta.respuesta }} ({{respuesta.descripcion}}):</span> 
                                                             {{ respuesta.descripcion }}
                                                         </div>
                                                     {%else%}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-orange-700 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.respuesta }} ({{respuesta.descripcion}}%):</span> 
+                                                            <span class="font-bold">{{ respuesta.respuesta }} ({{respuesta.descripcion}}):</span> 
                                                             {{ respuesta.descripcion }}
                                                         </div>
                                                     {%endif%}
                                                 {% else %}
-                                                    {% if fecha_actual > respuesta.fecha_entrega %}
+                                                    {% if final_date < respuesta.fecha_entrega %}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
                                                             <span class="font-bold">{{ respuesta.respuesta }} ({{respuesta.descripcion}}%):</span> 
                                                             {{ respuesta.descripcion }}
@@ -173,6 +173,7 @@
                         </div> 
                     </div>
                 </div>
+            </div>
             </div>
                     
         {% endfor %}
