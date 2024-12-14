@@ -65,16 +65,16 @@ def colegio_directory_path_banner(instance, filename):
 #Class translate: Colegio
 class School(models.Model):
     time_zone = models.CharField(max_length=50, default='UTC')
-    cords = models.TextField(null=True, blank=True)
-    clave = models.TextField(max_length=10)
-    colegio = models.TextField(max_length=30)
-    numero = models.TextField(max_length=15)
-    direccion = models.TextField(max_length=100)
-    descripcion = models.TextField(max_length=500)
-    estado = models.BooleanField(default=True)
+    photo_cords = models.TextField(null=True, blank=True) #cords
+    key_name = models.TextField(max_length=10) #clave
+    school_name = models.TextField(max_length=30) #colegio
+    school_number = models.TextField(max_length=15) #numero
+    school_address = models.TextField(max_length=100) #direccion
+    school_description = models.TextField(max_length=500) #descripcion
+    state = models.BooleanField(default=True)
     created_on = models.DateTimeField(default=timezone.now)
-    foto = models.ImageField(default='colegiosFoto/profile.png', upload_to=colegio_directory_path_profile, null=True, blank=True)
-    banner = models.ImageField(default='colegiosBanner/banner.png', upload_to=colegio_directory_path_banner, null=True, blank=True)
+    school_photo = models.ImageField(default='colegiosFoto/profile.png', upload_to=colegio_directory_path_profile, null=True, blank=True) #foto
+    school_banner = models.ImageField(default='colegiosBanner/banner.png', upload_to=colegio_directory_path_banner, null=True, blank=True) #banner
 
     def __str__(self):
         return self.colegio
