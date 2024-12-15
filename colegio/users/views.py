@@ -62,20 +62,20 @@ class GestionColegios(View):
         form = SchoolForm(request.POST, request.FILES)
         # Acceder a la foto del formulario
         if form.is_valid():
-            foto = form.cleaned_data.get('foto')
+            foto = form.cleaned_data.get('photo')
             banner = form.cleaned_data.get('banner')
 
             if foto != 'colegiosFoto/profile.png' :
-                cords = form['cords'].value()
+                cords = form['photo_cords'].value()
                 cords= cords.split(':')
                 cords = cords[0]
                 
                 image_io = recorte_imagenes(cords, foto)
                 # Asignar el objeto de archivo al campo 'foto'
-                form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
+                form.instance.photo.save('profile.png', ContentFile(image_io.getvalue()))
                 
             if banner != 'colegiosBanner/banner.png':
-                cords = form['cords'].value()
+                cords = form['photo_cords'].value()
                 cords= cords.split(':')
                 cords = cords[1]
                 

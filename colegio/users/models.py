@@ -46,7 +46,7 @@ TIPO_SANGRE = [
 #MOVERLO A INFORMACION PODRIA PROVOCAR UNA RELACION INVERSA.
 def colegio_directory_path_profile(instance, filename):
     # el cero es el format
-    profile_picture_name = 'colegiosFoto/media/{0}/profile.png'.format(instance.clave)
+    profile_picture_name = 'colegiosFoto/media/{0}/profile.png'.format(instance.key_name)
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
@@ -55,7 +55,7 @@ def colegio_directory_path_profile(instance, filename):
 
 def colegio_directory_path_banner(instance, filename):
     # el cero es el format
-    profile_picture_name = 'colegiosBanner/media/{0}/banner.png'.format(instance.clave)
+    profile_picture_name = 'colegiosBanner/media/{0}/banner.png'.format(instance.key_name)
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
@@ -82,10 +82,10 @@ class School(models.Model):
     
 class CustomUser(AbstractUser):
     time_zone = models.CharField(max_length=50, default='UTC')
-    cords = models.TextField(null=True, blank=True)
-    tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
-    numero_documento = models.CharField(max_length=20, null=True, blank=True)
-    introduccion = models.TextField(null=True, blank=True)
+    photo_cords = models.TextField(null=True, blank=True) #cords
+    document_type = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion') # tipo_documento
+    document_number = models.CharField(max_length=20, null=True, blank=True) #numero_documento
+    description = models.TextField(null=True, blank=True) #introduccion
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True, related_name='usuarios') #COLEGIO AL QUE PERTENECE EL USUARIO
     
     def __str__(self):

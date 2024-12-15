@@ -46,7 +46,7 @@ class CustomUserStudentForm(UserCreationForm):
             self.fields['grado'].queryset = grado
     class Meta:
         model = CustomUserStudent
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto', 'school', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type', 'grado', 'sexo','password1','password2','photo_cords','foto', 'school', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -57,7 +57,7 @@ class CustomUserStudentForm(UserCreationForm):
 
             'last_name': forms.TextInput(attrs={'id':'last_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Apellidos del usuario'}),
 
-            'tipo_documento': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'document_type': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
             'password': forms.TextInput(attrs={
                 'id': 'password',
@@ -77,7 +77,7 @@ class CustomUserStudentForm(UserCreationForm):
 
             'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
             
-            'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
+            'photo_cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
             'foto': ClearableFileInput(attrs={ "class":"block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
             
         }
@@ -86,7 +86,7 @@ class CustomUserStudentForm(UserCreationForm):
 class CustomUserManagerForm(UserCreationForm):
     class Meta:
         model = CustomUserManager
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'school','cords','foto', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type', 'sexo','password1','password2', 'school','photo_cords','foto', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -96,7 +96,7 @@ class CustomUserManagerForm(UserCreationForm):
 
             'last_name': forms.TextInput(attrs={'id':'last_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Apellidos del usuario'}),
 
-            'tipo_documento': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'document_type': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
             'password': forms.TextInput(attrs={
                 'id': 'password',
@@ -114,7 +114,7 @@ class CustomUserManagerForm(UserCreationForm):
 
             'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
             
-            'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
+            'photo_cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
             'foto': ClearableFileInput(attrs={ "class":"block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
         }
     def __init__(self, *args, **kwargs):
@@ -125,7 +125,7 @@ class CustomUserManagerForm(UserCreationForm):
 class CustomUserAdminForm(UserCreationForm):
     class Meta:
         model = CustomUserAdmin
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'school','cords','foto', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type','sexo','password1','password2', 'description','cargo', 'school','photo_cords','foto', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -136,7 +136,7 @@ class CustomUserAdminForm(UserCreationForm):
 
             'last_name': forms.TextInput(attrs={'id':'last_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Apellidos del usuario'}),
 
-            'tipo_documento': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'document_type': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
             'password': forms.TextInput(attrs={
                 'id': 'password',
@@ -154,11 +154,11 @@ class CustomUserAdminForm(UserCreationForm):
 
             'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
-            'introduccion': forms.TextInput(attrs={'id':'introduccion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion'}),
+            'description': forms.TextInput(attrs={'id':'introduccion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion'}),
 
             'cargo': forms.TextInput(attrs={'id':'cargo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion'}),
             
-            'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
+            'photo_cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
             'foto': ClearableFileInput(attrs={ "class":"block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
         }
     def __init__(self, *args, **kwargs):
@@ -174,7 +174,7 @@ class CustomUserTeachersForm(UserCreationForm):
             self.fields['titular'].queryset = titular
     class Meta:
         model = CustomUserTeachers
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'school','cords','foto', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type', 'titular', 'sexo','password1','password2', 'descripcion', 'school','photo_cords','foto', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -185,7 +185,7 @@ class CustomUserTeachersForm(UserCreationForm):
 
             'last_name': forms.TextInput(attrs={'id':'last_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Apellidos del usuario'}),
 
-            'tipo_documento': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'document_type': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
             'password': forms.TextInput(attrs={
                 'id': 'password',
@@ -207,7 +207,8 @@ class CustomUserTeachersForm(UserCreationForm):
 
             'descripcion': forms.TextInput(attrs={'id':'descripcion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion'}),
             
-            'cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
+            'photo_cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
+            
             'foto': ClearableFileInput(attrs={ "class":"block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
         }
 
@@ -220,7 +221,7 @@ class CustomUserGuardianForm(UserCreationForm):
             self.fields['estudiante'].queryset = CustomUserStudent.objects.filter(school=estudiantes_school)
     class Meta:
         model = CustomUserGuardian
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo', 'school', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type','password1','password2', 'description', 'estudiante','sexo', 'school', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
