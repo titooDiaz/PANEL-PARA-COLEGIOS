@@ -90,7 +90,7 @@ class CreateActividades(View):
         abierto='inicio'
         materia = Subjects.objects.get(pk=pk)
         grado = Grade.objects.get(materias=materia)
-        tipo_actividades = ActivitiesType.objects.filter(colegio_id=request.user.colegio)
+        tipo_actividades = ActivitiesType.objects.filter(colegio_id=request.user.school)
         print(tipo_actividades, "holaa")
         
         initial_data = {
@@ -203,7 +203,7 @@ class EditActividades(View):
         materia = Subjects.objects.get(pk=pk)
         grado = Grade.objects.get(materias=materia)
 
-        actividades_tipo = ActivitiesType.objects.filter(colegio=request.user.colegio)
+        actividades_tipo = ActivitiesType.objects.filter(colegio=request.user.school)
         
         initial_data = {
             'fecha_inicio': get_current_date(request.user),

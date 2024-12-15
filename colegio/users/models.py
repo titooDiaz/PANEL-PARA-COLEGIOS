@@ -86,7 +86,7 @@ class CustomUser(AbstractUser):
     tipo_documento = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion')
     numero_documento = models.CharField(max_length=20, null=True, blank=True)
     introduccion = models.TextField(null=True, blank=True)
-    colegio = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True, related_name='usuarios') #COLEGIO AL QUE PERTENECE EL USUARIO
+    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True, related_name='usuarios') #COLEGIO AL QUE PERTENECE EL USUARIO
     
     def __str__(self):
         return self.username + " defecto"

@@ -9,7 +9,7 @@ from .forms import HoraHorarioForm, MateriasHorarioForm, EditarVerNotasAlumnosFo
 #Translate VerGrados
 class SeeGrades(View):
     def get(self, request, *args, **kwargs):
-        colegio = request.user.colegio.pk
+        colegio = request.user.name.pk # get school 
         grados = Grade.objects.filter(colegio=colegio)
         print(grados)
         vista = 'gestor'
