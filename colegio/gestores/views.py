@@ -85,7 +85,7 @@ class CreateAlumno(View):
             
             #agregamos el resto del fomulario, usertname == documento 
             alumno = form.save(commit=False)
-            alumno.colegio = request.user.colegio #El colegio del alumno va a ser el colegio del usuario en sesion SOLO SI SE CREA DESDE LA VISTA DEL GESTOR!
+            alumno.school = request.user.school #El colegio del alumno va a ser el colegio del usuario en sesion SOLO SI SE CREA DESDE LA VISTA DEL GESTOR!
             alumno.numero_documento = username
                 
             # Guardar el formulario para actualizar la instancia del modelo
@@ -97,7 +97,7 @@ class CreateAlumno(View):
             print(form.errors)
         return redirect('CrearAlumno')
     def get(self, request, *args, **kwargs):
-        colegio = request.user.colegio.pk
+        colegio = request.user.school.pk
         grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
         form = CustomUserStudentForm(grado=grados)
         vista = 'gestor'
@@ -128,7 +128,7 @@ class CreateGestor(View):
                 form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
             ######################################################
             gestor = form.save(commit=False)
-            gestor.colegio = request.user.colegio
+            gestor.school = request.user.school
             gestor.numero_documento = username
             gestor.save()
             messages.success(request, "¡Gestor agregado correctamente!")
@@ -221,7 +221,7 @@ class CreateProfesor(View):
             
             profesor = form.save(commit=False)
             profesor.numero_documento = username
-            profesor.colegio = request.user.colegio
+            profesor.school = request.user.school
             profesor.save()
             messages.success(request, '¡Profesor agregado correctamente!')
         else:
@@ -229,7 +229,7 @@ class CreateProfesor(View):
             messages_error.errores_formularios(form.errors, mensaje, request)
         return redirect('CrearProfesor')
     def get(self, request, *args, **kwargs):
-        colegio = request.user.colegio.pk
+        colegio = request.user.school.pk
         grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
         form = CustomUserTeachersForm(titular=grados)
         vista = 'gestor'
@@ -284,7 +284,7 @@ class CreateAcudiente(View):
             print(form.errors)
         return redirect('CrearAcudiente')
     def get(self, request, *args, **kwargs):
-        estudiantes = request.user.colegio.pk
+        estudiantes = request.user.school.pk
         form = CustomUserGuardianForm(estudiantes_colegio=estudiantes)
         vista = 'gestor'
         abierto='personas'
@@ -297,7 +297,7 @@ class CreateAcudiente(View):
     
 class CreateGrados(View):
     def post(self, request, *args, **kwargs):
-        colegio = request.user.colegio.pk
+        colegio = request.user.school.pk
         form = GradeForm(request.POST, horario_partes=colegio)
         print(form.is_valid())
         if form.is_valid():
@@ -311,7 +311,7 @@ class CreateGrados(View):
                 horario = ScheduleParts.objects.get(id=pk)
                 horas = horario.horas
                 ##############################
-                grado.colegio = request.user.colegio
+                grado.colegio = request.user.school
                 grado.author = request.user  # Asocia el autor con el usuario actual
                 grado.save()
 
@@ -329,7 +329,7 @@ class CreateGrados(View):
             print(form.errors)
         return redirect('CrearGrado')
     def get(self, request, *args, **kwargs):
-        colegio = request.user.colegio.pk
+        colegio = request.user.school.pk
         print(Colores.CYAN + "--->'Horario partes' Of the 'Colegio':  " + str(colegio) + Colores.RESET)
         form = GradeForm(horario_partes=colegio)
         vista = 'gestor'
@@ -379,7 +379,7 @@ class CreateHorarios(View):
         form = SchedulePartsForm(request.POST)
         if form.is_valid():
             horario=form.save(commit=False)
-            colegio=request.user.colegio
+            colegio=request.user.school
             horario.colegio=colegio #el horario del colegio va a ser el usuario en sesion en la vistas de admins!
             horario.author = request.user
             cortes = horario.cortes
@@ -470,7 +470,7 @@ class CreateMaterias(View):
     def get(self, request, pk, *args, **kwargs):
         grado = Grade.objects.get(id=pk)
         estudiantes_grado = obtener_estudiantes_por_grado(pk)
-        colegio=request.user.colegio
+        colegio=request.user.school
         profesores_grado = obtener_profesores_por_colegio(colegio)
         vista = 'gestor'
         abierto = 'ajustes'
@@ -497,7 +497,7 @@ class CreateMaterias(View):
 
 class CreateMateriasVer(View):
     def get(self, request, *args, **kwargs):
-        grados = Grade.objects.filter(colegio=request.user.colegio)
+        grados = Grade.objects.filter(colegio=request.user.school)
         print(grados)
         vista = 'gestor'
         abierto='ajustes'
@@ -510,7 +510,7 @@ class CreateMateriasVer(View):
     
 class EditCortesHorarios(View):
     def get(self, request, *args, **kwargs):
-        horario = ScheduleParts.objects.filter(colegio=request.user.colegio)
+        horario = ScheduleParts.objects.filter(colegio=request.user.school)
         print(horario)
         vista = 'gestor'
         abierto='ajustes'
@@ -603,7 +603,7 @@ class CreateActividadTipo(View):
         form = ActivitiesTypeForm(request.POST)
         if form.is_valid():
             tipo_actividad = form.save(commit=False)
-            tipo_actividad.colegio = request.user.colegio
+            tipo_actividad.colegio = request.user.school
             tipo_actividad.author = request.user
             tipo_actividad.save()
                 
@@ -618,7 +618,7 @@ class CreateActividadTipo(View):
         form = ActivitiesTypeForm()
         vista = 'gestor'
         abierto='ajustes'
-        actividades_creadas = ActivitiesType.objects.filter(colegio = request.user.colegio)
+        actividades_creadas = ActivitiesType.objects.filter(colegio = request.user.school)
         context = {
             'vista': vista,
             'abierto':abierto,

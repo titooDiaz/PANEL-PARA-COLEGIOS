@@ -46,7 +46,7 @@ class CustomUserStudentForm(UserCreationForm):
             self.fields['grado'].queryset = grado
     class Meta:
         model = CustomUserStudent
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto', 'colegio', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'grado', 'sexo','password1','password2','cords','foto', 'school', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -86,7 +86,7 @@ class CustomUserStudentForm(UserCreationForm):
 class CustomUserManagerForm(UserCreationForm):
     class Meta:
         model = CustomUserManager
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'colegio','cords','foto', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'sexo','password1','password2', 'school','cords','foto', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -125,7 +125,7 @@ class CustomUserManagerForm(UserCreationForm):
 class CustomUserAdminForm(UserCreationForm):
     class Meta:
         model = CustomUserAdmin
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'colegio','cords','foto', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','sexo','password1','password2', 'introduccion','cargo', 'school','cords','foto', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -169,12 +169,12 @@ class CustomUserAdminForm(UserCreationForm):
 class CustomUserTeachersForm(UserCreationForm):
     def __init__(self, *args, titular=None, **kwargs):
         super().__init__(*args, **kwargs)
-        # Filtra Grados por el colegio del estudiante por agregar (usuario en sesion)
+        # Filtra Grados por el school del estudiante por agregar (usuario en sesion)
         if titular:
             self.fields['titular'].queryset = titular
     class Meta:
         model = CustomUserTeachers
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'colegio','cords','foto', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento', 'titular', 'sexo','password1','password2', 'descripcion', 'school','cords','foto', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -214,13 +214,13 @@ class CustomUserTeachersForm(UserCreationForm):
 
 #Translate: CustomUserAcudienteForm
 class CustomUserGuardianForm(UserCreationForm):
-    def __init__(self, *args, estudiantes_colegio=None, **kwargs):
+    def __init__(self, *args, estudiantes_school=None, **kwargs):
         super().__init__(*args, **kwargs)
-        if estudiantes_colegio:
-            self.fields['estudiante'].queryset = CustomUserStudent.objects.filter(colegio=estudiantes_colegio)
+        if estudiantes_school:
+            self.fields['estudiante'].queryset = CustomUserStudent.objects.filter(school=estudiantes_school)
     class Meta:
         model = CustomUserGuardian
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo', 'colegio', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'tipo_documento','password1','password2', 'introduccion', 'estudiante','sexo', 'school', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),

@@ -77,7 +77,7 @@ class School(models.Model):
     banner = models.ImageField(default='colegiosBanner/banner.png', upload_to=colegio_directory_path_banner, null=True, blank=True) #banner
 
     def __str__(self):
-        return self.colegio
+        return self.name
     
     
 class CustomUser(AbstractUser):
