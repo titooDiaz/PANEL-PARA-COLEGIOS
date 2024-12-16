@@ -106,25 +106,25 @@ def user_directory_path_profile_alumnos(instance, filename):
 
 #Class translate: CustomUserAlumno
 class CustomUserStudent(CustomUser):
-    foto = models.ImageField(default='alumnos/profile.png', upload_to=user_directory_path_profile_alumnos, null=True, blank=True)
-    tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Alumno')
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    grado = models.ForeignKey('informacion.Grade', on_delete=models.SET_NULL, blank=True, null=True)  # Utiliza 'informacion.Grade')  # Campo ForeignKey para relacionar con Grado
-    sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
-    estado = models.BooleanField(default=True)
+    photo = models.ImageField(default='alumnos/profile.png', upload_to=user_directory_path_profile_alumnos, null=True, blank=True)
+    user_type = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Alumno') #tipo_usuario
+    creation_date = models.DateTimeField(auto_now_add=True) #fecha_creacion
+    grade = models.ForeignKey('informacion.Grade', on_delete=models.SET_NULL, blank=True, null=True)  # Utiliza 'informacion.Grade')  # Campo ForeignKey para relacionar con Grado
+    gender = models.CharField(max_length=20, choices=SEXO, default='Sin informacion') # genero
+    state = models.BooleanField(default=True) #estado
     #Salud
-    descripcion = models.TextField(blank=True, null=True,)
-    alergias = models.TextField(blank=True, null=True)
-    condiciones_medicas = models.TextField(blank=True, null=True)
-    medicamentos_actuales = models.TextField(blank=True, null=True)
-    grupo_sanguineo = models.CharField(max_length=15, blank=True, null=True, choices=TIPO_SANGRE, default='Desconocido')
-    contacto_emergencia_nombre = models.CharField(max_length=255, blank=True, null=True)
-    contacto_emergencia_telefono = models.CharField(max_length=20, blank=True, null=True)
+    description = models.TextField(blank=True, null=True,) # descripcion
+    allergies = models.TextField(blank=True, null=True) # alergias
+    medical_conditions = models.TextField(blank=True, null=True) #condiciones_medicas
+    current_medications = models.TextField(blank=True, null=True) #medicamentos_actuales
+    blood_group = models.CharField(max_length=15, blank=True, null=True, choices=TIPO_SANGRE, default='Desconocido') #grupo_sanguineo
+    emergency_contact_name = models.CharField(max_length=255, blank=True, null=True) #contacto_emergencia_nombre
+    emergency_contact_phone = models.CharField(max_length=20, blank=True, null=True) #contacto_emergencia_telefono
     #pagos
     ver_notas = models.BooleanField(default=True)
     
     def __str__(self):
-        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario}'
+        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.user_type}'
 
 
 ###################################################
