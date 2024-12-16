@@ -40,9 +40,9 @@ class MateriasHorarioForm(forms.ModelForm):
 class EditarVerNotasAlumnosForm(forms.ModelForm):
     class Meta:
         model = CustomUserStudent
-        fields = ['ver_notas']
+        fields = ['see_notes']
         widgets = {
-            'ver_notas': forms.CheckboxInput(attrs={'class': 'h-8 w-8 m-0 text-blue-600 bg-gray-100 border-gray-300 rounded', 'id':'Checkbox'}),
+            'see_notes': forms.CheckboxInput(attrs={'class': 'h-8 w-8 m-0 text-blue-600 bg-gray-100 border-gray-300 rounded', 'id':'Checkbox'}),
 
             }
     def __init__(self, *args, **kwargs):

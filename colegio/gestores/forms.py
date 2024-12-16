@@ -46,7 +46,7 @@ class CustomUserStudentForm(UserCreationForm):
             self.fields['grado'].queryset = grado
     class Meta:
         model = CustomUserStudent
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type', 'grado', 'sexo','password1','password2','photo_cords','foto', 'school', 'time_zone')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type', 'grade', 'gender','password1','password2','photo_cords','photo', 'school', 'time_zone')
 
         widgets = {
             'time_zone': forms.TextInput(attrs={'id':'time_zone','class': 'hidden'}),
@@ -73,12 +73,12 @@ class CustomUserStudentForm(UserCreationForm):
 
             'email': forms.EmailInput(attrs={'id':'email','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Email donde se puede contactar al usuario','autocomplete':'off'}),
 
-            'grado': forms.Select(attrs={'id':'grado','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'grade': forms.Select(attrs={'id':'grado','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
-            'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'gender': forms.Select(attrs={'id':'gender','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
             
             'photo_cords': forms.TextInput(attrs={'class': 'cords hidden', 'id':'cords'}),
-            'foto': ClearableFileInput(attrs={ "class":"block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
+            'photo': ClearableFileInput(attrs={ "class":"block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5", "id":"input-file", "type":"file","accept":".png,.jpg,.jpeg","name":"input-file"}),
             
         }
 

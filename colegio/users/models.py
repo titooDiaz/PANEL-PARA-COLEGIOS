@@ -113,7 +113,7 @@ class CustomUserStudent(CustomUser):
     gender = models.CharField(max_length=20, choices=SEXO, default='Sin informacion') # genero
     state = models.BooleanField(default=True) #estado
     #Salud
-    description = models.TextField(blank=True, null=True,) # descripcion
+    description_student = models.TextField(blank=True, null=True,) # descripcion
     allergies = models.TextField(blank=True, null=True) # alergias
     medical_conditions = models.TextField(blank=True, null=True) #condiciones_medicas
     current_medications = models.TextField(blank=True, null=True) #medicamentos_actuales
@@ -121,7 +121,7 @@ class CustomUserStudent(CustomUser):
     emergency_contact_name = models.CharField(max_length=255, blank=True, null=True) #contacto_emergencia_nombre
     emergency_contact_phone = models.CharField(max_length=20, blank=True, null=True) #contacto_emergencia_telefono
     #pagos
-    ver_notas = models.BooleanField(default=True)
+    see_notes = models.BooleanField(default=True) #ver_notas
     
     def __str__(self):
         return f'{self.first_name} {self.last_name} - ({self.username}) - {self.user_type}'
