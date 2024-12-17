@@ -201,7 +201,7 @@ def user_directory_path_profile_administrador(instance, filename):
 
 #Class translate: CustomUserAdministrador
 class CustomUserAdmin(CustomUser):
-    foto = models.ImageField(default='administradores/profile.png', upload_to=user_directory_path_profile_administrador, null=True, blank=True)
+    photo = models.ImageField(default='administradores/profile.png', upload_to=user_directory_path_profile_administrador, null=True, blank=True) #foto
     job_title = models.TextField() #cargo
     user_type = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Administrador') #tipo_usuario
     creation_date = models.DateTimeField(auto_now_add=True) #fecha_creacion
@@ -217,9 +217,9 @@ alumno = CustomUserStudent
 
 #Class translate: CustomUserAcudiente
 class CustomUserGuardian(CustomUser):
-    sexo = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
-    tipo_usuario = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Acudiente')
-    estudiante = models.ManyToManyField(alumno, blank=True, related_name='estudiantes')
+    gender = models.CharField(max_length=20, choices=SEXO, default='Sin informacion')
+    user_type = models.CharField(max_length=50, choices=TIPO_USUARIO, default='Acudiente')
+    student = models.ManyToManyField(alumno, blank=True, related_name='estudiantes')
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.tipo_usuario}'
+        return f'{self.first_name} {self.last_name} - ({self.username}) - {self.user_type}'

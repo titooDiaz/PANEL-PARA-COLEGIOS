@@ -40,7 +40,7 @@ class SchoolForm(forms.ModelForm):
 class CustomUserManagerForm(UserCreationForm):
     class Meta:
         model = CustomUserManager
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type', 'sexo','password1','password2', 'school')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type', 'gender','password1','password2', 'school')
 
         widgets = {
             'username': forms.TextInput(attrs={'autocomplete': 'off','id':'username','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Numero del documento'}),
@@ -65,9 +65,9 @@ class CustomUserManagerForm(UserCreationForm):
 
             'email': forms.EmailInput(attrs={'autocomplete': 'off','id':'email','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Email donde se puede contactar al usuario'}),
 
-            'sexo': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'gender': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
             
-            'school': forms.Select(attrs={'id':'sexo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'school': forms.Select(attrs={'id':'school','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
