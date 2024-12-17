@@ -85,7 +85,7 @@ class CustomUser(AbstractUser):
     photo_cords = models.TextField(null=True, blank=True) #cords
     document_type = models.CharField(max_length=50,choices=TIPO_DOCUMENTO, default='Sin informacion') # tipo_documento
     document_number = models.CharField(max_length=20, null=True, blank=True) #numero_documento
-    description = models.TextField(null=True, blank=True) #introduccion
+    introduction = models.TextField(null=True, blank=True) #introduccion
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True, related_name='usuarios') #COLEGIO AL QUE PERTENECE EL USUARIO
     
     def __str__(self):
@@ -113,7 +113,7 @@ class CustomUserStudent(CustomUser):
     gender = models.CharField(max_length=20, choices=SEXO, default='Sin informacion') # genero
     state = models.BooleanField(default=True) #estado
     #Salud
-    description_student = models.TextField(blank=True, null=True,) # descripcion
+    description = models.TextField(blank=True, null=True,) # descripcion
     allergies = models.TextField(blank=True, null=True) # alergias
     medical_conditions = models.TextField(blank=True, null=True) #condiciones_medicas
     current_medications = models.TextField(blank=True, null=True) #medicamentos_actuales

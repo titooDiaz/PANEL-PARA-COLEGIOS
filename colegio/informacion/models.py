@@ -92,7 +92,7 @@ class Subjects(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_materia')
 
     def __str__(self):
-        return f'{self.titulo1}'
+        return f'{self.name_1}'
 
 # Translate class: Grado 
 class Grade(models.Model):
@@ -108,7 +108,7 @@ class Grade(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True, related_name='ColegioGrado') #COLEGIO AL QUE PERTENECE EL USUARIO #colegio
 
     def __str__(self):
-        return self.grado_nom + "(" + self.grado_num + ")"
+        return self.grade_name + "(" + self.grade_number + ")"
 
 def get_current_date():
     fecha_actual = timezone.now().date()
@@ -133,7 +133,7 @@ class ActivitiesType(models.Model):
     year_creation = models.IntegerField(default=ano_actual()) #ano_creacion
     
     def __str__(self):
-        return f"Actividad: {self.titulo}"
+        return f"Actividad: {self.name}"
 
 
 # Translate class: Actividades
@@ -159,7 +159,7 @@ class Activities(models.Model):
     subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadMateria') #materia
 
     def __str__(self):
-        return f"{self.titulo} ({self.pk})"
+        return f"{self.name} ({self.pk})"
 
 
 def files(instance, filename):
@@ -178,7 +178,7 @@ class File(models.Model):
     description = models.CharField(max_length=255, blank=True) #descripcion
 
     def __str__(self):
-        return self.nombre or self.archivo.name
+        return self.name or self.file.name
 
 
 def files_respuesta(instance, filename):
@@ -196,7 +196,7 @@ class StudentResponse(models.Model):
     description = models.TextField() #descripcion
     delivery_date = models.DateField(default=get_current_date) #fecha_entrega
     delivery_time = models.TimeField(default=get_current_time) #hora_entrega
-    timezone = models.TextField(null=True) #lugar_zona_horaria
+    timezone_response = models.TextField(null=True) #lugar_zona_horaria
     same_zone = models.BooleanField(default=True) # Si el estudiante cambia la fecha, este elemento saldrá como falso #misma_zona
     year_creation = models.IntegerField(default=ano_actual) #ano_creacion
     state = models.BooleanField(default=True) #estado
@@ -213,7 +213,7 @@ class StudentFiles(models.Model):
     file = models.FileField(upload_to=files_respuesta) #archivo
 
     def __str__(self):
-        return f"Archivo para {self.actividad_respuesta.author}: {self.archivo.name}"
+        return f"Archivo para {self.activity_answer.author}: {self.file}"
 
 # Translate class: HorarioDiario
 class DailySchedule(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE VA A ITERAR SOBRE ESTE MODELO PARA CREAR LAS CLASES DIARIAS NECESARIAS)
@@ -232,7 +232,7 @@ class DailySchedule(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE
     saturday = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_5') #viernes
 
     def __str__(self):
-        return f"{self.hora_inicio} - {self.hora_fin}"
+        return f"{self.start_time} - {self.end_time}"
 
 
 # Translate class: HorarioCortes
@@ -245,4 +245,4 @@ class ScheduleCourts(models.Model):
     file = models.BooleanField(default=False) #archivo
     
     def __str__(self):
-        return f"{self.fecha_inicio} - {self.fecha_fin}"
+        return f"{self.start_date} - {self.end_date}"

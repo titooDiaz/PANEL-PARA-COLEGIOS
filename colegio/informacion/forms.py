@@ -6,14 +6,15 @@ from users.models import CustomUserStudent
 class HoraHorarioForm(forms.ModelForm):
     class Meta:
         model = DailySchedule
-        fields = ('hora_inicio', 'hora_fin')
+        fields = ('start_date', 'end_date')
 
         widgets = {
-            'hora_inicio': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
-            'hora_fin': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
+            'start_date': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
+            'end_date': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
 class MateriasHorarioForm(forms.ModelForm):
     def __init__(self, *args, materias_grado=None, **kwargs):
         super().__init__(*args, **kwargs)
