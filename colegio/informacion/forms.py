@@ -6,11 +6,11 @@ from users.models import CustomUserStudent
 class HoraHorarioForm(forms.ModelForm):
     class Meta:
         model = DailySchedule
-        fields = ('start_date', 'end_date')
+        fields = ('start_time', 'end_time')
 
         widgets = {
-            'start_date': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
-            'end_date': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
+            'start_time': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
+            'end_time': forms.TimeInput(attrs={'class': 'mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-300', 'type':'time'}),
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,22 +20,24 @@ class MateriasHorarioForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Filtra las materias dependientes de este grado
         if materias_grado:
-            self.fields['lunes'].queryset = materias_grado
-            self.fields['martes'].queryset = materias_grado
-            self.fields['miercoles'].queryset = materias_grado
-            self.fields['jueves'].queryset = materias_grado
-            self.fields['viernes'].queryset = materias_grado
+            self.fields['monday'].queryset = materias_grado
+            self.fields['tuesday'].queryset = materias_grado
+            self.fields['wednesday'].queryset = materias_grado
+            self.fields['thursday'].queryset = materias_grado
+            self.fields['friday'].queryset = materias_grado
+            self.fields['saturday'].queryset = materias_grado
             print("hola")
             
     class Meta:
         model = DailySchedule
-        fields = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes']
+        fields = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         widgets = {
-            'lunes': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
-            'martes': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
-            'miercoles': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
-            'jueves': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
-            'viernes': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'monday': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'tuesday': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'wednesday': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'thursday': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'friday': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'saturday': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
             }
         
 class EditarVerNotasAlumnosForm(forms.ModelForm):
