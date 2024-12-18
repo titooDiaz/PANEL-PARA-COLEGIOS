@@ -61,7 +61,7 @@ class ScheduleParts(models.Model):
         return "HORARIO DE " + self.name
 
 def picture_materia_1(instance, filename):
-    profile_picture_name = 'materias/media/{0}/{1}/{2}/picture.png'.format(instance.titulo1, instance.profe1, random.randint(1, 9999))
+    profile_picture_name = 'materias/media/{0}/{1}/{2}/picture.png'.format(instance.name_1, instance.teacher_1, random.randint(1, 9999))
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
