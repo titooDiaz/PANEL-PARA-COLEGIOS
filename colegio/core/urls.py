@@ -14,6 +14,9 @@ urlpatterns = [
     #HOME
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     
+    #contact us
+    path('contact/', TemplateView.as_view(template_name='home_menu/contact.html'), name='contact'),
+    
     #USUARIOS
     path('accounts/', include('allauth.urls')),
     path('redirect/', RedirectUser.as_view(), name='RedirectUser'),
