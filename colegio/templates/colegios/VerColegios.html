@@ -1,0 +1,108 @@
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Colegios</title>
+</head>
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+
+<div class="mx-auto max-w-screen-sm text-center">
+    <h2 class="lg:py-2  text-5xl tracking-tight font-bold text-gray-900 mb-8 zoom-4">COLEGIOS REGISTRADOS</h2>
+</div> 
+
+
+<form class="w-[80%] mx-auto mb-6">
+    <div class="flex">
+        <button id="dropdown-button-2" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-xl font-mono text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100" type="button">
+            
+            Todas 
+            <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
+        </button>
+        <div id="dropdown-search-city" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+            <ul class="py-2 text-xl text-gray-700">
+                <li>
+                    <button type="button" class="inline-flex w-full px-4 py-2 text-xl text-gray-700 hover:bg-gray-100">
+                        <div class="inline-flex items-center">  
+                            United States
+                        </div>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="inline-flex w-full px-4 py-2 text-xl text-gray-700 hover:bg-gray-100">
+                        <div class="inline-flex items-center">
+                            Germany
+                        </div>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="inline-flex w-full px-4 py-2 text-xl text-gray-700 hover:bg-gray-100">
+                        <div class="inline-flex items-center">             
+                            Italy
+                        </div>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="inline-flex w-full px-4 py-2 text-xl text-gray-700 hover:bg-gray-100">
+                        <div class="inline-flex items-center">
+                            China
+                        </div>
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="relative w-full">
+            <input type="search" id="location-search" class="block p-2.5 w-full z-20 text-xl text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-orange-500 focus:border-orange-500" placeholder="Buscar por nombre" required />
+            <button type="submit" class="absolute top-0 end-0 h-full p-2.5 text-sm font-mono text-white bg-orange-700 rounded-e-lg border border-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300">
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+                <span class="sr-only">Search</span>
+            </button>
+        </div>
+    </div>
+</form>
+
+
+<div class="grid gap-12 m-6 lg:mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+    {% for colegio in colegios %}
+        <div id="{{colegio.id}}" class="flex relative">
+            <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700"></span>
+            <div class="relative h-full w-full flex flex-col items-center bg-gray-300 rounded-lg p-4 shadow-2xl duration-300 ease-in-out">
+                
+                <div class="w-full relative flex flex-col h-full">
+                    <img class="w-full rounded-lg" src="{{colegio.banner.url}}" alt="Colegio_Banner">
+                    
+                    <div class="image-container relative mt-[-46px] p-6">
+                        <img class="w-full border-black border-2 rounded-full" src="{{colegio.photo.url}}" alt="Colegio_Photo">
+                    </div>
+
+                    <div class="flex-grow flex justify-center items-center p-4">
+                        <div>
+                            <h5 class="h-full font-mono font-bold text-gray-900 text-3xl text-center">
+                                {{colegio.colegio}}
+                            </h5>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="h-auto mt-auto w-full">
+                    <a type="button" href="#" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block">
+                        Ver
+                    </a>      
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+
+</div>
+
+{% endblock content %}  

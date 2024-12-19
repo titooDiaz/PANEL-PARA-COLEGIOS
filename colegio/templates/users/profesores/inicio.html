@@ -1,0 +1,176 @@
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Inicio - Profesores</title>
+</head>
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="mx-auto max-w-screen-sm text-center">
+    <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">Bienvenido {{request.user.first_name}}!</h2>
+    <h3 class="text-xl tracking-tight font-bold text-gray-900 mb-8">Aqui tienes todos tus grados para el -- periodo del a;o!</h3>
+</div>
+
+{% for grado in grados %}
+
+    <div class="p-8 mb-8">
+            <div class="mx-auto max-w-screen-sm text-center">
+                <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8">Grado: {{ grado.grado_nom }} ({{ grado.grado_num }})</h2>
+            </div>
+        <div class="grid gap-12 mb-6 lg:mb-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            {% for materia in grado.materias.all %}
+                {% if materia in materias_profesor %}
+                    <div>
+                        {% if materia.profe1.pk == request.user.pk %}
+                        <div class="relative">
+                            <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
+                            <div class="relative h-full items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl">
+                                <div class="block w-full">
+                                    <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-1"></i> {{materia.titulo1}}</h5>
+                                    <p class="">{{ materia.descripcion1 }}</p>
+                                    <img class="w-full p-4" src="{{ materia.picture1.url }}" alt="Alumno">
+                                    <div class="mt-2">
+                                        <div class="w-full flex">
+                                            <a type="button" href=" {% url 'CreateActividades' materia.pk %} " class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">
+                                                Crear Actividad
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mostrar actividades de la materia -->
+                                    <div class="mt-4">
+                                        <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
+                                            <div class="flex" >
+                                                <a>
+                                                        <h5 class="font-bold text-lg mb-4">Actividades Propuestas:</h5>
+                                                </a>
+                                                <button class="flex" data-collapse-target="collapse-{{materia.pk}}">
+                                                    <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
+                                                    <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
+                                                </button>
+                                            </div>
+                                            <div data-collapse="collapse-{{materia.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
+                                                <div class="bg-gray-300">
+                                                    {% for actividad in actividades %}
+                                                        {% if actividad.materia == materia %}
+                                                        <div class="flex justify-between items-center mb-4">
+                                                            {% if fecha_actual == actividad.fecha_final %}
+                                                                {% if hora_actual > actividad.hora_final %}
+                                                                    <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
+                                                                        <span class="font-bold">{{ actividad.titulo }} ({{actividad.porcentaje}}%):</span> 
+                                                                        {{ actividad.descripcion }}
+                                                                    </div>
+                                                                {%else%}
+                                                                    <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-orange-700 fa-solid fa-clock"></i> |</a>
+                                                                        <span class="font-bold">{{ actividad.titulo }} ({{actividad.porcentaje}}%):</span> 
+                                                                        {{ actividad.descripcion }}
+                                                                    </div>
+                                                                {%endif%}
+                                                            {% else %}
+                                                                {% if fecha_actual > actividad.fecha_final %}
+                                                                    <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
+                                                                        <span class="font-bold">{{ actividad.titulo }} ({{actividad.porcentaje}}%):</span> 
+                                                                        {{ actividad.descripcion }}
+                                                                    </div>
+                                                                {%else%}
+                                                                    <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-green-700 fa-solid fa-clock"></i> |</a>
+                                                                        <span class="font-bold">{{ actividad.titulo }} ({{actividad.porcentaje}}%):</span> 
+                                                                        {{ actividad.descripcion }}
+                                                                    </div>
+                                                                {%endif%}
+                                                            {% endif %}
+                                                            
+                                                        </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        {% else %}
+                            <div id="{{colegio.id}}" class="relative">
+                                <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
+                                <div class="relative h-full items-center bg-gray-300 rounded-lg flex p-4  shadow-2xl">
+                                    <div class="block w-full">
+                                        <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-2"></i>{{materia.titulo1}}</h5>
+                                        <p class="">{{ materia.descripcion1 }}a</p>
+                                        <img class="w-full p-4" src="{{ materia.picture1.url }}" alt="Alumno">
+                                        
+                                        <div class="mt-2">
+                                            <div class="w-full flex">
+                                                <a type="button" href="{% url 'CreateActividades' materia.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">
+                                                    Crear Actividad
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Mostrar actividades de la materia -->
+                                        <div class="mt-4">
+                                            <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
+                                                <div class="flex" >
+                                                    <a>
+                                                            <h5 class="font-bold text-lg mb-4">Actividades Propuestas:</h5>
+                                                    </a>
+                                                    <button class="flex" data-collapse-target="collapse-{{materia.pk}}">
+                                                        <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
+                                                        <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
+                                                    </button>
+                                                </div>
+                                                <div data-collapse="collapse-{{materia.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
+                                                    <div class="bg-gray-300">
+                                                        {% for actividad in actividades %}
+                                                            {% if actividad.materia == materia and actividad.author == request.user %}
+                                                            <div class="flex justify-between items-center mb-4">
+                                                                {% if fecha_actual == actividad.fecha_final %}
+                                                                    {% if hora_actual > actividad.hora_final %}
+                                                                        <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
+                                                                            <span class="font-bold">{{ actividad.titulo }} ({{actividad.porcentaje}}%):</span> 
+                                                                            {{ actividad.descripcion }}
+                                                                        </div>
+                                                                    {%else%}
+                                                                        <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-orange-700 fa-solid fa-clock"></i> |</a>
+                                                                            <span class="font-bold">{{ actividad.titulo }} ({{actividad.porcentaje}}%):</span> 
+                                                                            {{ actividad.descripcion }}
+                                                                        </div>
+                                                                    {%endif%}
+                                                                {% else %}
+                                                                    {% if fecha_actual > actividad.fecha_final %}
+                                                                        <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
+                                                                            <span class="font-bold">{{ actividad.titulo }} ({{actividad.porcentaje}}%):</span> 
+                                                                            {{ actividad.descripcion }}
+                                                                        </div>
+                                                                    {%else%}
+                                                                        <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-green-700 fa-solid fa-clock"></i> |</a>
+                                                                            <span class="font-bold">{{ actividad.titulo }} ({{actividad.porcentaje}}%):</span> 
+                                                                            {{ actividad.descripcion }}
+                                                                        </div>
+                                                                    {%endif%}
+                                                                {% endif %}
+                                                                
+                                                            </div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        </div>
+    </div>
+{% endfor %}
+
+<!-- from cdn -->
+<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js"></script>
+
+{% endblock content %}  

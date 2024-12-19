@@ -1,0 +1,100 @@
+{% load static %}
+<!-- Navbar Lateral -->
+<aside id="NavBar" class="z-40 mov bg-[#ff7738] text-white w-60 lg:flex lg:flex-col fixed h-full overflow-y-auto rounded-3xl border-8 border-white bg-no-repeat">
+    <!-- Logo -->
+    <div class="p-4 text-2xl font-semibold">NOMBRE DEL COLEGIO</div>
+
+    <!-- Menú de Navegación -->
+    <nav class="flex-1">
+        <ul class="space-y-2 ml-4">
+          {% if abierto == 'inicio' %}
+            <li class="bg-white text-black rounded-l-lg">
+                <a href="{% url 'BoardAlumno' %}" class="block p-4 transition duration-300 rounded-lg">
+                    <i class="fas fa-home mr-2"></i> Inicio
+                </a>
+            </li>
+          {% else %}
+            <li>
+                <a href="{% url 'BoardAlumno' %}" class="block hover:bg-gray-700 p-4 transition duration-300 rounded-lg">
+                    <i class="fas fa-home mr-2"></i> Inicio
+                </a>
+            </li>
+          {% endif %}
+
+          {% if abierto == 'mensajes' %}
+            <li class="bg-white text-black rounded-l-lg">
+                <a href="#" class="block p-4 transition duration-300 rounded-lg">
+                  <i class="fas fa-envelope mr-2"></i> Mensajes
+                </a>
+            </li>
+          {% else %}
+            <li>
+                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                  <i class="fas fa-envelope mr-2"></i> Mensajes
+                </a>
+            </li>
+          {% endif %}
+
+          {% if abierto == 'colegio' %}
+            <li class="bg-white text-black rounded-l-lg">
+                <a href="{% url 'Colegios' %}" class="block p-4 transition duration-300 rounded-lg">
+                  <i class="fa-solid fa-school-flag mr-2"></i> Colegio
+                </a>
+            </li>
+          {% else %}
+            <li>
+                <a href="{% url 'Colegios' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                  <i class="fa-solid fa-school-flag mr-2"></i> Colegio
+                </a>
+            </li>
+          {% endif %}
+
+          {% if abierto == 'fecha' %}
+          <li class="bg-white text-black rounded-l-lg">
+              <a href="#" class="block p-4 transition duration-300 rounded-lg">
+                <i class="fa-solid fa-clock mr-2"></i> Fecha Actual
+              </a>
+          </li>
+        {% else %}
+          <li>
+              <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <i class="fa-solid fa-clock mr-2"></i> Fecha Actual
+              </a>
+          </li>
+        {% endif %}
+
+        </ul>
+    </nav>
+
+    <script>
+        const Navbar = document.getElementById('NavBar');
+        const Boton_navegador = document.getElementById('BotonNav');
+        function onToggleMenu(e){
+         Navbar.classList.toggle('mov');
+        }
+    </script>
+    <style>
+      @media (min-width: 0px) { 
+        #NavBar.mov {
+          transform: translateX(-100%);
+        }
+        #NavBar {
+          transition: transform 0.3s ease-in-out;
+        }
+       }
+       
+       @media (min-width: 1024px) { 
+        #NavBar.mov {
+          transform: translateX(0%);
+        }
+        }
+    </style>
+
+    <!-- Pie de Página del Navbar -->
+    <footer class="p-4 text-sm text-white">
+      <footer class="p-4 text-sm text-white">
+        © <span id="yearAndText"></span>
+    </footer>
+    </footer>
+</aside>
+<script src="{% static 'js/year.js' %}"></script>

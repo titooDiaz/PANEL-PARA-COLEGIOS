@@ -1,0 +1,194 @@
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Crear nuevas materias</title>
+</head>
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/recorte_imagenes/cropper.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/recorte_imagenes/index.css' %}">
+</head>
+
+<form method="post" action="{% url 'CrearMaterias' id_grado %}" enctype="multipart/form-data" id="formulario">
+    {% csrf_token %}
+
+    <div id="EmergenteAlumnos" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full">
+        <div id="EmergenteAlumnosBox" class="flex justify-center items-center h-[100vh]">
+            <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                    <b>Alumnos Disponibles Para Este Grado</b> 
+                    <button onclick="cerrarVentana()" type="button">
+                        <i class="fas fa-arrow-right mx-4"></i>
+                    </button>
+                </div>
+                <div class="w-full lg:grid lg:grid-cols-2">
+                    <div class=" m-4 block">
+                        <div>{{form.alumnos1}}</div>
+                    </div>
+
+                    <div class="m-4 block">
+                        <div>{{form.alumnos2}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+
+        <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex">
+            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                <div class="flex items-center ml-4">
+                    {{form.electiva}}
+                    <span class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Esta Materia tiene electiva?</span>
+                </div>
+            </li>
+        </ul>
+
+        <br>
+
+        <div class="container">
+            <div class="group">
+                <img src="{% static 'img/materias/picture.png' %}" class="crop-image" id="crop-image">
+                {{form.picture1}}
+                <label for="input-file" class="label-file">Haz click aquí para subir una imagen</label>
+            </div>
+        </div>
+        
+        {% include 'users/recorte_fotos.html' %}
+
+
+
+        <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
+            {{form.cords}}
+            <div>          
+                <label for="profe1" class="block  text-sm font-medium text-gray-900">PROFESOR 1</label>
+                {{form.profe1}}
+            </div>
+            <div>          
+                <label for="titulo1" class="block  text-sm font-medium text-gray-900">NOMBRE 1 DE LA MATERIA</label>
+                {{form.titulo1}}
+            </div>
+            <div>          
+                <label for="descripcion1" class="block  text-sm font-medium text-gray-900">Descripcion1</label>
+                {{form.descripcion1}}
+            </div>
+            <div>          
+                <label for="locate1" class="block  text-sm font-medium text-gray-900">Ubicacion</label>
+                {{form.locate1}}
+            </div>
+        </div>
+
+        <br>
+        <hr>
+        <br>
+
+        <div class="md:gap-6 lg:gap-6 mb-2 md:grid-cols-2 hidden" id="containerElectiva">    
+            <div>          
+                <label for="profe2" class="block  text-sm font-medium text-gray-900">NOMBRE 2 DE LA MATERIA</label>
+                {{form.profe2}}
+            </div>
+            <div>          
+                <label for="titulo2" class="block  text-sm font-medium text-gray-900">Titulo2</label>
+                {{form.titulo2}}
+            </div>
+            <div>          
+                <label for="descripcion2" class="block  text-sm font-medium text-gray-900">Descripcion2</label>
+                {{form.descripcion2}}
+            </div>
+            <div>          
+                <label for="locate2" class="block  text-sm font-medium text-gray-900">Ubicacion</label>
+                {{form.locate2}}
+            </div>
+            <div>          
+                <p class="block  text-sm font-medium text-gray-900">Alumnos1</p>
+                <button type="button" onclick="mostrarVentana()">
+                <input type="text" id="input" value="Seleccionar alumnos" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-white block w-full p-2.5 pointer-events-none">
+                </button>
+            </div>
+        </div>
+        
+        <div class="mt-4 mx-8">
+            <button type="submit" id="myButton" class=" block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+        </div>
+    <script>
+        
+    </script>
+</form>
+    <!--PARA ELETIVAS-->
+    <script>
+    window.onload = function() {
+    var checkboxesAlumnos1 = document.querySelectorAll('input[name="alumnos1"]');
+
+    checkboxesAlumnos1.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+
+          var checkboxId = checkbox.id;
+          checkboxId = checkboxId.replace('_primer', '');
+          if (checkbox.checked) {
+              const checkbox2 = document.getElementById(checkboxId.replace("checkbox_es_1","checkbox_es_2"))
+              checkbox2.checked = false
+          } else {
+              const checkbox2 = document.getElementById(checkboxId.replace("checkbox_es_1","checkbox_es_2"))
+              checkbox2.checked = true
+          }
+      });
+    });
+
+    var checkboxesAlumnos2 = document.querySelectorAll('input[name="alumnos2"]');
+
+    checkboxesAlumnos2.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+          var checkboxId = checkbox.id;
+          checkboxId = checkboxId + '_primer';
+          if (checkbox.checked) {
+              const checkbox1 = document.getElementById(checkboxId.replace("checkbox_es_2","checkbox_es_1"))
+              checkbox1.checked = false
+          } else {
+              const checkbox1 = document.getElementById(checkboxId.replace("checkbox_es_2","checkbox_es_1"))
+              checkbox1.checked = true
+          }
+      });
+    });
+
+    checkboxesAlumnos1.forEach(function(checkbox) {
+      let currentId = checkbox.id;
+      let nuevoId = currentId + '_primer';
+      checkbox.id = nuevoId;
+      checkbox.checked = true;
+    });
+    
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+      var checkbox_electiva = document.getElementById('Checkbox');
+
+      checkbox_electiva.addEventListener('click', function() {
+      var container = document.getElementById('containerElectiva');
+      if (checkbox_electiva.checked) {
+          container.classList.remove('hidden');
+          container.classList.add('grid');
+      } else {
+          container.classList.add('hidden');
+          container.classList.remove('grid');
+      }
+      });
+  });
+    </script>
+
+<!--SELECTORES CHECBOX-->
+<link rel="stylesheet" href="{% static 'css/selectores_checkbox.css' %}">
+
+<!--VENTANA EMERGENTE DE ALUMNOS-->
+<script src="{% static 'js/ventanas/ventana_emergente_alumnos.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/ventanas/ventana_emergente_alumnos.css' %}">
+
+<!--RECORTE DE IMAGENES-->
+<script src="{% static 'js/recorte_imagenes/jquery.js' %}"></script>
+<script src="{% static 'js/recorte_imagenes/index.js' %}"></script>
+<script src="{% static 'js/recorte_imagenes/cropper.js' %}"></script>
+
+{% endblock content %}  

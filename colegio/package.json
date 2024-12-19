@@ -1,0 +1,17 @@
+{
+  "name": "panel-para-colegios",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/tu-repo.git"
+  },
+    "scripts": {
+      "build": "tailwindcss build ./src/styles.css -o ./static/css/styles.css"
+    },
+    "dependencies": {
+      "tailwindcss": "^3.0.0"
+    },
+    "engines": {
+      "node": ">=14.0.0"
+    }
+  }

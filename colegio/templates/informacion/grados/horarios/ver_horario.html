@@ -1,0 +1,324 @@
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Ver horario</title>
+</head>
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+<div class="mx-auto max-w-screen-sm text-center">
+    <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">HORARIO DE {{grado.grado_nom}}</h2>
+</div> 
+
+
+{% if materias %}
+    <div class="overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right overflow-x-auto text-gray-800">
+            <thead class="text-xs text-white uppercase bg-gray-600">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Hora
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Lunes
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Martes
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Miercoles
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Jueves
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Viernes
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for horas in horario %}
+                <tr class="bg-gray-100 border-b hover:bg-gray-200">
+
+                    <!--HORA-->
+                    <td class="px-6 py-4 font-medium">
+                        {{horas.hora_inicio}} - {{horas.hora_fin}}
+                        <br>
+                        <button onclick="mostrarVentanaHorarios('EmergenteHora', '{{horas.pk}}')">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </td>
+                    <div id="EmergenteHora{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                        <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                            <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                    <b>Rango de Horario ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteHora','{{horas.pk}}')" type="button">
+                                        <i class="fas fa-arrow-right mx-4"></i>
+                                    </button>
+                                </div>
+                                <div class="w-full">
+                                    <div class=" m-10 block">
+                                        <form action="{% url 'EditarHorarioHora' horas.pk grado.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="p-10 block">
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">CONFIGURA LA HORA DE INICIAR LA CLASE EN ({{grado.grado_nom}})</h6>
+                                                <img src="{% static 'img/informacion/reloj.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
+                                            </div>
+                                            <h6 class="w-full text-center mb-6 font-mono text-4xl">HORA INICIO - HORA FINAL</h6>
+                                            <div class="w-full flex">
+                                                <div class="mx-auto">{{formHora.hora_inicio}} - {{formHora.hora_fin}}</div> 
+                                            </div>
+                                            <div class="w-full h-12 my-10">
+                                                <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
+                                            </div>
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--LUNES-->
+                    <td class="px-6 py-4">
+                        {{horas.lunes}}
+                        <br>
+                        <button onclick="mostrarVentanaHorarios('EmergenteLunes', '{{horas.pk}}')">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </td>
+                    <div id="EmergenteLunes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                        <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                            <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                    <b>LUNES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteLunes','{{horas.pk}}')" type="button">
+                                        <i class="fas fa-arrow-right mx-4"></i>
+                                    </button>
+                                </div>
+                                <div class="w-full">
+                                    <div class=" m-10 block">
+                                        <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="p-10 block">
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL LUNES EN ({{grado.grado_nom}})</h6>
+                                                <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
+                                            </div>
+                                            <div>{{formMaterias.lunes}}</div>
+                                            <div class="w-full h-12 my-10">
+                                                <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
+                                            </div>
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--MARTES-->
+                    <td class="px-6 py-4">
+                        {{horas.martes}}
+                        <br>
+                        <button onclick="mostrarVentanaHorarios('EmergenteMartes', '{{horas.pk}}')">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </td>
+                    <div id="EmergenteMartes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                        <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                            <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                    <b>MARTES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteMartes','{{horas.pk}}')" type="button">
+                                        <i class="fas fa-arrow-right mx-4"></i>
+                                    </button>
+                                </div>
+                                <div class="w-full">
+                                    <div class=" m-10 block">
+                                        <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="p-10 block">
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL MARTES EN ({{grado.grado_nom}})</h6>
+                                                <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
+                                            </div>
+                                            <div>{{formMaterias.martes}}</div>
+                                            <div class="w-full h-12 my-10">
+                                                <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
+                                            </div>
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--MIERCOLES-->
+                    <td class="px-6 py-4">
+                        {{horas.miercoles}}
+                        <br>
+                        <button onclick="mostrarVentanaHorarios('EmergenteMiercoles', '{{horas.pk}}')">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </td>
+                    <div id="EmergenteMiercoles{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                        <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                            <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                    <b>MIERCOLES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteMiercoles','{{horas.pk}}')" type="button">
+                                        <i class="fas fa-arrow-right mx-4"></i>
+                                    </button>
+                                </div>
+                                <div class="w-full">
+                                    <div class=" m-10 block">
+                                        <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="p-10 block">
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL MIERCOLES EN ({{grado.grado_nom}})</h6>
+                                                <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
+                                            </div>
+                                            <div>{{formMaterias.miercoles}}</div>
+                                            <div class="w-full h-12 my-10">
+                                                <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
+                                            </div>    
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--JUEVES-->
+                    <td class="px-6 py-4">
+                        {{horas.jueves}}
+                        <br>
+                        <button onclick="mostrarVentanaHorarios('EmergenteJueves', '{{horas.pk}}')">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </td>
+                    <div id="EmergenteJueves{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                        <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                            <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                    <b>JUEVES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteJueves','{{horas.pk}}')" type="button">
+                                        <i class="fas fa-arrow-right mx-4"></i>
+                                    </button>
+                                </div>
+                                <div class="w-full">
+                                    <div class=" m-10 block">
+                                        <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="p-10 block">
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL JUEVES EN ({{grado.grado_nom}})</h6>
+                                                <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
+                                            </div>
+                                            <div>{{formMaterias.jueves}}</div>
+                                            <div class="w-full h-12 my-10">
+                                                <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
+                                            </div>    
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--VIERNES-->
+                    <td class="px-6 py-4">
+                        {{horas.viernes}}
+                        <br>
+                        <button onclick="mostrarVentanaHorarios('EmergenteViernes', '{{horas.pk}}')">
+                                <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </td>
+                    <div id="EmergenteViernes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                        <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                            <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                    <b>VIERNES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteViernes','{{horas.pk}}')" type="button">
+                                        <i class="fas fa-arrow-right mx-4"></i>
+                                    </button>
+                                </div>
+                                <div class="w-full">
+                                    <div class=" m-10 block">
+                                        <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="p-10 block">
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL VIERNES EN ({{grado.grado_nom}})</h6>
+                                                <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
+                                            </div>
+                                            <div>{{formMaterias.viernes}}</div>
+                                            <div class="w-full h-12 my-10">
+                                                <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
+                                            </div>
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+    <!--VERIFICAR LA HORA-->
+    <script src="{% static 'js/autocompletar/hora.js' %}"></script>
+
+    <!--VENTANAS EMERGENTES-->
+    <script src="{% static 'js/ventanas/ventana_emergente_horarios.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/ventanas/ventana_emergente_horarios.css' %}">
+{% else %}
+    <section class="relative z-10 bg-[#ff7738] py-[120px] rounded-lg">
+        <div class="container mx-auto">
+        <div class="-mx-4 flex">
+            <div class="w-full px-4">
+                <div class="mx-auto text-center">
+                    <h2
+                    class="mb-2 text-[50px] font-bold leading-none text-white sm:text-[80px] md:text-[100px] text-center"
+                    >
+                    olvidadizo!
+                    </h2>
+                    <h4
+                    class="mb-3 text-[22px] font-semibold leading-tight text-white"
+                    >
+                    No tan rapido! Olvidaste agregar materias a este grado.
+                    </h4>
+                    <a href="{% url 'CrearAlumno' %}" class="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-black hover:cursor-pointer">
+                    Agrega materias
+                    </a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div
+        class="absolute top-0 left-0 -z-10 flex h-full w-full items-center justify-between space-x-5 md:space-x-8 lg:space-x-14 rounded-lg"
+        >
+        <div
+            class="h-full w-1/3 bg-gradient-to-t from-[#ffa176] to-[#ff7738] rounded-lg"
+            ></div>
+        <div class="flex h-full w-1/3">
+            <div
+                class="h-full w-1/2 hidden lg:block bg-gradient-to-b from-[#ffa176] to-[#ff7738] rounded-lg"
+                ></div>
+            <div
+                class="h-full w-1/2 hidden lg:block bg-gradient-to-t from-[#ffa176] to-[#ff7738] rounded-lg"
+                ></div>
+        </div>
+        <div
+            class="h-full w-1/3 bg-gradient-to-b from-[#ffa176] to-[#ff7738] rounded-lg"
+            ></div>
+        </div>
+    </section>
+{% endif %}
+
+
+{% endblock content %}  

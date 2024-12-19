@@ -1,0 +1,240 @@
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Inicio - Estudiantes</title>
+</head>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="my-6">
+    <h5 class="text-5xl text-center font-bold text-black zoom-4 mb-8">Bienvenido {{request.user.first_name}}!</h5>
+
+
+    <div class="p-4 mb">
+        <div class="mx-auto max-w-screen-sm text-center">
+            <h6 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8">Actividades</h2>
+        </div>
+
+        
+        <div class="w-full">
+            <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center font-semibold text-left transition-all ease-in" >
+                <div class="flex">
+                    <button class="w-full" data-collapse-target="collapse-actividades_actuales">
+                        <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
+                        <h5 class="font-bold text-lg mb-4 text-left">Actividades Propuestas:</h5>
+                        <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
+                    </button>
+                </div>
+                <hr>
+                <div data-collapse="collapse-actividades_actuales" class="h-0 overflow-hidden transition-all duration-100 ease-in-out m-2">
+                    
+                    <div>
+                        <div class="w-full flex items-center justify-center my-4">
+                            <div class="w-[85%] text-lg font-medium">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                      <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                    <input type="text" id="regular_activities" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full ps-10 p-2.5" placeholder="Recuerdas tu actividad? Escribe aqui el nombre!">
+                                  </div>
+                            </div>
+                            <div class="w-[10%] flex items-center justify-center">
+                                <i class="fa-solid fa-arrow-down-wide-short"></i>
+                            </div>
+                        </div>
+                        <div class="bg-gray-300 p-4 grid gap-4 sm:grid-cols-1 lg:grid-cols-2 rounded-lg">
+                            {% if actividades %}
+                                
+                                {% for actividad in actividades %}
+                                    <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
+                                        <div class="m-2">
+                                            {% if fecha_actual == actividad.fecha_final %}
+                                                {% if hora_actual > actividad.hora_final %}
+                                                    <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                        <div class="flex w-full items-center align-middle justify-center text-white">
+                                                            <i class="fa-solid fa-clock"></i>
+                                                        </div>
+                                                    </div>
+                                                {%else%}
+                                                    <div class="rounded-full w-12 h-12 bg-orange-400 flex col-span-2">
+                                                        <div class="flex w-full items-center align-middle justify-center text-white">
+                                                            <i class="fa-solid fa-clock"></i>
+                                                        </div>
+                                                    </div>
+                                                {%endif%}
+                                            {% else %}
+                                                {% if fecha_actual > actividad.fecha_final %}
+                                                    <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                        <div class="flex w-full items-center align-middle justify-center text-white">
+                                                            <i class="fa-solid fa-clock"></i>
+                                                        </div>
+                                                    </div>
+                                                {%else%}
+                                                    <div class="rounded-full w-12 h-12 bg-green-400 flex col-span-2">
+                                                        <div class="flex w-full items-center align-middle justify-center text-white">
+                                                            <i class="fa-solid fa-clock"></i>
+                                                        </div>
+                                                    </div>
+                                                {%endif%}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="flex w-full ml-6 bg-gray-100 rounded-lg">
+                                            <div class="w-full">
+                                                <div class="m-2">
+                                                    <div>
+                                                        <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="m-2">
+                                                    <p class="font-bold">{{actividad.titulo}}</p>
+                                                    <p>{{actividad.descripcion}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </a>
+                                {% endfor %}
+                            {% else %}
+                                <div>
+                                    <p>Felicitaciones! No tienes actividades asignadas!</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!--ACTIVIDADES PASADAS-->
+                <br>
+
+                <div class="flex"></div>
+                    <button class="w-full" data-collapse-target="collapse-actividades_pasadas">
+                        <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
+                        <h5 class="font-bold text-lg mb-4 text-left">Actividades Pasadas:</h5>
+                        <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
+                    </button>
+                </div>
+                <div data-collapse="collapse-actividades_pasadas" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
+
+                    <div>
+                        <div class="w-full flex items-center justify-center my-4">
+                            <div class="w-[85%] text-lg font-medium">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                      <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                    <input type="text" id="past_activities" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full ps-10 p-2.5" placeholder="Recuerdas tu actividad? Escribe aqui el nombre!">
+                                  </div>
+                            </div>
+                            <div class="w-[10%] flex items-center justify-center">
+                                <i class="fa-solid fa-arrow-down-wide-short"></i>
+                            </div>
+                        </div>
+                    
+
+                        <div class="bg-gray-300 p-4 grid gap-4 sm:grid-cols-1 lg:grid-cols-2 rounded-lg">
+                            
+                            {% for actividad in actividades_pasadas %}
+                                
+                                <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
+                                    <div class="m-2">
+                                        {% if fecha_actual == actividad.fecha_final %}
+                                            {% if hora_actual > actividad.hora_final %}
+                                                <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%else%}
+                                                <div class="rounded-full w-12 h-12 bg-orange-400 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%endif%}
+                                        {% else %}
+                                            {% if fecha_actual > actividad.fecha_final %}
+                                                <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
+                                                    <div class="flex w-full items-center align-middle justify-center text-white">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            {%endif%}
+                                        {% endif %}
+
+                                        
+                                    </div>
+                                    <div class="flex w-full ml-6 bg-gray-100 rounded-lg">
+                                        <div class="w-full">
+                                            <div class="m-2">
+                                                <div>
+                                                    <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="m-2">
+                                                <p class="font-bold">{{actividad.titulo}}</p>
+                                                <p>{{actividad.descripcion}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </a>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            
+        </div>
+    </div>
+
+
+    <div class="p-4 mb-8">
+        <div class="mx-auto max-w-screen-sm text-center">
+            <h6 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8">Materias:</h2>
+        </div>
+
+        <!--Show subjects-->
+        <!--Mostrar Materias-->
+        <div class="grid gap-12 mb-6 lg:mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-col-4">
+            {% for materia in materias %}
+                <div class="relative">
+                    <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
+                    <div class="relative h-full items-center bg-gray-300 rounded-lg flex p-4 shadow-2xl">
+                            <div class="block w-full">
+                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
+                                <br>
+                                <p class="text-lg text-center">
+                                    <span class="font-bold">PROFESOR:</span>
+                                    <br>
+                                    {{ materia.profe1.first_name }} {{ materia.profe1.last_name }} 
+                                </p>
+                                <p class="text-lg"></p>
+                                <img class="w-full p-8" src="{{ materia.picture1.url }}" alt="Alumno">
+                                
+                                <p class="text-lg text-center my-4 font-light">- {{ materia.descripcion1 }} -</p>
+
+                                <div class="mt-2">
+                                    <div class="w-full flex">
+                                        <a type="button" href="{% url 'SubjectsView' materia.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 w-full py-2 text-center text-lg">
+                                            Ver
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>          
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- from cdn -->
+<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js"></script>
+
+{% endblock content %}  

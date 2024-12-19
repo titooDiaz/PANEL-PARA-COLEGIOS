@@ -1,0 +1,31 @@
+<!DOCTYPE html> <!--EVITAR INUSUALIDADADES EN EL NAVEGADOR-->
+<head>
+    <title>Lista de horarios disponibles</title>
+</head>
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+
+    <h3 class="font-mono font-bold text-gray-900 text-4xl text-center">Horarios Disponibles:</h3>
+    <div class="grid gap-12 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4 mt-4">
+    {% for horario in horarios %}
+        <div class="relative">
+            <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
+            <div class="relative h-full items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl">
+                <div class="block w-full">
+                    <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{horario.titulo}}</h5>
+                    <p class="font-mono font-bold text-gray-900 text-lg text-center">{{horario.descripcion}}</p>
+                    <img class="w-full p-4" src="{% static 'img/informacion/calendario.png' %}" alt="Alumno">
+                    <div class="mt-2 flex">
+                    <a type="button" href="{% url 'CrearHorariosCortes' horario.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 focus:border focus:mt-1 py-2 text-center text-lg w-full"> <i class="fa-solid fa-clock mr-2"></i> Editar Cortes</a>
+                    </div>     
+                    
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock content %}

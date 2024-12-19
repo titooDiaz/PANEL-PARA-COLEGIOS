@@ -4,20 +4,22 @@
 env
 venv
 colegio/PanelParaColegiosMKDJF.sqlite3
-colegio/acudientes/__pycache__/
-colegio/administradores/__pycache__/
-colegio/alumnos/__pycache__/
-colegio/gestores/__pycache__/
-colegio/informacion/__pycache__/
-colegio/profesores/__pycache__/
+
+
+colegio/gurdians/__pycache__/
+colegio/admins/__pycache__/
+colegio/students/__pycache__/
+colegio/managers/__pycache__/
+colegio/information/__pycache__/
+colegio/teachers/__pycache__/
 colegio/users/__pycache__/
 
-colegio/acudientes/migrations/
-colegio/administradores/migrations/
-colegio/alumnos/migrations/
-colegio/gestores/migrations/
-colegio/informacion/migrations/
-colegio/profesores/migrations/
+colegio/gurdians/migrations/
+colegio/admins/migrations/
+colegio/students/migrations/
+colegio/managers/migrations/
+colegio/information/migrations/
+colegio/teachers/migrations/
 colegio/users/migrations/
 
 colegio/theme/
@@ -27,13 +29,13 @@ colegio/__pycache__/
 
 #IGNORAR ELEMENTOS PERSONALES DE USUARIOS
 colegio/media/actividades_profesores/media/
-colegio/media/administradores/media/
-colegio/media/alumnos/media/
+colegio/media/admins/media/
+colegio/media/students/media/
 colegio/media/colegiosBanner/media/
 colegio/media/colegiosFoto/media/
-colegio/media/gestores/media/
+colegio/media/managers/media/
 colegio/media/materias/media/
-colegio/media/profesores/media/
+colegio/media/teachers/media/
 
 #IGNORAR ELEMENTOS DEL COLEGIO
 colegio/media/respuesta_estudiantes_actividades/
