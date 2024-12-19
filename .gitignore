@@ -5,22 +5,11 @@ env
 venv
 colegio/PanelParaColegiosMKDJF.sqlite3
 
+#IGNORAR CACHE DE LA APP
+**/__pycache__/
 
-colegio/gurdians/__pycache__/
-colegio/admins/__pycache__/
-colegio/students/__pycache__/
-colegio/managers/__pycache__/
-colegio/information/__pycache__/
-colegio/teachers/__pycache__/
-colegio/users/__pycache__/
-
-colegio/gurdians/migrations/
-colegio/admins/migrations/
-colegio/students/migrations/
-colegio/managers/migrations/
-colegio/information/migrations/
-colegio/teachers/migrations/
-colegio/users/migrations/
+#IGNORAR MIGRACIONES DE LA APP
+**/migrations/
 
 colegio/theme/
 colegio/core/__pycache__/
