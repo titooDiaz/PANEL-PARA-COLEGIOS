@@ -100,7 +100,7 @@ class CreateGestorColegio(View):
         if form.is_valid():
             username = form.cleaned_data['username']
             gestor = form.save(commit=False)
-            gestor.numero_documento = username
+            gestor.document_number = username
             gestor.save()
             messages.success(request, '¡Gestor agregado correctamente!')
         else:
