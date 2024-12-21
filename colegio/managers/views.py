@@ -57,7 +57,7 @@ def obtener_profesores_por_colegio(grado_id):
     
 def obtener_grados_por_colegio(colegio_id):
     try:
-        grados = Grade.objects.filter(colegio=colegio_id)
+        grados = Grade.objects.filter(school=colegio_id)
         print(Colores.CYAN + "--->'Grados' Of the 'Colegio' User:  " + str(grados) + Colores.RESET)
         return grados
     except Grade.DoesNotExist:
@@ -80,13 +80,13 @@ class CreateAlumno(View):
                 
                 image_io = recorte_imagenes(cords, foto)
                 # Asignar el objeto de archivo al campo 'foto'
-                form.instance.foto.save('profile.png', ContentFile(image_io.getvalue()))
+                form.instance.photo.save('profile.png', ContentFile(image_io.getvalue()))
             ######################################################
             
             #agregamos el resto del fomulario, usertname == documento 
             alumno = form.save(commit=False)
             alumno.school = request.user.school #El colegio del alumno va a ser el colegio del usuario en sesion SOLO SI SE CREA DESDE LA VISTA DEL GESTOR!
-            alumno.numero_documento = username
+            alumno.document_number = username
                 
             # Guardar el formulario para actualizar la instancia del modelo
             alumno.save()
