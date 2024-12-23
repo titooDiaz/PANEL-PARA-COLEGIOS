@@ -285,18 +285,22 @@ class CreateAcudiente(View):
         return redirect('CrearAcudiente')
     def get(self, request, *args, **kwargs):
         estudiantes = request.user.school.pk
-        try:
-            form = CustomUserGuardianForm(estudiantes_colegio=estudiantes)
-        except:
-            form=None
-            print("NO hay estudiant5es")
         vista = 'gestor'
         abierto='personas'
-        context = {
-            'form': form,
-            'vista': vista,
-            'abierto':abierto,
-        }
+        try:
+            form = CustomUserGuardianForm(estudiantes_colegio=estudiantes)
+            context = {
+                'form': form,
+                'vista': vista,
+                'abierto':abierto,
+            }
+        except:
+            context = {
+                'form': None,
+                'vista': vista,
+                'abierto':abierto,
+            }
+            return render(request, 'informacion/materias/error_no_estudiantes.html', context)
         return render(request, 'users/acudiente/create_acudiente.html', context)
     
 class CreateGrados(View):

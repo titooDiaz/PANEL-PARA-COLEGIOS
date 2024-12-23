@@ -17,104 +17,106 @@
     
     <!-- Formulario Para Crear Las Cuentas De Los Alumnos -->
 
-    <form method="post" action="{% url 'CrearAcudiente' %}">
-        {% csrf_token %}
+    {% if form %}
+        <form method="post" action="{% url 'CrearAcudiente' %}">
+            {% csrf_token %}
 
-        <!--VENTANA EMERGENTE DE ALUMNOS-->
-        <div id="EmergenteAlumnos" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full">
-            <div id="EmergenteAlumnosBox" class="flex justify-center items-center h-[100vh]">
-                <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
-                    <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                        <b>Alumnos Disponibles Para Este Grado</b> 
-                        <button onclick="cerrarVentana()" type="button">
-                            <i class="fas fa-arrow-right mx-4"></i>
-                        </button>
-                    </div>
-                    <div class="w-full flex">
-                        <div class="w-full p-4">
-                            <div class="flex mb-4">
-                                <div class=" w-1/12 flex items-center justify-center">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
+            <!--VENTANA EMERGENTE DE ALUMNOS-->
+            <div id="EmergenteAlumnos" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full">
+                <div id="EmergenteAlumnosBox" class="flex justify-center items-center h-[100vh]">
+                    <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                        <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                            <b>Alumnos Disponibles Para Este Grado</b> 
+                            <button onclick="cerrarVentana()" type="button">
+                                <i class="fas fa-arrow-right mx-4"></i>
+                            </button>
+                        </div>
+                        <div class="w-full flex">
+                            <div class="w-full p-4">
+                                <div class="flex mb-4">
+                                    <div class=" w-1/12 flex items-center justify-center">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                    <input type="search" id="Buscar_alumnos" class="block w-11/12 p-2 text-xl text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-orange-500 focus:borderorangering-orange-500" placeholder="Buscar Estudiantes">
                                 </div>
-                                <input type="search" id="Buscar_alumnos" class="block w-11/12 p-2 text-xl text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-orange-500 focus:borderorangering-orange-500" placeholder="Buscar Estudiantes">
+                                <div>{{form.estudiante}}</div>
                             </div>
-                            <div>{{form.estudiante}}</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div>
-            <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
-                <div>
-                    <label for="username" class="block  text-xl font-medium text-gray-900">Numero De Documento: </label>
-                    {{form.username}}
+            <div>
+                <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
+                    <div>
+                        <label for="username" class="block  text-xl font-medium text-gray-900">Numero De Documento: </label>
+                        {{form.username}}
+                    </div>
+                    <div>
+                        <label for="email" class="block  text-xl font-medium text-gray-900">Correo Electronico: (opcional)</label>
+                        {{form.email}}
+                    </div>
+                    <div>
+                        <label for="first_name" class="block text-xl font-medium text-gray-900">Nombres:</label>
+                        {{form.first_name}}
+                    </div>  
+                    <div>
+                        <label for="last_name" class="block text-xl font-medium text-gray-900">Apellidos:</label>
+                    {{form.last_name}}
+                    </div>
+                    <div>          
+                        <label for="tipo_documento" class="block  text-xl font-medium text-gray-900">Tipo De Documento</label>
+                        {{form.tipo_documento}}
+                    </div>
+                    <div>
+                        <label for="password" class="block  text-xl font-medium text-gray-900">Contraseña:</label>
+                        {{form.password}}
+                    </div>
+                    <div>          
+                        <label for="sexo" class="block  text-xl font-medium text-gray-900">Sexo</label>
+                        {{form.sexo}}
+                    </div>
+                    <div>          
+                        <p class="block  text-xl font-medium text-gray-900">Acudiente de:</p>
+                        <button type="button"  onclick="mostrarVentana()">
+                            <div class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-red-600 focus:border-white block w-full p-2.5 pointer-events-none">Seleccionar Estudiantes</div> 
+                        </button>
+                    </div>
+                    {{form.time_zone}}
+                    <div class="hidden">          
+                        {{form.password2}}
+                        {{form.password1}}
+                    </div>
                 </div>
-                <div>
-                    <label for="email" class="block  text-xl font-medium text-gray-900">Correo Electronico: (opcional)</label>
-                    {{form.email}}
+                <div class="mt-4">
+                    <button type="submit" id="myButton" class=" block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
                 </div>
-                <div>
-                    <label for="first_name" class="block text-xl font-medium text-gray-900">Nombres:</label>
-                    {{form.first_name}}
-                </div>  
-                <div>
-                    <label for="last_name" class="block text-xl font-medium text-gray-900">Apellidos:</label>
-                   {{form.last_name}}
-                </div>
-                <div>          
-                    <label for="tipo_documento" class="block  text-xl font-medium text-gray-900">Tipo De Documento</label>
-                    {{form.tipo_documento}}
-                </div>
-                <div>
-                    <label for="password" class="block  text-xl font-medium text-gray-900">Contraseña:</label>
-                    {{form.password}}
-                </div>
-                <div>          
-                    <label for="sexo" class="block  text-xl font-medium text-gray-900">Sexo</label>
-                    {{form.sexo}}
-                </div>
-                <div>          
-                    <p class="block  text-xl font-medium text-gray-900">Acudiente de:</p>
-                    <button type="button"  onclick="mostrarVentana()">
-                        <div class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-red-600 focus:border-white block w-full p-2.5 pointer-events-none">Seleccionar Estudiantes</div> 
-                    </button>
-                </div>
-                {{form.time_zone}}
-                <div class="hidden">          
-                    {{form.password2}}
-                    {{form.password1}}
-                </div>
-            </div>
-            <div class="mt-4">
-                <button type="submit" id="myButton" class=" block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
-            </div>
-            <!--BUSCADOR-->
-            <script>
-                var searchInput = document.getElementById("Buscar_alumnos");//input de buscar
+                <!--BUSCADOR-->
+                <script>
+                    var searchInput = document.getElementById("Buscar_alumnos");//input de buscar
 
-                searchInput.addEventListener("input", function () {
-                var searchTerm = searchInput.value.toLowerCase();
-                var estudiantes = document.querySelectorAll('#checkbox');
+                    searchInput.addEventListener("input", function () {
+                    var searchTerm = searchInput.value.toLowerCase();
+                    var estudiantes = document.querySelectorAll('#checkbox');
 
-                estudiantes.forEach(function (estudiante) {
-                    var label = estudiante.querySelectorAll('label');
-                    console.log(label)
-                    label.forEach(function (casillas) {
-                        var divContenedor = casillas.parentNode;
-                        var labelText = casillas.innerText.toLowerCase();
-                        if (labelText.includes(searchTerm)) {
-                            divContenedor.classList.remove('hidden');
-                        } else {
-                            divContenedor.classList.add('hidden');
-                        }
+                    estudiantes.forEach(function (estudiante) {
+                        var label = estudiante.querySelectorAll('label');
+                        console.log(label)
+                        label.forEach(function (casillas) {
+                            var divContenedor = casillas.parentNode;
+                            var labelText = casillas.innerText.toLowerCase();
+                            if (labelText.includes(searchTerm)) {
+                                divContenedor.classList.remove('hidden');
+                            } else {
+                                divContenedor.classList.add('hidden');
+                            }
+                        });
                     });
-                });
-                });
-        </script>
-        </div>              
-    </form>
+                    });
+            </script>
+            </div>              
+        </form>
+    {% endif %}
 </div>
 
 <!--HORA-->
