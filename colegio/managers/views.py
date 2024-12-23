@@ -104,9 +104,6 @@ class CreateAlumno(View):
         colegio = request.user.school.pk
         grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
         
-        if not grados:
-            return render(request, 'users/alumnos/create_alumnos.html', context)
-        
         form = CustomUserStudentForm(grado=grados)
         vista = 'gestor'
         abierto='personas'
@@ -115,6 +112,10 @@ class CreateAlumno(View):
             'vista': vista,
             'abierto':abierto,
         }
+        
+        if not grados:
+            return render(request, 'erros/error_no_grades.html', context)
+        
         return render(request, 'users/alumnos/create_alumnos.html', context)
 
 class CreateGestor(View):
