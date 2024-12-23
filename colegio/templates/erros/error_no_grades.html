@@ -18,11 +18,13 @@
                    >
                    noo!
                 </h2>
-                <h4 class="mb-3 text-[22px] font-semibold leading-tight text-white">
-                   No puedes acceder a este formulario por que no tienes alumnos! :c
+                <h4
+                   class="mb-3 text-[22px] font-semibold leading-tight text-white"
+                   >
+                   Al parecer no has agregado ningun Grado!
                 </h4>
-                <a href="{% url 'CrearAlumno' %}" class="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-black hover:cursor-pointer">
-                Agregar Alumnos a este grado
+                <a href="{% url 'CrearGrado' %}" class="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-black hover:cursor-pointer">
+                Agregar Grado
                 </a>
              </div>
           </div>
@@ -48,4 +50,4 @@
     </div>
  </section>
 
-{% endblock content %}  
+{% endblock content %}

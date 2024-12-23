@@ -58,8 +58,12 @@ def obtener_profesores_por_colegio(grado_id):
 def obtener_grados_por_colegio(colegio_id):
     try:
         grados = Grade.objects.filter(school=colegio_id)
-        print(Colores.CYAN + "--->'Grados' Of the 'Colegio' User:  " + str(grados) + Colores.RESET)
-        return grados
+        if grados:
+            print(Colores.CYAN + "[+] 'Grados' Of the 'Colegio' User:  " + str(grados) + Colores.RESET)
+            return grados
+        else:
+            print(Colores.CYAN + "[+] 'Grados' Of the 'Colegio' User (This user not have 'Grados'):  " + Colores.RESET)
+            return None
     except Grade.DoesNotExist:
         return None
 
@@ -99,6 +103,10 @@ class CreateAlumno(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.school.pk
         grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
+        
+        if not grados:
+            return render(request, 'users/alumnos/create_alumnos.html', context)
+        
         form = CustomUserStudentForm(grado=grados)
         vista = 'gestor'
         abierto='personas'
@@ -338,7 +346,7 @@ class CreateGrados(View):
         return redirect('CrearGrado')
     def get(self, request, *args, **kwargs):
         colegio = request.user.school.pk
-        print(Colores.CYAN + "--->'Horario partes' Of the 'Colegio':  " + str(colegio) + Colores.RESET)
+        print(Colores.CYAN + "[+] 'Horario partes' Of the 'Colegio':  " + str(colegio) + Colores.RESET)
         form = GradeForm(horario_partes=colegio)
         vista = 'gestor'
         abierto='ajustes'
