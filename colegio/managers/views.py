@@ -411,7 +411,7 @@ class CreateHorarios(View):
 
             for i, rango in enumerate(rangos):
                 print(f"Rango {i + 1}: {rango['inicio']}   ---->   {rango['fin']}")
-                ScheduleCourts.objects.create(horario=horario, corte_num=i+1, fecha_inicio=rango['inicio'], fecha_fin=rango['fin'])
+                ScheduleCourts.objects.create(schedule=horario, court_number=i+1, start_date=rango['inicio'], end_date=rango['fin'])
                 
             messages.success(request, '¡Horario agregado correctamente!')
         else:

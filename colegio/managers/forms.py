@@ -218,7 +218,7 @@ class CustomUserGuardianForm(UserCreationForm):
     def __init__(self, *args, estudiantes_school=None, **kwargs):
         super().__init__(*args, **kwargs)
         if estudiantes_school:
-            self.fields['estudiante'].queryset = CustomUserStudent.objects.filter(school=estudiantes_school)
+            self.fields['student'].queryset = CustomUserStudent.objects.filter(school=estudiantes_school)
     class Meta:
         model = CustomUserGuardian
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type','password1','password2', 'student','gender', 'school', 'time_zone')
