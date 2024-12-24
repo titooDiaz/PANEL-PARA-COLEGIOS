@@ -240,14 +240,17 @@ class CreateProfesor(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.school.pk
         grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
-        form = CustomUserTeachersForm(titular=grados)
         vista = 'gestor'
         abierto='personas'
+        form = CustomUserTeachersForm(titular=grados)
         context = {
             'form': form,
             'vista': vista,
             'abierto':abierto,
         }
+        if not grados:
+            return render(request, 'erros/error_no_grades.html', context)
+        
         return render(request, 'users/profesores/create_profesores.html', context)
     
 class CreateAdmin(View):
