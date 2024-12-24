@@ -114,7 +114,7 @@ class CreateAlumno(View):
         }
         
         if not grados:
-            return render(request, 'erros/error_no_grades.html', context)
+            return render(request, 'errors/error_no_grades.html', context)
         
         return render(request, 'users/alumnos/create_alumnos.html', context)
 
@@ -249,7 +249,7 @@ class CreateProfesor(View):
             'abierto':abierto,
         }
         if not grados:
-            return render(request, 'erros/error_no_grades.html', context)
+            return render(request, 'errors/error_no_grades.html', context)
         
         return render(request, 'users/profesores/create_profesores.html', context)
     
@@ -318,7 +318,9 @@ class CreateAcudiente(View):
 class CreateGrados(View):
     def post(self, request, *args, **kwargs):
         colegio = request.user.school.pk
-        form = GradeForm(request.POST, horario_partes=colegio)
+        horario_partes = ScheduleParts.objects.filter(school=colegio)
+        
+        form = GradeForm(request.POST, horario_partes=horario_partes)
         print(form.is_valid())
         if form.is_valid():
             try:
@@ -336,7 +338,7 @@ class CreateGrados(View):
                 grado.save()
 
                 for i in range(int(horas)):
-                    DailySchedule.objects.create(grado=grado)
+                    DailySchedule.objects.create(grade=grado)
                     
                 messages.success(request, '¡Grado creado correctamente!')
             except:
@@ -351,7 +353,8 @@ class CreateGrados(View):
     def get(self, request, *args, **kwargs):
         colegio = request.user.school.pk
         print(Colores.CYAN + "[+] 'Horario partes' Of the 'Colegio':  " + str(colegio) + Colores.RESET)
-        form = GradeForm(horario_partes=colegio)
+        horario_partes = ScheduleParts.objects.filter(school=colegio)
+        form = GradeForm(horario_partes= horario_partes)
         vista = 'gestor'
         abierto='ajustes'
         context = {
@@ -359,6 +362,8 @@ class CreateGrados(View):
             'vista': vista,
             'abierto':abierto,
         }
+        if not horario_partes:
+            return render(request, 'errors/error_no_schedules.html', context)
         return render(request, 'informacion/grados/create_grados.html', context)
 
 
