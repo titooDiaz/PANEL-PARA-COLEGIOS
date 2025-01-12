@@ -75,6 +75,7 @@ LOGIN_REDIRECT_URL = "/redirect/"
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
     "127.0.0.1",
+    'localhost',
 ]#despues de ahcer esto colocar #python manage.py tailwind install
 
 

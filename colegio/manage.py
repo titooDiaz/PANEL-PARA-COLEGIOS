@@ -19,4 +19,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main() #python manage.py runserver 0.0.0.0:5000
