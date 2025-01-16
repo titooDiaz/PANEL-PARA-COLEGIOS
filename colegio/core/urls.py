@@ -17,6 +17,9 @@ urlpatterns = [
     #contact us
     path('contact/', TemplateView.as_view(template_name='home_menu/contact.html'), name='contact'),
     
+    #about 
+    path('about/', TemplateView.as_view(template_name='home_menu/about.html'), name='about'),
+    
     #USUARIOS
     path('accounts/', include('allauth.urls')),
     path('redirect/', RedirectUser.as_view(), name='RedirectUser'),

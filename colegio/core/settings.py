@@ -20,7 +20,7 @@ LANGUAGE_CODE = 'es'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     'guardians',
     'students',
 ]
+#python manage.py runserver_plus --cert-file cert.crt --key-file key.key
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
 
 #AGREGAR NODE JS A NUESTRO ENTORNO DE TRABAJO (recuerda agregarlo al path)
 #############################################################################
@@ -75,7 +78,7 @@ LOGIN_REDIRECT_URL = "/redirect/"
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
     "127.0.0.1",
-    'localhost',
+    '0.0.0.0',
 ]#despues de ahcer esto colocar #python manage.py tailwind install
 
 

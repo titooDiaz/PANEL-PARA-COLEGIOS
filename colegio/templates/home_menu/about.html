@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load tailwind_tags %}
+{% load static %}
+<head>
+    {% tailwind_css %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactanos</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/df1bf70741.js" crossorigin="anonymous"></script>
+    <!--Icon-->
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+</head>
+
+<body>
+    <!--nav in the home menu-->
+    {% include 'home_menu/nav.html' %}
+    <div id="board" class="bg-no-repeat bg-center bg-cover h-screen">
+        <style>
+          #board{
+           background-image: url('{% static "img/backgrounds/board.svg" %}');
+          }
+        </style>
+
+        <style>
+            @keyframes reveal {
+                from {
+                    clip-path: inset(0 100% 0 0);
+                }
+                to {
+                    clip-path: inset(0 0 0 0);
+                }
+            }
+
+            @keyframes textReveal {
+                from {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes float {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+
+            @keyframes shine {
+                from {
+                    transform: translateX(-100%) rotate(45deg);
+                }
+                to {
+                    transform: translateX(200%) rotate(45deg);
+                }
+            }
+
+            .shine-effect::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent
+                );
+                transform: translateX(-100%) rotate(45deg);
+            }
+
+            .shine-effect:hover::before {
+                animation: shine 1.5s;
+            }
+
+            .float-animation {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            .split-reveal {
+                animation: reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            }
+
+            .text-reveal {
+                animation: textReveal 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            }
+
+            .scroll-container {
+                scroll-snap-type: y mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .scroll-section {
+                scroll-snap-align: start;
+                scroll-snap-stop: always;
+            }
+
+            .content-mask {
+                -webkit-mask-image: linear-gradient(to bottom, white 80%, transparent 100%);
+                mask-image: linear-gradient(to bottom, white 80%, transparent 100%);
+            }
+        </style>
+    </head>
+    <body class="text-black overflow-hidden">
+        <!-- Main scroll container -->
+        <div class="scroll-container h-screen overflow-y-auto overflow-x-hidden">
+            <!-- Section 1 -->
+            <section class="scroll-section relative h-screen flex flex-col md:flex-row">
+                <!-- Left content -->
+                <div class="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden group shine-effect">
+                    <div class="flex justify-center items-center w-full h-full">
+                        <div class="absolute w-[50%] h-[50%]">
+                            <img src="{% static 'img/app/school.png' %}"
+                            alt="image_Panel" 
+                            class=" object-cover transition-all duration-1000 group-hover:scale-110 group-hover:rotate-1" />
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/20 to-neutral-950/10 transition-opacity duration-500 group-hover:opacity-0"></div>
+                </div>
+                <!-- Right content -->
+                <div class="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center p-8 bg-white">
+                    <div class="max-w-lg float-animation">
+                        <span class="text-neutral-400 tracking-wider text-sm font-mono">01 / QUE ES PANEL</span>
+                        <h2 class="mt-4 text-5xl md:text-7xl font-bold leading-none bg-gradient-to-r from-black to-neutral-700 bg-clip-text text-transparent">QUE ES PANEL PARA COLEGIOS</h2>
+                        <p class="mt-6 text-black-400 text-lg leading-relaxed">Exploring the intersection of form and function in contemporary design.</p>
+                        <button type="submit" id="myButton" class="block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2 -->
+            <section class="scroll-section relative h-screen flex flex-col md:flex-row">
+                <!-- Right content -->
+                <div class="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center p-8 bg-gray-50">
+                    <div class="max-w-lg float-animation">
+                        <span class="text-neutral-400 tracking-wider text-sm font-mono">02 / PREGUNTAS FRECUENTES</span>
+                        <h2 class="mt-4 text-5xl md:text-7xl font-bold leading-none bg-gradient-to-r from-black to-neutral-700 bg-clip-text text-transparent">PREGUNTAS QUE TE PUEDAN INTERESAR</h2>
+                        <p class="mt-6 text-black-400 text-lg leading-relaxed">Creating environments that inspire and transform daily life.</p>
+                        <button type="submit" id="myButton" class="block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+                    </div>
+                </div>
+                <!-- Left content -->
+                <div class="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden group shine-effect">
+                    <div class="flex justify-center items-center w-full h-full">
+                        <div class="absolute w-[50%] h-[50%]">
+                            <img src="{% static 'img/app/ABC.png' %}"
+                            alt="image_Panel" 
+                            class=" object-cover transition-all duration-1000 group-hover:scale-110 group-hover:rotate-1" />
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-l from-neutral-950/20 to-neutral-950/10 transition-opacity duration-500 group-hover:opacity-0"></div>
+                </div>
+            </section>
+
+            <!-- Section 3 -->
+            <section class="scroll-section relative h-screen flex flex-col md:flex-row">
+                <!-- Left content -->
+                <div class="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden group shine-effect">
+                    <div class="flex justify-center items-center w-full h-full">
+                        <div class="absolute w-[50%] h-[50%]">
+                            <img src="{% static 'img/app/colors.png' %}"
+                            alt="image_Panel" 
+                            class=" object-cover transition-all duration-1000 group-hover:scale-110 group-hover:rotate-1" />
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/20 to-neutral-950/10 transition-opacity duration-500 group-hover:opacity-0"></div>
+                </div>
+                <!-- Right content -->
+                <div class="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center p-8 bg-white">
+                    <div class="max-w-lg float-animation">
+                        <span class="text-neutral-400 tracking-wider text-sm font-mono">03 / SOBRE NOSOTROS</span>
+                        <h2 class="mt-4 text-5xl md:text-7xl font-bold leading-none bg-gradient-to-r from-black to-neutral-700 bg-clip-text text-transparent">CONOCE UN POCO MAS DE NOSOTROS</h2>
+                        <p class="mt-6 text-black-400 text-lg leading-relaxed">Harmonizing space and light to create immersive experiences.</p>
+                        <button type="submit" id="myButton" class="block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">SUBIR</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation dots -->
+            <div class="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-50">
+                <button onclick="scrollToSection(0)" class="w-3 h-3 rounded-full bg-black/80 hover:bg-black transition-colors hover:scale-150" title="Go to section 1"></button>
+                <button onclick="scrollToSection(1)" class="w-3 h-3 rounded-full bg-black/80 hover:bg-black transition-colors hover:scale-150" title="Go to section 2"></button>
+                <button onclick="scrollToSection(2)" class="w-3 h-3 rounded-full bg-black/80 hover:bg-black transition-colors hover:scale-150" title="Go to section 3"></button>
+            </div>
+        </div>
+
+        <script>
+            const container = document.querySelector('.scroll-container');
+            const sections = document.querySelectorAll('.scroll-section');
+            const dots = document.querySelectorAll('.fixed.right-8 button');
+            let isScrolling = false;
+
+            function scrollToSection(index) {
+                if (!isScrolling) {
+                    isScrolling = true;
+                    sections[index].scrollIntoView({ behavior: 'smooth' });
+                    updateDots(index);
+                    setTimeout(() => {
+                        isScrolling = false;
+                    }, 1000);
+                }
+            }
+
+            function updateDots(index) {
+                dots.forEach((dot, i) => {
+                    dot.className = `w-3 h-3 rounded-full transition-all duration-300 ${
+                        i === index ? 'bg-black scale-150' : 'bg-black/20 hover:bg-black hover:scale-150'
+                    }`;
+                });
+            }
+
+            // Update dots on scroll
+            container.addEventListener('scroll', () => {
+                const index = Math.round(container.scrollTop / window.innerHeight);
+                updateDots(index);
+            });
+
+            // Initialize first dot
+            updateDots(0);
+        </script>
+    </div>
+</body>
+</html>
