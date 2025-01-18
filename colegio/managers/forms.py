@@ -262,7 +262,6 @@ class GradeForm(forms.ModelForm):
 
     class Meta:
         model = Grade
-        #fields = '__all__' 
         fields = ('grade_name', 'grade_number', 'description', 'schedule_parts', 'school')
         widgets = {
              'grade_name': forms.TextInput(attrs={'id':'grado_nom','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Nombre del grado'}),

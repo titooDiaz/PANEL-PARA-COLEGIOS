@@ -319,7 +319,6 @@ class CreateGrados(View):
     def post(self, request, *args, **kwargs):
         colegio = request.user.school.pk
         horario_partes = ScheduleParts.objects.filter(school=colegio)
-        print(horario_partes, "asdasdasd")
         
         form = GradeForm(request.POST, schedule_parts=horario_partes)
         print(form.is_valid())
@@ -329,7 +328,7 @@ class CreateGrados(View):
                 
                 ##############################
                 # OBTENEMOS EL HORARIO SELECCIONADO POR EL FORMULARIO. PARAS PODER CREAR LA TABLA ED LOS HORARIOS DIARIOS
-                horarios = form.cleaned_data.get('horario_partes')
+                horarios = form.cleaned_data.get('schedule_parts')
                 pk = horarios.pk
                 horario = ScheduleParts.objects.get(id=pk)
                 horas = horario.hours
