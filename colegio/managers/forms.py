@@ -255,13 +255,10 @@ class CustomUserGuardianForm(UserCreationForm):
 
 #Tranlate: GradoForm
 class GradeForm(forms.ModelForm):
-    def __init__(self, *args, horario_partes=None, **kwargs):
+    def __init__(self, *args, schedule_parts, **kwargs):
         super().__init__(*args, **kwargs)
         # Filtra los estudiantes por los proporcionados
-        if horario_partes:
-            self.fields['schedule_parts'].queryset = horario_partes
-        else:
-            self.fields['schedule_parts'].queryset = ScheduleParts.objects.none()
+        self.fields['schedule_parts'].queryset = schedule_parts
 
     class Meta:
         model = Grade
@@ -274,7 +271,7 @@ class GradeForm(forms.ModelForm):
 
              'description': forms.TextInput(attrs={'id':'descripcion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion del grado'}),
 
-             'schedule_parts': forms.Select(attrs={'id':'horario_partes','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+             'schedule_parts': forms.Select(attrs={'id':'schedule_parts','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
         }
 
 

@@ -319,8 +319,9 @@ class CreateGrados(View):
     def post(self, request, *args, **kwargs):
         colegio = request.user.school.pk
         horario_partes = ScheduleParts.objects.filter(school=colegio)
+        print(horario_partes, "asdasdasd")
         
-        form = GradeForm(request.POST, horario_partes=horario_partes)
+        form = GradeForm(request.POST, schedule_parts=horario_partes)
         print(form.is_valid())
         if form.is_valid():
             try:
@@ -354,7 +355,9 @@ class CreateGrados(View):
         colegio = request.user.school.pk
         print(Colores.CYAN + "[+] 'Horario partes' Of the 'Colegio':  " + str(colegio) + Colores.RESET)
         horario_partes = ScheduleParts.objects.filter(school=colegio)
-        form = GradeForm(horario_partes= horario_partes)
+        print(Colores.CYAN + "[+] 'Horario partes':  " + str(horario_partes) + Colores.RESET)
+        
+        form = GradeForm(schedule_parts=horario_partes)
         vista = 'gestor'
         abierto='ajustes'
         context = {
