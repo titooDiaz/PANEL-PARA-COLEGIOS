@@ -51,6 +51,13 @@ def obtener_estudiantes_por_grado(grado_id):
     except CustomUserStudent.DoesNotExist:
         return None
     
+def get_students_school(school_id):
+    try:
+        estudiantes = CustomUserStudent.objects.filter(school_id=school_id)
+        return estudiantes
+    except CustomUserStudent.DoesNotExist:
+        return None
+    
 def obtener_profesores_por_colegio(grado_id):
     profesores = CustomUserTeachers.objects.filter(school_id=grado_id)
     return profesores
@@ -297,11 +304,11 @@ class CreateAcudiente(View):
             print(form.errors)
         return redirect('CrearAcudiente')
     def get(self, request, *args, **kwargs):
-        estudiantes = request.user.school.pk
+        school_pk = request.user.school.pk
         vista = 'gestor'
         abierto='personas'
         try:
-            form = CustomUserGuardianForm(estudiantes_colegio=estudiantes)
+            form = CustomUserGuardianForm(school_students=school_pk)
             context = {
                 'form': form,
                 'vista': vista,

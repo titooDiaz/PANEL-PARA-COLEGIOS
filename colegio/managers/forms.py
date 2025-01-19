@@ -215,10 +215,10 @@ class CustomUserTeachersForm(UserCreationForm):
 
 #Translate: CustomUserAcudienteForm
 class CustomUserGuardianForm(UserCreationForm):
-    def __init__(self, *args, estudiantes_school=None, **kwargs):
+    def __init__(self, *args, school_students, **kwargs):
         super().__init__(*args, **kwargs)
-        if estudiantes_school:
-            self.fields['student'].queryset = CustomUserStudent.objects.filter(school=estudiantes_school)
+        if school_students:
+            self.fields['student'].queryset = CustomUserStudent.objects.filter(school_id=school_students)
     class Meta:
         model = CustomUserGuardian
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type','password1','password2', 'student','gender', 'school', 'time_zone')
@@ -234,7 +234,7 @@ class CustomUserGuardianForm(UserCreationForm):
 
             'last_name': forms.TextInput(attrs={'id':'last_name','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Apellidos del usuario'}),
 
-            'tipo_documento': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
+            'document_type': forms.Select(attrs={'id':'tipo_documento','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
 
             'password': forms.TextInput(attrs={
                 'id': 'password',
