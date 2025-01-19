@@ -76,9 +76,9 @@ class CreateAlumno(View):
             username = form.cleaned_data['username']
             
             ##################### FOTO #########################
-            foto = form.cleaned_data.get('foto')
+            foto = form.cleaned_data.get('photo')
             if foto != 'alumnos/profile.png':
-                cords = form['cords'].value()
+                cords = form['photo_cords'].value()
                 cords= cords.split(':')
                 cords = cords[0]
                 
@@ -89,6 +89,7 @@ class CreateAlumno(View):
             
             #agregamos el resto del fomulario, usertname == documento 
             alumno = form.save(commit=False)
+            print(form['grade'])
             alumno.school = request.user.school #El colegio del alumno va a ser el colegio del usuario en sesion SOLO SI SE CREA DESDE LA VISTA DEL GESTOR!
             alumno.document_number = username
                 
@@ -125,7 +126,7 @@ class CreateGestor(View):
         if form.is_valid():
             username = form.cleaned_data['username']
             ##################### FOTO #########################
-            foto = form.cleaned_data.get('foto')
+            foto = form.cleaned_data.get('photo')
             print(foto,"hola")
             if foto != 'gestores/profile.png' : #diferente de la imagen por defecto...
                 cords = form['cords'].value()
@@ -216,7 +217,7 @@ class CreateProfesor(View):
             username = form.cleaned_data['username']
             
             ##################### FOTO #########################
-            foto = form.cleaned_data.get('foto')
+            foto = form.cleaned_data.get('photo')
             print(foto,"hola")
             if foto != 'profesores/profile.png' : #diferente de la imagen por defecto...
                 cords = form['cords'].value()

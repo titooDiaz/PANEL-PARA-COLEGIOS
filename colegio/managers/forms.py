@@ -43,7 +43,7 @@ class CustomUserStudentForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         # Filtra Grados por el colegio del estudiante por agregar (usuario en sesion)
         if grado:
-            self.fields['grado'].queryset = grado
+            self.fields['grade'].queryset = grado
     class Meta:
         model = CustomUserStudent
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type', 'grade', 'gender','password1','password2','photo_cords','photo', 'school', 'time_zone')
@@ -171,7 +171,7 @@ class CustomUserTeachersForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         # Filtra Grados por el school del estudiante por agregar (usuario en sesion)
         if titular:
-            self.fields['titular'].queryset = titular
+            self.fields['tenured'].queryset = titular
     class Meta:
         model = CustomUserTeachers
         fields = ('username', 'first_name', 'last_name', 'email', 'password', 'document_type', 'tenured', 'gender', 'password1','password2', 'description', 'school', 'photo_cords', 'photo', 'time_zone')
