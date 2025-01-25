@@ -6,6 +6,7 @@ from django.contrib import messages
 from users.models import CustomUserStudent
 from .forms import ScheduleCourtsForm, ActivitiesTypeForm
 from datetime import datetime, timedelta
+from django.urls import reverse
 
 #colores para consola
 from colores import Colores
@@ -244,7 +245,7 @@ class CreateProfesor(View):
         else:
             mensaje = "¡Hubo un error al agregar el profesor!"
             messages_error.errores_formularios(form.errors, mensaje, request)
-        return redirect('CrearProfesor')
+        return redirect('CreateTeacher')
     def get(self, request, *args, **kwargs):
         colegio = request.user.school.pk
         grados = obtener_grados_por_colegio(colegio)#obtenemos unicamente los grados de este colegio
@@ -509,12 +510,14 @@ class CreateMaterias(View):
         profesores_grado = obtener_profesores_por_colegio(colegio)
         vista = 'gestor'
         abierto = 'ajustes'
+
         if estudiantes_grado:
             form = SubjectsForm(estudiantes_grado=estudiantes_grado, profesores=profesores_grado) #mandar alumnos del grado
             id_grado = pk
             grado = Grade.objects.get(pk=pk)
             materias = grado.subjects.all()
             context = {
+                "create_teacher_url": reverse("CreateTeacher"),
                 'id_grado': id_grado,
                 'form': form,
                 'vista': vista,

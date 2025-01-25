@@ -10,7 +10,7 @@ urlpatterns = [
     path('ajustes/', AjustesGestores.as_view(), name='AjustesGestores'),
 
     #crear
-    path('crear/profesores/', CreateProfesor.as_view(), name='CrearProfesor'),
+    path('crear/profesores/', CreateProfesor.as_view(), name='CreateTeacher'),
     path('crear/gestores/', CreateGestor.as_view(), name='CrearGestor'),
     path('crear/alumnos/', CreateAlumno.as_view(), name='CrearAlumno'),
     path('crear/acudiente/', CreateAcudiente.as_view(), name='CrearAcudiente'),

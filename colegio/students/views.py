@@ -48,8 +48,8 @@ class AlumnoBoard(View):
         user = request.user
         
         #vista de estudiantes (obviamente tiene modelo de estudiante)
-        grade_user = user.customuserstudent.grado #grado del estudiante
-        materias_user = grade_user.materias.all() #materias del estudainte
+        grade_user = user.customuserstudent.grade #grado del estudiante
+        materias_user = grade_user.subjects.all() #materias del estudainte
         
         ## Obtener la zona horaria local
         zona_horaria_usuario = pytz.timezone(request.user.time_zone)
@@ -60,14 +60,14 @@ class AlumnoBoard(View):
         
         
         actividades_user_on_time = Activities.objects.filter(
-            materia__in=materias_user,
-            fecha_final__gte=fecha_actual
+            subject__in=materias_user,
+            end_date__gte=fecha_actual
         )
         
         
         actividades_user_off_time = Activities.objects.filter(
-            materia__in=materias_user,
-            fecha_final__lte=fecha_actual
+            subject__in=materias_user,
+            end_date__lte=fecha_actual
         )
     
         
@@ -96,17 +96,17 @@ class ActividadesRespuestaView(View):
         
         #vista de estudiantes (obviamente tiene modelo de estudiante)
         user = request.user
-        grade_user = user.customuserstudent.grado #grado del estudiante
-        materias_user = grade_user.materias.all() #materias del estudainte
+        grade_user = user.customuserstudent.grade #grado del estudiante
+        materias_user = grade_user.subjects.all() #materias del estudainte
         
         actividades_user_on_time = Activities.objects.filter(
-            materia__in=materias_user,
-            fecha_final__gte=fecha_actual
+            subject__in=materias_user,
+            end_date__gte=fecha_actual
         )
         
         actividades_user_off_time = Activities.objects.filter(
-            materia__in=materias_user,
-            fecha_final__lte=fecha_actual
+            subject__in=materias_user,
+            end_date__lte=fecha_actual
         )
         
         activity = Activities.objects.get(pk=pk)
@@ -141,7 +141,7 @@ class ActividadesRespuestaView(View):
         user_answers = StudentResponse.objects.filter(actividad=activity.pk)
             
         # Grade
-        grade_user = user.customuserstudent.grado #grado del estudiante
+        grade_user = user.customuserstudent.grade #grado del estudiante
         
         form = ActivitiesAnswerForm()
         
@@ -187,7 +187,7 @@ class SubjectsView(View):
     def get(self, request, pk, *args, **kwargs):
         # Grade
         user = request.user
-        grade_user = user.customuserstudent.grado #grado del estudiante
+        grade_user = user.customuserstudent.grade #grado del estudiante
         subject = Subjects.objects.get(pk=pk)
         
         vista = 'estudiante'
@@ -203,7 +203,7 @@ class SubjectsView(View):
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        grade_user = user.customuserstudent.grado 
+        grade_user = user.customuserstudent.grade 
         horario = DailySchedule.objects.filter(grado=grade_user)
         
         # Obtener la zona horaria del usuario
@@ -241,7 +241,7 @@ class StudentMessages(View):
     def get(self, request, *args, **kwargs):
         # Grade
         user = request.user
-        grade_user = user.customuserstudent.grado #grado del estudiante
+        grade_user = user.customuserstudent.grade #grado del estudiante
         
         vista = 'estudiante'
         abierto='mensajes'
@@ -259,7 +259,7 @@ class StudentPeople(View):
         
         # Grade
         user = request.user
-        grade_user = user.customuserstudent.grado #grado del estudiante
+        grade_user = user.customuserstudent.grade #grado del estudiante
         
         context = {
             'vista': vista,
@@ -272,7 +272,7 @@ class StudentGrades(View):
     def get(self, request, *args, **kwargs):
         # Grade
         user = request.user
-        grade_user = user.customuserstudent.grado #grado del estudiante
+        grade_user = user.customuserstudent.grade #grado del estudiante
         
         vista = 'estudiante'
         abierto='notas'
