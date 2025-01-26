@@ -31,9 +31,9 @@ class BoardProfesores(View):
         vista = 'profesores'
         abierto='inicio'
         profesor = request.user.pk
-        materias_profesor = Subjects.objects.filter(profe1=profesor) | Subjects.objects.filter(profe2=profesor)
-        grados = Grade.objects.filter(materias__in=materias_profesor).distinct()
-        actividades = Activities.objects.filter(materia__in=materias_profesor)
+        materias_profesor = Subjects.objects.filter(teacher_1_id=profesor) | Subjects.objects.filter(teacher_2_id=profesor)
+        grados = Grade.objects.filter(subjects__in=materias_profesor).distinct()
+        actividades = Activities.objects.filter(subject__in=materias_profesor)
 
         # Obtener la zona horaria local
         zona_horaria_usuario = pytz.timezone(request.user.time_zone)
@@ -254,8 +254,8 @@ class EditActividades(View):
 class ProfessorSchedule(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        subject_profesor = Subjects.objects.filter(profe1=user) | Subjects.objects.filter(profe2=user)
-        grades = Grade.objects.filter(materias__in=subject_profesor).distinct()
+        subject_profesor = Subjects.objects.filter(teacher_1_id=user) | Subjects.objects.filter(teacher_2_id=user)
+        grades = Grade.objects.filter(subjects__in=subject_profesor).distinct()
 
         schedules = DailySchedule.objects.filter(grado__in=grades).order_by('hora_inicio')
         

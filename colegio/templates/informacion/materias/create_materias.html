@@ -13,7 +13,7 @@
 </head>
 
 
-{% if form.teacher_1.exists %}
+{% if teacher_count > 0 %}
 
     {% include "../titles.html" with title="Crea un nuevo grado" url="" description="Las tareas repetitivas son agotantes, por esto tienes disponible este botón!" button_text="Agregar con excel" %}
         
@@ -24,7 +24,7 @@
             <div id="EmergenteAlumnosBox" class="flex justify-center items-center h-[100vh]">
                 <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
                     <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                        Hay {{ form.teacher_1.count }} profesores enlistados.                    <b>Alumnos Disponibles Para Este Grado</b> 
+                        <b>Alumnos Disponibles Para Este Grado</b> 
                         <button onclick="cerrarVentana()" type="button">
                             <i class="fas fa-arrow-right mx-4"></i>
                         </button>
@@ -70,8 +70,8 @@
             <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
                 {{form.cords}}
                 <div>          
-                    <label for="profe1" class="block  text-sm font-medium text-gray-900">PROFESOR 1</label>
-                    {{form.teacher_1}} - {{ form.teacher_1.count }} profesores encontrados.
+                    <label for="profe1" class="block  text-sm font-medium text-gray-900">PROFESOR 1 - {{ teacher_count }} profesores encontrados.</label>
+                    {{form.teacher_1}}
                 </div>
                 <div>          
                     <label for="titulo1" class="block  text-sm font-medium text-gray-900">NOMBRE 1 DE LA MATERIA</label>

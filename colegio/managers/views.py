@@ -507,12 +507,12 @@ class CreateMaterias(View):
         grado = Grade.objects.get(id=pk)
         estudiantes_grado = obtener_estudiantes_por_grado(pk)
         colegio=request.user.school
-        profesores_grado = obtener_profesores_por_colegio(colegio)
+        teachers_of_school = obtener_profesores_por_colegio(colegio)
         vista = 'gestor'
         abierto = 'ajustes'
 
         if estudiantes_grado:
-            form = SubjectsForm(estudiantes_grado=estudiantes_grado, profesores=profesores_grado) #mandar alumnos del grado
+            form = SubjectsForm(estudiantes_grado=estudiantes_grado, profesores=teachers_of_school) #mandar alumnos del grado
             id_grado = pk
             grado = Grade.objects.get(pk=pk)
             materias = grado.subjects.all()
@@ -523,6 +523,7 @@ class CreateMaterias(View):
                 'vista': vista,
                 'abierto': abierto,
                 'materias': materias,
+                'teacher_count': len(teachers_of_school),
             }
             return render(request, 'informacion/materias/create_materias.html', context)
         else:
