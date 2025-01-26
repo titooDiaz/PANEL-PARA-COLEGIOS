@@ -455,8 +455,8 @@ class CreateMaterias(View):
             materia.author = request.user
             try:
                 ###############################
-                foto = form.cleaned_data.get('picture1')
-                print(foto,"hola")
+                foto = form.cleaned_data.get('photo')
+
                 if foto != 'materias/picture.png' : #diferente de la imagen por defecto...
                     cords = form['cords'].value()
                     cords= cords.split(':')
@@ -475,11 +475,11 @@ class CreateMaterias(View):
                     materia.name_2 = ""
                     materia.description_2 = ""
                 else:
-                    alumnos1 = form.cleaned_data.get('alumnos1')
-                    alumnos2 = form.cleaned_data.get('alumnos2')
+                    students_1 = form.cleaned_data.get('students_1')
+                    students_2 = form.cleaned_data.get('students_2')
                     materia.save()
-                    materia.students_1.set(alumnos1)
-                    materia.students_2.set(alumnos2)
+                    materia.students_1.set(students_1)
+                    materia.students_2.set(students_2)
                 if materia.teacher_1 != materia.teacher_2 :
                     if (materia.teacher_1 != None and materia.teacher_2 != None and electiva_value) or (not electiva_value and materia.teacher_1 != None):
                         materia.save()
@@ -492,7 +492,7 @@ class CreateMaterias(View):
                     mensaje = "¡No selecciones profesores iguales para la electiva!"
                     messages_error.errores_formularios(form.errors, mensaje, request) 
             except Exception as e:
-                print(e)
+                print(e,'hola')
                 mensaje = "¡Hubo un error al agregar esta materia, NO dejes campos vacios!"
                 print(form.errors, "...")
                 messages_error.errores_formularios(form.errors, mensaje, request) 

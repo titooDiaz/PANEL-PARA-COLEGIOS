@@ -32,7 +32,7 @@ class BoardProfesores(View):
         abierto='inicio'
         profesor = request.user.pk
         materias_profesor = Subjects.objects.filter(teacher_1_id=profesor) | Subjects.objects.filter(teacher_2_id=profesor)
-        grados = Grade.objects.filter(subjects__in=materias_profesor).distinct()
+        grades = Grade.objects.filter(subjects__in=materias_profesor).distinct()
         actividades = Activities.objects.filter(subject__in=materias_profesor)
 
         # Obtener la zona horaria local
@@ -44,7 +44,7 @@ class BoardProfesores(View):
 
             
         context = {
-            'grados': grados,
+            'grades': grades,
             'materias_profesor': materias_profesor,
             'vista': vista,
             'abierto':abierto,
