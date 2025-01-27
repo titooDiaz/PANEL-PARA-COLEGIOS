@@ -11,11 +11,11 @@
 <div id="top"></div>
 
 <div>
+    <div class="mx-auto text-center">
+        {% include "../../../informacion/titles.html" with title="Aqui tienes tu horario" url="" description="Si tienes problemas viendo tu horario es posible que tu colegio aun no te asigne ninguno" button_text="Consultar al colegio" %}
+    </div> 
     <!-- Vista de schedules para tables o computadoras!-->
     <div class="hidden lg:block">
-        <div class="mx-auto text-center">
-            <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">{{user.first_name}}, Aqui tienes tu schedules.</h2>
-        </div> 
         <div class="mx-2 lg:mx-20 relative">
             <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700"></span>
             <div class="overflow-x-auto shadow-md sm:rounded-lg relative">

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const locate = document.querySelectorAll('.time_locate');
     const zone_locate = document.getElementById('time_locate');
-    const form_zone = document.getElementById('lugar_zona_horaria');
+    const form_zone = document.getElementById('location_time_zone');
     form_zone.value = timezone;
 
     zone_locate.innerHTML = timezone;

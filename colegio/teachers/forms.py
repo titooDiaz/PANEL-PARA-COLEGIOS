@@ -31,7 +31,7 @@ class ActivitiesForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'autocomplete': 'off','id':'titulo','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Titulo de la actividad'}),
             
-            'location_time_zone': forms.TextInput(attrs={'autocomplete': 'off','id':'lugar_zona_horaria','class': 'hidden'}),
+            'location_time_zone': forms.TextInput(attrs={'autocomplete': 'off','id':'location_time_zone','class': 'hidden'}),
 
             'description': forms.TextInput(attrs={'autocomplete': 'off','id':'descripcion','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Descripcion de la actividad'}),
             

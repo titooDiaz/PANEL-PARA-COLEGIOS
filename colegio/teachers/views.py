@@ -89,9 +89,8 @@ class CreateActividades(View):
         vista = 'profesores'
         abierto='inicio'
         materia = Subjects.objects.get(pk=pk)
-        grado = Grade.objects.get(materias=materia)
-        tipo_actividades = ActivitiesType.objects.filter(colegio_id=request.user.school)
-        print(tipo_actividades, "holaa")
+        grado = Grade.objects.get(subjects=materia)
+        tipo_actividades = ActivitiesType.objects.filter(school_id=request.user.school)
         
         initial_data = {
             'fecha_inicio': get_current_date(request.user),
@@ -101,8 +100,8 @@ class CreateActividades(View):
             'tipo': tipo_actividades,
         }
         actividades_form = ActivitiesForm(initial=initial_data)
-        actividades_form.fields['tipo'].queryset = tipo_actividades
-        print(materia.titulo1,"  -  ")
+        actividades_form.fields['type'].queryset = tipo_actividades
+        print(materia.name_1,"  -  ")
         context = {
             'materia': materia,
             'grado': grado,
@@ -257,8 +256,8 @@ class ProfessorSchedule(View):
         subject_profesor = Subjects.objects.filter(teacher_1_id=user) | Subjects.objects.filter(teacher_2_id=user)
         grades = Grade.objects.filter(subjects__in=subject_profesor).distinct()
 
-        schedules = DailySchedule.objects.filter(grado__in=grades).order_by('hora_inicio')
-        
+        schedules = DailySchedule.objects.filter(grade__in=grades).order_by('start_time')
+
         # Obtener la zona horaria del usuario
         user_zone = pytz.timezone(request.user.time_zone)
         
