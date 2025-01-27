@@ -22,7 +22,7 @@
             {% for subject in grade.subjects.all %}
                 {% if subject in materias_profesor %}
                     <div>
-                        {% if subject.profe1.pk == request.user.pk %}
+                        {% if subject.teacher_1.pk == request.user.pk %}
                         <div class="relative">
                             <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
                             <div class="relative h-full items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl">
