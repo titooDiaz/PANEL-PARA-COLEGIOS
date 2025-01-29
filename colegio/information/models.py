@@ -179,8 +179,8 @@ def files(instance, filename):
 class File(models.Model):
     activity = models.ForeignKey(Activities, on_delete=models.CASCADE, related_name='activity') #actividad
     file = models.FileField(upload_to=files) #archivo
-    name = models.CharField(max_length=40, blank=True) #nombre
-    description = models.CharField(max_length=255, blank=True) #descripcion
+    name = models.CharField(max_length=40, blank=False) #nombre
+    description = models.CharField(max_length=255, blank=False) #descripcion
 
     def __str__(self):
         return self.name or self.file.name
