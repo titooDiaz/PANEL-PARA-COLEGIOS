@@ -41,7 +41,7 @@ class BoardProfesores(View):
         # Obtener la hora actual en la zona horaria del usuario
         fecha_actual = datetime.now(zona_horaria_usuario).date()
         hora_actual = datetime.now(zona_horaria_usuario).time()
-
+        print(actividades)
             
         context = {
             'grades': grades,
@@ -79,7 +79,7 @@ def get_midnight(user):
     user_timezone = pytz.timezone(user_timezone_str)
     now = timezone.now().astimezone(user_timezone)
     # Ajusta la hora a las 12 de la noche (medianoche) en la zona horaria del usuario
-    midnight_user_tz = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    midnight_user_tz = now.replace(hour=23, minute=59, second=0, microsecond=0)
     return midnight_user_tz
 
 
@@ -93,15 +93,15 @@ class CreateActividades(View):
         tipo_actividades = ActivitiesType.objects.filter(school_id=request.user.school)
         
         initial_data = {
-            'fecha_inicio': get_current_date(request.user),
-            'fecha_final': get_current_date(request.user),
-            'hora_inicio': get_current_time(request.user),
-            'hora_final': get_midnight(request.user),
-            'tipo': tipo_actividades,
+            'start_date': get_current_date(request.user),
+            'end_date': get_current_date(request.user),
+            'start_time': get_current_time(request.user),
+            'end_time': get_midnight(request.user),
+            'type': tipo_actividades,
         }
+
         actividades_form = ActivitiesForm(initial=initial_data)
         actividades_form.fields['type'].queryset = tipo_actividades
-        print(materia.name_1,"  -  ")
         context = {
             'materia': materia,
             'grado': grado,
@@ -122,7 +122,7 @@ class CreateActividades(View):
 
             try:
                 materia_colegio = Subjects.objects.get(pk=pk)
-                actividad.materia = materia_colegio  # Asigna la materia a la actividad
+                actividad.subject = materia_colegio  # Asigna la materia a la actividad
                 
                 # Guarda la instancia del modelo en la base de datos
                 actividad.save()
@@ -146,10 +146,10 @@ class ViewActividades(View):
         vista = 'profesores'
         abierto='inicio'
         activity = Activities.objects.get(pk=pk)
-        materia_pk = activity.materia.pk
-        materia = Subjects.objects.get(pk=materia_pk)
-        grado = Grade.objects.get(materias=materia)
-        files = File.objects.filter(actividad=pk)
+        #obtener materia
+        materia = activity.subject
+        grado = Grade.objects.get(subjects=materia)
+        files = File.objects.filter(activity=pk)
 
         actividades_form = ActivitiesForm()
         
@@ -166,8 +166,8 @@ class ViewActividades(View):
         except:
             respuestas_agrupadas = None
         
-        final_date = activity.fecha_final
-        final_hour = activity.hora_final
+        final_date = activity.end_date
+        final_hour = activity.end_time
         
         form = FilesProfesoresForm()
         context = {
@@ -190,7 +190,7 @@ class ViewActividades(View):
         if form.is_valid():
             archivo = form.save(commit=False)
             actividad = Activities.objects.get(pk=pk)
-            archivo.actividad = actividad
+            archivo.activity = actividad
             archivo.save()
             return redirect('ViewActividades', pk=pk)
         return redirect('ViewActividades', pk=pk)
@@ -231,7 +231,7 @@ class EditActividades(View):
 
             try:
                 materia_colegio = Subjects.objects.get(pk=pk)
-                actividad.materia = materia_colegio  # Asigna la materia a la actividad
+                actividad.subject = materia_colegio  # Asigna la materia a la actividad
                 
                 # Guarda la instancia del modelo en la base de datos
                 actividad.save()

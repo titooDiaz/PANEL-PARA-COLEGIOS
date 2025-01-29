@@ -14,12 +14,12 @@
 
 <div class="w-full p-4 border border-black rounded-xl">
     <h4 class="font-bold text-4xl mb-2">
-        {{materia.titulo1}} -
-        {{actividad.titulo}} ({{actividad.porcentaje}}%)
+        {{materia.name_1}} -
+        {{actividad.name}} ({{actividad.percentage}}%)
     </h4>
     <hr>
     <p class="mt-4">
-        {{actividad.descripcion}}
+        {{actividad.description}}
     </p>
 
     <h5 class="text-2xl font-bold mt-4 mb-2"> DOCUMENTOS GUIAS: </h5>
@@ -30,7 +30,7 @@
                             <a href="{{ file.archivo.url }}">
                                 <i class="fa-solid fa-file mr-2"> </i> 
                                 <span>
-                                    {{file.nombre}}
+                                    {{file.name}}
                                 </span>
                             </a>
                             <button
@@ -46,7 +46,7 @@
                       class="h-0 overflow-hidden transition-all duration-100 ease-in-out"
                     >
                       <div class="p-2 text-sm leading-normal text-blue-gray-500/80 font-normal">
-                        {{file.descripcion}}
+                        {{file.description}}
                       </div>
                     </div>
                 </div>
@@ -77,11 +77,11 @@
                                 <div class=" grid md:gap-6 lg:gap-6 mb-2 md:grid-cols-2">
                                     <div>
                                         <label for="nombre" class="block text-xl font-medium text-gray-900">Titulo de la actividad </label>
-                                        {{form.nombre}}
+                                        {{form.name}}
                                     </div>
                                     <div>
                                         <label for="descripcion" class="block text-xl font-medium text-gray-900">descripcion</label>
-                                        {{form.descripcion}}
+                                        {{form.description}}
                                     </div>
                                     <div>
                                         <p class="block text-xl font-medium text-gray-900">Archivo: </p>
@@ -94,7 +94,7 @@
                                                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                                                     <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                                 </div>
-                                                {{form.archivo}}
+                                                {{form.file}}
                                             </label>
                                         </div> 
                                 
@@ -184,6 +184,6 @@
 <script src="{% static 'js/ventanas/emergentes.js' %}"></script>
 
 
-<!-- from cdn -->
-<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js"></script>
+<!--Colapse script-->
+<script src="{%static 'js/windows/collapse.js' %}"></script>
 {% endblock content %}  

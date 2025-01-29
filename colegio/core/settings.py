@@ -147,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 

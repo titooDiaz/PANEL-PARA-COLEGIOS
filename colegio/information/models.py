@@ -142,7 +142,7 @@ class Activities(models.Model):
     description = models.TextField() #descripcion
     percentage = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)]) #porcentaje
     type = models.ForeignKey(ActivitiesType, on_delete=models.CASCADE, related_name='actividades') #tipo
-    restriction = models.CharField(max_length=50, choices=TIPO_RESTRICCION, default=None) #restriccion
+    restriction = models.CharField(max_length=50, choices=TIPO_RESTRICCION, default='0') #restriccion
     start_date = models.DateField(default=get_current_date) #fecha_inicio
     end_date = models.DateField(default=get_current_date) #fecha_final
     start_time = models.TimeField(default=get_current_time) #hora_inicio
@@ -163,16 +163,21 @@ class Activities(models.Model):
 
 
 def files(instance, filename):
+    # Genera un nombre de archivo único
     archivo_guia = 'actividades_profesores/media/grado{0}({1})/{2}'.format(
-        instance.actividad.titulo, instance.actividad.pk, filename)
+        instance.activity.name, instance.activity.pk, filename)
+    
     full_path = os.path.join(settings.MEDIA_ROOT, archivo_guia)
+    
+    # Verifica si el archivo ya existe y lo elimina si es necesario
     if os.path.exists(full_path):
         os.remove(full_path)
+    
     return archivo_guia
 
 # Translate class: Archivo
 class File(models.Model):
-    activity = models.ForeignKey(Activities, on_delete=models.CASCADE, related_name='archivos') #actividad
+    activity = models.ForeignKey(Activities, on_delete=models.CASCADE, related_name='activity') #actividad
     file = models.FileField(upload_to=files) #archivo
     name = models.CharField(max_length=40, blank=True) #nombre
     description = models.CharField(max_length=255, blank=True) #descripcion
