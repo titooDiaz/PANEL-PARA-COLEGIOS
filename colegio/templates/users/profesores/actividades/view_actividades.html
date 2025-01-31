@@ -23,29 +23,59 @@
     </p>
 
     <h5 class="text-2xl font-bold mt-4 mb-2"> DOCUMENTOS GUIAS: </h5>
-    {%for file in files%}
+    {%for file, ext in files %}
         <div class="ml-4">
                 <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
                         <div class="flex" >
-                            <a href="{{ file.archivo.url }}">
+                            <a href="{{ file.file.url }}">
                                 <i class="fa-solid fa-file mr-2"> </i> 
                                 <span>
                                     {{file.name}}
                                 </span>
                             </a>
-                            <button
-                            class="flex "
-                            data-collapse-target="collapse-{{file.pk}}"
-                        >
+                            <button class="flex" data-collapse-target="collapse-{{file.pk}}">
                             <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
                             <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
                         </button>
                     </div>
-                    <div
-                      data-collapse="collapse-{{file.pk}}"
-                      class="h-0 overflow-hidden transition-all duration-100 ease-in-out"
-                    >
+                    <div data-collapse="collapse-{{file.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
                       <div class="p-2 text-sm leading-normal text-blue-gray-500/80 font-normal">
+                        <div class="flex">
+                            {% if ext == 'image' %}
+                                <img src="{{ file.file.url }}" alt="image" width="300">
+                            {% endif %}
+
+                            {% if ext == 'pdf' %}
+                                <iframe src="{{ file.file.url }}" width="100%" height="500px"></iframe>
+                            {% endif %}
+
+                            {% if ext == 'audio' %}
+                              <audio controls>
+                                <source src="{{ file.file.url }}" type="audio/mpeg">
+                                Tu navegador no soporta el elemento de audio.
+                              </audio>
+                              
+                            {% endif %}
+
+                            {% if ext == 'video' %}
+                                <video controls width="400">
+                                    <source src="{{ file.file.url }}" type="video/mp4">
+                                    Tu navegador no soporta el elemento de video.
+                                </video>
+                            {% endif %}
+
+                            {% if ext == 'document' %}
+                            imagen
+                            {% endif %}
+
+                            {% if ext == 'text' %}
+                            imagen
+                            {% endif %}
+
+                            {% if ext == 'unknown' %}
+                            imagen
+                            {% endif %}
+                        </div>
                         {{file.description}}
                       </div>
                     </div>

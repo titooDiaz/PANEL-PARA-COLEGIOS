@@ -6,6 +6,9 @@ from django.contrib import messages
 ## MENSAJES DE ERRORES ##
 from message_error import messages_error
 
+# maage directories
+import os
+
 #
 from django.contrib.auth import get_user_model
 from users.models import CustomUserTeachers, CustomUserStudent
@@ -139,7 +142,30 @@ class CreateActividades(View):
         # Si el formulario no es válido, muestra los errores
         messages.error(request, 'Formulario no válido')
         return redirect('BoardProfesores')
+
+def get_type_file(file):
+    # Obtener el nombre del archivo desde la ruta completa
+    file_name = file.name.split('/')[-1]  # Divide la ruta por '/' y toma el último segmento
     
+    # Obtener la extensión del archivo
+    ext = file_name.split('.')[-1].lower()  # Divide el nombre del archivo por '.' y toma la extensión
+
+    
+    if ext in ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp']:
+        return 'image'
+    elif ext in ['pdf']:
+        return 'pdf'
+    elif ext in ['mp3', 'wav', 'ogg']:
+        return 'audio'
+    elif ext in ['mp4', 'avi', 'mov', 'webm']:
+        return 'video'
+    elif ext in ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']:
+        return 'document'
+    elif ext in ['txt', 'csv']:
+        return 'text'
+    else:
+        return 'unknown'
+
 # En esta vista los profesores pueden agregar archivos y ver a los estudiantes que respondeieron su actividad.
 class ViewActividades(View):
     def get(self, request, pk, *args, **kwargs):
@@ -150,7 +176,16 @@ class ViewActividades(View):
         materia = activity.subject
         grado = Grade.objects.get(subjects=materia)
         files = File.objects.filter(activity=pk)
+        
+        file_type = []
+        # type of file
+        for file in files:
+            type = get_type_file(file.file)
+            file_type.append(type)
 
+        # group files
+        all_files = zip(files, file_type)
+        
         actividades_form = ActivitiesForm()
         
         
@@ -172,7 +207,7 @@ class ViewActividades(View):
         form = FilesProfesoresForm()
         context = {
             'form': form,
-            'files': files,
+            'files': all_files,
             'actividad': activity,
             'materia': materia,
             'grado': grado,

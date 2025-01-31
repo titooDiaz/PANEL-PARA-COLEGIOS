@@ -190,3 +190,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = False
 # Configuración adicional de cookies (solo en desarrollo)
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
+
+
+# Permitir que se puedan incrustar los archivos en un iframe
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
