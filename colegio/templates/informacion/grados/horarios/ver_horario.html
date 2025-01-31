@@ -21,19 +21,22 @@
                         Hora
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Lunes
+                        monday
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Martes
+                        tuesday
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Miercoles
+                        wednesday
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Jueves
+                        thursday
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Viernes
+                        friday
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Sabado
                     </th>
                 </tr>
             </thead>
@@ -43,7 +46,7 @@
 
                     <!--HORA-->
                     <td class="px-6 py-4 font-medium">
-                        {{horas.hora_inicio}} - {{horas.hora_fin}}
+                        {{horas.start_time}} - {{horas.end_time}}
                         <br>
                         <button onclick="mostrarVentanaHorarios('EmergenteHora', '{{horas.pk}}')">
                             <i class="fa-solid fa-pen"></i>
@@ -68,7 +71,7 @@
                                             </div>
                                             <h6 class="w-full text-center mb-6 font-mono text-4xl">HORA INICIO - HORA FINAL</h6>
                                             <div class="w-full flex">
-                                                <div class="mx-auto">{{formHora.hora_inicio}} - {{formHora.hora_fin}}</div> 
+                                                <div class="mx-auto">{{formHora.start_time}} - {{formHora.end_time}}</div> 
                                             </div>
                                             <div class="w-full h-12 my-10">
                                                 <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
@@ -80,20 +83,20 @@
                         </div>
                     </div>
 
-                    <!--LUNES-->
+                    <!--monday-->
                     <td class="px-6 py-4">
-                        {{horas.lunes}}
+                        {{horas.monday}}
                         <br>
-                        <button onclick="mostrarVentanaHorarios('EmergenteLunes', '{{horas.pk}}')">
+                        <button onclick="mostrarVentanaHorarios('EmergenteMonday', '{{horas.pk}}')">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                     </td>
-                    <div id="EmergenteLunes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="EmergenteMonday{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
                         <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
                             <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
                                 <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                                    <b>LUNES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
-                                    <button onclick="cerrarVentanaHorarios('EmergenteLunes','{{horas.pk}}')" type="button">
+                                    <b>monday HORA {{horas.start_time}} HASTA {{horas.end_time}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteMonday','{{horas.pk}}')" type="button">
                                         <i class="fas fa-arrow-right mx-4"></i>
                                     </button>
                                 </div>
@@ -102,10 +105,10 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL LUNES EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL monday EN ({{grado.grado_nom}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
-                                            <div>{{formMaterias.lunes}}</div>
+                                            <div>{{formMaterias.monday}}</div>
                                             <div class="w-full h-12 my-10">
                                                 <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                             </div>
@@ -116,20 +119,20 @@
                         </div>
                     </div>
 
-                    <!--MARTES-->
+                    <!--tuesday-->
                     <td class="px-6 py-4">
-                        {{horas.martes}}
+                        {{horas.tuesday}}
                         <br>
-                        <button onclick="mostrarVentanaHorarios('EmergenteMartes', '{{horas.pk}}')">
+                        <button onclick="mostrarVentanaHorarios('EmergenteTuesday', '{{horas.pk}}')">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                     </td>
-                    <div id="EmergenteMartes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="EmergenteTuesday{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
                         <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
                             <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
                                 <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                                    <b>MARTES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
-                                    <button onclick="cerrarVentanaHorarios('EmergenteMartes','{{horas.pk}}')" type="button">
+                                    <b>tuesday HORA {{horas.start_time}} HASTA {{horas.end_time}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteTuesday','{{horas.pk}}')" type="button">
                                         <i class="fas fa-arrow-right mx-4"></i>
                                     </button>
                                 </div>
@@ -138,10 +141,10 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL MARTES EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL tuesday EN ({{grado.grado_nom}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
-                                            <div>{{formMaterias.martes}}</div>
+                                            <div>{{formMaterias.tuesday}}</div>
                                             <div class="w-full h-12 my-10">
                                                 <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                             </div>
@@ -152,20 +155,20 @@
                         </div>
                     </div>
 
-                    <!--MIERCOLES-->
+                    <!--wednesday-->
                     <td class="px-6 py-4">
-                        {{horas.miercoles}}
+                        {{horas.wednesday}}
                         <br>
-                        <button onclick="mostrarVentanaHorarios('EmergenteMiercoles', '{{horas.pk}}')">
+                        <button onclick="mostrarVentanaHorarios('EmergenteWednesday', '{{horas.pk}}')">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                     </td>
-                    <div id="EmergenteMiercoles{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="EmergenteWednesday{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
                         <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
                             <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
                                 <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                                    <b>MIERCOLES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
-                                    <button onclick="cerrarVentanaHorarios('EmergenteMiercoles','{{horas.pk}}')" type="button">
+                                    <b>wednesday HORA {{horas.start_time}} HASTA {{horas.end_time}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteWednesday','{{horas.pk}}')" type="button">
                                         <i class="fas fa-arrow-right mx-4"></i>
                                     </button>
                                 </div>
@@ -174,10 +177,10 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL MIERCOLES EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL wednesday EN ({{grado.grado_nom}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
-                                            <div>{{formMaterias.miercoles}}</div>
+                                            <div>{{formMaterias.wednesday}}</div>
                                             <div class="w-full h-12 my-10">
                                                 <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                             </div>    
@@ -188,20 +191,20 @@
                         </div>
                     </div>
 
-                    <!--JUEVES-->
+                    <!--thursday-->
                     <td class="px-6 py-4">
-                        {{horas.jueves}}
+                        {{horas.thursday}}
                         <br>
-                        <button onclick="mostrarVentanaHorarios('EmergenteJueves', '{{horas.pk}}')">
+                        <button onclick="mostrarVentanaHorarios('EmergenteThursday', '{{horas.pk}}')">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                     </td>
-                    <div id="EmergenteJueves{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="EmergenteThursday{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
                         <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
                             <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
                                 <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                                    <b>JUEVES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
-                                    <button onclick="cerrarVentanaHorarios('EmergenteJueves','{{horas.pk}}')" type="button">
+                                    <b>thursday HORA {{horas.start_time}} HASTA {{horas.end_time}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteThursday','{{horas.pk}}')" type="button">
                                         <i class="fas fa-arrow-right mx-4"></i>
                                     </button>
                                 </div>
@@ -210,10 +213,10 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL JUEVES EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL thursday EN ({{grado.grado_nom}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
-                                            <div>{{formMaterias.jueves}}</div>
+                                            <div>{{formMaterias.thursday}}</div>
                                             <div class="w-full h-12 my-10">
                                                 <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                             </div>    
@@ -224,20 +227,20 @@
                         </div>
                     </div>
 
-                    <!--VIERNES-->
+                    <!--friday-->
                     <td class="px-6 py-4">
-                        {{horas.viernes}}
+                        {{horas.friday}}
                         <br>
-                        <button onclick="mostrarVentanaHorarios('EmergenteViernes', '{{horas.pk}}')">
+                        <button onclick="mostrarVentanaHorarios('EmergenteFriday', '{{horas.pk}}')">
                                 <i class="fa-solid fa-pen"></i>
                         </button>
                     </td>
-                    <div id="EmergenteViernes{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                    <div id="EmergenteFriday{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
                         <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
                             <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
                                 <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                                    <b>VIERNES HORA {{horas.hora_inicio}} HASTA {{horas.hora_fin}} ({{horas.pk}}) </b>
-                                    <button onclick="cerrarVentanaHorarios('EmergenteViernes','{{horas.pk}}')" type="button">
+                                    <b>friday HORA {{horas.start_time}} HASTA {{horas.end_time}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteFriday','{{horas.pk}}')" type="button">
                                         <i class="fas fa-arrow-right mx-4"></i>
                                     </button>
                                 </div>
@@ -246,10 +249,10 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL VIERNES EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL friday EN ({{grado.grado_nom}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
-                                            <div>{{formMaterias.viernes}}</div>
+                                            <div>{{formMaterias.friday}}</div>
                                             <div class="w-full h-12 my-10">
                                                 <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
                                             </div>
@@ -259,7 +262,41 @@
                             </div>
                         </div>
                     </div>
-
+                    <!--SATURDAY-->
+                    <td class="px-6 py-4">
+                        {{horas.saturday}}
+                        <br>
+                        <button onclick="mostrarVentanaHorarios('EmergenteSaturday', '{{horas.pk}}')">
+                                <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </td>
+                    <div id="EmergenteSaturday{{horas.pk}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+                        <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
+                            <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
+                                <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
+                                    <b>saturday HORA {{horas.start_time}} HASTA {{horas.end_time}} ({{horas.pk}}) </b>
+                                    <button onclick="cerrarVentanaHorarios('EmergenteSaturday','{{horas.pk}}')" type="button">
+                                        <i class="fas fa-arrow-right mx-4"></i>
+                                    </button>
+                                </div>
+                                <div class="w-full">
+                                    <div class=" m-10 block">
+                                        <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="p-10 block">
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL saturday EN ({{grado.grado_nom}})</h6>
+                                                <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
+                                            </div>
+                                            <div>{{formMaterias.saturday}}</div>
+                                            <div class="w-full h-12 my-10">
+                                                <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full h-full">ACEPTAR</button>
+                                            </div>
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </tr>
 

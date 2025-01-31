@@ -30,7 +30,7 @@ class MateriasHorarioForm(forms.ModelForm):
             
     class Meta:
         model = DailySchedule
-        fields = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+        fields = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
         widgets = {
             'monday': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
             'tuesday': forms.Select(attrs={'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5'}),
