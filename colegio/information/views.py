@@ -9,8 +9,8 @@ from .forms import HoraHorarioForm, MateriasHorarioForm, EditarVerNotasAlumnosFo
 #Translate VerGrados
 class SeeGrades(View):
     def get(self, request, *args, **kwargs):
-        colegio = request.user.name.pk # get school 
-        grados = Grade.objects.filter(colegio=colegio)
+        colegio = request.user.school.pk # get school 
+        grados = Grade.objects.filter(school=colegio)
         print(grados)
         vista = 'gestor'
         abierto='ajustes'
@@ -134,7 +134,7 @@ class EditSeeRatingsStudents(View):
 class SeeStudentsGrades(View):
     def get(self, request, pk, *args, **kwargs):
         grado = get_object_or_404(Grade, pk=pk)
-        estudiantes = CustomUserStudent.objects.filter(grado=grado)
+        estudiantes = CustomUserStudent.objects.filter(grade=grado)
         print(grado)
         vista = 'gestor'
         abierto='ajustes'

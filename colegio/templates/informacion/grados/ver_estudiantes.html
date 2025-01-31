@@ -14,25 +14,25 @@
 
 {% if estudiantes %}
 <div class="grid gap-6 mb-6 lg:mb-4 md:grid-cols-3 lg:grid-cols-4">
-    {% for estudiante in estudiantes %}
-    {% if estudiante.ver_notas %}
+    {% for student in estudiantes %}
+    {% if student.see_notes %}
     <div class="items-center bg-white border-4 border-gray-200 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
     {% else %}
     <div class="items-center bg-white border-4 border-red-500 rounded-lg sm:flex p-4 block shadow-2xl hover:scale-105 duration-300 ease-in-out">
     {% endif %}
 
         <div class="block w-full">
-            <h5 class="font-mono font-bold text-gray-900 text-4xl text-left">{{estudiante.first_name}} {{estudiante.last_name}}</h5>
+            <h5 class="font-bold text-gray-900 text-4xl text-left">{{student.first_name}} {{student.last_name}}</h5>
 
             <div class="p-8">
-                <img class="w-full rounded-full border-2 border-cyan-950" src="{{ estudiante.foto.url }}" alt="Alumno">
+                <img class="w-full rounded-full border-2 border-cyan-950" src="{{ student.photo.url }}" alt="Alumno">
             </div>
 
-            <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Tipo Documento:</b> {{estudiante.tipo_documento}}</h6>
-            <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Numero Documento:</b> {{estudiante.numero_documento}}</h6>
-            <h6 class="font-mono text-gray-900 text-1xl text-left"><b>Sexo</b>: {{estudiante.sexo}}</h6>
+            <h6 class="text-gray-900 text-1xl text-left"><b>Tipo Documento:</b> {{student.document_type}}</h6>
+            <h6 class="text-gray-900 text-1xl text-left"><b>Numero Documento:</b> {{student.document_number}}</h6>
+            <h6 class="text-gray-900 text-1xl text-left"><b>Sexo</b>: {{student.gender}}</h6>
             <div class="mt-2 pt-full flex"> 
-                <button class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block" onclick="mostrarVentana('Emergente', '{{estudiante.numero_documento}}')">
+                <button class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg block" onclick="mostrarVentana('Emergente', '{{student.document_number}}')">
                     MAS INFORMACION
                 </button>    
             </div>
@@ -47,27 +47,27 @@
     </div>
 
     <!--DATOS MEDICOS-->
-    <div id="Emergente{{estudiante.numero_documento}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
+    <div id="Emergente{{student.document_number}}" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 rounded-lg hidden h-[100vh] w-full VENTANA-MODAL">
         <div id="MODAL-BOX" class="flex justify-center items-center h-[100vh]">
             <div class="rounded-lg border border-black bg-white h-[90vh] w-[70%] overflow-auto">
                 <div class="w-full h-12 flex items-center justify-end rounded-lg text-black pl-1">
-                    <b>ESTAS VIENDO A {{estudiante.first_name}} {{estudiante.last_name}} ({{estudiante.pk}})</b>
-                    <button onclick="cerrarVentana('Emergente','{{estudiante.numero_documento}}')" type="button">
+                    <b>ESTAS VIENDO A {{student.first_name}} {{student.last_name}} ({{student.pk}})</b>
+                    <button onclick="cerrarVentana('Emergente','{{student.document_number}}')" type="button">
                         <i class="fas fa-arrow-right mx-4"></i>
                     </button>
                 </div>
                 <div class="w-full">
                     <div class=" m-10 block">
                         <div class="p-10 block">
-                            <h6 class="w-full text-center mb-6 font-bold font-mono text-4xl zoom-4">DATOS MEDICOS DE {{estudiante.first_name}} {{estudiante.last_name}}</h6>
-                            <img class="w-[80%] lg:w-[20%] rounded-full m-auto border-2 border-cyan-950 hover:scale-110 ease-in-out duration-100" src="{{ estudiante.foto.url }}" alt="Alumno">
+                            <h6 class="w-full text-center mb-6 font-bold text-4xl zoom-4">DATOS MEDICOS DE {{student.first_name}} {{student.last_name}}</h6>
+                            <img class="w-[80%] lg:w-[20%] rounded-full m-auto border-2 border-cyan-950 hover:scale-110 ease-in-out duration-100" src="{{ student.photo.url }}" alt="Alumno">
                         </div>
-                        <form action="{% url 'EditarVerNotasAlumnos' estudiante.pk grado.pk %}" method="post">
+                        <form action="{% url 'EditarVerNotasAlumnos' student.pk grado.pk %}" method="post">
                             {% csrf_token %}
                                 <div class="flex items-center border p-2 border-gray-200 rounded">
-                                    {{ form.ver_notas }}
+                                    {{ form.see_notes }}
                                     <label for="bordered-checkbox-1" class="w-[80%]  ms-2 text-sm font-medium text-gray-900">
-                                        {% if estudiante.ver_notas %}
+                                        {% if student.ver_notas %}
                                             Este estudiante PUEDE ver las notas
                                         {% else %}
                                             Este estudiante NO puede ver las notas
@@ -79,13 +79,13 @@
                                     </div>
                                 </div>
                         </form>  
-                        <p><b>DESCRIPCION DEL ESTUDIANTE: </b> {{estudiante.descripcion}} </p>
-                        <p><b>ALERGIAS: </b> {{estudiante.alergias}} </p>
-                        <p><b>CONDICIONES MEDICAS: </b> {{estudiante.condiciones_medicas}} </p>
-                        <p><b>MEDICAMENTOS ACTUALES: </b> {{estudiante.medicamentos_actuales}} </p>
-                        <p><b>GRUPO SANGUINEO: </b> {{estudiante.grupo_sanguineo}} </p>
-                        <p><b>ACUDIENTE PRINCIPAL: </b> {{estudiante.contacto_emergencia_nombre}} </p>
-                        <p><b>NUMERO DE ACUDIENTE: </b> {{estudiante.contacto_emergencia_telefono}} </p>
+                        <p><b>DESCRIPCION DEL ESTUDIANTE: </b> {{student.description}} </p>
+                        <p><b>ALERGIAS: </b> {{student.allergies}} </p>
+                        <p><b>CONDICIONES MEDICAS: </b> {{student.medical_conditions}} </p>
+                        <p><b>MEDICAMENTOS ACTUALES: </b> {{student.current_medications}} </p>
+                        <p><b>GRUPO SANGUINEO: </b> {{student.blood_group}} </p>
+                        <p><b>ACUDIENTE PRINCIPAL: </b> {{student.emergency_contact_name}} </p>
+                        <p><b>NUMERO DE ACUDIENTE: </b> {{student.emergency_contact_phone}} </p>
                     </div>
                 </div>
             </div>
