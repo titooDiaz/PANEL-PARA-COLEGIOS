@@ -49,8 +49,8 @@
                                 {% for actividad in actividades %}
                                     <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
                                         <div class="m-2">
-                                            {% if fecha_actual == actividad.fecha_final %}
-                                                {% if hora_actual > actividad.hora_final %}
+                                            {% if fecha_actual == actividad.end_date %}
+                                                {% if hora_actual > actividad.end_time %}
                                                     <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
                                                         <div class="flex w-full items-center align-middle justify-center text-white">
                                                             <i class="fa-solid fa-clock"></i>
@@ -64,7 +64,7 @@
                                                     </div>
                                                 {%endif%}
                                             {% else %}
-                                                {% if fecha_actual > actividad.fecha_final %}
+                                                {% if fecha_actual > actividad.end_date %}
                                                     <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
                                                         <div class="flex w-full items-center align-middle justify-center text-white">
                                                             <i class="fa-solid fa-clock"></i>
@@ -84,13 +84,13 @@
                                             <div class="w-full">
                                                 <div class="m-2">
                                                     <div>
-                                                        <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
+                                                        <p><span class="font-bold">({{actividad.end_date}} - {{actividad.end_time}}) {{actividad.type}}</span> - {{actividad.materia.name_1}} </p> 
                                                     </div>
                                                 </div>
                                                 <hr>
                                                 <div class="m-2">
-                                                    <p class="font-bold">{{actividad.titulo}}</p>
-                                                    <p>{{actividad.descripcion}}</p>
+                                                    <p class="font-bold">{{actividad.name}}</p>
+                                                    <p>{{actividad.description}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,8 +140,8 @@
                                 
                                 <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
                                     <div class="m-2">
-                                        {% if fecha_actual == actividad.fecha_final %}
-                                            {% if hora_actual > actividad.hora_final %}
+                                        {% if fecha_actual == actividad.end_date %}
+                                            {% if hora_actual > actividad.end_time %}
                                                 <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
                                                     <div class="flex w-full items-center align-middle justify-center text-white">
                                                         <i class="fa-solid fa-clock"></i>
@@ -155,7 +155,7 @@
                                                 </div>
                                             {%endif%}
                                         {% else %}
-                                            {% if fecha_actual > actividad.fecha_final %}
+                                            {% if fecha_actual > actividad.end_date %}
                                                 <div class="rounded-full w-12 h-12 bg-red-600 flex col-span-2">
                                                     <div class="flex w-full items-center align-middle justify-center text-white">
                                                         <i class="fa-solid fa-clock"></i>
@@ -170,13 +170,13 @@
                                         <div class="w-full">
                                             <div class="m-2">
                                                 <div>
-                                                    <p><span class="font-bold">({{actividad.fecha_final}} - {{actividad.hora_final}}) {{actividad.tipo}}</span> - {{actividad.materia.titulo1}} </p> 
+                                                    <p><span class="font-bold">({{actividad.end_date}} - {{actividad.end_time}}) {{actividad.type}}</span> - {{actividad.materia.name_1}} </p> 
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="m-2">
-                                                <p class="font-bold">{{actividad.titulo}}</p>
-                                                <p>{{actividad.descripcion}}</p>
+                                                <p class="font-bold">{{actividad.name}}</p>
+                                                <p>{{actividad.description}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -206,17 +206,17 @@
                     <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
                     <div class="relative h-full items-center bg-gray-300 rounded-lg flex p-4 shadow-2xl">
                             <div class="block w-full">
-                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.titulo1}}</h5>
+                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">{{materia.name_1}}</h5>
                                 <br>
                                 <p class="text-lg text-center">
                                     <span class="font-bold">PROFESOR:</span>
                                     <br>
-                                    {{ materia.profe1.first_name }} {{ materia.profe1.last_name }} 
+                                    {{ materia.teacher_1.first_name }} {{ materia.teacher_1.last_name }} 
                                 </p>
                                 <p class="text-lg"></p>
-                                <img class="w-full p-8" src="{{ materia.picture1.url }}" alt="Alumno">
+                                <img class="w-full p-8" src="{{ materia.photo.url }}" alt="Alumno">
                                 
-                                <p class="text-lg text-center my-4 font-light">- {{ materia.descripcion1 }} -</p>
+                                <p class="text-lg text-center my-4 font-light">- {{ materia.description_1 }} -</p>
 
                                 <div class="mt-2">
                                     <div class="w-full flex">
