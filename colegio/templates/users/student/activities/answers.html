@@ -80,8 +80,8 @@
                         <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded-xl bg-gray-700 "></span>
                         <div class="bg-gray-300 w-full p-6 text-center text-black rounded-xl relative">
                             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">{{actividad.titulo}}</h1>
-                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.descripcion}}</p>
-                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.porcentaje}}%</p>
+                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.description}}</p>
+                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.percentage}}%</p>
                         </div>
                     </div>
                 </div>
@@ -100,23 +100,23 @@
 
                                 <p class="block text-xl font-medium text-gray-900 mb-2 text-center">Titulo</p>
                                 <div class="mb-4">
-                                    {{form.respuesta}}
+                                    {{form.answer}}
                                 </div>
 
                                 <p class="block text-xl text-center font-medium text-gray-900 mb-2">Detalles</p>
                                 <div class="mb-4">
-                                    {{form.descripcion}}
+                                    {{form.description}}
                                 </div>
                                 
                             </div>
                             
 
                             <!--ARCHIVO-->
-                            <!--LISTA DE ARCHIVOS SUBIDOS-->
+                            <!--LISTA DE files SUBIDOS-->
                             <div id="files_list">
                                     
                             </div>
-                            <p class="block text-xl text-center font-medium text-gray-900 mb-2">Sube tus archivos</p>
+                            <p class="block text-xl text-center font-medium text-gray-900 mb-2">Sube tus files</p>
                             <div>
 
                                 <label for="archivo" class="flex items-center justify-center w-full">
@@ -125,7 +125,7 @@
                                             <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                             </svg>
-                                            <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Clic para subir</span> o arrastra tus archivos</p>
+                                            <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Clic para subir</span> o arrastra tus files</p>
                                             <p class="text-xs text-gray-500">Puedes subir cualquier tipo de archivo</p>
                                         </div>
                                         <input type="file" id="archivo" name="archivo" class="hidden" multiple>
@@ -161,17 +161,17 @@
                                                         <div class="flex items-center">
                                                             <div class="flex-1 min-w-0 ms-4">
                                                                 <p class="text-sm font-medium text-gray-900">
-                                                                    {{answer.respuesta}}
+                                                                    {{answer.answer}}
                                                                 </p>
                                                                 <p class="text-sm text-gray-500 text-wrap">
-                                                                    {{answer.descripcion}}
+                                                                    {{answer.description}}
                                                                 </p>
                                                             </div>
                                                             <a href="#" class="inline-flex items-center text-base font-semibold text-gray-900">
                                                                 <div class="relative inline-block">
                                                                     <i class="fa-solid fa-file text-2xl"></i>
                                                                     <span class="absolute top-full left-full transform -translate-x-1/2 -translate-y-2 rounded-full bg-gray-200 w-4 h-4 flex items-center justify-center text-xs">
-                                                                        {{ answer.archivos.count }}
+                                                                        {{ answer.files.count }}
                                                                     </span>
                                                                 </div>                                                                
                                                             </a>
@@ -191,9 +191,9 @@
                     <div class="relative">
                         <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded-xl bg-gray-700 "></span>
                         <div class="bg-gray-300 w-full p-6 text-center text-black rounded-xl relative">
-                            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">{{actividad.titulo}}</h1>
-                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.descripcion}}</p>
-                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.porcentaje}}%</p>
+                            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">{{actividad.title}}</h1>
+                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.description}}</p>
+                            <p class="mb-6 lg:mb-8 md:text-lg lg:text-xl">{{actividad.percentage}}%</p>
 
                             <!--Time info-->
                             <div class="hidden">

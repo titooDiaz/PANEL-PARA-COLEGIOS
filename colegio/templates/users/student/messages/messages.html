@@ -34,7 +34,7 @@
         #contacts.visible {
             transform: translateX(0);
         }
-        @media (min-width: 768px) {
+        @media (min-width: 1024px) {
             #contacts {
                 transform: translateX(0); /* Visible en pantallas grandes */
             }
@@ -43,9 +43,9 @@
 </head>
 
 
-<div class="bg-white flex flex-col md:flex-row h-[84vh] md:h-[88vh]">
+<div class="bg-white flex flex-col lg:flex-row h-[84vh] lg:h-[88vh]">
     <!-- Contactos -->
-    <div id="contacts" class="w-[70%] md:w-[40%] fixed md:relative bg-white h-[84vh] md:h-[88vh] z-40">
+    <div id="contacts" class="w-[70%] lg:w-[40%] pr-4 lg:pr-0 fixed lg:relative bg-white h-[84vh] lg:h-[88vh] z-20">
         <div class="bg-gray-200 rounded-xl w-full overflow-y-auto h-full">
             
             <div class="px-6 py-4 bg-gray-400 flex justify-between items-center">
@@ -82,7 +82,7 @@
     </div>
 
     <!-- Chat -->
-    <div class="w-full flex flex-col md:ml-4 h-[84vh] md:h-[88vh]">
+    <div class="w-full flex flex-col lg:ml-4 h-[84vh] lg:h-[88vh]">
         <!-- Cabecera del Chat -->
         <div class="bg-gray-600 text-white p-4 rounded-lg flex justify-between">
             <div class="flex items-center space-x-4">
@@ -102,7 +102,7 @@
                 </button>
 
                 <!-- Botón para mostrar/ocultar contactos (solo en móviles) -->
-                <button id="toggleContacts" class="p-2 text-white hover:bg-gray-700 rounded-full md:hidden transition">
+                <button id="toggleContacts" class="p-2 text-white hover:bg-gray-700 rounded-full lg:hidden transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
                     </svg>

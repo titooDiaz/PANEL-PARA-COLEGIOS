@@ -82,7 +82,7 @@ class AlumnoBoard(View):
             'hora_actual': hora_actual,
             
         }
-        return render(request, 'users/alumnos/inicio.html', context)
+        return render(request, 'users/student/home.html', context)
     
 class ActividadesRespuestaView(View):
     def get(self, request, pk, *args, **kwargs):
@@ -120,9 +120,10 @@ class ActividadesRespuestaView(View):
         # 1 --> On time
         # 2 --> Out time
         # 3 --> on time (today)
-        
+        print(actividades_user_off_time, 'asdas')
+        print(actividades_user_on_time)
         if activity in actividades_user_off_time:
-            if activity.end_time > hora_actual and activity.end_date > fecha_actual:
+            if activity.end_time > hora_actual and activity.end_date >= fecha_actual:
                 # on time (Today)
                 on_time = 3
             else:
@@ -134,7 +135,6 @@ class ActividadesRespuestaView(View):
         else:
             # This case should never exist, but if something fails we will have to say that it is too late to upload it.
             on_time = 2
-            
             
         #User activity...
         user = request.user
@@ -165,21 +165,28 @@ class ActividadesRespuestaView(View):
             'on_time': on_time,
             'answers': user_answers,
         }
-        return render(request, 'users/alumnos/activities/responder.html', context)
+        return render(request, 'users/student/activities/answers.html', context)
 
     def post(self, request, pk, *args, **kwargs):
         form = ActivitiesAnswerForm(request.POST, request.FILES)
         if form.is_valid():
             respuesta = form.save(commit=False)
             respuesta.author = request.user
-            respuesta.actividad = Activities.objects.get(pk=pk)
+            respuesta.activity = Activities.objects.get(pk=pk)
             respuesta.save()
+            
+            # Obtén la instancia de StudentResponse recién creada
+            student_response_instance = respuesta
+            
             archivos_publicados = ""
             for archivo in request.FILES.getlist('archivo'):
                 archivos_publicados = "\n - " + archivo.name + archivos_publicados
-                StudentFiles.objects.create(actividad_respuesta=respuesta, archivo=archivo)
+                # Pasa la instancia de StudentResponse en lugar del ID
+                StudentFiles.objects.create(activity_answer=student_response_instance, file=archivo)
+            
             messages.success(request, f'Wow! Subiste todo correctamente! \n Tus archivos: {archivos_publicados}')
             return redirect('ResponderActividades', pk)
+        
         return redirect('ResponderActividades', pk)
 
 #Subjects View
@@ -198,7 +205,7 @@ class SubjectsView(View):
             'grade': grade_user,
             'subject':subject,
         }
-        return render(request, 'users/alumnos/subjects/subjects.html', context)
+        return render(request, 'users/student/subjects/subjects.html', context)
     
 class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
@@ -235,7 +242,7 @@ class AlumnoCalendario(View):
             'grade': grade_user,
         }
         
-        return render(request, 'users/alumnos/schedule/schedule.html', context)
+        return render(request, 'users/student/schedule/schedule.html', context)
     
 class StudentMessages(View):
     def get(self, request, *args, **kwargs):
@@ -250,7 +257,7 @@ class StudentMessages(View):
             'abierto':abierto,
             'grade': grade_user
         }
-        return render(request, 'users/alumnos/messages/messages.html', context)
+        return render(request, 'users/student/messages/messages.html', context)
     
 class StudentPeople(View):
     def get(self, request, *args, **kwargs):
@@ -266,7 +273,7 @@ class StudentPeople(View):
             'abierto':abierto,
             'grade': grade_user,
         }
-        return render(request, 'users/alumnos/people/people.html', context)
+        return render(request, 'users/student/people/people.html', context)
     
 class StudentGrades(View):
     def get(self, request, *args, **kwargs):
@@ -282,4 +289,4 @@ class StudentGrades(View):
             'abierto':abierto,
             'grade': grade_user,
         }
-        return render(request, 'users/alumnos/grades/grades.html', context)
+        return render(request, 'users/student/grades/grades.html', context)

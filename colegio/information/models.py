@@ -188,7 +188,7 @@ class File(models.Model):
 
 def files_respuesta(instance, filename):
     archivo_respuesta = 'respuesta_estudiantes_actividades/{0}/{1}'.format(
-        instance.actividad_respuesta.actividad, filename)
+        instance.activity_answer.activity, filename)
     full_path = os.path.join(settings.MEDIA_ROOT, archivo_respuesta)
     if os.path.exists(full_path):
         os.remove(full_path)
@@ -207,14 +207,14 @@ class StudentResponse(models.Model):
     state = models.BooleanField(default=True) #estado
     created_on = models.DateTimeField(default=timezone.now) #create_on
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador_respuesta')
-    activity = models.ForeignKey(Activities, on_delete=models.CASCADE, null=True, blank=True, related_name='ActividadRespuesta') #actividad
+    activity = models.ForeignKey(Activities, on_delete=models.CASCADE, null=True, blank=True, related_name='file') #actividad
 
     def __str__(self):
         return f"ACTIVIDAD ENTREGADA POR: {self.author}"
 
 # Translate class: ArchivoEstudiantes
 class StudentFiles(models.Model):
-    activity_answer = models.ForeignKey(StudentResponse, on_delete=models.CASCADE, related_name='archivos') #actividad_respuesta
+    activity_answer = models.ForeignKey(StudentResponse, on_delete=models.CASCADE, related_name='files') #actividad_respuesta
     file = models.FileField(upload_to=files_respuesta) #archivo
 
     def __str__(self):
