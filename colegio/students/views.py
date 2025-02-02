@@ -111,8 +111,8 @@ class ActividadesRespuestaView(View):
         
         activity = Activities.objects.get(pk=pk)
         # Extraer los datos de los campos
-        date = activity.fecha_final  # Esto es un objeto date (año, mes, día)
-        hour = activity.hora_final    # Esto es un objeto time (hora, minuto, segundo, etc.)
+        date = activity.end_date # Esto es un objeto date (año, mes, día)
+        hour = activity.end_time    # Esto es un objeto time (hora, minuto, segundo, etc.)
 
         combined_datetime = datetime.combine(date, hour)
         
@@ -122,7 +122,7 @@ class ActividadesRespuestaView(View):
         # 3 --> on time (today)
         
         if activity in actividades_user_off_time:
-            if activity.hora_final > hora_actual and activity.fecha_final > fecha_actual:
+            if activity.end_time > hora_actual and activity.end_date > fecha_actual:
                 # on time (Today)
                 on_time = 3
             else:
@@ -138,7 +138,7 @@ class ActividadesRespuestaView(View):
             
         #User activity...
         user = request.user
-        user_answers = StudentResponse.objects.filter(actividad=activity.pk)
+        user_answers = StudentResponse.objects.filter(activity=activity.pk)
             
         # Grade
         grade_user = user.customuserstudent.grade #grado del estudiante
@@ -165,7 +165,7 @@ class ActividadesRespuestaView(View):
             'on_time': on_time,
             'answers': user_answers,
         }
-        return render(request, 'users/alumnos/actividades/responder.html', context)
+        return render(request, 'users/alumnos/activities/responder.html', context)
 
     def post(self, request, pk, *args, **kwargs):
         form = ActivitiesAnswerForm(request.POST, request.FILES)
