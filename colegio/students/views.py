@@ -211,7 +211,7 @@ class AlumnoCalendario(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         grade_user = user.customuserstudent.grade 
-        horario = DailySchedule.objects.filter(grado=grade_user)
+        horario = DailySchedule.objects.filter(grade=grade_user)
         
         # Obtener la zona horaria del usuario
         user_zone = pytz.timezone(request.user.time_zone)
