@@ -167,14 +167,16 @@
                                                                     {{answer.description}}
                                                                 </p>
                                                             </div>
-                                                            <a href="#" class="inline-flex items-center text-base font-semibold text-gray-900">
-                                                                <div class="relative inline-block">
-                                                                    <i class="fa-solid fa-file text-2xl"></i>
-                                                                    <span class="absolute top-full left-full transform -translate-x-1/2 -translate-y-2 rounded-full bg-gray-200 w-4 h-4 flex items-center justify-center text-xs">
-                                                                        {{ answer.files.count }}
-                                                                    </span>
-                                                                </div>                                                                
-                                                            </a>
+                                                            <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                                                                {% for file in answer.files.all %}
+                                                                    <a href="{{ file.file.url }}" class="relative inline-block">
+                                                                        <i class="fa-solid fa-file text-2xl"></i>
+                                                                        <span class="absolute top-full left-full transform -translate-x-1/2 -translate-y-2 rounded-full bg-gray-200 w-4 h-4 flex items-center justify-center text-xs">
+                                                                            {{ forloop.counter }}
+                                                                        </span>
+                                                                    </a>
+                                                                {% endfor %}
+                                                            </div>
                                                         </div>
                                                     </li>
                                                 {% endfor %}
