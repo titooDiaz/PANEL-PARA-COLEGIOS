@@ -171,27 +171,27 @@
                                         {% for respuesta in respuestas %}
                                             <div class="flex justify-between items-center mb-4">
                                                 {% if final_date == respuesta.delivery_date %}
-                                                    {% if final_hour < respuesta.hora_entrega %}
-                                                        <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-orange-400 fa-solid fa-clock"></i> |</a>
+                                                    {% if final_hour < respuesta.delivery_time %}
+                                                        <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
                                                             <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}):</span> 
-                                                            {{ respuesta.description }}agregar
+                                                            {{ respuesta.description }}
                                                         </div>
                                                     {%else%}
-                                                        <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-orange-700 fa-solid fa-clock"></i> |</a>
+                                                        <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-orange-500 fa-solid fa-clock"></i> |</a>
                                                             <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}):</span> 
-                                                            {{ respuesta.description }}e
+                                                            {{ respuesta.description }}
                                                         </div>
                                                     {%endif%}
                                                 {% else %}
                                                     {% if final_date < respuesta.delivery_date %}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
                                                             <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}%):</span> 
-                                                            {{ respuesta.description }}i
+                                                            {{ respuesta.description }}
                                                         </div>
                                                     {%else%}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-green-700 fa-solid fa-clock"></i> |</a>
                                                             <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}%):</span> 
-                                                            {{ respuesta.description }}o
+                                                            {{ respuesta.description }}
                                                         </div>
                                                     {%endif%}
                                                 {% endif %}

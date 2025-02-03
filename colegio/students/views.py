@@ -38,7 +38,14 @@ mensajes_motivadores = [
     "Recuerda que las mejores cosas toman tiempo. Tu esfuerzo dará frutos, ¡confía en el proceso!"
 ]
 
-
+def time_zome_user_location(location):
+    zona_horaria_usuario = pytz.timezone(location)
+    nowDate = datetime.now(zona_horaria_usuario).date()
+    nowTime = datetime.now(zona_horaria_usuario).time()
+    
+    ## Obtener la zona horaria local
+    # fecha_actual, hora_actual = time_zome_user_location(request.user.time_zone)
+    return nowDate, nowTime
 
 class AlumnoBoard(View):
     def get(self, request, *args, **kwargs):
@@ -51,12 +58,10 @@ class AlumnoBoard(View):
         grade_user = user.customuserstudent.grade #grado del estudiante
         materias_user = grade_user.subjects.all() #materias del estudainte
         
-        ## Obtener la zona horaria local
-        zona_horaria_usuario = pytz.timezone(request.user.time_zone)
         
         # Obtener la hora actual en la zona horaria del usuario
-        fecha_actual = datetime.now(zona_horaria_usuario).date()
-        hora_actual = datetime.now(zona_horaria_usuario).time()
+        ## Obtener la zona horaria local
+        fecha_actual, hora_actual = time_zome_user_location(request.user.time_zone)
         
         
         actividades_user_on_time = Activities.objects.filter(
@@ -83,16 +88,12 @@ class AlumnoBoard(View):
             
         }
         return render(request, 'users/student/home.html', context)
-    
+
 class ActividadesRespuestaView(View):
     def get(self, request, pk, *args, **kwargs):
         
         ## Obtener la zona horaria local
-        zona_horaria_usuario = pytz.timezone(request.user.time_zone)
-        
-        # Obtener la hora actual en la zona horaria del usuario
-        fecha_actual = datetime.now(zona_horaria_usuario).date()
-        hora_actual = datetime.now(zona_horaria_usuario).time()
+        fecha_actual, hora_actual = time_zome_user_location(request.user.time_zone)
         
         #vista de estudiantes (obviamente tiene modelo de estudiante)
         user = request.user
@@ -169,14 +170,20 @@ class ActividadesRespuestaView(View):
 
     def post(self, request, pk, *args, **kwargs):
         form = ActivitiesAnswerForm(request.POST, request.FILES)
+        #time zone info
+        nowDate, nowTime = time_zome_user_location(request.user.time_zone)
         if form.is_valid():
-            respuesta = form.save(commit=False)
-            respuesta.author = request.user
-            respuesta.activity = Activities.objects.get(pk=pk)
-            respuesta.save()
+            # process of save instance
+            student_response_instance = form.save(commit=False)
+            student_response_instance.delivery_date = nowDate
+            student_response_instance.delivery_time = nowTime
+            student_response_instance.timezone_response = request.user.time_zone
+            student_response_instance.author = request.user
+            student_response_instance.activity = Activities.objects.get(pk=pk)
+            student_response_instance.save()
             
             # Obtén la instancia de StudentResponse recién creada
-            student_response_instance = respuesta
+            student_response_instance = student_response_instance
             
             archivos_publicados = ""
             for archivo in request.FILES.getlist('archivo'):
