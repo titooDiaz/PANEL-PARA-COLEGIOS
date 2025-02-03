@@ -55,7 +55,7 @@ class BoardProfesores(View):
             'hora_actual': hora_actual,
             'fecha_actual': fecha_actual,
         }
-        return render(request, 'users/profesores/inicio.html', context)
+        return render(request, 'users/teachers/inicio.html', context)
 
 
 import pytz
@@ -113,7 +113,7 @@ class CreateActividades(View):
             'abierto':abierto,
             "tipo_actividades": tipo_actividades,
         }
-        return render(request, 'users/profesores/actividades/create_actividades.html', context)
+        return render(request, 'users/teachers/activities/create_actividades.html', context)
     def post(self, request, pk, *args, **kwargs):
         actividades_form = ActivitiesForm(request.POST)
         #archivo_form = FileForm(request.POST, request.FILES)
@@ -191,7 +191,7 @@ class ViewActividades(View):
         
         try:
             # Obtener las respuestas relacionadas con una actividad específica
-            respuestas = StudentResponse.objects.filter(actividad=activity).select_related('author')
+            respuestas = StudentResponse.objects.filter(activity=activity).select_related('author')
 
             # Ordenar las respuestas por el autor antes de agrupar
             respuestas = respuestas.order_by('author')
@@ -218,7 +218,7 @@ class ViewActividades(View):
             'final_date': final_date,
             'final_hour': final_hour,
         }
-        return render(request, 'users/profesores/actividades/view_actividades.html', context)
+        return render(request, 'users/teachers/activities/view_actividades.html', context)
     def post(self, request, pk):
         form = FilesProfesoresForm(request.POST, request.FILES)
         print(form.errors)
@@ -255,7 +255,7 @@ class EditActividades(View):
             'vista': vista,
             'abierto':abierto,
         }
-        return render(request, 'users/profesores/actividades/create_actividades.html', context)
+        return render(request, 'users/teachers/activities/create_actividades.html', context)
     def post(self, request, pk, *args, **kwargs):
         actividades_form = ActivitiesForm(request.POST)
 
@@ -322,4 +322,4 @@ class ProfessorSchedule(View):
             'day': day_numer,
         }
         
-        return render(request, 'users/profesores/schedule/schedule.html', context)
+        return render(request, 'users/teachers/schedule/schedule.html', context)

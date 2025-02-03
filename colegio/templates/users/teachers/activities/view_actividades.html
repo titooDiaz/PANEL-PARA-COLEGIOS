@@ -170,28 +170,28 @@
                                     <div class="bg-gray-300">
                                         {% for respuesta in respuestas %}
                                             <div class="flex justify-between items-center mb-4">
-                                                {% if final_date == respuesta.fecha_entrega %}
+                                                {% if final_date == respuesta.delivery_date %}
                                                     {% if final_hour < respuesta.hora_entrega %}
-                                                        <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.respuesta }} ({{respuesta.descripcion}}):</span> 
-                                                            {{ respuesta.descripcion }}
+                                                        <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-orange-400 fa-solid fa-clock"></i> |</a>
+                                                            <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}):</span> 
+                                                            {{ respuesta.description }}agregar
                                                         </div>
                                                     {%else%}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-orange-700 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.respuesta }} ({{respuesta.descripcion}}):</span> 
-                                                            {{ respuesta.descripcion }}
+                                                            <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}):</span> 
+                                                            {{ respuesta.description }}e
                                                         </div>
                                                     {%endif%}
                                                 {% else %}
-                                                    {% if final_date < respuesta.fecha_entrega %}
+                                                    {% if final_date < respuesta.delivery_date %}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.respuesta }} ({{respuesta.descripcion}}%):</span> 
-                                                            {{ respuesta.descripcion }}
+                                                            <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}%):</span> 
+                                                            {{ respuesta.description }}i
                                                         </div>
                                                     {%else%}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-green-700 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.respuesta }} ({{respuesta.descripcion}}%):</span> 
-                                                            {{ respuesta.descripcion }}
+                                                            <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}%):</span> 
+                                                            {{ respuesta.description }}o
                                                         </div>
                                                     {%endif%}
                                                 {% endif %}

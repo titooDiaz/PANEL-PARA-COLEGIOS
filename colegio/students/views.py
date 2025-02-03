@@ -198,7 +198,7 @@ class SubjectsView(View):
         subject = Subjects.objects.get(pk=pk)
         
         vista = 'estudiante'
-        abierto='mensajes'
+        abierto='inicio'
         context = {
             'vista': vista,
             'abierto':abierto,
