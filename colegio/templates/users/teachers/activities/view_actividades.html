@@ -9,7 +9,7 @@
 {% block content %}
 {% load static %}
 <div class="mx-auto max-w-screen-sm text-center">
-    <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grado_nom}} ({{grado.grado_num}})!</h2>
+    <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grade_name}} ({{grado.grade_number}})!</h2>
 </div>
 
 <div class="w-full p-4 border border-black rounded-xl">
@@ -17,6 +17,10 @@
         {{materia.name_1}} -
         {{actividad.name}} ({{actividad.percentage}}%)
     </h4>
+    <hr>
+    <time>
+        {{actividad.start_date}} a las {{actividad.start_time}} <b>HASTA</b> {{actividad.end_date}} a las {{actividad.end_time}}
+    </time>
     <hr>
     <p class="mt-4">
         {{actividad.description}}
@@ -173,24 +177,24 @@
                                                 {% if final_date == respuesta.delivery_date %}
                                                     {% if final_hour < respuesta.delivery_time %}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}):</span> 
+                                                            <span class="font-bold">{{ respuesta.answer }}:</span> 
                                                             {{ respuesta.description }}
                                                         </div>
                                                     {%else%}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-orange-500 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}):</span> 
+                                                            <span class="font-bold">{{ respuesta.answer }}:</span> 
                                                             {{ respuesta.description }}
                                                         </div>
                                                     {%endif%}
                                                 {% else %}
                                                     {% if final_date < respuesta.delivery_date %}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}%):</span> 
+                                                            <span class="font-bold">{{ respuesta.answer }}:</span> 
                                                             {{ respuesta.description }}
                                                         </div>
                                                     {%else%}
                                                         <div class="mb-2"><a href="{% url 'ViewActividades' respuesta.pk %}"><i class="text-green-700 fa-solid fa-clock"></i> |</a>
-                                                            <span class="font-bold">{{ respuesta.answer }} ({{respuesta.description}}%):</span> 
+                                                            <span class="font-bold">{{ respuesta.answer }}:</span> 
                                                             {{ respuesta.description }}
                                                         </div>
                                                     {%endif%}
