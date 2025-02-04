@@ -175,6 +175,19 @@ def files(instance, filename):
     
     return archivo_guia
 
+
+#Ratings
+class Rating(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='StudentRating')
+    teacher= models.ForeignKey(User, on_delete=models.CASCADE, related_name="TeacherActivity") # Creator of activity
+    activity = models.ForeignKey(Activities, on_delete=models.CASCADE, related_name='ActivityRating')
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
+    created_on = models.DateTimeField(default=timezone.now)
+    message = models.TextField()
+    
+    def __str__(self):
+        return f'Rating: User:{self.student}, Activity: {self.activity}'
+
 # Translate class: Archivo
 class File(models.Model):
     activity = models.ForeignKey(Activities, on_delete=models.CASCADE, related_name='activity') #actividad
