@@ -27,6 +27,8 @@ import pytz
 import time
 import tzlocal #pip install tzlocal
 
+# time now!
+from utils.functions import time_zone_user_location
 
 class BoardProfesores(View):
     
@@ -38,13 +40,8 @@ class BoardProfesores(View):
         grades = Grade.objects.filter(subjects__in=materias_profesor).distinct()
         actividades = Activities.objects.filter(subject__in=materias_profesor)
 
-        # Obtener la zona horaria local
-        zona_horaria_usuario = pytz.timezone(request.user.time_zone)
-
-        # Obtener la hora actual en la zona horaria del usuario
-        fecha_actual = datetime.now(zona_horaria_usuario).date()
-        hora_actual = datetime.now(zona_horaria_usuario).time()
-        print(actividades)
+        #Time zone
+        DateNow, TimeNow = time_zone_user_location(request.user.time_zone)
             
         context = {
             'grades': grades,
@@ -52,8 +49,8 @@ class BoardProfesores(View):
             'vista': vista,
             'abierto':abierto,
             'actividades': actividades,
-            'hora_actual': hora_actual,
-            'fecha_actual': fecha_actual,
+            'hora_actual': TimeNow,
+            'fecha_actual': DateNow,
         }
         return render(request, 'users/teachers/inicio.html', context)
 

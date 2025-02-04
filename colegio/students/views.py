@@ -12,6 +12,8 @@ from django.utils import timezone
 import pytz
 from datetime import datetime 
 
+# time now!
+from utils.functions import time_zone_user_location
 
 # Frases motivadoras
 import random
@@ -38,15 +40,6 @@ mensajes_motivadores = [
     "Recuerda que las mejores cosas toman tiempo. Tu esfuerzo dará frutos, ¡confía en el proceso!"
 ]
 
-def time_zome_user_location(location):
-    zona_horaria_usuario = pytz.timezone(location)
-    nowDate = datetime.now(zona_horaria_usuario).date()
-    nowTime = datetime.now(zona_horaria_usuario).time()
-    
-    ## Obtener la zona horaria local
-    # fecha_actual, hora_actual = time_zome_user_location(request.user.time_zone)
-    return nowDate, nowTime
-
 class AlumnoBoard(View):
     def get(self, request, *args, **kwargs):
         vista = 'estudiante'
@@ -61,7 +54,7 @@ class AlumnoBoard(View):
         
         # Obtener la hora actual en la zona horaria del usuario
         ## Obtener la zona horaria local
-        fecha_actual, hora_actual = time_zome_user_location(request.user.time_zone)
+        fecha_actual, hora_actual = time_zone_user_location(request.user.time_zone)
         
         
         actividades_user_on_time = Activities.objects.filter(
@@ -93,7 +86,7 @@ class ActividadesRespuestaView(View):
     def get(self, request, pk, *args, **kwargs):
         
         ## Obtener la zona horaria local
-        fecha_actual, hora_actual = time_zome_user_location(request.user.time_zone)
+        fecha_actual, hora_actual = time_zone_user_location(request.user.time_zone)
         
         #vista de estudiantes (obviamente tiene modelo de estudiante)
         user = request.user
@@ -171,7 +164,7 @@ class ActividadesRespuestaView(View):
     def post(self, request, pk, *args, **kwargs):
         form = ActivitiesAnswerForm(request.POST, request.FILES)
         #time zone info
-        nowDate, nowTime = time_zome_user_location(request.user.time_zone)
+        nowDate, nowTime = time_zone_user_location(request.user.time_zone)
         if form.is_valid():
             # process of save instance
             student_response_instance = form.save(commit=False)
