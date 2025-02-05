@@ -151,7 +151,7 @@
 
 <div>
     <div class="grid gap-8 m-6 lg:mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {% for author, respuestas in respuestas_agrupadas %}
+        {% for author, respuestas, rating in respuestas_agrupadas %}
             <div class="relative">
                 <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded bg-gray-700 "></span>
                 <div class="relative h-full items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl">
@@ -163,7 +163,17 @@
                             <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
                                 <div class="flex" >
                                     <a>
-                                            <h5 class="font-bold text-lg mb-4">Respuestas:</h5>
+                                            <h5 class="font-bold text-lg mb-4">Respuestas: 
+                                                <span class="text-red-500">
+                                                    {% if rating %}
+                                                        {{rating}}<span class="text-green-500">/100</span>
+                                                    {% else %}
+                                                        <span class="text-green-500">
+                                                            <a href="#">Sin calificacion</a>
+                                                        </span>
+                                                    {% endif %}
+                                                </span>
+                                            </h5>
                                     </a>
                                     <button class="flex" data-collapse-target="collapse-{{author.pk}}">
                                         <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>

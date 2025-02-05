@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
-from information.models import Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, DailySchedule
+from information.models import Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, DailySchedule, Rating
 from .forms import ActivitiesForm, FileForm, FilesProfesoresForm
 from django.contrib import messages
 ## MENSAJES DE ERRORES ##
 from message_error import messages_error
+from django.db.models import Prefetch
+from django.core.exceptions import ObjectDoesNotExist
+from itertools import groupby
+from operator import attrgetter
 
 # maage directories
 import os
@@ -185,8 +189,7 @@ class ViewActividades(View):
         all_files = zip(files, file_type)
         
         actividades_form = ActivitiesForm()
-        
-        
+
         try:
             # Obtener las respuestas relacionadas con una actividad específica
             respuestas = StudentResponse.objects.filter(activity=activity).select_related('author')
@@ -195,10 +198,23 @@ class ViewActividades(View):
             respuestas = respuestas.order_by('author')
 
             # Agrupar las respuestas por el campo 'author' usando groupby
-            respuestas_agrupadas = [(author, list(respuestas)) for author, respuestas in groupby(respuestas, key=attrgetter('author'))]
-        except:
+            respuestas_agrupadas = []
+            
+            for author, respuestas_lista in groupby(respuestas, key=attrgetter('author')):
+                respuestas_lista = list(respuestas_lista)  # Convertir a lista
+                try:
+                    # Obtener la calificación del estudiante si existe
+                    rating = Rating.objects.get(student=author, activity=activity)
+                    calificacion = rating.rating
+                except ObjectDoesNotExist:
+                    calificacion = None  # Si no hay calificación, asignar None
+                
+                respuestas_agrupadas.append((author, respuestas_lista, calificacion))  # Agregar a la lista
+
+        except Exception as e:
+            print(f"Error al obtener respuestas agrupadas: {e}")
             respuestas_agrupadas = None
-        
+
         final_date = activity.end_date
         final_hour = activity.end_time
         
