@@ -125,7 +125,7 @@ class CreateAlumno(View):
         if not grados:
             return render(request, 'errors/error_no_grades.html', context)
         
-        return render(request, 'users/alumnos/create_alumnos.html', context)
+        return render(request, 'users/student/create_students.html', context)
 
 class CreateGestor(View):
     def post(self, request, *args, **kwargs):
@@ -260,7 +260,7 @@ class CreateProfesor(View):
         if not grados:
             return render(request, 'errors/error_no_grades.html', context)
         
-        return render(request, 'users/profesores/create_profesores.html', context)
+        return render(request, 'users/teachers/create_profesores.html', context)
     
 class CreateAdmin(View):
     def post(self, request, *args, **kwargs):

@@ -168,6 +168,7 @@ class ViewActividades(View):
     def get(self, request, pk, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
+        
         activity = Activities.objects.get(pk=pk)
         #obtener materia
         materia = activity.subject
