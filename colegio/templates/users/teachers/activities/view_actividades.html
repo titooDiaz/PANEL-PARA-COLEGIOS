@@ -151,7 +151,31 @@
 
 <div>
     <div class="grid gap-8 m-6 lg:mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {% for author, respuestas, rating in respuestas_agrupadas %}
+        {% for author, respuestas, rating in respuestas_agrupadas %}  
+    
+            <div id="information{{author.pk}}" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
+                                
+                <div class="flex items-center justify-center min-h-screen">
+                    <div class="bg-white border-2 border-black p-4 rounded-lg">
+                        <button onclick="closeVentana('information', '{{author.pk}}')" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
+                            <p class="mr-4">cerrar</p>
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
+                        <div class="mb-4">
+                            <span class="text-red-500">
+                                {% if rating %}
+                                    {{rating}}<span class="text-green-500">/100</span>
+                                {% else %}
+                                    <span class="text-green-500">
+                                        <a href="#">Sin calificacion</a>
+                                    </span>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
             <div class="relative">
                 <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded bg-gray-700 "></span>
                 <div class="relative h-full items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl">
@@ -163,17 +187,17 @@
                             <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
                                 <div class="flex" >
                                     <a>
-                                            <h5 class="font-bold text-lg mb-4">Respuestas: 
-                                                <span class="text-red-500">
-                                                    {% if rating %}
-                                                        {{rating}}<span class="text-green-500">/100</span>
-                                                    {% else %}
-                                                        <span class="text-green-500">
-                                                            <a href="#">Sin calificacion</a>
-                                                        </span>
-                                                    {% endif %}
-                                                </span>
-                                            </h5>
+                                        <h5 class="font-bold text-lg mb-4">Respuestas: 
+                                            <span class="text-red-500">
+                                                {% if rating %}
+                                                    {{rating}}<span class="text-green-500">/100</span>
+                                                {% else %}
+                                                    <span class="text-green-500">
+                                                        <a href="#">Sin calificacion</a>
+                                                    </span>
+                                                {% endif %}
+                                            </span>
+                                        </h5>
                                     </a>
                                     <button class="flex" data-collapse-target="collapse-{{author.pk}}">
                                         <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
@@ -214,6 +238,7 @@
                                         {% endfor %}
                                     </div>
                             </div>
+                            <button onclick="showVentana('information', '{{author.pk}}')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg w-full">Asignar nota</button>
                         </div> 
                     </div>
                 </div>
@@ -225,7 +250,7 @@
 </div>
 
 
-<script src="{% static 'js/ventanas/emergentes.js' %}"></script>
+<script src="{% static 'js/windows/modal_for.js' %}"></script>
 
 
 <!--Colapse script-->
