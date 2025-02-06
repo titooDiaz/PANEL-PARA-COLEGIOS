@@ -1,5 +1,5 @@
 from django import forms
-from information.models import Activities, File, ActivitiesType
+from information.models import Activities, File, ActivitiesType, Rating
 from django.forms.widgets import DateInput, TimeInput
 
 
@@ -54,3 +54,15 @@ class ActivitiesForm(forms.ModelForm):
 
 class FileForm(forms.Form):
     archivo = forms.FileField(widget=forms.ClearableFileInput())
+    
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ['rating', 'message']
+        widgets = {
+            'rating': forms.NumberInput(attrs={'autocomplete': 'off','id':'rating','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Calificacion del estudiante 0/100'}),
+            
+            'message': forms.TextInput(attrs={'autocomplete': 'off','id':'message','class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5', 'placeholder': 'Deseas agregar un mensaje al estudiante?'}),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

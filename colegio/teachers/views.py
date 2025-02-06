@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
 from information.models import Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, DailySchedule, Rating
-from .forms import ActivitiesForm, FileForm, FilesProfesoresForm
+from .forms import ActivitiesForm, FileForm, FilesProfesoresForm, RatingForm
 from django.contrib import messages
 ## MENSAJES DE ERRORES ##
 from message_error import messages_error
@@ -35,7 +35,6 @@ import tzlocal #pip install tzlocal
 from utils.functions import time_zone_user_location
 
 class BoardProfesores(View):
-    
     def get(self, request, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
@@ -214,12 +213,16 @@ class ViewActividades(View):
         except Exception as e:
             print(f"Error al obtener respuestas agrupadas: {e}")
             respuestas_agrupadas = None
+            
+        ## Students ratings
+        StudentRatingsForm = RatingForm()
 
         final_date = activity.end_date
         final_hour = activity.end_time
         
         form = FilesProfesoresForm()
         context = {
+            'StudentRatingForm': StudentRatingsForm,
             'form': form,
             'files': all_files,
             'actividad': activity,
