@@ -12,6 +12,112 @@
     <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grade_name}} ({{grado.grade_number}})!</h2>
 </div>
 
+<button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg w-full">Asignar nota</button>
+                        
+
+<div id="informationRatings" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
+                                
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white border-2 border-black p-4 rounded-lg">
+            <button onclick="closeVentana('information', 'Ratings')" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
+                <p class="mr-4">cerrar</p>
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+            <div class="mb-4">
+                <div class="bg-white shadow-md rounded-md overflow-hidden w-full max-w-lg mx-4">
+                    <div class="bg-orange-100 py-2 px-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Calificaciones</h2>
+                    </div>
+                    
+                    <div class="relative w-full transition-all bg-orange-100 p-2 ">
+                        <input
+                          type="text"
+                          placeholder="Buscar..."
+                          id="searchInput"
+                          class="w-full py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-full outline-none transition-all border-gray-300"
+                        />
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-5">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </div>
+                    </div>
+            
+                    <ul class="divide-y divide-gray-200">
+                        <li class="flex items-center py-4 px-6">
+                            <span class="text-gray-700 text-lg font-medium mr-4">1.</span>
+                            <img class="w-12 h-12 rounded-full object-cover mr-4" src=""
+                                alt="User avatar">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-medium text-gray-800">Jheiber</h3>
+                                <p class="text-gray-600 text-base">
+                                    <span id="points">100</span> puntos
+                                </p>
+                                <input type="text" id="editPoints" class="editable border rounded px-2 py-1" value="100">
+                                <button id="saveButton" class="save-button bg-green-500 text-white px-2 py-1 rounded mt-2">Guardar</button>
+                            </div>
+                            <button id="editButton" class="ml-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+                                </svg>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+
+<style>
+    .editable {
+            display: none;
+        }
+        .editable.active {
+            display: block;
+        }
+        .save-button {
+            display: none;
+        }
+        .save-button.active {
+            display: block;
+        }
+</style>
+<script>
+
+    // Lógica para editar los puntos
+    const editButton = document.getElementById('editButton');
+    const pointsDisplay = document.getElementById('points');
+    const editPointsInput = document.getElementById('editPoints');
+    const saveButton = document.getElementById('saveButton');
+
+    editButton.addEventListener('click', () => {
+        editPointsInput.classList.toggle('active');
+        saveButton.classList.toggle('active');
+        editPointsInput.focus();
+    });
+
+    editPointsInput.addEventListener('blur', () => {
+        pointsDisplay.textContent = editPointsInput.value;
+        editPointsInput.classList.remove('active');
+        saveButton.classList.remove('active');
+    });
+
+    editPointsInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            pointsDisplay.textContent = editPointsInput.value;
+            editPointsInput.classList.remove('active');
+            saveButton.classList.remove('active');
+        }
+    });
+
+    saveButton.addEventListener('click', () => {
+        pointsDisplay.textContent = editPointsInput.value;
+        editPointsInput.classList.remove('active');
+        saveButton.classList.remove('active');
+    });
+</script>
+
 <div class="w-full p-4 border border-black rounded-xl">
     <h4 class="font-bold text-4xl mb-2">
         {{materia.name_1}} -
