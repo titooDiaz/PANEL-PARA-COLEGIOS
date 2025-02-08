@@ -11,8 +11,6 @@
 <div class="mx-auto max-w-screen-sm text-center">
     <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grade_name}} ({{grado.grade_number}})!</h2>
 </div>
-
-<button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg w-full">Asignar nota</button>
                         
 
 <div id="informationRatings" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
@@ -119,10 +117,14 @@
 </script>
 
 <div class="w-full p-4 border border-black rounded-xl">
-    <h4 class="font-bold text-4xl mb-2">
+    <h4 class="font-bold text-4xl mb-2 text-center">
         {{materia.name_1}} -
         {{actividad.name}} ({{actividad.percentage}}%)
     </h4>
+    <div class="text-center mb-4">
+        <button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg">Asignar notas</button>
+    </div>
+    
     <hr>
     <time>
         {{actividad.start_date}} a las {{actividad.start_time}} <b>HASTA</b> {{actividad.end_date}} a las {{actividad.end_time}}
