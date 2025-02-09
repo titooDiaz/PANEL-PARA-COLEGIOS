@@ -5,6 +5,7 @@ urlpatterns = [
     path('board/', BoardProfesores.as_view(), name='BoardProfesores'),
     path('actividades/create/<int:pk>', CreateActividades.as_view(), name='CreateActividades'),
     path('actividades/view/<int:pk>', ViewActividades.as_view(), name='ViewActividades'),
+    path('actividades/rating/<int:student_pk>/<int:activity_pk>', RatingStudentActivity.as_view(), name='RatingStudentActivities'),
     path('edit/actividades/<int:pk>', EditActividades.as_view(), name='EditActividades'),
     
     # es - Ver horario

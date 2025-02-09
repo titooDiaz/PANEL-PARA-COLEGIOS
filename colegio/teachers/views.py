@@ -9,6 +9,11 @@ from django.db.models import Prefetch
 from django.core.exceptions import ObjectDoesNotExist
 from itertools import groupby
 from operator import attrgetter
+from django.shortcuts import get_object_or_404
+from users.models import CustomUser
+
+# in real time
+from django.http import JsonResponse
 
 # maage directories
 import os
@@ -246,6 +251,24 @@ class ViewActividades(View):
             archivo.save()
             return redirect('ViewActividades', pk=pk)
         return redirect('ViewActividades', pk=pk)
+    
+class RatingStudentActivity(View):
+    def post(self, request, student_pk, activity_pk, *args, **kwargs):
+        ratingsForm = RatingForm(request.POST)
+
+        if ratingsForm.is_valid():
+        # Crear una instancia del modelo sin guardar en la base de datos aún
+            actividad = ratingsForm.save(commit=False)
+            actividad.author = request.user  # Teacher author
+            actividad.student = get_object_or_404(CustomUser, id=student_pk)
+            actividad.activity = get_object_or_404(Activities, id=activity_pk)
+            actividad.save()
+        else:
+            # Si el formulario no es válido, muestra los errores
+            messages.error(request, 'Formulario no válido')
+        return JsonResponse({'success': True})
+
+    
     
 class EditActividades(View):
     def get(self, request, pk, *args, **kwargs):
