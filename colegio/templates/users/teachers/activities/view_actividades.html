@@ -22,7 +22,7 @@
                 <i class="fa-solid fa-circle-xmark"></i>
             </button>
             <div class="mb-4">
-                <div class="bg-white shadow-md rounded-md overflow-hidden w-full max-w-lg mx-4">
+                <div class="bg-white shadow-md rounded-md overflow-hidden w-full">
                     <div class="bg-orange-100 py-2 px-4">
                         <h2 class="text-xl font-semibold text-gray-800">Calificaciones</h2>
                     </div>
@@ -42,24 +42,34 @@
                     </div>
             
                     <ul class="divide-y divide-gray-200">
-                        <li class="flex items-center py-4 px-6">
-                            <span class="text-gray-700 text-lg font-medium mr-4">1.</span>
-                            <img class="w-12 h-12 rounded-full object-cover mr-4" src=""
-                                alt="User avatar">
-                            <div class="flex-1">
-                                <h3 class="text-lg font-medium text-gray-800">Jheiber</h3>
-                                <p class="text-gray-600 text-base">
-                                    <span id="points">100</span> puntos
-                                </p>
-                                <input type="text" id="editPoints" class="editable border rounded px-2 py-1" value="100">
-                                <button id="saveButton" class="save-button bg-green-500 text-white px-2 py-1 rounded mt-2">Guardar</button>
-                            </div>
-                            <button id="editButton" class="ml-auto">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
-                                </svg>
-                            </button>
-                        </li>
+                        {% for author, respuestas, rating in respuestas_agrupadas %}  
+                            <li class="flex items-center py-4 px-6" id="Student{{author.pk}}">
+                                <span class="text-gray-700 text-lg font-medium mr-4">{{ forloop.counter }}.</span>
+                                <img class="w-12 h-12 rounded-full object-cover mr-4" src="{{ author.customuserstudent.photo.url }}" alt="User avatar">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-medium text-gray-800">{{ author.first_name }} {{ author.last_name }}</h3>
+                                    <p class="text-gray-600 text-base">
+                                        <div id="points{{author.pk}}">
+                                            {% if rating %}
+                                                <span id="rating{{author.pk}}">{{ rating }}</span> puntos
+                                            {% else %}
+                                                <span id="rating{{author.pk}}" class="text-red-500">
+                                                    <span>Sin calificación</span>
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </p>
+                                    <input type="text" id="editPoints{{author.pk}}" class="editable border rounded px-2 py-1" value="100">
+                                    <button id="saveButton{{author.pk}}" class="save-button bg-green-500 text-white px-2 py-1 rounded mt-2" 
+                                            onclick="savePoints('{{ author.pk }}')">Guardar</button>
+                                </div>
+                                <button id="editButton{{author.pk}}" class="ml-auto" onclick="editPoints('{{ author.pk }}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                        <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+                                    </svg>
+                                </button>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -82,38 +92,29 @@
         }
 </style>
 <script>
+    function editPoints(userId) {
+        let editPointsInput = document.getElementById(`editPoints${userId}`);
+        let points = document.getElementById(`points${userId}`);
+        let saveButton = document.getElementById(`saveButton${userId}`);
+        console.log(saveButton)
+        console.log(points)
+        console.log(editPointsInput)
 
-    // Lógica para editar los puntos
-    const editButton = document.getElementById('editButton');
-    const pointsDisplay = document.getElementById('points');
-    const editPointsInput = document.getElementById('editPoints');
-    const saveButton = document.getElementById('saveButton');
-
-    editButton.addEventListener('click', () => {
         editPointsInput.classList.toggle('active');
         saveButton.classList.toggle('active');
+        points.classList.toggle('active');
         editPointsInput.focus();
-    });
+    }
 
-    editPointsInput.addEventListener('blur', () => {
+    function savePoints(userId) {
+        let editPointsInput = document.getElementById(`editPoints${userId}`);
+        let saveButton = document.getElementById(`saveButton${userId}`);
+        let pointsDisplay = document.getElementById(`rating${userId}`);
+
         pointsDisplay.textContent = editPointsInput.value;
         editPointsInput.classList.remove('active');
         saveButton.classList.remove('active');
-    });
-
-    editPointsInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            pointsDisplay.textContent = editPointsInput.value;
-            editPointsInput.classList.remove('active');
-            saveButton.classList.remove('active');
-        }
-    });
-
-    saveButton.addEventListener('click', () => {
-        pointsDisplay.textContent = editPointsInput.value;
-        editPointsInput.classList.remove('active');
-        saveButton.classList.remove('active');
-    });
+    }
 </script>
 
 <div class="w-full p-4 border border-black rounded-xl">
