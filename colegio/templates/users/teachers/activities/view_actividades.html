@@ -47,7 +47,7 @@
                                 <span class="text-gray-700 text-lg font-medium mr-4">{{ forloop.counter }}.</span>
                                 <img class="w-12 h-12 rounded-full object-cover mr-4" src="{{ author.customuserstudent.photo.url }}" alt="User avatar">
                                 
-                                <form id="ratingForm" action="{% url 'RatingStudentActivities' author.pk request.user.pk %}" method="post">
+                                <form id="ratingForm" action="{% url 'RatingStudentActivities' author.pk actividad.pk %}" method="post">
                                     {% csrf_token %}
                                     <div class="flex-1">
                                         <h3 class="text-lg font-medium text-gray-800">{{ author.first_name }} {{ author.last_name }}</h3>
@@ -62,9 +62,14 @@
                                                 {% endif %}
                                             </div>
                                         </p>
-                                        <input type="number" min="0" max="100" id="editPoints{{author.pk}}" class="editable border rounded-lg px-2 py-1 m-2" placeholder="0/100">
+                                        <div id="message{{author.pk}}" class="editable">
+                                            {{StudentRatingForm.message}}
+                                        </div>
+                                            
                                         {{StudentRatingForm.rating}}
-                                        <button id="saveButton{{author.pk}}" class="save-button myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg" 
+                                        <input type="number" min="0" max="100" id="editPoints{{author.pk}}" class="editable border rounded-lg px-2 py-1 m-2" placeholder="0/100">
+
+                                        <button id="saveButton{{author.pk}}" class="save-button myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg m-2" 
                                         onclick="savePoints('{{ author.pk }}')" type="submit">Guardar</button>
                                     </div>
                                 </form>
@@ -114,10 +119,14 @@
         let editPointsInput = document.getElementById(`editPoints${userId}`);
         let points = document.getElementById(`points${userId}`);
         let saveButton = document.getElementById(`saveButton${userId}`);
+        let message = document.getElementById(`message${userId}`);
 
         editPointsInput.classList.toggle('active');
         saveButton.classList.toggle('active');
         points.classList.toggle('hidden');
+
+        message.classList.toggle('editable');
+
         editPointsInput.focus();
     }
 
@@ -125,10 +134,12 @@
         let editPointsInput = document.getElementById(`editPoints${userId}`);
         let saveButton = document.getElementById(`saveButton${userId}`);
         let pointsDisplay = document.getElementById(`rating${userId}`);
+        let message = document.getElementById(`message${userId}`);
 
         pointsDisplay.textContent = editPointsInput.value;
         editPointsInput.classList.remove('active');
         saveButton.classList.remove('active');
+        message.classList.toggle('editable');
         pointsDisplay.classList.toggle('hidden');
     }
 </script>

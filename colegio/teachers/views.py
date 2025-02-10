@@ -259,14 +259,15 @@ class RatingStudentActivity(View):
         if ratingsForm.is_valid():
         # Crear una instancia del modelo sin guardar en la base de datos aún
             actividad = ratingsForm.save(commit=False)
-            actividad.author = request.user  # Teacher author
-            actividad.student = get_object_or_404(CustomUser, id=student_pk)
-            actividad.activity = get_object_or_404(Activities, id=activity_pk)
+            actividad.teacher = request.user  # Teacher author
+            actividad.student = get_object_or_404(CustomUser, pk=student_pk)
+            actividad.activity = get_object_or_404(Activities, pk=activity_pk)
             actividad.save()
         else:
+            print(ratingsForm.errors)
             # Si el formulario no es válido, muestra los errores
             messages.error(request, 'Formulario no válido')
-        return JsonResponse({'success': True})
+        return redirect('ViewActividades', pk=activity_pk)
 
     
     

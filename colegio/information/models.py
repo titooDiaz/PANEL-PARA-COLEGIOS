@@ -183,7 +183,7 @@ class Rating(models.Model):
     activity = models.ForeignKey(Activities, on_delete=models.CASCADE, related_name='ActivityRating')
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
     created_on = models.DateTimeField(default=timezone.now)
-    message = models.TextField()
+    message = models.TextField(blank=False, null=True)
     
     def __str__(self):
         return f'Rating: User:{self.student}, Activity: {self.activity}'
