@@ -15,7 +15,7 @@
 
 <div id="informationRatings" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
                                 
-    <div class="flex items-center justify-center min-h-screen">
+    <div class="flex items-center justify-center min-h-screen m-2">
         <div class="bg-white border-2 border-black p-4 rounded-lg">
             <button onclick="closeVentana('information', 'Ratings')" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
                 <p class="mr-4">cerrar</p>
@@ -50,7 +50,15 @@
                                 <form id="ratingForm" action="{% url 'RatingStudentActivities' author.pk actividad.pk %}" method="post">
                                     {% csrf_token %}
                                     <div class="flex-1">
-                                        <h3 class="text-lg font-medium text-gray-800">{{ author.first_name }} {{ author.last_name }}</h3>
+                                        <h3 class="text-lg font-medium text-gray-800">{{ author.first_name }} {{ author.last_name }}
+                                                {% if rating %}
+                                                    <span>({{ rating }}/100)</span>
+                                                {% else %}
+                                                    <span class="text-red-500">
+                                                        <span>Sin calificación</span>
+                                                    </span>
+                                                {% endif %}
+                                        </h3>
                                         <p class="text-gray-600 text-base">
                                             <div id="points{{author.pk}}">
                                                 {% if rating %}
@@ -62,12 +70,15 @@
                                                 {% endif %}
                                             </div>
                                         </p>
-                                        <div id="message{{author.pk}}" class="editable">
-                                            {{StudentRatingForm.message}}
+                                        <div id="message{{author.pk}}" class="editable inline">
+                                            <span class="text-sm">* Escribe un nuevo mensaje</span>
+                                            <div>
+                                                {{StudentRatingForm.message}}
+                                            </div>
                                         </div>
                                             
                                         {{StudentRatingForm.rating}}
-                                        <input type="number" min="0" max="100" id="editPoints{{author.pk}}" class="editable border rounded-lg px-2 py-1 m-2" placeholder="0/100">
+                                        <input type="number" min="0" max="100" id="editPoints{{author.pk}}" class="editable border rounded-lg px-2 py-1 m-2" placeholder="?/100">
 
                                         <button id="saveButton{{author.pk}}" class="save-button myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg m-2" 
                                         onclick="savePoints('{{ author.pk }}')" type="submit">Guardar</button>

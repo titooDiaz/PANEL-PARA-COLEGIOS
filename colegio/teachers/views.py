@@ -257,17 +257,29 @@ class RatingStudentActivity(View):
         ratingsForm = RatingForm(request.POST)
 
         if ratingsForm.is_valid():
-        # Crear una instancia del modelo sin guardar en la base de datos aún
-            actividad = ratingsForm.save(commit=False)
-            actividad.teacher = request.user  # Teacher author
-            actividad.student = get_object_or_404(CustomUser, pk=student_pk)
-            actividad.activity = get_object_or_404(Activities, pk=activity_pk)
-            actividad.save()
+            teacher = request.user
+            student = get_object_or_404(CustomUser, pk=student_pk)
+            activity = get_object_or_404(Activities, pk=activity_pk)
+
+            # Buscar si ya existe la calificación
+            rating, created = Rating.objects.get_or_create(
+                teacher=teacher, student=student, activity=activity,
+                defaults={'rating': ratingsForm.cleaned_data['rating']}
+            )
+
+            if not created:  # Si ya existía, actualizarla
+                rating.rating = ratingsForm.cleaned_data['rating']
+                rating.save()
+                messages.success(request, 'Calificación actualizada correctamente.')
+            else:
+                messages.success(request, 'Calificación creada correctamente.')
+
         else:
-            print(ratingsForm.errors)
-            # Si el formulario no es válido, muestra los errores
             messages.error(request, 'Formulario no válido')
+        
         return redirect('ViewActividades', pk=activity_pk)
+
+
 
     
     
