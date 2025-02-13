@@ -277,7 +277,7 @@ class RatingStudentActivity(View):
         else:
             messages.error(request, 'Formulario no válido')
         
-        return redirect('ViewActividades', pk=activity_pk)
+        return JsonResponse({'message': f'Nota actualizada'})
 
 
 

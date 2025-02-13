@@ -82,6 +82,8 @@
 
                                         <button id="saveButton{{author.pk}}" class="save-button myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg m-2" 
                                         onclick="savePoints('{{ author.pk }}')" type="submit">Guardar</button>
+                                        <input id="url{{author.pk}}" class="hidden" type="text" value="{% url 'RatingStudentActivities' author.pk actividad.pk %}">
+                                        <input type="hidden" id="token{{author.pk}}" value="{{ csrf_token }}">
                                     </div>
                                 </form>
                                     <button id="editButton{{author.pk}}" class="ml-auto" onclick="editPoints('{{ author.pk }}')">
@@ -146,12 +148,45 @@
         let saveButton = document.getElementById(`saveButton${userId}`);
         let pointsDisplay = document.getElementById(`rating${userId}`);
         let message = document.getElementById(`message${userId}`);
+        let urlInput = document.getElementById(`url${userId}`);
+        let csrfToken = document.getElementById(`token${userId}`);
 
-        pointsDisplay.textContent = editPointsInput.value;
+
+        if (!urlInput) {
+            console.error("URL no encontrada para el usuario", userId);
+            return;
+        }
+
+        let url = urlInput.value;  // Obtener la URL desde el input oculto
+        let newRating = editPointsInput.value; // Obtener la nueva calificación
+
+        if (!newRating) {
+            alert("Por favor, ingrese un puntaje válido.");
+            return;
+        }
+
+        // Actualizar la UI antes de enviar la petición
+        pointsDisplay.textContent = newRating;
         editPointsInput.classList.remove('active');
         saveButton.classList.remove('active');
         message.classList.toggle('editable');
         pointsDisplay.classList.toggle('hidden');
+
+        // Enviar datos con AJAX
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken.value,
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({ rating: newRating }) 
+        })
+        .then(data => {
+            console.log("Respuesta del servidor:", data);
+            alert(data.message);
+        })
+        .catch(error => console.error("Error en la petición:", error));
     }
 </script>
 
