@@ -72,7 +72,7 @@
                                         </p>
                                         <div id="message{{author.pk}}" class="editable inline">
                                             <span class="text-sm">* Escribe un nuevo mensaje</span>
-                                            <div>
+                                            <div id="message{{author.pk}}">
                                                 {{StudentRatingForm.message}}
                                             </div>
                                         </div>
@@ -81,7 +81,7 @@
                                         <input type="number" min="0" max="100" id="editPoints{{author.pk}}" class="editable border rounded-lg px-2 py-1 m-2" placeholder="?/100">
 
                                         <button id="saveButton{{author.pk}}" class="save-button myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg m-2" 
-                                        onclick="savePoints('{{ author.pk }}')" type="submit">Guardar</button>
+                                        onclick="savePoints('{{ author.pk }}', event)" type="submit">Guardar</button>
                                         <input id="url{{author.pk}}" class="hidden" type="text" value="{% url 'RatingStudentActivities' author.pk actividad.pk %}">
                                         <input type="hidden" id="token{{author.pk}}" value="{{ csrf_token }}">
                                     </div>
@@ -143,36 +143,30 @@
         editPointsInput.focus();
     }
 
-    function savePoints(userId) {
+    function savePoints(userId, event) {
+        event.preventDefault(); // Evitar recarga de página
+
         let editPointsInput = document.getElementById(`editPoints${userId}`);
+        let messageInput = document.querySelector(`#message${userId} textarea`); // Capturar el mensaje
         let saveButton = document.getElementById(`saveButton${userId}`);
         let pointsDisplay = document.getElementById(`rating${userId}`);
-        let message = document.getElementById(`message${userId}`);
         let urlInput = document.getElementById(`url${userId}`);
         let csrfToken = document.getElementById(`token${userId}`);
-
 
         if (!urlInput) {
             console.error("URL no encontrada para el usuario", userId);
             return;
         }
 
-        let url = urlInput.value;  // Obtener la URL desde el input oculto
-        let newRating = editPointsInput.value; // Obtener la nueva calificación
+        let url = urlInput.value;
+        let newRating = editPointsInput.value;
+        let newMessage = messageInput ? messageInput.value : ""; // Manejo seguro del mensaje
 
-        if (!newRating) {
-            alert("Por favor, ingrese un puntaje válido.");
+        if (!newRating || isNaN(newRating) || newRating < 0 || newRating > 100) {
+            alert("Por favor, ingrese un puntaje válido entre 0 y 100.");
             return;
         }
 
-        // Actualizar la UI antes de enviar la petición
-        pointsDisplay.textContent = newRating;
-        editPointsInput.classList.remove('active');
-        saveButton.classList.remove('active');
-        message.classList.toggle('editable');
-        pointsDisplay.classList.toggle('hidden');
-
-        // Enviar datos con AJAX
         fetch(url, {
             method: 'POST',
             headers: {
@@ -180,14 +174,28 @@
                 "X-CSRFToken": csrfToken.value,
             },
             credentials: 'same-origin',
-            body: JSON.stringify({ rating: newRating }) 
+            body: JSON.stringify({ 
+                rating: newRating,
+                message: newMessage // Enviar el mensaje junto con el rating
+            })
         })
+        .then(response => response.json())
         .then(data => {
-            console.log("Respuesta del servidor:", data);
-            alert(data.message);
+            if (data.message) {
+                pointsDisplay.textContent = newRating;
+                editPointsInput.classList.remove('active');
+                saveButton.classList.remove('active');
+                pointsDisplay.classList.toggle('hidden');
+                alert("Calificación guardada con éxito.");
+            }
         })
-        .catch(error => console.error("Error en la petición:", error));
+        .catch(error => {
+            console.error("Error en la petición:", error);
+            alert("Hubo un error al guardar la calificación.");
+        });
     }
+
+
 </script>
 
 <div class="w-full p-4 border border-black rounded-xl">

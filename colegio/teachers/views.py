@@ -275,6 +275,7 @@ class RatingStudentActivity(View):
                 messages.success(request, 'Calificación creada correctamente.')
 
         else:
+            print(ratingsForm.errors)
             messages.error(request, 'Formulario no válido')
         
         return JsonResponse({'message': f'Nota actualizada'})
