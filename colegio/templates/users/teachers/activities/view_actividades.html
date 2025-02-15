@@ -47,7 +47,7 @@
                                 <span class="text-gray-700 text-lg font-medium mr-4">{{ forloop.counter }}.</span>
                                 <img class="w-12 h-12 rounded-full object-cover mr-4" src="{{ author.customuserstudent.photo.url }}" alt="User avatar">
                                 
-                                <form id="ratingForm" action="{% url 'RatingStudentActivities' author.pk actividad.pk %}" method="post">
+                                <form id="ratingForm{{author.pk}}" action="{% url 'RatingStudentActivities' author.pk actividad.pk %}" method="post">
                                     {% csrf_token %}
                                     <div class="flex-1">
                                         <h3 class="text-lg font-medium text-gray-800">{{ author.first_name }} {{ author.last_name }}
@@ -152,6 +152,8 @@
         let pointsDisplay = document.getElementById(`rating${userId}`);
         let urlInput = document.getElementById(`url${userId}`);
         let csrfToken = document.getElementById(`token${userId}`);
+        let form = document.getElementById(`ratingForm${userId}`);
+        console.log(form)
 
         if (!urlInput) {
             console.error("URL no encontrada para el usuario", userId);
@@ -159,40 +161,21 @@
         }
 
         let url = urlInput.value;
-        let newRating = editPointsInput.value;
-        let newMessage = messageInput ? messageInput.value : ""; // Manejo seguro del mensaje
-
-        if (!newRating || isNaN(newRating) || newRating < 0 || newRating > 100) {
-            alert("Por favor, ingrese un puntaje válido entre 0 y 100.");
-            return;
-        }
 
         fetch(url, {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json",
                 "X-CSRFToken": csrfToken.value,
             },
-            credentials: 'same-origin',
-            body: JSON.stringify({ 
-                rating: newRating,
-                message: newMessage // Enviar el mensaje junto con el rating
-            })
+            body: new FormData(form)
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                pointsDisplay.textContent = newRating;
-                editPointsInput.classList.remove('active');
-                saveButton.classList.remove('active');
-                pointsDisplay.classList.toggle('hidden');
-                alert("Calificación guardada con éxito.");
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error en la solicitud');
             }
         })
-        .catch(error => {
-            console.error("Error en la petición:", error);
-            alert("Hubo un error al guardar la calificación.");
-        });
     }
 
 
@@ -278,7 +261,7 @@
     {% endfor %}
     <span class="font-normal text-lg"> 
         Deseas agregar archivos guias?
-    <a id="active_information" class="hover:cursor-pointer ml-2">
+    <a onclick="showVentana('information', 'Files')" class="hover:cursor-pointer ml-2">
         <i class="fa-regular fa-square-plus"></i>
     </a>
     </span>
@@ -286,11 +269,11 @@
 
     <div class="flex ml-4">
         <div class="flex ml-4 relative">
-            <div id="information" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
+            <div id="informationFiles" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
                 
                 <div class="flex items-center justify-center min-h-screen">
                     <div class="bg-white border-2 border-black p-4 rounded-lg">
-                        <a id="close_information" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500 font-bold">
+                        <a onclick="closeVentana('information', 'Files')" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500 font-bold">
                             <p class="mr-4">cerrar</p>
                             <i class="fa-solid fa-circle-xmark"></i>
                         </a>

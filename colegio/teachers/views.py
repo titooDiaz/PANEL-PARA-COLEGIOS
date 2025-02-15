@@ -269,6 +269,7 @@ class RatingStudentActivity(View):
 
             if not created:  # Si ya existía, actualizarla
                 rating.rating = ratingsForm.cleaned_data['rating']
+                rating.message = ratingsForm.cleaned_data['message']
                 rating.save()
                 messages.success(request, 'Calificación actualizada correctamente.')
             else:
