@@ -271,9 +271,6 @@ class RatingStudentActivity(View):
                 rating.rating = ratingsForm.cleaned_data['rating']
                 rating.message = ratingsForm.cleaned_data['message']
                 rating.save()
-                messages.success(request, 'Calificación actualizada correctamente.')
-            else:
-                messages.success(request, 'Calificación creada correctamente.')
 
         else:
             print(ratingsForm.errors)

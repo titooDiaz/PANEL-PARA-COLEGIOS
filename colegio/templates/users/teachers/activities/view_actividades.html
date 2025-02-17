@@ -52,7 +52,7 @@
                                     <div class="flex-1">
                                         <h3 class="text-lg font-medium text-gray-800">{{ author.first_name }} {{ author.last_name }}
                                                 {% if rating %}
-                                                    <span>({{ rating }}/100)</span>
+                                                    <span>(<span id="ratingUp{{author.pk}}">{{ rating }}</span>/100)</span>
                                                 {% else %}
                                                     <span class="text-red-500">
                                                         <span>Sin calificación</span>
@@ -133,12 +133,20 @@
         let points = document.getElementById(`points${userId}`);
         let saveButton = document.getElementById(`saveButton${userId}`);
         let message = document.getElementById(`message${userId}`);
+        let pointsDisplay = document.getElementById(`rating${userId}`);
+        let pointsDisplay2 = document.getElementById(`ratingUp${userId}`);
+
+        // replace span
+        pointsDisplay.innerText = editPointsInput.value;
+        pointsDisplay2.innerText = editPointsInput.value;
+
 
         editPointsInput.classList.toggle('active');
         saveButton.classList.toggle('active');
         points.classList.toggle('hidden');
 
         message.classList.toggle('editable');
+        
 
         editPointsInput.focus();
     }
@@ -149,7 +157,6 @@
         let editPointsInput = document.getElementById(`editPoints${userId}`);
         let messageInput = document.querySelector(`#message${userId} textarea`); // Capturar el mensaje
         let saveButton = document.getElementById(`saveButton${userId}`);
-        let pointsDisplay = document.getElementById(`rating${userId}`);
         let urlInput = document.getElementById(`url${userId}`);
         let csrfToken = document.getElementById(`token${userId}`);
         let form = document.getElementById(`ratingForm${userId}`);
@@ -176,6 +183,7 @@
                 throw new Error('Error en la solicitud');
             }
         })
+        editPoints(userId); // reinciar botones
     }
 
 
