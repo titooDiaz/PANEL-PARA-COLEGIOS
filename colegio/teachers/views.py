@@ -274,9 +274,13 @@ class RatingStudentActivity(View):
 
         else:
             print(ratingsForm.errors)
-            messages.error(request, 'Formulario no válido')
+            information = {'message': f'Nota No',
+                            'status': 0} # form has not been save
+            return JsonResponse(information)
         
-        return JsonResponse({'message': f'Nota actualizada'})
+        information = {'message': f'Nota No',
+                            'status': 1} # forma has been save
+        return JsonResponse(information)
 
 
 

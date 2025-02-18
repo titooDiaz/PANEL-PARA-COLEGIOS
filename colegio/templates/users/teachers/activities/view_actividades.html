@@ -183,7 +183,14 @@
                 throw new Error('Error en la solicitud');
             }
         })
-        editPoints(userId); // reinciar botones
+        .then(function(data) {
+            console.log(data);
+            if (data.status == 0){
+                alert("OYE! La nota maxima es de 100 puntos, atento");
+            }else{
+                editPoints(userId);
+            }
+        })
     }
 
 
