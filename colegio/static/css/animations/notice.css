@@ -1,0 +1,41 @@
+/* Estilo para el contenedor del mensaje */
+.message {
+    position: fixed;
+    z-index: 100;
+    bottom: 20px;
+    right: 20px;
+    transform: translateX(0);
+    background-color: #25ca6a;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 20px;
+    font:bold;
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  /* Animación de desvanecimiento */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Estilo del botón de cierre */
+  .close-btn {
+    background: rgb(255, 255, 255);
+    padding: 4px 10px;
+    /* border-radius: 100%; */
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: bolder;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  

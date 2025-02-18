@@ -7,11 +7,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="message-container" class="bg-green-400"></div>
 {% load static %}
 <div class="mx-auto max-w-screen-sm text-center">
     <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grade_name}} ({{grado.grade_number}})!</h2>
 </div>
-                        
+
 
 <div id="informationRatings" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
                                 
@@ -42,6 +43,7 @@
                     </div>
             
                     <ul class="divide-y divide-gray-200">
+                        <!--Notice!-->
                         {% for author, respuestas, rating in respuestas_agrupadas %}  
                             <li class="flex items-center py-4 px-6" id="Student{{author.pk}}">
                                 <span class="text-gray-700 text-lg font-medium mr-4">{{ forloop.counter }}.</span>
@@ -186,9 +188,10 @@
         .then(function(data) {
             console.log(data);
             if (data.status == 0){
-                alert("OYE! La nota maxima es de 100 puntos, atento");
+                alert("OYE! La nota maxima es de 100 puntos, atento.");
             }else{
                 editPoints(userId);
+                showMessage('¡Nota actualizada!')
             }
         })
     }
@@ -439,9 +442,13 @@
 </div>
 
 
+<!-- ANIMATIONS NOTICE -->
 <script src="{% static 'js/windows/modal_for.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/animations/notice.css' %}">
 
 
 <!--Colapse script-->
 <script src="{%static 'js/windows/collapse.js' %}"></script>
+
+<script src="{%static 'js/windows/notice.js' %}"></script>
 {% endblock content %}  
