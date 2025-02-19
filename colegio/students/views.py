@@ -76,8 +76,6 @@ class AlumnoBoard(View):
             actividades_user_off_time_grade.append(grade)
 
         actividades_user_off_time = zip(actividades_user_off_time_grade, actividades_user_off_time)
-            
-        actividades_user_on_time_grade = []
     
         
         context = {
@@ -125,8 +123,7 @@ class ActividadesRespuestaView(View):
         # 1 --> On time
         # 2 --> Out time
         # 3 --> on time (today)
-        print(actividades_user_off_time, 'asdas')
-        print(actividades_user_on_time)
+        
         if activity in actividades_user_off_time:
             if activity.end_time > hora_actual and activity.end_date >= fecha_actual:
                 # on time (Today)
