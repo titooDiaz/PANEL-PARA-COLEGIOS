@@ -156,6 +156,9 @@ class ActividadesRespuestaView(View):
         # Obtener materia
         actividad = Activities.objects.get(pk=pk)
         
+        # Get grade
+        grade = Rating.objects.filter(student=request.user, activity=activity).first()
+        
         # Retorno del contexto
         vista = 'estudiante'
         abierto='inicio'
@@ -169,6 +172,7 @@ class ActividadesRespuestaView(View):
             'date': combined_datetime.isoformat(),
             'on_time': on_time,
             'answers': user_answers,
+            'rating': grade,
         }
         return render(request, 'users/student/activities/answers.html', context)
 
