@@ -6,7 +6,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+{% load static %}
 <div class="my-6">
     <h5 class="text-5xl text-center font-bold text-black zoom-4 mb-8">Bienvenido {{request.user.first_name}}!</h5>
 
@@ -84,7 +84,7 @@
                                             <div class="w-full">
                                                 <div class="m-2">
                                                     <div>
-                                                        <p><span class="font-bold">({{actividad.end_date}} - {{actividad.end_time}}) {{actividad.type}}</span> - {{actividad.materia.name_1}} </p> 
+                                                        <p><span class="font-bold">({{actividad.end_date}} - {{actividad.end_time}}) {{actividad.type}}</span></p> 
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -110,13 +110,13 @@
                 <br>
 
                 <div class="flex"></div>
-                    <button class="w-full" data-collapse-target="collapse-actividades_pasadas">
+                    <button class="w-full" data-collapse-target="collapse-activityOff">
                         <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
                         <h5 class="font-bold text-lg mb-4 text-left">Actividades Pasadas:</h5>
                         <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
                     </button>
                 </div>
-                <div data-collapse="collapse-actividades_pasadas" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
+                <div data-collapse="collapse-activityOff" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
 
                     <div>
                         <div class="w-full flex items-center justify-center my-4">
@@ -136,7 +136,7 @@
 
                         <div class="bg-gray-300 p-4 grid gap-4 sm:grid-cols-1 lg:grid-cols-2 rounded-lg">
                             
-                            {% for actividad in actividades_pasadas %}
+                            {% for score, actividad in activityOff %}
                                 
                                 <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
                                     <div class="m-2">
@@ -170,12 +170,18 @@
                                         <div class="w-full">
                                             <div class="m-2">
                                                 <div>
-                                                    <p><span class="font-bold">({{actividad.end_date}} - {{actividad.end_time}}) {{actividad.type}}</span> - {{actividad.materia.name_1}} </p> 
+                                                    <p><span class="font-bold">({{actividad.end_date}} - {{actividad.end_time}}) {{actividad.type}}</span></p> 
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="m-2">
-                                                <p class="font-bold">{{actividad.name}}</p>
+                                                <p class="font-bold">{{actividad.name}} - 
+                                                    {% if score.rating %}
+                                                        ({{score.rating}}/100)
+                                                    {% else %}
+                                                        No calificado
+                                                    {% endif %}
+                                                </p>
                                                 <p>{{actividad.description}}</p>
                                             </div>
                                         </div>
@@ -235,6 +241,6 @@
 </div>
 
 <!-- from cdn -->
-<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js"></script>
+<script src="{% static 'js/windows/collapse.js' %}"></script>
 
 {% endblock content %}  

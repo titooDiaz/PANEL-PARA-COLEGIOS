@@ -6,6 +6,7 @@ from django.views import View
 from information.models import StudentResponse, File, StudentFiles, DailySchedule, School, Grade
 from .forms import ActivitiesAnswerForm
 from django.contrib import messages
+from information.models import Rating
 
 # LIBRERIAS DE FECHAS
 from django.utils import timezone
@@ -67,6 +68,16 @@ class AlumnoBoard(View):
             subject__in=materias_user,
             end_date__lte=fecha_actual
         )
+        
+        # grade for each activity
+        actividades_user_off_time_grade = []
+        for activity in actividades_user_off_time:
+            grade = Rating.objects.filter(student=request.user, activity=activity).first()
+            actividades_user_off_time_grade.append(grade)
+
+        actividades_user_off_time = zip(actividades_user_off_time_grade, actividades_user_off_time)
+            
+        actividades_user_on_time_grade = []
     
         
         context = {
@@ -75,7 +86,7 @@ class AlumnoBoard(View):
             'grade': grade_user,
             'materias': materias_user,
             'actividades': actividades_user_on_time,
-            'actividades_pasadas': actividades_user_off_time,
+            'activityOff': actividades_user_off_time,
             'fecha_actual': fecha_actual,
             'hora_actual': hora_actual,
             
