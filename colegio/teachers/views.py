@@ -97,8 +97,12 @@ class CreateActividades(View):
         vista = 'profesores'
         abierto='inicio'
         materia = Subjects.objects.get(pk=pk)
-        grado = Grade.objects.get(subjects=materia)
+        author = request.user
+        grade = Grade.objects.filter(subjects=materia).first()
         tipo_actividades = ActivitiesType.objects.filter(school_id=request.user.school)
+        
+        activities = Activities.objects.filter(author=author,subject=materia).values_list('percentage', flat=True)
+        total_percentage = sum(activities)
         
         initial_data = {
             'start_date': get_current_date(request.user),
@@ -111,8 +115,9 @@ class CreateActividades(View):
         actividades_form = ActivitiesForm(initial=initial_data)
         actividades_form.fields['type'].queryset = tipo_actividades
         context = {
+            'percentage': total_percentage,
             'materia': materia,
-            'grado': grado,
+            'grade': grade,
             'actividades': actividades_form,
             'vista': vista,
             'abierto':abierto,
