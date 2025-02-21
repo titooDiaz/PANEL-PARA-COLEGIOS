@@ -39,7 +39,7 @@ import tzlocal #pip install tzlocal
 # time now!
 from utils.functions import time_zone_user_location
 
-class BoardProfesores(View):
+class BoardTeachers(View):
     def get(self, request, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
@@ -144,14 +144,14 @@ class CreateActividades(View):
                 return redirect('ViewActividades', pk=actividad_id)
             except Subjects.DoesNotExist:
                 messages.error(request, 'La materia especificada no existe')
-                return redirect('BoardProfesores')
+                return redirect('BoardTeachers')
             except TypeError:
                 messages.error(request, 'Verifica tus datos')
-                return redirect('BoardProfesores')
+                return redirect('BoardTeachers')
 
         # Si el formulario no es válido, muestra los errores
         messages.error(request, 'Formulario no válido')
-        return redirect('BoardProfesores')
+        return redirect('BoardTeachers')
 
 def get_type_file(file):
     # Obtener el nombre del archivo desde la ruta completa
@@ -336,14 +336,14 @@ class EditActividades(View):
                 return redirect('ViewActividades', pk=actividad_id)
             except Subjects.DoesNotExist:
                 messages.error(request, 'La materia especificada no existe')
-                return redirect('BoardProfesores')
+                return redirect('BoardTeachers')
             except TypeError:
                 messages.error(request, 'Verifica tus datos')
-                return redirect('BoardProfesores')
+                return redirect('BoardTeachers')
 
         # Si el formulario no es válido, muestra los errores
         messages.error(request, 'Formulario no válido')
-        return redirect('BoardProfesores')
+        return redirect('BoardTeachers')
     
 # Horario para dictar clases de profresores...
 class ProfessorSchedule(View):

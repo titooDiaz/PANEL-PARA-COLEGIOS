@@ -8,7 +8,7 @@ class RedirectUser(View):
             if hasattr(request.user, 'customuserstudent'):
                 return redirect('BoardAlumno')
             elif hasattr(request.user, 'customuserteachers'):
-                return redirect('BoardProfesores')
+                return redirect('BoardTeachers')
             elif hasattr(request.user, 'customuseradmin'):
                 return redirect('BoardAdministrador')
             elif hasattr(request.user, 'customusermanager'):
