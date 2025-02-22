@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from itertools import groupby
 from operator import attrgetter
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 from users.models import CustomUser
 
 # in real time
@@ -259,34 +260,36 @@ class ViewActividades(View):
     
 class RatingStudentActivity(View):
     def post(self, request, student_pk, activity_pk, *args, **kwargs):
-        ratingsForm = RatingForm(request.POST)
+        try:
+            ratingsForm = RatingForm(request.POST)
 
-        if ratingsForm.is_valid():
+            if not ratingsForm.is_valid():
+                return JsonResponse({
+                    'message': 'Error en el formulario',
+                    'errors': ratingsForm.errors,  # Ahora enviamos los errores al frontend
+                    'status': 0
+                }, status=400)
+
             teacher = request.user
             student = get_object_or_404(CustomUser, pk=student_pk)
             activity = get_object_or_404(Activities, pk=activity_pk)
 
-            # Buscar si ya existe la calificación
-            rating, created = Rating.objects.get_or_create(
-                teacher=teacher, student=student, activity=activity,
-                defaults={'rating': ratingsForm.cleaned_data['rating']}
-            )
+            with transaction.atomic():  # Evita inconsistencias en la base de datos
+                rating, created = Rating.objects.get_or_create(
+                    teacher=teacher, student=student, activity=activity,
+                    defaults={'rating': ratingsForm.cleaned_data['rating'], 'message': ratingsForm.cleaned_data['message']}
+                )
 
-            if not created:  # Si ya existía, actualizarla
-                rating.rating = ratingsForm.cleaned_data['rating']
-                rating.message = ratingsForm.cleaned_data['message']
-                rating.save()
+                if not created:  # Si ya existía, actualizarla
+                    rating.rating = ratingsForm.cleaned_data['rating']
+                    rating.message = ratingsForm.cleaned_data['message']
+                    rating.save()
 
-        else:
-            print(ratingsForm.errors)
-            information = {'message': f'Nota No',
-                            'status': 0} # form has not been save
-            return JsonResponse(information)
-        
-        information = {'message': f'Nota No',
-                            'status': 1} # forma has been save
-        return JsonResponse(information)
+            return JsonResponse({'message': 'Calificación guardada correctamente', 'status': 1})
 
+        except Exception as e:
+            print(f"Error en la vista RatingStudentActivity: {e}")  # Esto aparecerá en la terminal
+            return JsonResponse({'message': 'Error interno del servidor', 'error': str(e), 'status': 0}, status=500)
 
 
     

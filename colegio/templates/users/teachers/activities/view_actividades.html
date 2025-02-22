@@ -51,15 +51,17 @@
                                 
                                 <form id="ratingForm{{author.pk}}" action="{% url 'RatingStudentActivities' author.pk actividad.pk %}" method="post">
                                     {% csrf_token %}
-                                    <div class="flex-1">
+                                    <div class="flex-1">asd
                                         <h3 class="text-lg font-medium text-gray-800">{{ author.first_name }} {{ author.last_name }}
-                                                {% if rating %}
-                                                    <span>(<span id="ratingUp{{author.pk}}">{{ rating }}</span>/100)</span>
-                                                {% else %}
-                                                    <span class="text-red-500">
-                                                        <span>Sin calificación</span>
-                                                    </span>
-                                                {% endif %}
+                                                
+                                                    <span>(<span id="ratingUp{{author.pk}}">
+                                                        {% if rating %}
+                                                            {{ rating }}
+                                                        {% else %}
+                                                            Sin calificación
+                                                        {% endif %}
+                                                    </span>/100)</span>
+                                                
                                         </h3>
                                         <p class="text-gray-600 text-base">
                                             <div id="points{{author.pk}}">
@@ -138,6 +140,8 @@
         let pointsDisplay = document.getElementById(`rating${userId}`);
         let pointsDisplay2 = document.getElementById(`ratingUp${userId}`);
 
+        console.log(editPointsInput);
+
         // replace span
         pointsDisplay.innerText = editPointsInput.value;
         pointsDisplay2.innerText = editPointsInput.value;
@@ -179,10 +183,13 @@
             body: new FormData(form)
         })
         .then(function(response) {
+            console.log(response); // Ver la respuesta completa
             if (response.ok) {
                 return response.json();
             } else {
-                throw new Error('Error en la solicitud');
+                return response.text().then(text => { 
+                    throw new Error(`Error en la solicitud: ${text}`);
+                });
             }
         })
         .then(function(data) {
@@ -194,6 +201,10 @@
                 showMessage('¡Nota actualizada!')
             }
         })
+        .catch(function(error) {
+            console.error("Error en el fetch:", error); // Mostrar el error en consola
+            alert("Error en la solicitud: " + error.message);
+        });
     }
 
 
