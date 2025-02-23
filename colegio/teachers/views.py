@@ -11,7 +11,7 @@ from itertools import groupby
 from operator import attrgetter
 from django.shortcuts import get_object_or_404
 from django.db import transaction
-from users.models import CustomUser
+from users.models import CustomUser, CustomUserStudent
 
 # in real time
 from django.http import JsonResponse
@@ -187,6 +187,10 @@ class ViewActividades(View):
         #obtener materia
         materia = activity.subject
         grado = Grade.objects.get(subjects=materia)
+        
+        students = CustomUserStudent.objects.filter(grade=grado)
+        print(students)
+        
         files = File.objects.filter(activity=pk)
         
         file_type = []
@@ -234,6 +238,7 @@ class ViewActividades(View):
         form = FilesProfesoresForm()
         context = {
             'StudentRatingForm': StudentRatingsForm,
+            'students': students,
             'form': form,
             'files': all_files,
             'actividad': activity,
