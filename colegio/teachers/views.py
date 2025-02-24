@@ -189,7 +189,6 @@ class ViewActividades(View):
         grado = Grade.objects.get(subjects=materia)
         
         students = CustomUserStudent.objects.filter(grade=grado)
-        print(students)
         
         files = File.objects.filter(activity=pk)
         
