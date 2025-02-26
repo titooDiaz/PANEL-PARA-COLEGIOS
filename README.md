@@ -1,6 +1,7 @@
-<p align="center">
-  <img width="150px" src="https://i.ibb.co/bXvzjXm/LOGO-h1.png" alt="Logo del proyecto" />
-</p>
+<div style="display: flex; justify-content: center; gap: 10px;">
+   <img width="150px" src="https://i.ibb.co/bXvzjXm/LOGO-h1.png" alt="Logo de h1" />
+   <img width="150px" src="https://github.com/user-attachments/assets/e0551b39-11a1-4ce3-b5e2-2c6c18882bf0" alt="Logo del proyecto" />
+</div>
 
 # PANEL-PARA-COLEGIOS
 
