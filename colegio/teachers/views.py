@@ -184,6 +184,7 @@ class ViewActividades(View):
         abierto='inicio'
         
         activity = Activities.objects.get(pk=pk)
+        
         #obtener materia
         materia = activity.subject
         grado = Grade.objects.get(subjects=materia)
@@ -204,7 +205,6 @@ class ViewActividades(View):
         actividades_form = ActivitiesForm()
 
         try:
-            # Obtener las respuestas relacionadas con una actividad específica
             respuestas = StudentResponse.objects.filter(activity=activity).select_related('author')
 
             # Ordenar las respuestas por el autor antes de agrupar
@@ -212,7 +212,9 @@ class ViewActividades(View):
 
             # Agrupar las respuestas por el campo 'author' usando groupby
             respuestas_agrupadas = []
-            
+
+            autores_respondieron = set()
+
             for author, respuestas_lista in groupby(respuestas, key=attrgetter('author')):
                 respuestas_lista = list(respuestas_lista)  # Convertir a lista
                 try:
@@ -223,6 +225,15 @@ class ViewActividades(View):
                     calificacion = None  # Si no hay calificación, asignar None
                 
                 respuestas_agrupadas.append((author, respuestas_lista, calificacion))  # Agregar a la lista
+                autores_respondieron.add(author)
+
+            # Filtrar los estudiantes que no han respondido
+            estudiantes_sin_respuesta = [estudiante for estudiante in students if estudiante not in autores_respondieron]
+
+            # Agregar estudiantes sin respuesta con valores por defecto
+            for estudiante in estudiantes_sin_respuesta:
+                respuestas_agrupadas.append((estudiante, [], None))
+
 
         except Exception as e:
             print(f"Error al obtener respuestas agrupadas: {e}")
