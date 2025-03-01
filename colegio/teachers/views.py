@@ -213,7 +213,7 @@ class ViewActividades(View):
             # Agrupar las respuestas por el campo 'author' usando groupby
             respuestas_agrupadas = []
 
-            autores_respondieron = set()
+            autores_respondieron = []
 
             for author, respuestas_lista in groupby(respuestas, key=attrgetter('author')):
                 respuestas_lista = list(respuestas_lista)  # Convertir a lista
@@ -225,14 +225,11 @@ class ViewActividades(View):
                     calificacion = None  # Si no hay calificación, asignar None
                 
                 respuestas_agrupadas.append((author, respuestas_lista, calificacion))  # Agregar a la lista
-                autores_respondieron.add(author)
+                autores_respondieron.append(author.pk)
+            print(autores_respondieron)
 
             # Filtrar los estudiantes que no han respondido
-            estudiantes_sin_respuesta = [estudiante for estudiante in students if estudiante not in autores_respondieron]
-
-            # Agregar estudiantes sin respuesta con valores por defecto
-            for estudiante in estudiantes_sin_respuesta:
-                respuestas_agrupadas.append((estudiante, [], None))
+            [respuestas_agrupadas.append((estudiante, [], None)) for estudiante in students if estudiante.pk not in autores_respondieron]
 
 
         except Exception as e:

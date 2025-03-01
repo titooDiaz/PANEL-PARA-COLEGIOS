@@ -51,7 +51,7 @@
                                 
                                 <form id="ratingForm{{author.pk}}" action="{% url 'RatingStudentActivities' author.pk actividad.pk %}" method="post">
                                     {% csrf_token %}
-                                    <div class="flex-1">asd
+                                    <div class="flex-1">
                                         <h3 class="text-lg font-medium text-gray-800">{{ author.first_name }} {{ author.last_name }}
                                                 
                                                     <span>(<span id="ratingUp{{author.pk}}">
