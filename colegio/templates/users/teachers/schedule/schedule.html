@@ -40,24 +40,27 @@
                             <th scope="col" class="px-2 py-3">
                                 Viernes
                             </th>
+                            <th scope="col" class="px-2 py-3">
+                                Sabado
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for time in schedules %}
-                        {% if time.lunes.profe1.pk == request.user.pk or time.martes.profe1.pk == request.user.pk or time.miercoles.profe1.pk == request.user.pk or time.jueves.profe1.pk == request.user.pk or time.viernes.profe1.pk == request.user.pk %}
+                        {% if time.monday.teacher_1.pk == request.user.pk or time.tuesday.teacher_1.pk == request.user.pk or time.wednesday.teacher_1.pk == request.user.pk or time.thursday.teacher_1.pk == request.user.pk or time.friday.teacher_1.pk == request.user.pk or time.saturday.teacher_1.pk == request.user.pk %}
                             <tr class="bg-gray-100 border-b hover:bg-gray-200">
 
                                 <!--HORA-->
                                 <td class="px-2 py-2 font-medium">
-                                    {{time.hora_inicio}} - {{time.hora_fin}}
+                                    {{time.start_time}} - {{time.end_time}}
                                     <br>
                                 </td>
 
                                 <!--LUNES-->
                                 
-                                {% if time.lunes.profe1.pk == request.user.pk %}
+                                {% if time.monday.teacher_1.pk == request.user.pk %}
                                 <td class="px-2 py-2">
-                                    {{time.lunes}}
+                                    {{time.monday}}
                                     <br>
                                 </td>
                                 {% else %}
@@ -75,9 +78,9 @@
                                 {% endif %}
 
                                 <!--MARTES-->
-                                {% if time.martes.profe1.pk == request.user.pk %}
+                                {% if time.tuesday.teacher_1.pk == request.user.pk %}
                                 <td class="px-2 py-2">
-                                    {{time.martes}}
+                                    {{time.tuesday}}
                                     <br>
                                 </td>
                                 {% else %}
@@ -95,9 +98,9 @@
                                 {% endif %}
 
                                 <!--MIERCOLES-->
-                                {% if time.miercoles.profe1.pk == request.user.pk %}
+                                {% if time.wednesday.teacher_1.pk == request.user.pk %}
                                 <td class="px-2 py-2">
-                                    {{time.miercoles}}
+                                    {{time.wednesday}}
                                     <br>
                                 </td>
                                 {% else %}
@@ -115,9 +118,9 @@
                                 {% endif %}
 
                                 <!--JUEVES-->
-                                {% if time.jueves.profe1.pk == request.user.pk %}
+                                {% if time.thursday.teacher_1.pk == request.user.pk %}
                                 <td class="px-2 py-2">
-                                    {{time.jueves}}
+                                    {{time.thursday}}
                                     <br>
                                 </td>
                                 {% else %}
@@ -135,9 +138,30 @@
                                 {% endif %}
                                 
                                 <!--VIERNES-->
-                                {% if time.viernes.profe1.pk == request.user.pk %}
+                                {% if time.friday.teacher_1.pk == request.user.pk %}
                                 <td class="px-2 py-2">
-                                    {{time.viernes}}
+                                    {{time.friday}}
+                                    <br>
+                                </td>
+                                {% else %}
+                                <td class="px-2 py-2">
+                                    <div class="flex">
+                                        <div class="w-[30px] h-[30px] flex">
+                                            <img src="{% static 'img/time/break.png' %}" alt="">
+                                        </div>
+                                        <div class="ml-2 flex items-center justify-center">
+                                            <p>libre</p>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </td>
+                                {% endif %}
+
+
+                                <!--SATURDAY-->
+                                {% if time.saturday.teacher_1.pk == request.user.pk %}
+                                <td class="px-2 py-2">
+                                    {{time.saturday}}
                                     <br>
                                 </td>
                                 {% else %}
@@ -182,15 +206,15 @@
                         <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">Horario del Lunes.</h2>
                     </div> 
                     {% for time in schedules %}
-                        {% if time.lunes %}
-                            {% if time.lunes.profe1.pk == request.user.pk %}
+                        {% if time.monday %}
+                            {% if time.monday.teacher_1.pk == request.user.pk %}
                                 <div class="relative mt-8">
                                     <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
                                     <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                         <div class="block w-full mt-2">
-                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.lunes}}</h5>
-                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
-                                            <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
+                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.monday}}</h5>
+                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.start_time}} - {{time.end_time}}</p>
+                                            <img class="w-full p-4" src="{{time.monday.picture1.url }}" alt="Alumno">
                                         </div>
                                     </div>
                                 </div>
@@ -212,15 +236,15 @@
                         <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">Horario del Martes.</h2>
                     </div> 
                     {% for time in schedules %}
-                        {% if time.martes %}
-                            {% if time.martes.profe1.pk == request.user.pk %}
+                        {% if time.tuesday %}
+                            {% if time.tuesday.teacher_1.pk == request.user.pk %}
                                 <div class="relative mt-8">
                                     <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
                                     <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                         <div class="block w-full mt-2">
-                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.martes}}</h5>
-                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
-                                            <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
+                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.tuesday}}</h5>
+                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.start_time}} - {{time.end_time}}</p>
+                                            <img class="w-full p-4" src="{{time.monday.picture1.url }}" alt="Alumno">
                                         </div>
                                     </div>
                                 </div>
@@ -242,15 +266,15 @@
                         <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">Horario del Miercoles.</h2>
                     </div> 
                     {% for time in schedules %}
-                        {% if time.miercoles %}
-                            {% if time.miercoles.profe1.pk == request.user.pk %}
+                        {% if time.wednesday %}
+                            {% if time.wednesday.teacher_1.pk == request.user.pk %}
                                 <div class="relative mt-8">
                                     <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
                                     <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                         <div class="block w-full mt-2">
-                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.miercoles}}</h5>
-                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
-                                            <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
+                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.wednesday}}</h5>
+                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.start_time}} - {{time.end_time}}</p>
+                                            <img class="w-full p-4" src="{{time.monday.picture1.url }}" alt="Alumno">
                                         </div>
                                     </div>
                                 </div>
@@ -272,15 +296,15 @@
                         <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">Horario del Jueves.</h2>
                     </div> 
                     {% for time in schedules %}
-                        {% if time.jueves %}
-                            {% if time.jueves.profe1.pk == request.user.pk %}
+                        {% if time.thursday %}
+                            {% if time.thursday.teacher_1.pk == request.user.pk %}
                                 <div class="relative mt-8">
                                     <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
                                     <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                         <div class="block w-full mt-2">
-                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.jueves}}</h5>
-                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
-                                            <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
+                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.thursday}}</h5>
+                                            <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.start_time}} - {{time.end_time}}</p>
+                                            <img class="w-full p-4" src="{{time.monday.picture1.url }}" alt="Alumno">
                                         </div>
                                     </div>
                                 </div>
@@ -302,14 +326,14 @@
                         <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">Horario del Viernes.</h2>
                     </div> 
                     {% for time in schedules %}
-                        {% if time.viernes %}
+                        {% if time.friday %}
                             <div class="relative mt-8">
                                 <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
                                 <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
                                     <div class="block w-full mt-2">
-                                        <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.viernes}}</h5>
-                                        <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.hora_inicio}} - {{time.hora_fin}}</p>
-                                        <img class="w-full p-4" src="{{time.lunes.picture1.url }}" alt="Alumno">
+                                        <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.friday}}</h5>
+                                        <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.start_time}} - {{time.end_time}}</p>
+                                        <img class="w-full p-4" src="{{time.monday.picture1.url }}" alt="Alumno">
                                     </div>
                                 </div>
                             </div>
@@ -326,18 +350,23 @@
             {% else %}
                 <div id="saturday" class="hidden">
             {% endif %}
-                    <div class="mx-auto text-center">
-                        <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">Horario del Sabado.</h2>
-                    </div> 
-                    <div class="relative mt-8">
-                        <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
-                        <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
-                            <div class="block w-full mt-2">
-                                <h5 class="font-mono font-bold text-gray-900 text-4xl text-center">No tienes clases! <br> Es sabado!</h5>
-                                <img class="w-full p-4" src="{% static 'img/usuarios/alumnos.png' %}" alt="Alumno">
+                <div class="mx-auto text-center">
+                    <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">Horario del Sabado.</h2>
+                </div> 
+                    {% for time in schedules %}
+                        {% if time.satuday %}
+                            <div class="relative mt-8">
+                                <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+                                <div class="relative items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl ease-in-out duration-300">
+                                    <div class="block w-full mt-2">
+                                        <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-book"></i> {{time.satuday}}</h5>
+                                        <p class="text-center"> <i class="fa-regular fa-clock"></i> | {{time.start_time}} - {{time.end_time}}</p>
+                                        <img class="w-full p-4" src="{{time.monday.picture1.url }}" alt="Alumno">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
 
             <!--

@@ -8,7 +8,7 @@
 {% block content %}
 {% load static %}
 <div class="mx-auto max-w-screen-sm text-center">
-    <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">HORARIO DE {{grado.grado_nom}}</h2>
+    <h2 class="lg:py-2  text-4xl tracking-tight font-bold text-gray-900 mb-8 zoom-10">HORARIO DE {{grado.grade_name}}</h2>
 </div> 
 
 
@@ -66,7 +66,7 @@
                                         <form action="{% url 'EditarHorarioHora' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">CONFIGURA LA HORA DE INICIAR LA CLASE EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">CONFIGURA LA HORA DE INICIAR LA CLASE EN ({{grado.grade_name}})</h6>
                                                 <img src="{% static 'img/informacion/reloj.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
                                             <h6 class="w-full text-center mb-6 font-mono text-4xl">HORA INICIO - HORA FINAL</h6>
@@ -105,7 +105,7 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL monday EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL monday EN ({{grado.grade_name}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
                                             <div>{{formMaterias.monday}}</div>
@@ -141,7 +141,7 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL tuesday EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL tuesday EN ({{grado.grade_name}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
                                             <div>{{formMaterias.tuesday}}</div>
@@ -177,7 +177,7 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL wednesday EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL wednesday EN ({{grado.grade_name}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
                                             <div>{{formMaterias.wednesday}}</div>
@@ -213,7 +213,7 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL thursday EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL thursday EN ({{grado.grade_name}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
                                             <div>{{formMaterias.thursday}}</div>
@@ -249,7 +249,7 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL friday EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL friday EN ({{grado.grade_name}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
                                             <div>{{formMaterias.friday}}</div>
@@ -284,7 +284,7 @@
                                         <form action="{% url 'EditarHorarioMaterias' horas.pk grado.pk %}" method="post">
                                             {% csrf_token %}
                                             <div class="p-10 block">
-                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL saturday EN ({{grado.grado_nom}})</h6>
+                                                <h6 class="w-full text-center mb-6 font-mono text-4xl">AGREGA UNA NUEVA MATERIA EN ESTE HORARIO PARA EL saturday EN ({{grado.grade_name}})</h6>
                                                 <img src="{% static 'img/informacion/biblioteca.png' %}" alt="MATERIAS" class="w-[20%] m-auto">
                                             </div>
                                             <div>{{formMaterias.saturday}}</div>
