@@ -216,22 +216,23 @@ class ViewActividades(View):
             autores_respondieron = []
 
             for author, respuestas_lista in groupby(respuestas, key=attrgetter('author')):
-                respuestas_lista = list(respuestas_lista)  # Convertir a lista
+                respuestas_lista = list(respuestas_lista)  # generate a list
                 try:
-                    # Obtener la calificación del estudiante si existe
+                    # Get student grade
                     rating = Rating.objects.get(student=author, activity=activity)
                     calificacion = rating.rating
                 except ObjectDoesNotExist:
-                    calificacion = None  # Si no hay calificación, asignar None
+                    calificacion = None  # if is not grade, is None
                 
-                respuestas_agrupadas.append((author, respuestas_lista, calificacion))  # Agregar a la lista
+                respuestas_agrupadas.append((author, respuestas_lista, calificacion))  # add student and activity
                 autores_respondieron.append(author.pk)
-            print(autores_respondieron)
 
-            # Filtrar los estudiantes que no han respondido
+            # Filter students who have not responded
             [respuestas_agrupadas.append((estudiante, [], None)) for estudiante in students if estudiante.pk not in autores_respondieron]
 
-
+            # sort alphabetically
+            respuestas_agrupadas.sort(key=lambda x: x[0].first_name.lower())
+            
         except Exception as e:
             print(f"Error al obtener respuestas agrupadas: {e}")
             respuestas_agrupadas = None
