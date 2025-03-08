@@ -216,12 +216,13 @@
         {{actividad.name}} ({{actividad.percentage}}%)
     </h4>
     <div class="text-center mb-4">
-        <button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg">Asignar notas</button>
+        <button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg inline-flex">
+            <div class="w-6 h-6 bg-white flex mask-icon mr-1" data-icon="{% static 'icons/information/create.svg' %}"></div> 
+            Asignar notas
+        </button>
 
         <button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg inline-flex">
-            <div class="w-6 h-6 bg-white flex mask-icon" data-icon="{% static 'icons/information/pencil.svg' %}"></div> 
-            <script src="{% static 'icons/icons.js' %}"></script>
-            <link href="{% static 'icons/icons.js' %}" rel='stylesheet'/>
+            <div class="w-6 h-6 bg-white flex mask-icon mr-1" data-icon="{% static 'icons/information/pencil.svg' %}"></div> 
             Editar actividad
         </button>
     </div>
@@ -448,7 +449,9 @@
                                         {% endfor %}
                                     </div>
                             </div>
-                            <button onclick="showVentana('information', '{{author.pk}}')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg w-full">Asignar nota</button>
+                            <button onclick="showVentana('information', '{{author.pk}}')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg w-full">
+                                Asignar nota
+                            </button>
                         </div> 
                     </div>
                 </div>
