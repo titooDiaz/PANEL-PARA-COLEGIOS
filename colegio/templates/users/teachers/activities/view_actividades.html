@@ -210,98 +210,101 @@
 
 </script>
 
-<div class="w-full p-4 border border-black rounded-xl">
-    <h4 class="font-bold text-4xl mb-2 text-center">
-        {{materia.name_1}} -
-        {{actividad.name}} ({{actividad.percentage}}%)
-    </h4>
-    <div class="text-center mb-4">
-        <button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg inline-flex">
-            <div class="w-6 h-6 bg-white flex mask-icon mr-1" data-icon="{% static 'icons/information/create.svg' %}"></div> 
-            Asignar notas
-        </button>
+<div class="relative">
+    <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded bg-gray-700 "></span>
+    <div class="relative w-full p-4 rounded-lg bg-gray-300">
+        <h4 class="font-bold text-4xl mb-2 text-center">
+            {{materia.name_1}} -
+            {{actividad.name}} ({{actividad.percentage}}%)
+        </h4>
+        <div class="text-center mb-4">
+            <button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg inline-flex">
+                <div class="w-6 h-6 bg-white flex mask-icon mr-1" data-icon="{% static 'icons/information/create.svg' %}"></div> 
+                Asignar notas
+            </button>
 
-        <button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg inline-flex">
-            <div class="w-6 h-6 bg-white flex mask-icon mr-1" data-icon="{% static 'icons/information/pencil.svg' %}"></div> 
-            Editar actividad
-        </button>
-    </div>
-    
-    <hr>
-    <time>
-        {{actividad.start_date}} a las {{actividad.start_time}} <b>HASTA</b> {{actividad.end_date}} a las {{actividad.end_time}}
-    </time>
-    <hr>
-    <p class="mt-4">
-        {{actividad.description}}
-    </p>
-
-    <h5 class="text-2xl font-bold mt-4 mb-2"> DOCUMENTOS GUIAS: </h5>
-    {%for file, ext in files %}
-        <div class="ml-4">
-                <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
-                        <div class="flex" >
-                            <a href="{{ file.file.url }}">
-                                <i class="fa-solid fa-file mr-2"> </i> 
-                                <span>
-                                    {{file.name}}
-                                </span>
-                            </a>
-                            <button class="flex" data-collapse-target="collapse-{{file.pk}}">
-                            <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
-                            <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
-                        </button>
-                    </div>
-                    <div data-collapse="collapse-{{file.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
-                      <div class="p-2 text-sm leading-normal text-blue-gray-500/80 font-normal">
-                        <div class="flex">
-                            {% if ext == 'image' %}
-                                <img src="{{ file.file.url }}" alt="image" width="300">
-                            {% endif %}
-
-                            {% if ext == 'pdf' %}
-                                <iframe src="{{ file.file.url }}" width="100%" height="500px"></iframe>
-                            {% endif %}
-
-                            {% if ext == 'audio' %}
-                              <audio controls>
-                                <source src="{{ file.file.url }}" type="audio/mpeg">
-                                Tu navegador no soporta el elemento de audio.
-                              </audio>
-                              
-                            {% endif %}
-
-                            {% if ext == 'video' %}
-                                <video controls width="400">
-                                    <source src="{{ file.file.url }}" type="video/mp4">
-                                    Tu navegador no soporta el elemento de video.
-                                </video>
-                            {% endif %}
-
-                            {% if ext == 'document' %}
-                            imagen
-                            {% endif %}
-
-                            {% if ext == 'text' %}
-                            imagen
-                            {% endif %}
-
-                            {% if ext == 'unknown' %}
-                            imagen
-                            {% endif %}
-                        </div>
-                        {{file.description}}
-                      </div>
-                    </div>
-                </div>
+            <button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg inline-flex">
+                <div class="w-6 h-6 bg-white flex mask-icon mr-1" data-icon="{% static 'icons/information/pencil.svg' %}"></div> 
+                Editar actividad
+            </button>
         </div>
-    {% endfor %}
-    <span class="font-normal text-lg"> 
-        Deseas agregar archivos guias?
-    <a onclick="showVentana('information', 'Files')" class="hover:cursor-pointer ml-2">
-        <i class="fa-regular fa-square-plus"></i>
-    </a>
-    </span>
+        
+        <hr>
+        <time>
+            {{actividad.start_date}} a las {{actividad.start_time}} <b>HASTA</b> {{actividad.end_date}} a las {{actividad.end_time}}
+        </time>
+        <hr>
+        <p class="mt-4">
+            {{actividad.description}}
+        </p>
+
+        <h5 class="text-2xl font-bold mt-4 mb-2"> DOCUMENTOS GUIAS: </h5>
+        {%for file, ext in files %}
+            <div class="ml-4">
+                    <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
+                            <div class="flex" >
+                                <a href="{{ file.file.url }}">
+                                    <i class="fa-solid fa-file mr-2"> </i> 
+                                    <span>
+                                        {{file.name}}
+                                    </span>
+                                </a>
+                                <button class="flex" data-collapse-target="collapse-{{file.pk}}">
+                                <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
+                                <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
+                            </button>
+                        </div>
+                        <div data-collapse="collapse-{{file.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
+                        <div class="p-2 text-sm leading-normal text-blue-gray-500/80 font-normal">
+                            <div class="flex">
+                                {% if ext == 'image' %}
+                                    <img src="{{ file.file.url }}" alt="image" width="300">
+                                {% endif %}
+
+                                {% if ext == 'pdf' %}
+                                    <iframe src="{{ file.file.url }}" width="100%" height="500px"></iframe>
+                                {% endif %}
+
+                                {% if ext == 'audio' %}
+                                <audio controls>
+                                    <source src="{{ file.file.url }}" type="audio/mpeg">
+                                    Tu navegador no soporta el elemento de audio.
+                                </audio>
+                                
+                                {% endif %}
+
+                                {% if ext == 'video' %}
+                                    <video controls width="400">
+                                        <source src="{{ file.file.url }}" type="video/mp4">
+                                        Tu navegador no soporta el elemento de video.
+                                    </video>
+                                {% endif %}
+
+                                {% if ext == 'document' %}
+                                imagen
+                                {% endif %}
+
+                                {% if ext == 'text' %}
+                                imagen
+                                {% endif %}
+
+                                {% if ext == 'unknown' %}
+                                imagen
+                                {% endif %}
+                            </div>
+                            {{file.description}}
+                        </div>
+                        </div>
+                    </div>
+            </div>
+        {% endfor %}
+        <span class="font-normal text-lg"> 
+            Deseas agregar archivos guias?
+        <a onclick="showVentana('information', 'Files')" class="hover:cursor-pointer ml-2">
+            <i class="fa-regular fa-square-plus"></i>
+        </a>
+        </span>
+    </div>
 </div>
 
     <div class="flex ml-4">
