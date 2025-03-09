@@ -210,9 +210,9 @@
 
 </script>
 
-<div class="relative">
-    <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded bg-gray-700 "></span>
-    <div class="relative w-full p-4 rounded-lg bg-gray-300">
+<div class="relative max-w-6xl m-auto">
+    <span class="absolute top-0 left-0 mt-4 ml-4 h-full w-full rounded bg-gray-700 "></span>
+    <div class="relative w-full p-4 rounded-lg bg-gray-200">
         <h4 class="font-bold text-4xl mb-2 text-center">
             {{materia.name_1}} -
             {{actividad.name}} ({{actividad.percentage}}%)
@@ -230,9 +230,9 @@
         </div>
         
         <hr>
-        <time>
-            {{actividad.start_date}} a las {{actividad.start_time}} <b>HASTA</b> {{actividad.end_date}} a las {{actividad.end_time}}
-        </time>
+        <p class="text-gray-700 text-center">
+            <strong>{{actividad.start_date}} a las {{actividad.start_time}}</strong> <span class="text-red-500">HASTA</span> <strong>{{actividad.end_date}} a las {{actividad.end_time}}</strong>
+        </p>
         <hr>
         <p class="mt-4">
             {{actividad.description}}
@@ -241,18 +241,14 @@
         <h5 class="text-2xl font-bold mt-4 mb-2"> DOCUMENTOS GUIAS: </h5>
         {%for file, ext in files %}
             <div class="ml-4">
-                    <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
-                            <div class="flex" >
+                    <div class="relative mb-3 cursor-pointer items-center w-full font-semibold text-left transition-all ease-in bg-white p-4 rounded-lg" data-collapse-target="collapse-{{file.pk}}">
+                            <div class="flex">
                                 <a href="{{ file.file.url }}">
                                     <i class="fa-solid fa-file mr-2"> </i> 
                                     <span>
                                         {{file.name}}
                                     </span>
                                 </a>
-                                <button class="flex" data-collapse-target="collapse-{{file.pk}}">
-                                <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
-                                <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
-                            </button>
                         </div>
                         <div data-collapse="collapse-{{file.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
                         <div class="p-2 text-sm leading-normal text-blue-gray-500/80 font-normal">
