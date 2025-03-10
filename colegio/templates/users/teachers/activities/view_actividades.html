@@ -104,6 +104,31 @@
     </div>
 </div>
 
+
+<!--EDIT ACTIVITY MODAL-->
+
+<div id="editActivityThis" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
+                                
+    <div class="flex items-center justify-center min-h-screen m-2">
+        <div class="bg-white border-2 border-black p-4 rounded-lg">
+            <button onclick="closeVentana('editActivity', 'This')" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
+                <p class="mr-4">cerrar</p>
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+            <div class="mb-4">
+                <div class="bg-white shadow-md rounded-md overflow-hidden w-full">
+                    <div class="bg-orange-100 py-2 px-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Editar Actividad!</h2>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+
 <style>
     .editable {
             display: none;
@@ -223,7 +248,7 @@
                 Asignar notas
             </button>
 
-            <button onclick="showVentana('information', 'Ratings')" type="button" id="active_information" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg inline-flex">
+            <button onclick="showVentana('editActivity', 'This')" type="button" id="active_editActivity" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 py-2 text-center text-lg inline-flex">
                 <div class="w-6 h-6 bg-white flex mask-icon mr-1" data-icon="{% static 'icons/information/pencil.svg' %}"></div> 
                 Editar actividad
             </button>
