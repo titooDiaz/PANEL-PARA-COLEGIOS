@@ -183,9 +183,11 @@ class ViewActividades(View):
         vista = 'profesores'
         abierto='inicio'
         
+        # Activity form / edit activity
         activity = Activities.objects.get(pk=pk)
-        
-        #obtener materia
+        activity_form = ActivitiesForm(instance=activity)
+
+        #get Subject
         materia = activity.subject
         grado = Grade.objects.get(subjects=materia)
         
@@ -258,6 +260,7 @@ class ViewActividades(View):
             'respuestas_agrupadas': respuestas_agrupadas,
             'final_date': final_date,
             'final_hour': final_hour,
+            'activityForm': activity_form,
         }
         return render(request, 'users/teachers/activities/view_actividades.html', context)
     def post(self, request, pk):
@@ -308,57 +311,15 @@ class RatingStudentActivity(View):
     
     
 class EditActividades(View):
-    def get(self, request, pk, *args, **kwargs):
-        vista = 'profesores'
-        abierto='inicio'
-        materia = Subjects.objects.get(pk=pk)
-        grado = Grade.objects.get(materias=materia)
-
-        actividades_tipo = ActivitiesType.objects.filter(colegio=request.user.school)
-        
-        initial_data = {
-            'fecha_inicio': get_current_date(request.user),
-            'fecha_final': get_current_date(request.user),
-            'hora_inicio': get_current_time(request.user),
-            'hora_final': get_midnight(request.user),
-            'tipo': actividades_tipo,
-        }
-        actividades_form = ActivitiesForm(initial=initial_data)
-        print(materia.titulo1,"  -  ")
-        context = {
-            'materia': materia,
-            'grado': grado,
-            'actividades': actividades_form,
-            'vista': vista,
-            'abierto':abierto,
-        }
-        return render(request, 'users/teachers/activities/create_actividades.html', context)
     def post(self, request, pk, *args, **kwargs):
-        actividades_form = ActivitiesForm(request.POST)
+        activity = get_object_or_404(Activities, id=pk)
 
-        if actividades_form.is_valid():
-        # Crear una instancia del modelo sin guardar en la base de datos aún
-            actividad = actividades_form.save(commit=False)
-            actividad.author = request.user  # Asigna el usuario actual como autor
-
-            try:
-                materia_colegio = Subjects.objects.get(pk=pk)
-                actividad.subject = materia_colegio  # Asigna la materia a la actividad
-                
-                # Guarda la instancia del modelo en la base de datos
-                actividad.save()
-                messages.success(request, 'Actividad agregada correctamente!')
-                actividad_id = actividad.pk
-                return redirect('ViewActividades', pk=actividad_id)
-            except Subjects.DoesNotExist:
-                messages.error(request, 'La materia especificada no existe')
-                return redirect('BoardTeachers')
-            except TypeError:
-                messages.error(request, 'Verifica tus datos')
-                return redirect('BoardTeachers')
-
+        form = ActivitiesForm(request.POST, instance=activity) 
+        if form.is_valid():
+            form.save()
+        
         # Si el formulario no es válido, muestra los errores
-        messages.error(request, 'Formulario no válido')
+        messages.error(request, 'Formulario válido')
         return redirect('BoardTeachers')
     
 # Horario para dictar clases de profresores...
