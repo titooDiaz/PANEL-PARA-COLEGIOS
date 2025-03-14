@@ -185,7 +185,20 @@ class ViewActividades(View):
         
         # Activity form / edit activity
         activity = Activities.objects.get(pk=pk)
-        activity_form = ActivitiesForm(instance=activity)
+
+        # Convertir los valores a strings en el formato correcto
+        formatted_start_date = activity.start_date.strftime('%Y-%m-%d') if activity.start_date else ''
+        formatted_end_date = activity.end_date.strftime('%Y-%m-%d') if activity.end_date else ''
+        formatted_start_time = activity.start_time.strftime('%H:%M') if activity.start_time else ''
+        formatted_end_time = activity.end_time.strftime('%H:%M') if activity.end_time else ''
+
+        activity_form = ActivitiesForm(initial={
+            'start_date': formatted_start_date,
+            'end_date': formatted_end_date,
+            'start_time': formatted_start_time,
+            'end_time': formatted_end_time,
+        }, instance=activity)
+
 
         #get Subject
         materia = activity.subject
@@ -246,6 +259,7 @@ class ViewActividades(View):
         final_hour = activity.end_time
         
         form = FilesProfesoresForm()
+        
         context = {
             'StudentRatingForm': StudentRatingsForm,
             'students': students,
@@ -317,9 +331,9 @@ class EditActividades(View):
         form = ActivitiesForm(request.POST, instance=activity) 
         if form.is_valid():
             form.save()
-        
-        # Si el formulario no es válido, muestra los errores
-        messages.error(request, 'Formulario válido')
+            messages.success(request, 'Formulario válido')
+        else:
+            messages.error(request, 'Formulario no válido')
         return redirect('BoardTeachers')
     
 # Horario para dictar clases de profresores...
