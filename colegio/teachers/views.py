@@ -128,26 +128,35 @@ class CreateActividades(View):
     def post(self, request, pk, *args, **kwargs):
         actividades_form = ActivitiesForm(request.POST)
         #archivo_form = FileForm(request.POST, request.FILES)
+        
+        materia = Subjects.objects.get(pk=pk)
+        author = request.user
+        activities = Activities.objects.filter(author=author,subject=materia).values_list('percentage', flat=True)
+        total_percentage = sum(activities)
 
         if actividades_form.is_valid():
         # Crear una instancia del modelo sin guardar en la base de datos aún
             actividad = actividades_form.save(commit=False)
             actividad.author = request.user  # Asigna el usuario actual como autor
 
-            try:
-                materia_colegio = Subjects.objects.get(pk=pk)
-                actividad.subject = materia_colegio  # Asigna la materia a la actividad
-                
-                # Guarda la instancia del modelo en la base de datos
-                actividad.save()
-                messages.success(request, 'Actividad agregada correctamente!')
-                actividad_id = actividad.pk
-                return redirect('ViewActividades', pk=actividad_id)
-            except Subjects.DoesNotExist:
-                messages.error(request, 'La materia especificada no existe')
-                return redirect('BoardTeachers')
-            except TypeError:
-                messages.error(request, 'Verifica tus datos')
+            if total_percentage+actividad.percentage < 100:
+                try:
+                    materia_colegio = Subjects.objects.get(pk=pk)
+                    actividad.subject = materia_colegio  # Asigna la materia a la actividad
+                    
+                    # Guarda la instancia del modelo en la base de datos
+                    actividad.save()
+                    messages.success(request, 'Actividad agregada correctamente!')
+                    actividad_id = actividad.pk
+                    return redirect('ViewActividades', pk=actividad_id)
+                except Subjects.DoesNotExist:
+                    messages.error(request, 'La materia especificada no existe')
+                    return redirect('BoardTeachers')
+                except TypeError:
+                    messages.error(request, 'Verifica tus datos')
+                    return redirect('BoardTeachers')
+            else:
+                messages.error(request, 'Superaste el 100% de la Asignatura!')
                 return redirect('BoardTeachers')
 
         # Si el formulario no es válido, muestra los errores
