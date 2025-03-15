@@ -105,33 +105,110 @@
 </div>
 
 
-<!--EDIT ACTIVITY MODAL-->
-
+<!-- EDIT ACTIVITY MODAL -->
 <div id="editActivityThis" class="hidden fixed left-0 top-0 z-50 w-full h-screen bg-[#5858587c]">
-                                
     <div class="flex items-center justify-center min-h-screen m-2">
-        <div class="bg-white border-2 border-black p-4 rounded-lg">
+        <div class="bg-white border-2 border-black p-4 rounded-lg w-full max-w-lg">
+            <!-- Close Button -->
             <button onclick="closeVentana('editActivity', 'This')" class="hover:cursor-pointer w-full flex justify-end items-center py-1 px-2 text-red-500">
-                <p class="mr-4">cerrar</p>
+                <p class="mr-4">Cerrar</p>
                 <i class="fa-solid fa-circle-xmark"></i>
             </button>
-            <div class="mb-4">
-                <div class="bg-white shadow-md rounded-md overflow-hidden w-full">
-                    <div class="bg-orange-100 py-2 px-4">
-                        <h2 class="text-xl font-semibold text-gray-800">Editar Actividad!</h2>
-                    </div>
-                    <div>
-                        <form action="{% url 'EditActividades' actividad.pk %}" method="post">
-                            {% csrf_token %}
-                            {{ activityForm.as_p }}
-                            <button type="submit">Guardar</button>
-                        </form>
-                    </div>
-                </div>
+
+            <!-- Form Header -->
+            <div class="bg-orange-100 py-2 px-4 mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">Editar Actividad</h2>
             </div>
-        </div> 
+
+            <!-- Form -->
+            <form action="{% url 'EditActividades' actividad.pk %}" method="post">
+                {% csrf_token %}
+
+                <!-- Step 1: Basic Details -->
+                <div id="step-1" class="form-step">
+                    <label for="titulo" class="block font-medium">Título</label>
+                    {{ activityForm.name }}
+
+                    <label for="descripcion" class="block font-medium mt-3">Descripción</label>
+                    {{ activityForm.description }}
+
+                    <label for="tipo" class="block font-medium mt-3">Tipo</label>
+                    {{ activityForm.type }}
+
+                    <label for="porcentaje" class="block font-medium mt-3">Porcentaje</label>
+                    {{ activityForm.percentage }}
+                </div>
+
+                <!-- Step 2: Dates and Times -->
+                <div id="step-2" class="form-step hidden">
+                    <label for="fecha_inicio" class="block font-medium">Fecha de Inicio</label>
+                    {{ activityForm.start_date }}
+
+                    <label for="hora_inicio" class="block font-medium mt-3">Hora de Inicio</label>
+                    {{ activityForm.start_time }}
+
+                    <label for="fecha_final" class="block font-medium mt-3">Fecha de Finalización</label>
+                    {{ activityForm.end_date }}
+
+                    <label for="hora_final" class="block font-medium mt-3">Hora de Finalización</label>
+                    {{ activityForm.end_time }}
+                </div>
+
+                <!-- Step 3: Time Zone -->
+                <div id="step-3" class="form-step hidden">
+                    <label for="zona_horaria" class="block font-medium">Zona Horaria</label>
+                    {{ activityForm.time_zone }}
+
+                    <!-- Hidden field for location time zone -->
+                    {{ activityForm.location_time_zone }}
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between mt-4">
+                    <button type="button" id="prevBtn" class="hidden bg-gray-300 px-4 py-2 rounded-lg" onclick="prevStep()">Anterior</button>
+                    <button type="button" id="nextBtn" class="bg-orange-500 text-white px-4 py-2 rounded-lg" onclick="nextStep()">Siguiente</button>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn" class="hidden w-full bg-green-500 text-white px-4 py-2 rounded-lg mt-4">Guardar</button>
+            </form>
+        </div>
     </div>
 </div>
+
+<!-- JavaScript para la navegación entre pasos -->
+<script>
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    function showStep(step) {
+        document.querySelectorAll('.form-step').forEach((el, index) => {
+            el.classList.toggle('hidden', index + 1 !== step);
+        });
+
+        document.getElementById('prevBtn').classList.toggle('hidden', step === 1);
+        document.getElementById('nextBtn').classList.toggle('hidden', step === totalSteps);
+        document.getElementById('submitBtn').classList.toggle('hidden', step !== totalSteps);
+    }
+
+    function nextStep() {
+        if (currentStep < totalSteps) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    }
+
+    // Initialize form with first step
+    showStep(currentStep);
+</script>
+
 
 <style>
     .editable {
