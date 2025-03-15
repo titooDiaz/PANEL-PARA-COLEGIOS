@@ -5,6 +5,8 @@ from users.models import CustomUserStudent, CustomUserTeachers, School
 from django.conf import settings
 import os
 import random
+from django.utils import timezone
+import pytz
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -266,3 +268,26 @@ class ScheduleCourts(models.Model):
     
     def __str__(self):
         return f"{self.start_date} - {self.end_date}"
+    
+    def get_current_court(self, user):
+        """
+        Returns the current court based on the user's timezone.
+        """
+        # Get user's timezone from profile, default to UTC if not available
+        user_tz = user.profile.time_zone if hasattr(user, 'profile') else 'UTC'
+
+        try:
+            # Convert current time to user's timezone
+            user_timezone = pytz.timezone(user_tz)
+            current_time = timezone.now().astimezone(user_timezone).date()  # Extract only the date
+        except pytz.UnknownTimeZoneError:
+            # If the timezone is invalid, fallback to UTC
+            current_time = timezone.now().date()
+
+        # Find the court where the current date falls within the start and end dates
+        current_court = ScheduleCourts.objects.filter(
+            start_date__lte=current_time, 
+            end_date__gte=current_time
+        ).first()
+        
+        return current_court

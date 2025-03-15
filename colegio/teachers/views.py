@@ -139,7 +139,7 @@ class CreateActividades(View):
             actividad = actividades_form.save(commit=False)
             actividad.author = request.user  # Asigna el usuario actual como autor
 
-            if total_percentage+actividad.percentage < 100:
+            if total_percentage+actividad.percentage <= 100:
                 try:
                     materia_colegio = Subjects.objects.get(pk=pk)
                     actividad.subject = materia_colegio  # Asigna la materia a la actividad
