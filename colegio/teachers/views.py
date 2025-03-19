@@ -229,38 +229,38 @@ class ViewActividades(View):
         actividades_form = ActivitiesForm()
 
         try:
-            respuestas = StudentResponse.objects.filter(activity=activity).select_related('author')
+            respuestas = StudentResponse.objects.filter(activity=activity).select_related('author').order_by('author')
 
-            # Ordenar las respuestas por el autor antes de agrupar
-            respuestas = respuestas.order_by('author')
-
-            # Agrupar las respuestas por el campo 'author' usando groupby
             respuestas_agrupadas = []
+            autores_respondieron = set()  # Usamos un set para búsquedas rápidas
 
-            autores_respondieron = []
-
+            # Agrupar respuestas por autor
             for author, respuestas_lista in groupby(respuestas, key=attrgetter('author')):
-                respuestas_lista = list(respuestas_lista)  # generate a list
+                respuestas_lista = list(respuestas_lista)
                 try:
-                    # Get student grade
                     rating = Rating.objects.get(student=author, activity=activity)
                     calificacion = rating.rating
                 except ObjectDoesNotExist:
-                    calificacion = None  # if is not grade, is None
-                
-                respuestas_agrupadas.append((author, respuestas_lista, calificacion))  # add student and activity
-                autores_respondieron.append(author.pk)
+                    calificacion = None
 
-            # Filter students who have not responded
-            [respuestas_agrupadas.append((estudiante, [], None)) for estudiante in students if estudiante.pk not in autores_respondieron]
+                respuestas_agrupadas.append((author, respuestas_lista, calificacion))
+                autores_respondieron.add(author.pk)
 
-            # sort alphabetically
+            # Recorrer todos los estudiantes y agregar los que no han respondido
+            for student in students:
+                if student.pk not in autores_respondieron:
+                    try:
+                        rating = Rating.objects.get(student=student, activity=activity)
+                        calificacion = rating.rating
+                    except ObjectDoesNotExist:
+                        calificacion = None
+                    respuestas_agrupadas.append((student, [], calificacion))
+
+            # Ordenar la lista alfabéticamente por el nombre del estudiante
             respuestas_agrupadas.sort(key=lambda x: x[0].first_name.lower())
-            
+
         except Exception as e:
-            print(f"Error al obtener respuestas agrupadas: {e}")
-            respuestas_agrupadas = None
-            
+            respuestas_agrupadas = None  # En caso de error, manejarlo adecuadamente     
         ## Students ratings
         StudentRatingsForm = RatingForm()
 
@@ -286,9 +286,10 @@ class ViewActividades(View):
             'activityForm': activity_form,
         }
         return render(request, 'users/teachers/activities/view_actividades.html', context)
+    
     def post(self, request, pk):
         form = FilesProfesoresForm(request.POST, request.FILES)
-        print(form.errors)
+        
         if form.is_valid():
             archivo = form.save(commit=False)
             actividad = Activities.objects.get(pk=pk)
@@ -319,10 +320,11 @@ class RatingStudentActivity(View):
                     defaults={'rating': ratingsForm.cleaned_data['rating'], 'message': ratingsForm.cleaned_data['message']}
                 )
 
-                if not created:  # Si ya existía, actualizarla
+                if not created:  #update if the rating already existed
                     rating.rating = ratingsForm.cleaned_data['rating']
                     rating.message = ratingsForm.cleaned_data['message']
                     rating.save()
+                    
 
             return JsonResponse({'message': 'Calificación guardada correctamente', 'status': 1})
 
