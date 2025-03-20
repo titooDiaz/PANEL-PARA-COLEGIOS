@@ -332,8 +332,6 @@ class RatingStudentActivity(View):
             print(f"Error en la vista RatingStudentActivity: {e}")  # Esto aparecerá en la terminal
             return JsonResponse({'message': 'Error interno del servidor', 'error': str(e), 'status': 0}, status=500)
 
-
-    
     
 class EditActividades(View):
     def post(self, request, pk, *args, **kwargs):
