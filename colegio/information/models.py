@@ -269,12 +269,13 @@ class ScheduleCourts(models.Model):
     def __str__(self):
         return f"{self.start_date} - {self.end_date}"
     
-    def get_current_court(self, user):
+    def get_current_court(self, user, schedule):
         """
         Returns the current court based on the user's timezone.
         """
         # Get user's timezone from profile, default to UTC if not available
-        user_tz = user.profile.time_zone if hasattr(user, 'profile') else 'UTC'
+        user_tz = getattr(user, 'time_zone', 'UTC')
+        print(user_tz, "hola x2")
 
         try:
             # Convert current time to user's timezone
@@ -287,7 +288,8 @@ class ScheduleCourts(models.Model):
         # Find the court where the current date falls within the start and end dates
         current_court = ScheduleCourts.objects.filter(
             start_date__lte=current_time, 
-            end_date__gte=current_time
+            end_date__gte=current_time,
+            schedule=schedule,
         ).first()
         
         return current_court

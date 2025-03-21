@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View
-from information.models import Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, DailySchedule, Rating
+from information.models import Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, DailySchedule, Rating, ScheduleParts, ScheduleCourts
 from .forms import ActivitiesForm, FileForm, FilesProfesoresForm, RatingForm
 from django.contrib import messages
 ## MENSAJES DE ERRORES ##
@@ -44,17 +44,20 @@ class BoardTeachers(View):
     def get(self, request, *args, **kwargs):
         vista = 'profesores'
         abierto='inicio'
-        profesor = request.user.pk
-        materias_profesor = Subjects.objects.filter(teacher_1_id=profesor) | Subjects.objects.filter(teacher_2_id=profesor)
-        grades = Grade.objects.filter(subjects__in=materias_profesor).distinct()
-        actividades = Activities.objects.filter(subject__in=materias_profesor)
+        teacher = request.user.pk
+        materias_teacher = Subjects.objects.filter(teacher_1_id=teacher) | Subjects.objects.filter(teacher_2_id=teacher)
+        grades = Grade.objects.filter(subjects__in=materias_teacher).distinct()
+        actividades = Activities.objects.filter(subject__in=materias_teacher)
+        
+        # get current court
+        schedule = ScheduleParts.objects.get()
 
         #Time zone
         DateNow, TimeNow = time_zone_user_location(request.user.time_zone)
             
         context = {
             'grades': grades,
-            'materias_profesor': materias_profesor,
+            'materias_profesor': materias_teacher,
             'vista': vista,
             'abierto':abierto,
             'actividades': actividades,
@@ -104,6 +107,11 @@ class CreateActividades(View):
         
         activities = Activities.objects.filter(author=author,subject=materia).values_list('percentage', flat=True)
         total_percentage = sum(activities)
+        
+        # get current court
+        schedule = ScheduleParts.objects.filter(school_id=request.user.school).first()
+        court = ScheduleCourts.objects.filter(schedule=schedule).first()
+        data_court = court.get_current_court(author, schedule)
         
         initial_data = {
             'start_date': get_current_date(request.user),
