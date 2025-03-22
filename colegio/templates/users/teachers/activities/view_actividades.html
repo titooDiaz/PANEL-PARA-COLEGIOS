@@ -9,8 +9,15 @@
 {% block content %}
 <div id="message-container" class="bg-green-400"></div>
 {% load static %}
-<div class="mx-auto max-w-screen-sm text-center">
-    <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900">ACTIVIDADES PARA {{grado.grade_name}} ({{grado.grade_number}})!</h2>
+
+
+<div class="mx-auto max-w-screen-sm text-center p-4 rounded-xl bg-white/50 backdrop-blur-md">
+    <h2 class="text-3xl font-semibold text-gray-900">
+        ACTIVIDADES PARA <span class="text-blue-600">{{grado.grade_name}} ({{grado.grade_number}})</span>
+    </h2>
+    <h3 class="mt-2 text-lg text-gray-600">
+        Corte: <span class="font-medium text-gray-800"> {{current_court.court_number}} ({{current_court}})</span>
+    </h3>
 </div>
 
 
@@ -565,11 +572,6 @@
         {% endfor %}
     </div>
 </div>
-
-{% for i in students %}
-    {{i.id}}
-{% endfor %}
-
 
 <!-- ANIMATIONS NOTICE -->
 <script src="{% static 'js/windows/modal_for.js' %}"></script>

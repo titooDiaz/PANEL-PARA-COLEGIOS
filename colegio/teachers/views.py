@@ -48,9 +48,6 @@ class BoardTeachers(View):
         materias_teacher = Subjects.objects.filter(teacher_1_id=teacher) | Subjects.objects.filter(teacher_2_id=teacher)
         grades = Grade.objects.filter(subjects__in=materias_teacher).distinct()
         actividades = Activities.objects.filter(subject__in=materias_teacher)
-        
-        # get current court
-        schedule = ScheduleParts.objects.get()
 
         #Time zone
         DateNow, TimeNow = time_zone_user_location(request.user.time_zone)
@@ -98,20 +95,23 @@ def get_midnight(user):
 
 class CreateActividades(View):
     def get(self, request, pk, *args, **kwargs):
+        # initial data for view!
         vista = 'profesores'
         abierto='inicio'
         materia = Subjects.objects.get(pk=pk)
         author = request.user
         grade = Grade.objects.filter(subjects=materia).first()
-        tipo_actividades = ActivitiesType.objects.filter(school_id=request.user.school)
         
+        # get percentage
+        tipo_actividades = ActivitiesType.objects.filter(school_id=request.user.school)
         activities = Activities.objects.filter(author=author,subject=materia).values_list('percentage', flat=True)
         total_percentage = sum(activities)
         
         # get current court
         schedule = ScheduleParts.objects.filter(school_id=request.user.school).first()
         court = ScheduleCourts.objects.filter(schedule=schedule).first()
-        data_court = court.get_current_court(author, schedule)
+        data_time = get_current_date(request.user)
+        data_court = court.get_current_court(author, schedule, data_time)
         
         initial_data = {
             'start_date': get_current_date(request.user),
@@ -130,7 +130,8 @@ class CreateActividades(View):
             'actividades': actividades_form,
             'vista': vista,
             'abierto':abierto,
-            "tipo_actividades": tipo_actividades,
+            'tipo_actividades': tipo_actividades,
+            'current_court': data_court,
         }
         return render(request, 'users/teachers/activities/create_actividades.html', context)
     def post(self, request, pk, *args, **kwargs):
@@ -277,6 +278,12 @@ class ViewActividades(View):
         
         form = FilesProfesoresForm()
         
+        # get current court
+        schedule = ScheduleParts.objects.filter(school_id=request.user.school).first()
+        court = ScheduleCourts.objects.filter(schedule=schedule).first()
+        data_time = get_current_date(request.user)
+        data_court = court.get_current_court(request.user, schedule, data_time)
+        
         context = {
             'StudentRatingForm': StudentRatingsForm,
             'students': students,
@@ -292,6 +299,7 @@ class ViewActividades(View):
             'final_date': final_date,
             'final_hour': final_hour,
             'activityForm': activity_form,
+            'current_court': data_court
         }
         return render(request, 'users/teachers/activities/view_actividades.html', context)
     
