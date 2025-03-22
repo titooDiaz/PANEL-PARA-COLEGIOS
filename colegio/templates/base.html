@@ -25,7 +25,7 @@
     <script src="https://kit.fontawesome.com/df1bf70741.js" crossorigin="anonymous"></script>
     
     <style>
-        /* Estilos del preloader */
+        /* Preloader Style */
         #preloader {
             position: fixed;
             width: 100%;
@@ -146,10 +146,70 @@
 
             <!-- Contenido del cuerpo de la página -->
             <div class="m-4">
-            {% block content %}
-            
-            {% endblock content %}
+                {% block content %}
+                {% endblock content %}
             </div>
+            
+            <!-- Círculos de fondo -->
+            <div class="bg">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+            
+            <style>
+                .bg {
+                    position: fixed;
+                    bottom: 0px;
+                    right: 0;
+                    width: 300px;
+                    height: 300px;
+                    z-index: -1;
+                }
+
+                .circle {
+                    position: absolute;
+                    border-radius: 50%;
+                    background-color: rgba(255, 165, 0, 0.2);
+                    animation: palpitar 16s infinite ease-in-out;
+                    opacity: 0.4;
+                }
+
+                .circle:nth-child(1) {
+                    width: 120px;
+                    height: 120px;
+                    bottom: -120px;
+                    right: -120px;
+                    animation-delay: 1s;
+                }
+
+                .circle:nth-child(2) {
+                    width: 180px;
+                    height: 180px;
+                    bottom: -180px;
+                    right: -180px;
+                    animation-delay: 2s;
+                }
+
+                .circle:nth-child(3) {
+                    width: 220px;
+                    height: 220px;
+                    bottom: -220px;
+                    right: -220px;
+                    animation-delay: 3s;
+                }
+
+                @keyframes palpitar {
+                    0%, 100% {
+                        transform: scale(1);
+                        opacity: 0.4;
+                    }
+                    50% {
+                        transform: scale(4);
+                        opacity: 0.2;
+                    }
+                }
+            </style>
         </main>
         
     </div>

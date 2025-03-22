@@ -110,95 +110,95 @@
 
 </script>
 <style>
-.background.blurred {
-filter: blur(5px); /* Puedes ajustar el valor del desenfoque según tus preferencias */
-transition: filter 0.3s ease; /* Agrega una transición suave */
-}
-
-
-/* CAMBIAR FONDO */
-
-body {
-    margin: 0;
-    overflow: hidden;
-    background-color: rgb(255, 226, 192);
+  .background.blurred {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
   }
 
-  .circle {
-    z-index: -1 ;
-    position: absolute;
-    border-radius: 50%;
-    background: white;
-    animation: ripple 15s infinite;
+
+  /* CAMBIAR FONDO */
+
+  body {
+      margin: 0;
+      overflow: hidden;
+      background-color: rgb(255, 226, 192);
+    }
+
+    .circle {
+      z-index: -1 ;
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: ripple 15s infinite;
+    }
+
+  .small{
+    width: 200px;
+    height: 200px;
+    left: -100px;
+    bottom: -100px;
   }
 
-.small{
-  width: 200px;
-  height: 200px;
-  left: -100px;
-  bottom: -100px;
-}
-
-.mediun{
-  width: 400px;
-  height: 400px;
-  left: -200px;
-  bottom: -200px;
-}
-
-.large{
-  width: 600px;
-  height: 600px;
-  left: -300px;
-  bottom: -300px;
-}
-
-.xlarge{
-  width: 800px;
-  height: 800px;
-  left: -400px;
-  bottom: -400px;
-}
-
-.xxlarge{
-  width: 1000px;
-  height: 1000px;
-  left: -500px;
-  bottom: -500px;
-}
-
-.shade1{
-  background-color: #ffdca7;
-}
-.shade2{
-  background-color: #ffd494;
-}
-
-.shade3{
-  background-color: #ffb269;
-}
-
-.shade4{
-  background-color: #f1a45b;
-}
-
-.shade5{
-  background-color: #ff9939;
-}
-
-@keyframes ripple{
-  0%{
-    transform: scale(0.8);
+  .mediun{
+    width: 400px;
+    height: 400px;
+    left: -200px;
+    bottom: -200px;
   }
-  
-  50%{
-    transform: scale(1.2);
+
+  .large{
+    width: 600px;
+    height: 600px;
+    left: -300px;
+    bottom: -300px;
   }
-  
-  100%{
-    transform: scale(0.8);
+
+  .xlarge{
+    width: 800px;
+    height: 800px;
+    left: -400px;
+    bottom: -400px;
   }
-}
+
+  .xxlarge{
+    width: 1000px;
+    height: 1000px;
+    left: -500px;
+    bottom: -500px;
+  }
+
+  .shade1{
+    background-color: #ffdca7;
+  }
+  .shade2{
+    background-color: #ffd494;
+  }
+
+  .shade3{
+    background-color: #ffb269;
+  }
+
+  .shade4{
+    background-color: #f1a45b;
+  }
+
+  .shade5{
+    background-color: #ff9939;
+  }
+
+  @keyframes ripple{
+    0%{
+      transform: scale(0.8);
+    }
+    
+    50%{
+      transform: scale(1.2);
+    }
+    
+    100%{
+      transform: scale(0.8);
+    }
+  }
 </style>
 
 </body>
