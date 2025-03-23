@@ -47,13 +47,24 @@ class BoardTeachers(View):
         teacher = request.user.pk
         materias_teacher = Subjects.objects.filter(teacher_1_id=teacher) | Subjects.objects.filter(teacher_2_id=teacher)
         grades = Grade.objects.filter(subjects__in=materias_teacher).distinct()
+        
+        # What is my court?
+        grades_list = []
+        for grade in grades:
+            schedule = grade.schedule_parts
+            # get current schedule part.
+            court = ScheduleCourts.objects.filter(schedule=schedule).first()
+            data_time = get_current_date(request.user)
+            data_court = court.get_current_court(request.user, schedule, data_time)
+            grades_list.append((grade, data_court))
+            
         actividades = Activities.objects.filter(subject__in=materias_teacher)
 
         #Time zone
         DateNow, TimeNow = time_zone_user_location(request.user.time_zone)
             
         context = {
-            'grades': grades,
+            'grades': grades_list,
             'materias_profesor': materias_teacher,
             'vista': vista,
             'abierto':abierto,
@@ -279,7 +290,11 @@ class ViewActividades(View):
         form = FilesProfesoresForm()
         
         # get current court
-        schedule = ScheduleParts.objects.filter(school_id=request.user.school).first()
+        subject_id = activity.subject.pk
+        subject = Subjects.objects.get(id=subject_id)
+        grade = Grade.objects.filter(subjects=subject).first()
+        grade = Grade.objects.get(id=grade.pk)
+        schedule = grade.schedule_parts 
         court = ScheduleCourts.objects.filter(schedule=schedule).first()
         data_time = get_current_date(request.user)
         data_court = court.get_current_court(request.user, schedule, data_time)

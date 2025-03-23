@@ -12,7 +12,7 @@
     <h3 class="text-xl tracking-tight font-bold text-gray-900 mb-8">Aqui tienes todos tus grados para el -- periodo del a;o!</h3>
 </div>
 
-{% for grade in grades %}
+{% for grade, court in grades %}
 
     <div class="p-8 mb-8">
             <div class="mx-auto max-w-screen-sm text-center">
@@ -54,34 +54,36 @@
                                                 <div class="bg-gray-300">
                                                     {% for actividad in actividades %}
                                                         {% if actividad.subject == subject %}
-                                                        <div class="flex justify-between items-center mb-4">
-                                                            {% if fecha_actual == actividad.end_date %}
-                                                                {% if hora_actual > actividad.end_time %}
-                                                                    <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                                        <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                        {{ actividad.description }}
-                                                                    </div>
-                                                                {%else%}
-                                                                    <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-orange-400 fa-solid fa-clock"></i> |</a>
-                                                                        <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                        {{ actividad.description }}
-                                                                    </div>
-                                                                {%endif%}
-                                                            {% else %}
-                                                                {% if fecha_actual > actividad.end_date %}
-                                                                    <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                                        <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                        {{ actividad.description }}
-                                                                    </div>
-                                                                {%else%}
-                                                                    <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-green-700 fa-solid fa-clock"></i> |</a>
-                                                                        <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                        {{ actividad.description }}
-                                                                    </div>
-                                                                {%endif%}
+                                                            {% if actividad.start_date > court.start_date and actividad.end_date < court.end_date %}
+                                                                <div class="flex justify-between items-center mb-4">
+                                                                    {% if fecha_actual == actividad.end_date %}
+                                                                        {% if hora_actual > actividad.end_time %}
+                                                                            <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
+                                                                                <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
+                                                                                {{ actividad.description }}
+                                                                            </div>
+                                                                        {%else%}
+                                                                            <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-orange-400 fa-solid fa-clock"></i> |</a>
+                                                                                <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
+                                                                                {{ actividad.description }}
+                                                                            </div>
+                                                                        {%endif%}
+                                                                    {% else %}
+                                                                        {% if fecha_actual > actividad.end_date %}
+                                                                            <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
+                                                                                <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
+                                                                                {{ actividad.description }}
+                                                                            </div>
+                                                                        {%else%}
+                                                                            <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-green-700 fa-solid fa-clock"></i> |</a>
+                                                                                <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
+                                                                                {{ actividad.description }}
+                                                                            </div>
+                                                                        {%endif%}
+                                                                    {% endif %}
+                                                                    
+                                                                </div>
                                                             {% endif %}
-                                                            
-                                                        </div>
                                                         {% endif %}
                                                     {% endfor %}
                                                 </div>
