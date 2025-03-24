@@ -72,7 +72,7 @@ class BoardTeachers(View):
             'hora_actual': TimeNow,
             'fecha_actual': DateNow,
         }
-        return render(request, 'users/teachers/inicio.html', context)
+        return render(request, 'users/teachers/board.html', context)
 
 
 import pytz
