@@ -103,7 +103,7 @@ NPM_BIN_PATH = "/ruta/a/tu/npm"
 
 1. **Realizar migraciones**  
    ```bash
-   python manage.py makemigrations users informacion administradores profesores gestores acudientes alumnos
+   python manage.py makemigrations users information admis teachers managers guardians students
    ```
 
 2. **Crear la base de datos**  
@@ -125,6 +125,11 @@ NPM_BIN_PATH = "/ruta/a/tu/npm"
 ### Vista de Login  
 <p align="center">
   <img src="./Documentation/images/login.png" alt="Vista de Login">
+</p>
+
+### Vista de Panel 
+<p align="center">
+  <img src="./Documentation/images/about.png" alt="Vista de Login">
 </p>
 
 ---
