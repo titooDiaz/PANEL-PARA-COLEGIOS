@@ -14,7 +14,7 @@ Para incluir un icono en cualquier parte de la interfaz, usa la siguiente estruc
 ```html
 <div class="w-6 h-6 bg-white flex mask-icon" data-icon="{% static 'icons/ICONO' %}"></div>
 <script src="{% static 'icons/icons.js' %}"></script>
-<link href="{% static 'icons/icons.js' %}" rel='stylesheet'/>
+<link href="{% static 'icons/icons.css' %}" rel='stylesheet'/>
 ```
 
 Donde `ICONO` debe ser reemplazado por el nombre del archivo SVG correspondiente.
@@ -29,7 +29,7 @@ Donde `ICONO` debe ser reemplazado por el nombre del archivo SVG correspondiente
 - `<script src="{% static 'icons/icons.js' %}"></script>`
   - Este script se encarga de leer el atributo `data-icon` y aplicar la máscara correspondiente.
 
-- `<link href="{% static 'icons/icons.js' %}" rel='stylesheet'/>`
+- `<link href="{% static 'icons/icons.css' %}" rel='stylesheet'/>`
   - (Opcional) Si los estilos de los iconos estuvieran en un archivo CSS, podría usarse un `link` para importarlos.
 
 ## Uso en Botones
