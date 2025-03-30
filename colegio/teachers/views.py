@@ -332,12 +332,12 @@ class ViewActividades(View):
 class RatingStudentActivity(View):
     def post(self, request, student_pk, activity_pk, *args, **kwargs):
         try:
-            ratingsForm = RatingForm(request.POST)
+            ratings_form = RatingForm(request.POST)
 
-            if not ratingsForm.is_valid():
+            if not ratings_form.is_valid():
                 return JsonResponse({
-                    'message': 'Error en el formulario',
-                    'errors': ratingsForm.errors,  # Ahora enviamos los errores al frontend
+                    'message': 'Form error',
+                    'errors': ratings_form.errors,  # Now sending errors to the frontend
                     'status': 0
                 }, status=400)
 
@@ -345,23 +345,22 @@ class RatingStudentActivity(View):
             student = get_object_or_404(CustomUser, pk=student_pk)
             activity = get_object_or_404(Activities, pk=activity_pk)
 
-            with transaction.atomic():  # Evita inconsistencias en la base de datos
+            with transaction.atomic():  # Prevents database inconsistencies
                 rating, created = Rating.objects.get_or_create(
                     teacher=teacher, student=student, activity=activity,
-                    defaults={'rating': ratingsForm.cleaned_data['rating'], 'message': ratingsForm.cleaned_data['message']}
+                    defaults={'rating': ratings_form.cleaned_data['rating'], 'message': ratings_form.cleaned_data['message']}
                 )
 
-                if not created:  #update if the rating already existed
-                    rating.rating = ratingsForm.cleaned_data['rating']
-                    rating.message = ratingsForm.cleaned_data['message']
+                if not created:  # Update if the rating already existed
+                    rating.rating = ratings_form.cleaned_data['rating']
+                    rating.message = ratings_form.cleaned_data['message']
                     rating.save()
                     
-
-            return JsonResponse({'message': 'Calificación guardada correctamente', 'status': 1})
+            return JsonResponse({'message': 'Rating saved successfully', 'status': 1})
 
         except Exception as e:
-            print(f"Error en la vista RatingStudentActivity: {e}")  # Esto aparecerá en la terminal
-            return JsonResponse({'message': 'Error interno del servidor', 'error': str(e), 'status': 0}, status=500)
+            print(f"Error in RatingStudentActivity view: {e}")  # This will appear in the terminal
+            return JsonResponse({'message': 'Internal server error', 'error': str(e), 'status': 0}, status=500)
 
     
 class EditActividades(View):
@@ -376,24 +375,23 @@ class EditActividades(View):
             messages.error(request, 'Formulario no válido')
         return redirect('BoardTeachers')
     
-# Horario para dictar clases de profresores...
+# Schedule for professors to teach classes...
 class ProfessorSchedule(View):
     def get(self, request, *args, **kwargs):
         user = request.user
-        subject_profesor = Subjects.objects.filter(teacher_1_id=user) | Subjects.objects.filter(teacher_2_id=user)
-        grades = Grade.objects.filter(subjects__in=subject_profesor).distinct()
+        subject_professor = Subjects.objects.filter(teacher_1_id=user) | Subjects.objects.filter(teacher_2_id=user)
+        grades = Grade.objects.filter(subjects__in=subject_professor).distinct()
 
         schedules = DailySchedule.objects.filter(grade__in=grades).order_by('start_time')
 
-        # Obtener la zona horaria del usuario
+        # Get the user's time zone
         user_zone = pytz.timezone(request.user.time_zone)
         
-        # Obtener el día de la semana en la zona horaria del usuario
+        # Get the current weekday in the user's time zone
         day = timezone.now().astimezone(user_zone).strftime('%A')
         
-        # Traducir el día al español si es necesario
-        # Transalate day
-        day_number_text = {
+        # Translate the day to a numerical representation
+        day_number_map = {
             "Monday": "1",
             "Tuesday": "2",
             "Wednesday": "3",
@@ -402,16 +400,16 @@ class ProfessorSchedule(View):
             "Saturday": "6",
             "Sunday": "7",
         }
-        day_numer = day_number_text.get(day, day)
+        day_number = day_number_map.get(day, day)
         
-        vista = 'profesores'
-        abierto = 'calendario'
+        view = 'professors'
+        open_section = 'calendar'
         context = {
             'user': user,
-            'vista': vista,
-            'abierto': abierto,
+            'vista': view,
+            'abierto': open_section,
             'schedules': schedules,
-            'day': day_numer,
+            'day': day_number,
         }
         
         return render(request, 'users/teachers/schedule/schedule.html', context)
