@@ -1,44 +1,71 @@
+# Django utilities for rendering templates and handling redirects
 from django.shortcuts import render, redirect
+
+# Django class-based views
 from django.views.generic import TemplateView, View
-from information.models import Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, DailySchedule, Rating, ScheduleParts, ScheduleCourts
+
+# Import models related to subjects, grades, activities, schedules, and ratings
+from information.models import (
+    Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, 
+    DailySchedule, Rating, ScheduleParts, ScheduleCourts
+)
+
+# Import forms for handling activities, file uploads, and ratings
 from .forms import ActivitiesForm, FileForm, FilesProfesoresForm, RatingForm
+
+# Django messaging framework for displaying notifications to users
 from django.contrib import messages
-## MENSAJES DE ERRORES ##
+
+# Custom error messages module
 from message_error import messages_error
+
+# Optimized database queries
 from django.db.models import Prefetch
+
+# Exception handling for missing objects
 from django.core.exceptions import ObjectDoesNotExist
+
+# Utilities for grouping query results
 from itertools import groupby
 from operator import attrgetter
-from django.shortcuts import get_object_or_404
-from django.db import transaction
-from users.models import CustomUser, CustomUserStudent
 
-# in real time
+# Function to get objects or return a 404 error if not found
+from django.shortcuts import get_object_or_404
+
+# Ensures database operations are performed atomically (to prevent inconsistencies)
+from django.db import transaction
+
+# Custom user models for teachers and students
+from users.models import CustomUser, CustomUserStudent, CustomUserTeachers
+
+# Define aliases for user models
+UserProfes = CustomUserTeachers  # Teachers
+UserAlumno = CustomUserStudent   # Students
+
+# Django utility for returning JSON responses (useful for AJAX and real-time updates)
 from django.http import JsonResponse
 
-# maage directories
+# Library for handling file system operations
 import os
 
-#
+# Django authentication system
 from django.contrib.auth import get_user_model
-from users.models import CustomUserTeachers, CustomUserStudent
-UserProfes = CustomUserTeachers
-UserAlumno = CustomUserStudent
 
-## Contar, Agrupar, un modelo
+# Utilities for counting, grouping, and aggregating data
 from itertools import groupby
 from operator import attrgetter
 from django.db.models import Count
 from collections import defaultdict
 
-# LIBRERIAS DE FECHAS
+# Date and time utilities
 from datetime import datetime
 import pytz
 import time
-import tzlocal #pip install tzlocal
+import tzlocal  # Library for detecting the local timezone (install with `pip install tzlocal`)
 
-# time now!
+# Function for getting the user's time zone from the utils module
 from utils.functions import time_zone_user_location
+
 
 class BoardTeachers(View):
     def get(self, request, *args, **kwargs):
@@ -183,14 +210,14 @@ class CreateActividades(View):
         messages.error(request, 'Formulario no válido')
         return redirect('BoardTeachers')
 
-def get_type_file(file):
-    # Obtener el nombre del archivo desde la ruta completa
-    file_name = file.name.split('/')[-1]  # Divide la ruta por '/' y toma el último segmento
+def get_file_type(file):
+    # Get the file name from the full path
+    file_name = file.name.split('/')[-1]  # Splits the path by '/' and takes the last segment
     
-    # Obtener la extensión del archivo
-    ext = file_name.split('.')[-1].lower()  # Divide el nombre del archivo por '.' y toma la extensión
+    # Get the file extension
+    ext = file_name.split('.')[-1].lower()  # Splits the file name by '.' and extracts the extension
 
-    
+    # Determine the file type based on its extension
     if ext in ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp']:
         return 'image'
     elif ext in ['pdf']:
@@ -240,7 +267,7 @@ class ViewActividades(View):
         file_type = []
         # type of file
         for file in files:
-            type = get_type_file(file.file)
+            type = get_file_type(file.file)
             file_type.append(type)
 
         # group files
