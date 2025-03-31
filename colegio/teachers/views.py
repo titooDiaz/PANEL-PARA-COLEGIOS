@@ -429,8 +429,8 @@ class ProfessorSchedule(View):
         }
         day_number = day_number_map.get(day, day)
         
-        view = 'professors'
-        open_section = 'calendar'
+        view = 'profesores'
+        open_section = 'calendario'
         context = {
             'user': user,
             'vista': view,
