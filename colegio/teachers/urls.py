@@ -11,4 +11,16 @@ urlpatterns = [
     # es - Ver horario
     # en - View schedule
     path('view/schedule/', ProfessorSchedule.as_view(), name='ViewScheduleProfessor'),
+    
+    # es - Ver Mensajes
+    # en - View Messages
+    path('view/messages/', ProfessorMessages.as_view(), name='ViewScheduleMessages'),
+    
+    # es - Ver Personas
+    # en - View People
+    path('view/people/', ProfessorPoeple.as_view(), name='ViewSchedulePople'),
+    
+    # es - Ver Notas
+    # en - View Ratings
+    path('view/ratings/', ProfessorRatings.as_view(), name='ViewScheduleRatings'),
 ]
