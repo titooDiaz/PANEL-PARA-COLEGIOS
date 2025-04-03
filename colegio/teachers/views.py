@@ -440,3 +440,36 @@ class ProfessorSchedule(View):
         }
         
         return render(request, 'users/teachers/schedule/schedule.html', context)
+    
+class ProfessorMessages(View):
+    def get(self, request, *args, **kwargs):
+        view = 'profesores'
+        open_section = 'mensajes'
+        context = {
+            'vista': view,
+            'abierto': open_section,
+        }
+        
+        return render(request, 'users/teachers/messages/messages.html', context)
+    
+class ProfessorPoeple(View):
+    def get(self, request, *args, **kwargs):
+        view = 'profesores'
+        open_section = 'personas'
+        context = {
+            'vista': view,
+            'abierto': open_section,
+        }
+        
+        return render(request, 'users/teachers/people/people.html', context)
+
+class ProfessorRatings(View):
+    def get(self, request, *args, **kwargs):
+        view = 'profesores'
+        open_section = 'calificaciones'
+        context = {
+            'vista': view,
+            'abierto': open_section,
+        }
+        
+        return render(request, 'users/teachers/rating/ratings.html', context)
