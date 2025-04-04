@@ -18,7 +18,7 @@ urlpatterns = [
     
     # es - Ver Personas
     # en - View People
-    path('view/people/', ProfessorPoeple.as_view(), name='ViewSchedulePople'),
+    path('view/people/', ProfessorPeople.as_view(), name='ViewSchedulePeople'),
     
     # es - Ver Notas
     # en - View Ratings

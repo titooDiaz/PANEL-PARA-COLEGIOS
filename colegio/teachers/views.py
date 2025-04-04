@@ -452,7 +452,7 @@ class ProfessorMessages(View):
         
         return render(request, 'users/teachers/messages/messages.html', context)
     
-class ProfessorPoeple(View):
+class ProfessorPeople(View):
     def get(self, request, *args, **kwargs):
         view = 'profesores'
         open_section = 'personas'
@@ -466,7 +466,7 @@ class ProfessorPoeple(View):
 class ProfessorRatings(View):
     def get(self, request, *args, **kwargs):
         view = 'profesores'
-        open_section = 'calificaciones'
+        open_section = 'notas'
         context = {
             'vista': view,
             'abierto': open_section,

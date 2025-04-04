@@ -37,13 +37,13 @@
 
           {% if abierto == 'mensajes' %}
             <li class="bg-white text-black rounded-l-lg">
-                <a href="#" class="block p-4 transition duration-300 rounded-lg">
+                <a href="{% url 'ViewScheduleMessages' %}" class="block p-4 transition duration-300 rounded-lg">
                   <i class="fas fa-envelope mr-2"></i> Mensajes
                 </a>
             </li>
           {% else %}
             <li>
-                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <a href="{% url 'ViewScheduleMessages' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                   <i class="fas fa-envelope mr-2"></i> Mensajes
                 </a>
             </li>
@@ -51,13 +51,13 @@
 
           {% if abierto == 'personas' %}
             <li class="bg-white text-black rounded-l-lg">
-                <a href="#" class="block p-4 transition duration-300 rounded-lg">
+                <a href="{% url 'ViewSchedulePeople' %}" class="block p-4 transition duration-300 rounded-lg">
                   <i class="fas fa-user mr-2"></i> Personas
                 </a>
             </li>
           {% else %}
             <li>
-                <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+                <a href="{% url 'ViewSchedulePeople' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                   <i class="fas fa-user mr-2"></i> Personas
                 </a>
             </li>
@@ -65,13 +65,13 @@
 
           {% if abierto == 'notas' %}
             <li class="bg-white text-black rounded-l-lg">
-              <a href="#" class="block p-4 transition duration-300 rounded-lg">
+              <a href="{% url 'ViewScheduleRatings' %}" class="block p-4 transition duration-300 rounded-lg">
                 <i class="fas fa-book mr-2"></i> Notas
               </a>
             </li>
           {% else %}
             <li>
-              <a href="#" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
+              <a href="{% url 'ViewScheduleRatings' %}" class="block p-4 hover:bg-gray-700 transition duration-300 rounded-lg">
                 <i class="fas fa-book mr-2"></i> Notas
               </a>
             </li>
