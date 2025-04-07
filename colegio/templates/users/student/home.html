@@ -36,7 +36,7 @@
                                     <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                       <i class="fa-solid fa-magnifying-glass"></i>
                                     </div>
-                                    <input type="text" id="regular_activities" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full ps-10 p-2.5" placeholder="Recuerdas tu actividad? Escribe aqui el nombre!">
+                                    <input type="text" id="search_recent_activities" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full ps-10 p-2.5" placeholder="Recuerdas tu actividad? Escribe aqui el nombre!">
                                 </div>
                             </div>
                             <div class="w-[10%] flex items-center justify-center">
@@ -47,7 +47,7 @@
                             {% if actividades %}
                                 
                                 {% for actividad in actividades %}
-                                    <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
+                                    <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex" id="RecentTask">
                                         <div class="m-2">
                                             {% if fecha_actual == actividad.end_date %}
                                                 {% if hora_actual > actividad.end_time %}
@@ -80,7 +80,7 @@
                                             {% endif %}
                                         </div>
 
-                                        <div class="flex w-full ml-6 bg-gray-100 rounded-lg">
+                                        <div class="flex w-full ml-6 bg-gray-100 rounded-lg" id="RecentName">
                                             <div class="w-full">
                                                 <div class="m-2">
                                                     <div>
@@ -125,7 +125,7 @@
                                     <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                       <i class="fa-solid fa-magnifying-glass"></i>
                                     </div>
-                                    <input type="text" id="past_activities" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full ps-10 p-2.5" placeholder="Recuerdas tu actividad? Escribe aqui el nombre!">
+                                    <input type="text" id="search_past_activities" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full ps-10 p-2.5" placeholder="Recuerdas tu actividad? Escribe aqui el nombre!">
                                   </div>
                             </div>
                             <div class="w-[10%] flex items-center justify-center">
@@ -138,7 +138,7 @@
                             
                             {% for score, actividad in activityOff %}
                                 
-                                <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex">
+                                <a href="{% url 'ResponderActividades' actividad.pk %}" class="flex" id="PastTask">
                                     <div class="m-2">
                                         {% if fecha_actual == actividad.end_date %}
                                             {% if hora_actual > actividad.end_time %}
@@ -175,7 +175,7 @@
                                             </div>
                                             <hr>
                                             <div class="m-2">
-                                                <p class="font-bold">{{actividad.name}} - 
+                                                <p class="font-bold" id="PastName">{{actividad.name}} - 
                                                     {% if score.rating %}
                                                         ({{score.rating}}/100)
                                                     {% else %}
@@ -242,5 +242,9 @@
 
 <!-- from cdn -->
 <script src="{% static 'js/windows/collapse.js' %}"></script>
+
+<!--activity search-->
+<script src="{% static 'js/search/activity_search.js' %}"></script>
+
 
 {% endblock content %}  
