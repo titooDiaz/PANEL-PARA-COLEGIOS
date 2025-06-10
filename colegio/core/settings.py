@@ -63,7 +63,7 @@ NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 #Ubuntu
 
 
-NPM_BIN_PATH ="/home/miguel/nodejs/bin/npm" # whereis npm
+NPM_BIN_PATH ="/home/miguel/.nvm/versions/node/v22.15.0/bin/npm" # whereis npm
 #############################################################################
 
 #autenticacion de usuario...

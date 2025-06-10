@@ -217,6 +217,19 @@ class AjustesGestores(View):
         }
         return render(request, 'informacion/view_informacion.html', context)
     
+# View profile
+class ViewProfile(View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        vista = 'gestor'
+        abierto='personas'
+        context = {
+            'vista': vista,
+            'abierto':abierto,
+            'user':user,
+        }
+        return render(request, 'users/gestores/profile.html', context)
+    
 class CreateProfesor(View):
     def post(self, request, *args, **kwargs):
         form = CustomUserTeachersForm(request.POST, request.FILES)

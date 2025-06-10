@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreateGestor, ViewUsersSettings, BoardGestores, CalendarioGestores, MensajesGestores, AjustesGestores, CreateAlumno, CreateProfesor, CreateGrados, CreateMaterias, CreateMateriasVer, CreateAcudiente, CreateAdmin, CreateHorarios, EditCortesHorarios, CreateCortes, EditCortes, CreateActividadTipo
+from .views import *
 
 urlpatterns = [
     #ver usuarios para modificar o ...
@@ -8,6 +8,7 @@ urlpatterns = [
     path('mensajes/', MensajesGestores.as_view(), name='MensajesGestores'),
     path('personas/', ViewUsersSettings.as_view(), name='ViewUsersSettings'),
     path('ajustes/', AjustesGestores.as_view(), name='AjustesGestores'),
+    path('manager/profile/', ViewProfile.as_view(), name='ViewProfile'),
 
     #crear
     path('crear/profesores/', CreateProfesor.as_view(), name='CreateTeacher'),
