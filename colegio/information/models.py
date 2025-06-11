@@ -248,7 +248,7 @@ class DailySchedule(models.Model): #Materias por dia (DEPENDIENDO DEL HORARIO SE
         \|/                                                                               """
     monday = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_1')#lunes
     tuesday = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_2') #martes
-    wednesday= models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_3') #miercoles
+    wednesday = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_3') #miercoles
     thursday = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_4') #jueves 
     friday = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_5') #viernes
     saturday = models.ForeignKey(Subjects, on_delete=models.SET_NULL, blank=True, null=True, related_name='subjects_grade_6') #viernes
