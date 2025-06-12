@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import GestionColegios, Colegios, CreateGestorColegio, ViewColegios
+from .views import *
+
 urlpatterns = [
     #### CREAR COLEGIO
     path('colegios/crear/colegio/', GestionColegios.as_view(), name='ColegiosCreate'),
@@ -11,5 +12,6 @@ urlpatterns = [
     # Crear colegios
     path('colegios/crear/gestor/', CreateGestorColegio.as_view(), name='ColegiosGestor'),
     # Mirar colegios
-    path('colegios/view/', ViewColegios.as_view(), name='ViewColegiosADM')
+    path('colegios/view/', ViewColegios.as_view(), name='ViewColegiosADM'),
+    path('colegios/profile/', ViewProfile.as_view(), name='ViewProfilePlus'),
 ]

@@ -130,3 +130,17 @@ class ViewColegios(View):
             'abierto':abierto,
         }
         return render(request, 'colegios/VerColegios.html', context)
+    
+#view profile 
+
+class ViewProfile(View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        vista = 'plus'
+        abierto='personas'
+        context = {
+            'vista': vista,
+            'abierto':abierto,
+            'user':user,
+        }
+        return render(request, 'users/gestores/profile.html', context)    

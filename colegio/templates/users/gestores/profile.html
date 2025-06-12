@@ -6,32 +6,103 @@
 <div class="flex justify-center items-center h-[80vh]">
     <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full p-8 transition-all duration-300 animate-fade-in">
         <div class="flex flex-col md:flex-row">
+            <!-- Sección Izquierda -->
             <div class="md:w-1/3 text-center mb-8 md:mb-0">
-                <img src="{{ request.user.customusermanager.photo.url }}" alt="Profile Picture" class="rounded-full w-48 h-48 mx-auto mb-4 border-4 border-indigo-800 transition-transform duration-300 hover:scale-105">
-                <h1 class="text-2xl font-bold text-indigo-800 mb-2">{{ user.first_name }} {{ user.last_name }}</h1>
+                <img src="{{ request.user.customusermanager.photo.url }}" alt="Profile Picture" class="rounded-full w-48 h-48 mx-auto mb-4 border-4 border-[#ff7738] transition-transform duration-300 hover:scale-105">
+                <h1 class="text-2xl font-bold text-[#ff7738] mb-2">{{ user.first_name }} {{ user.last_name }}</h1>
                 <p class="text-gray-600">Gestor del Colegio: {{user.school}}</p>
-                <button class="mt-4 bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300">Editar Perfil</button>
+                <div class="flex justify-center">
+                    <button onclick="toggleModal()" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1">Editar perfil</button>
+                </div>
             </div>
+
+            <!-- Sección Derecha -->
             <div class="md:w-2/3 md:pl-8">
-                <h2 class="text-xl font-semibold text-indigo-800 mb-4">Acerca de mi...</h2>
-                <p class="text-gray-700 mb-6">
-                    
-                </p>
-                <h2 class="text-xl font-semibold text-indigo-800 mb-4">Informacion Personal</h2>
-                <ul class="space-y-2 text-gray-700">
-                    <li class="flex items-center">
-                        {{ user.email }}
-                    </li>
-                    <li class="flex items-center">
-                        {{ user.gender }}
-                    </li>
-                    <li class="flex items-center">
-                        {{ user.document_type }} - {{ user.document_number }}
-                    </li>
-                </ul>
+                <h2 class="text-xl font-semibold text-[#ff7738] mb-4">Información Personal</h2>
+                <table class="text-gray-700 w-full">
+                    <tbody class="divide-y">
+                        <tr>
+                            <td class="font-semibold py-2">Documento:</td>
+                            <td>{{ user.document_type }} - {{ user.document_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="font-semibold py-2">Correo:</td>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold py-2">Género:</td>
+                            <td>{{ request.user.customusermanager.gender }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal (Ventana emergente) -->
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6">
+        <h3 class="text-xl font-bold text-[#ff7738] mb-4">Editar Perfil</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Aquí puedes colocar tus campos del formulario -->
+            <div class="mb-4">
+                <label class="block font-semibold mb-1">Nombre:</label>
+                <input type="text" name="first_name" value="{{ user.first_name }}" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
+            </div>
+            <div class="mb-4">
+                <label class="block font-semibold mb-1">Apellido:</label>
+                <input type="text" name="last_name" value="{{ user.last_name }}" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
+            </div>
+
+             <div class="mb-4">
+                <label class="block font-semibold mb-1">Email:</label>
+                <input type="text" name="email" value="{{ user.email }}" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
+            </div>
+
+            <div class="flex justify-end gap-2 mt-6">
+                <button type=button onclick= "toggleModalPassword()" class="px-4 py-2 text-red-400 text-white rounded hover:text-red-600">¿Deseas cambiar tu contraseña?</button>
+                <button type="button" onclick="toggleModal()" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-gray-500 border-l border-r border-t border-4 border-gray-800 transition duration-300 ease-in-out focus:border focus:mt-1">Cancelar</button>
+                <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="editPassword" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6">
+        <h3 class="text-xl font-bold text-[#ff7738] mb-4">Editar contraseña</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+          
+            <div class="mb-4">
+                <label class="block font-semibold mb-1">Nueva contraseña:</label>
+                <input type="text" name="new Password" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
+            </div>
+            <div class="mb-4">
+                <label class="block font-semibold mb-1">Confirmar nueva contraseña:</label>
+                <input type="text" name="Confirm new password"class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
+            </div>
+            <div class="flex justify-end gap-2 mt-6">
+                <button type="button" onclick="toggleModalPassword()" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-gray-500 border-l border-r border-t border-4 border-gray-800 transition duration-300 ease-in-out focus:border focus:mt-1">Cancelar</button>
+                <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1">Guardar</button>
+            </div>
+        </form>    
+    </div>
+</div>    
+
+<script>
+    function toggleModal() {
+        const modal = document.getElementById('editModal');
+        modal.classList.toggle('hidden');
+    }
+
+    function toggleModalPassword() {
+        const modal = document.getElementById('editPassword');
+        modal.classList.toggle('hidden');
+    }
+</script>
 
 {% endblock content %}
