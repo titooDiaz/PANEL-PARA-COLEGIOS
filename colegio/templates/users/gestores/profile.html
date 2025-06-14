@@ -8,7 +8,19 @@
         <div class="flex flex-col md:flex-row">
             <!-- Sección Izquierda -->
             <div class="md:w-1/3 text-center mb-8 md:mb-0">
-                <img src="{{ request.user.customusermanager.photo.url }}" alt="Profile Picture" class="rounded-full w-48 h-48 mx-auto mb-4 border-4 border-[#ff7738] transition-transform duration-300 hover:scale-105">
+                <button id="openModalBtn" class="relative group focus:outline-none rounded-full cursor-pointer">
+                    <!-- Imagen del usuario -->
+                    <img src="{{ request.user.customusermanager.photo.url }}"
+                        alt="Foto de perfil"
+                        class="rounded-full w-48 h-48 mx-auto border-4 border-[#ff7738] transition-transform duration-300 hover:scale-105 shadow-lg">
+
+                    <!-- Capa sombreada con texto al hacer hover -->
+                    <div class="absolute inset-0 flex items-center justify-center rounded-full
+                                bg-black bg-opacity-40 opacity-0 group-hover:opacity-100
+                                transition-opacity duration-300">
+                        <span class="text-white text-lg font-semibold">Editar foto</span>
+                    </div>
+                </button>
                 <h1 class="text-2xl font-bold text-[#ff7738] mb-2">{{ user.first_name }} {{ user.last_name }}</h1>
                 <p class="text-gray-600">Gestor del Colegio: {{user.school}}</p>
                 <div class="flex justify-center">
