@@ -6,6 +6,9 @@ from information.models import Grade, ScheduleParts, Subjects, ScheduleCourts, A
 #imagenes de usuarios
 from django.forms import ClearableFileInput
 
+# change password
+from django.contrib.auth.forms import PasswordChangeForm
+
 
 #MENEJO DE ERRORES CON BASE DE DATOS
 # COMPROBAR SI HAY TABLAS O LA BASE DE DATOS ESTA VACIA...
@@ -119,6 +122,41 @@ class CustomUserManagerForm(UserCreationForm):
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+class CustomUserManagerEditProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUserManager
+        fields = ('first_name', 'last_name', 'email')
+        widgets = {  
+            'first_name': forms.TextInput(attrs={
+                'autocomplete': 'off',
+                'id': 'first_name',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Nombres del usuario'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'id': 'last_name',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Apellidos del usuario'
+            }),
+            'email': forms.EmailInput(attrs={
+                'autocomplete': 'off',
+                'id': 'email',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Email donde se puede contactar al usuario'
+            }),
+        }
+
+# change password
+class CustomPasswordChangeManagerForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomPasswordChangeManagerForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs.update({
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': self.fields[field_name].label,
+                'autocomplete': 'off'
+            })
 
 
 #Translate: CustomUserAdministradorForm

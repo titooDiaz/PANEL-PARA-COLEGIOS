@@ -44,26 +44,14 @@
 <!-- Modal (Ventana emergente) -->
 <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
     <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6">
-        <h3 class="text-xl font-bold text-[#ff7738] mb-4">Editar Perfil</h3>
-        <form method="POST" enctype="multipart/form-data">
+        <h3 class="text-xl font-bold text-[#ff7738] mb-4">Editar Perfil</h3>    
+        <form method="POST" action="{% url 'ViewProfile' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <!-- Aquí puedes colocar tus campos del formulario -->
-            <div class="mb-4">
-                <label class="block font-semibold mb-1">Nombre:</label>
-                <input type="text" name="first_name" value="{{ user.first_name }}" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
-            </div>
-            <div class="mb-4">
-                <label class="block font-semibold mb-1">Apellido:</label>
-                <input type="text" name="last_name" value="{{ user.last_name }}" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
-            </div>
 
-             <div class="mb-4">
-                <label class="block font-semibold mb-1">Email:</label>
-                <input type="text" name="email" value="{{ user.email }}" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
-            </div>
+            {{ editProfile }}
 
             <div class="flex justify-end gap-2 mt-6">
-                <button type=button onclick= "toggleModalPassword()" class="px-4 py-2 text-red-400 text-white rounded hover:text-red-600">¿Deseas cambiar tu contraseña?</button>
+                <button type=button onclick= "toggleModalPassword()" class="px-4 py-2 text-red-400 rounded hover:text-red-600">¿Deseas cambiar tu contraseña?</button>
                 <button type="button" onclick="toggleModal()" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-gray-500 border-l border-r border-t border-4 border-gray-800 transition duration-300 ease-in-out focus:border focus:mt-1">Cancelar</button>
                 <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1">Guardar</button>
             </div>
@@ -74,17 +62,11 @@
 <div id="editPassword" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
     <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6">
         <h3 class="text-xl font-bold text-[#ff7738] mb-4">Editar contraseña</h3>
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'ChangePassword' %}" enctype="multipart/form-data">
             {% csrf_token %}
           
-            <div class="mb-4">
-                <label class="block font-semibold mb-1">Nueva contraseña:</label>
-                <input type="text" name="new Password" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
-            </div>
-            <div class="mb-4">
-                <label class="block font-semibold mb-1">Confirmar nueva contraseña:</label>
-                <input type="text" name="Confirm new password"class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
-            </div>
+            {{ editPassword }}
+
             <div class="flex justify-end gap-2 mt-6">
                 <button type="button" onclick="toggleModalPassword()" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-gray-500 border-l border-r border-t border-4 border-gray-800 transition duration-300 ease-in-out focus:border focus:mt-1">Cancelar</button>
                 <button type="submit" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1">Guardar</button>

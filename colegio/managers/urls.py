@@ -9,6 +9,8 @@ urlpatterns = [
     path('personas/', ViewUsersSettings.as_view(), name='ViewUsersSettings'),
     path('ajustes/', AjustesGestores.as_view(), name='AjustesGestores'),
     path('manager/profile/', ViewProfile.as_view(), name='ViewProfile'),
+    # change password
+    path('manager/profile/password/', ChangePassword.as_view(), name='ChangePassword'),
 
     #crear
     path('crear/profesores/', CreateProfesor.as_view(), name='CreateTeacher'),

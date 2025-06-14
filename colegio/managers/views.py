@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, View
-from .forms import CustomUserManagerForm, CustomUserStudentForm, CustomUserTeachersForm, GradeForm, SubjectsForm, SchedulePartsForm, CustomUserGuardianForm, CustomUserAdminForm, CustomUserTeachers
+from .forms import *
 from information.models import Grade, ScheduleParts, DailySchedule, ScheduleCourts, ActivitiesType
 from django.contrib import messages
 from users.models import CustomUserStudent
 from .forms import ScheduleCourtsForm, ActivitiesTypeForm
 from datetime import datetime, timedelta
 from django.urls import reverse
+
+# keep session auth
+from django.contrib.auth import update_session_auth_hash
 
 #colores para consola
 from colores import Colores
@@ -223,17 +226,43 @@ class ViewProfile(View):
         user = request.user
         vista = 'gestor'
         abierto='personas'
+        editForm = CustomUserManagerEditProfileForm(instance=user)
+        editPasswordForm = CustomPasswordChangeManagerForm(user=user)
         context = {
             'vista': vista,
             'abierto':abierto,
             'user':user,
+            'editProfile': editForm,
+            'editPassword': editPasswordForm,
         }
         return render(request, 'users/gestores/profile.html', context)
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        formProfile = CustomUserManagerEditProfileForm(request.POST, instance=user)
+        
+        if formProfile.is_valid():
+            formProfile.save()
+            messages.success(request, 'Perfil actualizado correctamente')
+        else:
+            messages.error(request, 'Error al editar el perfil.')
+        return redirect('ViewProfile')
+
+class ChangePassword(View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        formPassword = CustomPasswordChangeManagerForm(user=user, data=request.POST)
+        if formPassword.is_valid():
+            formPassword.save()
+            messages.success(request, 'Contraseña actualizada correctamente')
+            update_session_auth_hash(request, user)
+        else:
+            messages.error(request, formPassword.errors)
+        return redirect('ViewProfile')
     
 class CreateProfesor(View):
     def post(self, request, *args, **kwargs):
         form = CustomUserTeachersForm(request.POST, request.FILES)
-        print(form.is_valid(),"holaaaa")
+        print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
             
