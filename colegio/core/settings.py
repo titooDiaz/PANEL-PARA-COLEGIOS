@@ -1,9 +1,14 @@
 from pathlib import Path
+from dotenv import load_dotenv
 from django.utils.translation import gettext_lazy as _
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Dov env path
+dotenv_path = BASE_DIR / "../../.env"
+load_dotenv(dotenv_path)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-6p@g8t8jtk_f)dox#=b(@*b)omwgsl1uvr$ad0_y6#x2hh+c46'
@@ -58,12 +63,8 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 #AGREGAR NODE JS A NUESTRO ENTORNO DE TRABAJO (recuerda agregarlo al path)
 #############################################################################
-#Windows
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 #Ubuntu
-
-
-NPM_BIN_PATH ="/home/miguel/.nvm/versions/node/v22.15.0/bin/npm" # whereis npm
+NPM_BIN_PATH = os.getenv("API_KEY") # whereis npm
 #############################################################################
 
 #autenticacion de usuario...

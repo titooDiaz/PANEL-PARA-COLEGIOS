@@ -1,22 +1,38 @@
-# .gitignore
+# ================================
+# Python Virtual Environments
+# ================================
+env/
+venv/
 
-#IGNORAR ELEMENTOS DE ENTORNO VIRTUAL
-env
-venv
+# ================================
+# Environment Files
+# ================================
+.env
+
+# ================================
+# Database Files
+# ================================
 colegio/PanelParaColegiosMKDJF.sqlite3
 
-#IGNORAR CACHE DE LA APP
+# ================================
+# Python Cache
+# ================================
+__pycache__/
 **/__pycache__/
 
-#IGNORAR MIGRACIONES DE LA APP
+# ================================
+# Django Migrations
+# ================================
 **/migrations/
 
+# ================================
+# Static/Theme Files (to be ignored)
+# ================================
 colegio/theme/
-colegio/core/__pycache__/
-colegio/__pycache__/
 
-
-#IGNORAR ELEMENTOS PERSONALES DE USUARIOS
+# ================================
+# User-Generated Media (Ignore per user type)
+# ================================
 colegio/media/actividades_profesores/media/
 colegio/media/admins/media/
 colegio/media/students/media/
@@ -26,5 +42,7 @@ colegio/media/managers/media/
 colegio/media/materias/media/
 colegio/media/teachers/media/
 
-#IGNORAR ELEMENTOS DEL COLEGIO
+# ================================
+# School-Related Submissions
+# ================================
 colegio/media/respuesta_estudiantes_actividades/
