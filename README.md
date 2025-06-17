@@ -73,9 +73,24 @@ Si ves un error como:
 CommandError: 
 It looks like node.js and/or npm is not installed or cannot be found.
 ```
-Asegúrate de que Node.js y npm están instalados correctamente. Si el problema persiste, define la ruta de `npm` en `settings.py` de la siguiente manera:  
-```python
-NPM_BIN_PATH = "/ruta/a/tu/npm"
+Asegúrate de que Node.js y npm están instalados correctamente. Si el problema persiste, define la ruta de `npm` en `.env` de la siguiente manera:
+
+Es posible que el archivo .env aún no exista. Puedes crearlo tú mismo en la carpeta raíz del proyecto, junto a archivos y carpetas como:
+
+```
+|- colegio/
+|- Documentation/
+|- mails templates/
+|- requirements.txt
+```
+
+```bash
+WHEREISNPM=tu/ruta/de/npm
+```
+
+Puedes revisar la ruta de `npm` ejecutando en ubuntu:
+```bash
+whereis npm
 ```
 
 ---
