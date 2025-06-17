@@ -7,7 +7,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Dov env path
-dotenv_path = BASE_DIR / "../../.env"
+dotenv_path = BASE_DIR / "../.env"
 load_dotenv(dotenv_path)
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -64,7 +64,7 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 #AGREGAR NODE JS A NUESTRO ENTORNO DE TRABAJO (recuerda agregarlo al path)
 #############################################################################
 #Ubuntu
-NPM_BIN_PATH = os.getenv("API_KEY") # whereis npm
+NPM_BIN_PATH = os.getenv("WHEREISNPM") # whereis npm
 #############################################################################
 
 #autenticacion de usuario...

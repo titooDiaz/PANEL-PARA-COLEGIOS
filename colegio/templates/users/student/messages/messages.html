@@ -49,34 +49,21 @@
         <div class="bg-gray-200 rounded-xl w-full overflow-y-auto h-full">
             
             <div class="px-6 py-4 bg-gray-400 flex justify-between items-center">
-                <span class="text-sm text-white">1A</span>
+                <span class="text-sm text-white">Profes Disponibles!</span>
                 <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
             </div>
-            <div class="p-6">
-                <div class="space-y-4">
-                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
-                        <img src="" alt="Miguel Díaz" class="w-12 h-12 rounded-full border-2 border-gray-900">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">Miguel Díaz</h3>
-                            <p class="text-sm text-gray-600">Estudiante</p>
+            <div class="p-2">
+                {% for teacher in teachers %}
+                    <div class="space-y-4 mt-2">
+                        <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
+                            <img src="{{ teacher.photo.url }}" alt="{{teacher.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">{{teacher.first_name}} {{teacher.last_name}}</h3>
+                                <p class="text-sm text-gray-600">Profesor</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="px-6 py-4 bg-gray-400 flex justify-between items-center">
-                <span class="text-sm text-white">3A</span>
-                <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
-            </div>
-            <div class="p-6">
-                <div class="space-y-4">
-                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
-                        <img src="" alt="Jheiber Mesa" class="w-12 h-12 rounded-full border-2 border-gray-900">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">Jheiber Mesa</h3>
-                            <p class="text-sm text-gray-600">Estudiante</p>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

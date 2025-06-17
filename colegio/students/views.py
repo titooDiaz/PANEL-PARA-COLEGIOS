@@ -7,6 +7,7 @@ from information.models import StudentResponse, File, StudentFiles, DailySchedul
 from .forms import ActivitiesAnswerForm
 from django.contrib import messages
 from information.models import Rating
+from users.models import *
 
 # LIBRERIAS DE FECHAS
 from django.utils import timezone
@@ -261,13 +262,16 @@ class StudentMessages(View):
         # Grade
         user = request.user
         grade_user = user.customuserstudent.grade #grado del estudiante
+        school_user = grade_user.school
+        teachers = CustomUserTeachers.objects.filter(school=school_user)
         
         vista = 'estudiante'
         abierto='mensajes'
         context = {
             'vista': vista,
             'abierto':abierto,
-            'grade': grade_user
+            'grade': grade_user,
+            'teachers': teachers
         }
         return render(request, 'users/student/messages/messages.html', context)
     
