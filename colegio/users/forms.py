@@ -1,9 +1,11 @@
 from django import forms
-from allauth.account.forms import SignupForm, LoginForm
-from .models import School
+from allauth.account.forms import LoginForm
 from django.forms import ClearableFileInput
-from .models import CustomUserManager
+from .models import *
 from django.contrib.auth.forms import UserCreationForm
+
+# change password
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 from django import forms
@@ -71,3 +73,38 @@ class CustomUserManagerForm(UserCreationForm):
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+# change password
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs.update({
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': self.fields[field_name].label,
+                'autocomplete': 'off'
+            })
+
+class CustomUserEditProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('first_name', 'last_name', 'email')
+        widgets = {  
+            'first_name': forms.TextInput(attrs={
+                'autocomplete': 'off',
+                'id': 'first_name',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Nombres del usuario'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'id': 'last_name',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Apellidos del usuario'
+            }),
+            'email': forms.EmailInput(attrs={
+                'autocomplete': 'off',
+                'id': 'email',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Email donde se puede contactar al usuario'
+            }),
+        }

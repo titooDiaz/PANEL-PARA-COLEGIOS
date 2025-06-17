@@ -10,7 +10,7 @@ urlpatterns = [
     path('ajustes/', AjustesGestores.as_view(), name='AjustesGestores'),
     path('manager/profile/', ViewProfile.as_view(), name='ViewProfile'),
     # change password
-    path('manager/profile/password/', ChangePassword.as_view(), name='ChangePassword'),
+    path('manager/profile/password/', ChangePassword.as_view(), name='ChangePasswordManager'),
 
     #crear
     path('crear/profesores/', CreateProfesor.as_view(), name='CreateTeacher'),

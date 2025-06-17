@@ -8,23 +8,13 @@
         <div class="flex flex-col md:flex-row">
             <!-- Sección Izquierda -->
             <div class="md:w-1/3 text-center mb-8 md:mb-0">
-                <button id="openModalBtn" class="relative group focus:outline-none rounded-full cursor-pointer">
-                    <!-- Imagen del usuario -->
-                    <img src="{{ request.user.customusermanager.photo.url }}"
+                    <img src="{% static 'img/h1.png' %}" alt="Logo" class="w-24 h-24 rounded
                         alt="Foto de perfil"
                         class="rounded-full w-48 h-48 mx-auto border-4 border-[#ff7738] transition-transform duration-300 hover:scale-105 shadow-lg">
-
-                    <!-- Capa sombreada con texto al hacer hover -->
-                    <div class="absolute inset-0 flex items-center justify-center rounded-full
-                                bg-black bg-opacity-40 opacity-0 group-hover:opacity-100
-                                transition-opacity duration-300">
-                        <span class="text-white text-lg font-semibold">Editar foto</span>
-                    </div>
-                </button>
                 <h1 class="text-2xl font-bold text-[#ff7738] mb-2">{{ user.first_name }} {{ user.last_name }}</h1>
-                <p class="text-gray-600">Gestor del Colegio: {{user.school}}</p>
+                <p class="text-gray-600">SuperAdmin</p>
                 <div class="flex justify-center">
-                    <button onclick="toggleModal()" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1">Editar perfil</button>
+                    <button onclick="toggleModal()" class="myButton block py-2 font-semibold text-sm text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 transition duration-300 ease-in-out focus:border focus:mt-1 mt-3">Editar perfil</button>
                 </div>
             </div>
 
@@ -42,10 +32,6 @@
                             <td class="font-semibold py-2">Correo:</td>
                             <td>{{ user.email }}</td>
                         </tr>
-                        <tr>
-                            <td class="font-semibold py-2">Género:</td>
-                            <td>{{ request.user.customusermanager.gender }}</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -57,7 +43,7 @@
 <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
     <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6">
         <h3 class="text-xl font-bold text-[#ff7738] mb-4">Editar Perfil</h3>    
-        <form method="POST" action="{% url 'ViewProfile' %}" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'ViewProfilePlus' %}" enctype="multipart/form-data">
             {% csrf_token %}
 
             {{ editProfile }}
@@ -74,7 +60,7 @@
 <div id="editPassword" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
     <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 p-6">
         <h3 class="text-xl font-bold text-[#ff7738] mb-4">Editar contraseña</h3>
-        <form method="POST" action="{% url 'ChangePasswordManager' %}" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'ChangePasswordPlus' %}" enctype="multipart/form-data">
             {% csrf_token %}
           
             {{ editPassword }}

@@ -13,5 +13,7 @@ urlpatterns = [
     path('colegios/crear/gestor/', CreateGestorColegio.as_view(), name='ColegiosGestor'),
     # Mirar colegios
     path('colegios/view/', ViewColegios.as_view(), name='ViewColegiosADM'),
-    path('colegios/profile/', ViewProfile.as_view(), name='ViewProfilePlus'),
+    path('colegios/profile/', ViewProfilePlus.as_view(), name='ViewProfilePlus'),
+    # change password
+    path('plus/profile/password/', ChangePassword.as_view(), name='ChangePasswordPlus'),
 ]

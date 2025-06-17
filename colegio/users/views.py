@@ -1,6 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import School
-from django.views.generic import TemplateView, View
+from django.views.generic import View
+
+from .forms import *
+
+# keep session auth
+from django.contrib.auth import update_session_auth_hash
 
 #import users forms
 from .forms import SchoolForm, CustomUserManagerForm
@@ -133,14 +138,40 @@ class ViewColegios(View):
     
 #view profile 
 
-class ViewProfile(View):
+class ViewProfilePlus(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         vista = 'plus'
         abierto='personas'
+        editForm = CustomUserEditProfileForm(instance=user)
+        editPasswordForm = CustomPasswordChangeForm(user=user)
         context = {
             'vista': vista,
             'abierto':abierto,
             'user':user,
+            'editProfile': editForm,
+            'editPassword': editPasswordForm,
         }
-        return render(request, 'users/gestores/profile.html', context)    
+        return render(request, 'users/plus/profile.html', context)
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        formProfile = CustomUserEditProfileForm(request.POST, instance=user)
+        
+        if formProfile.is_valid():
+            formProfile.save()
+            messages.success(request, 'Perfil actualizado correctamente')
+        else:
+            messages.error(request, 'Error al editar el perfil.')
+        return redirect('ViewProfilePlus')
+
+class ChangePassword(View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        formPassword = CustomPasswordChangeForm(user=user, data=request.POST)
+        if formPassword.is_valid():
+            formPassword.save()
+            messages.success(request, 'Contraseña actualizada correctamente')
+            update_session_auth_hash(request, user)
+        else:
+            messages.error(request, formPassword.errors)
+        return redirect('ViewProfilePlus') 

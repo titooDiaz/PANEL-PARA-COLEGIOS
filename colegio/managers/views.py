@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, View
+from django.views.generic import View
 from .forms import *
+from users.forms import *
 from information.models import Grade, ScheduleParts, DailySchedule, ScheduleCourts, ActivitiesType
 from django.contrib import messages
 from users.models import CustomUserStudent
@@ -227,7 +228,7 @@ class ViewProfile(View):
         vista = 'gestor'
         abierto='personas'
         editForm = CustomUserManagerEditProfileForm(instance=user)
-        editPasswordForm = CustomPasswordChangeManagerForm(user=user)
+        editPasswordForm = CustomPasswordChangeForm(user=user)
         context = {
             'vista': vista,
             'abierto':abierto,
@@ -250,7 +251,7 @@ class ViewProfile(View):
 class ChangePassword(View):
     def post(self, request, *args, **kwargs):
         user = request.user
-        formPassword = CustomPasswordChangeManagerForm(user=user, data=request.POST)
+        formPassword = CustomPasswordChangeForm(user=user, data=request.POST)
         if formPassword.is_valid():
             formPassword.save()
             messages.success(request, 'Contraseña actualizada correctamente')
