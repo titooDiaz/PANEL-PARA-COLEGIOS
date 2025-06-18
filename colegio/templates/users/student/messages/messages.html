@@ -6,7 +6,6 @@
 
 {% block content %}
 <head>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mensajes{% endblock %}</title>
     <style>
@@ -26,7 +25,6 @@
         .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
         .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
 
-        /* Animación para la barra de contactos */
         #contacts {
             transition: transform 0.3s ease-in-out;
             transform: translateX(-140%);
@@ -36,25 +34,42 @@
         }
         @media (min-width: 1024px) {
             #contacts {
-                transform: translateX(0); /* Visible en pantallas grandes */
+                transform: translateX(0);
+            }
+        }
+
+        html, body {
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 1023px) {
+            #contacts {
+                width: 100% !important;
+            }
+            .lg\:ml-4 {
+                margin-left: 0 !important;
+            }
+            .p-2 {
+                padding: 0.25rem !important;
+            }
+            .rounded-lg {
+                margin: 0.3rem;
             }
         }
     </style>
 </head>
 
-
 <div class="bg-white flex flex-col lg:flex-row h-[84vh] lg:h-[88vh]">
-    <!-- Contactos -->
-    <div id="contacts" class="w-[70%] lg:w-[40%] pr-4 lg:pr-0 fixed lg:relative bg-white h-[84vh] lg:h-[88vh] z-20">
+    <div id="contacts" class="p-4 lg:p-0 w-[70%] lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-[84vh] lg:h-[88vh]">
         <div class="bg-gray-200 rounded-xl w-full overflow-y-auto h-full">
-            
-            <div class="px-6 py-4 bg-gray-400 flex justify-between items-center">
+            <div class="px-6 py-4 bg-gray-400 flex justify-between items-center rounded-t-xl">
                 <span class="text-sm text-white">Profes Disponibles!</span>
                 <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
             </div>
             <div class="p-2">
                 {% for teacher in teachers %}
-                    <div class="space-y-4 mt-2">
+                <div class="space-y-4 mt-2">
+                    <a href="?teacher_id={{ teacher.id }}">
                         <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
                             <img src="{{ teacher.photo.url }}" alt="{{teacher.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
                             <div>
@@ -62,104 +77,96 @@
                                 <p class="text-sm text-gray-600">Profesor</p>
                             </div>
                         </div>
-                    </div>
+                    </a>
+                </div>
                 {% endfor %}
             </div>
         </div>
     </div>
 
-    <!-- Chat -->
     <div class="w-full flex flex-col lg:ml-4 h-[84vh] lg:h-[88vh]">
-        <!-- Cabecera del Chat -->
+        {% if selected_teacher %}
         <div class="bg-gray-600 text-white p-4 rounded-lg flex justify-between">
             <div class="flex items-center space-x-4">
-                <img src="" alt="Miguel" class="w-10 h-10 rounded-full">
+                <img src="{{ selected_teacher.photo.url }}" alt="{{ selected_teacher.username }}" class="w-10 h-10 rounded-full">
                 <div>
-                    <h1 class="font-bold">Miguel Díaz</h1>
+                    <h1 class="font-bold">{{ selected_teacher.first_name }} {{ selected_teacher.last_name }}</h1>
                     <a href="#" class="text-sm text-gray-100 hover:text-white">Ver perfil</a>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
-                <!-- Botón de los tres puntos -->
                 <button class="p-2 hover:bg-gray-700 rounded-full transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
                     </svg>
                 </button>
-
-                <!-- Botón para mostrar/ocultar contactos (solo en móviles) -->
                 <button id="toggleContacts" class="p-2 text-white hover:bg-gray-700 rounded-full lg:hidden transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
                     </svg>
                 </button>
-
             </div>
         </div>
 
-        <!-- Mensajes -->
         <div class="flex-1 overflow-y-auto p-4 bg-gray-200 rounded-lg">
             <div class="space-y-4">
-                <div class="flex items-start space-x-2">
-                    <img src="" alt="Miguel" class="w-8 h-8 rounded-full">
-                    <div class="bg-white rounded-lg p-3 shadow-md max-w-md">
-                        <p>Hola Estudiante, buenos días</p>
-                    </div>
-                    <span class="text-gray-500 text-xs message-time">11:42 AM</span>
-                </div>
+                {% for msg in messages_users %}
+                {% if msg.sender == request.user %}
                 <div class="flex items-end justify-end space-x-2">
                     <div class="bg-gray-600 text-white rounded-lg p-3 shadow-md max-w-md">
-                        <p>¿Cómo está Profesor?, buenos días</p>
+                        <p>{{ msg.content }}</p>
+                        {% if msg.file %}<a href="{{ msg.file.url }}">📎 Ver archivo</a>{% endif %}
                     </div>
-                    <span class="text-gray-500 text-xs message-time">11:43 AM</span>
+                    <span class="text-gray-500 text-xs message-time">{{ msg.sent_at|date:"H:i" }}</span>
                 </div>
+                {% else %}
                 <div class="flex items-start space-x-2">
-                    <img src="" alt="Miguel" class="w-8 h-8 rounded-full">
+                    <img src="{{ selected_teacher.photo.url }}" alt="{{ selected_teacher.username }}" class="w-8 h-8 rounded-full">
                     <div class="bg-white rounded-lg p-3 shadow-md max-w-md">
-                        <p>Debes ir a la coordinación, tengo que hablar contigo</p>
+                        <p>{{ msg.content }}</p>
+                        {% if msg.file %}<a href="{{ msg.file.url }}">📎 Ver archivo</a>{% endif %}
                     </div>
-                    <span class="text-gray-500 text-xs message-time">11:44 AM</span>
+                    <span class="text-gray-500 text-xs message-time">{{ msg.sent_at|date:"H:i" }}</span>
                 </div>
+                {% endif %}
+                {% endfor %}
             </div>
         </div>
 
-        <!-- Chat Input -->
         <div class="bg-white border-2 border-gray-400 rounded-lg p-4">
-            <div class="flex items-center space-x-4">
-                <button class="p-2 text-gray-500 hover:text-gray-700 transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </button>
-                <button class="p-2 text-gray-500 hover:text-gray-700 transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
-                    </svg>
-                </button>
-                <input type="text" placeholder="Escribe tu mensaje..." class="w-full p-2 border rounded-full focus:outline-none">
-                <button class="p-2 text-white bg-gray-600 rounded-full hover:bg-gray-700 transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                    </svg>
-                </button>
-            </div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="flex items-center space-x-4">
+                    {% comment %} {{ form.content }}
+                    {{ form.file }} {% endcomment %}
+                    <input type="hidden" name="teacher_id" value="{{ selected_teacher.id }}">
+                    <button type="submit" class="p-2 text-white bg-gray-600 rounded-full hover:bg-gray-700 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
         </div>
+        {% else %}
+        <script>
+            if (window.innerWidth < 1024) {
+                document.addEventListener('DOMContentLoaded', () => {
+                    const contacts = document.getElementById('contacts');
+                    contacts.classList.add('visible');
+                });
+            }
+        </script>
+        {% endif %}
+
+        <script>
+            const toggleContactsBtn = document.getElementById('toggleContacts');
+            const contacts = document.getElementById('contacts');
+            toggleContactsBtn?.addEventListener('click', () => {
+                contacts.classList.toggle('visible');
+            });
+        </script>
     </div>
-
-    <script>
-        // Mostrar/ocultar contactos en móviles
-        const toggleContactsBtn = document.getElementById('toggleContacts');
-        const contacts = document.getElementById('contacts');
-
-        toggleContactsBtn.addEventListener('click', () => {
-            contacts.classList.toggle('visible');
-        });
-    </script>
 </div>
 </html>
-
-{% endblock content %}  
+{% endblock content %}

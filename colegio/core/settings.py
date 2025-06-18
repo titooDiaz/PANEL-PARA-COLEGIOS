@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #rest_framework
+    'rest_framework',
     #bibliotecas instaladas
     'tailwind', #python manage.py tailwind init
     'theme',#python manage.py tailwind install *(recordar lo del modo oscuro en theme)

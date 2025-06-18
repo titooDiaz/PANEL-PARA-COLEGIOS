@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SeeGrades, SeeGradesSchedules, SeeStudentsGrades
+from .views import SeeGrades, SeeGradesSchedules, SeeStudentsGrades, SendMessageView
 
 #'APIS'
 from .views import EditGradesScheduleHour, EditGradesScheduleSubjects, EditSeeRatingsStudents
@@ -17,4 +17,7 @@ urlpatterns = [
     path('grados/editar/horario/materias/<int:pk_post>/<int:pk_vista>/', EditGradesScheduleSubjects.as_view(), name='EditarHorarioMaterias'),
     #'APIS' PARA EDITAR VER NOTAS DE ALUMNOS #pk post = alumno
     path('grados/editar/ver/Notas/<int:pk_post>/<int:pk_vista>/', EditSeeRatingsStudents.as_view(), name='EditarVerNotasAlumnos'),
+
+    # messages
+    path('send/', SendMessageView.as_view(), name='send-message'),
 ]

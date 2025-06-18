@@ -1,13 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, View    
 from information.models import Activities, Subjects
-from django.shortcuts import render, redirect
 from django.views import View
 from information.models import StudentResponse, File, StudentFiles, DailySchedule, School, Grade
 from .forms import ActivitiesAnswerForm
 from django.contrib import messages
 from information.models import Rating
 from users.models import *
+from information.forms import *
 
 # LIBRERIAS DE FECHAS
 from django.utils import timezone
@@ -256,24 +256,51 @@ class AlumnoCalendario(View):
         }
         
         return render(request, 'users/student/schedule/schedule.html', context)
-    
+
 class StudentMessages(View):
     def get(self, request, *args, **kwargs):
-        # Grade
         user = request.user
-        grade_user = user.customuserstudent.grade #grado del estudiante
+        grade_user = user.customuserstudent.grade
         school_user = grade_user.school
         teachers = CustomUserTeachers.objects.filter(school=school_user)
-        
-        vista = 'estudiante'
-        abierto='mensajes'
+
+        selected_teacher_id = request.GET.get('teacher_id')
+        selected_teacher = None
+        messages = None
+        form = ChatMessageForm()
+
+        if selected_teacher_id:
+            selected_teacher = get_object_or_404(CustomUserTeachers, pk=selected_teacher_id)
+            messages = ChatMessage.objects.filter(
+                sender__in=[user, selected_teacher],
+                receiver__in=[user, selected_teacher]
+            ).order_by('sent_at')
+
         context = {
-            'vista': vista,
-            'abierto':abierto,
+            'vista': 'estudiante',
+            'abierto': 'mensajes',
             'grade': grade_user,
-            'teachers': teachers
+            'teachers': teachers,
+            'selected_teacher': selected_teacher,
+            'messages_users': messages,
+            'form': form,
         }
         return render(request, 'users/student/messages/messages.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = ChatMessageForm(request.POST, request.FILES)
+        selected_teacher_id = request.POST.get('teacher_id')
+
+        if form.is_valid() and selected_teacher_id:
+            receiver = get_object_or_404(CustomUserTeachers, pk=selected_teacher_id)
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.receiver = receiver
+            message.save()
+            return redirect(f"{request.path}?teacher_id={receiver.id}")
+
+        # Si falla, volvemos a la vista GET con error
+        return self.get(request, *args, **kwargs)
     
 class StudentPeople(View):
     def get(self, request, *args, **kwargs):

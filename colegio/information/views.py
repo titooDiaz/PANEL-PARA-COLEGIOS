@@ -2,6 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Grade, DailySchedule
 from django.views.generic import TemplateView, View
 from users.models import CustomUserStudent
+from rest_framework import generics, permissions
+from .models import ChatMessage
+from .serializers import ChatMessageSerializer
+from rest_framework.response import Response
+from rest_framework import status
 
 from .forms import HoraHorarioForm, MateriasHorarioForm, EditarVerNotasAlumnosForm
 
@@ -152,4 +157,11 @@ class SeeStudentsGrades(View):
             'form': form,
         }
         return render(request, 'informacion/grados/ver_estudiantes.html', context)
-    
+
+class SendMessageView(generics.CreateAPIView):
+    queryset = ChatMessage.objects.all()
+    serializer_class = ChatMessageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)
