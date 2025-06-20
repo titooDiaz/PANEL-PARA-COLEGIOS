@@ -59,3 +59,18 @@ class ChatMessageForm(forms.ModelForm):
     class Meta:
         model = ChatMessage
         fields = ['content', 'file']
+        widgets = {
+            "content": forms.TextInput(attrs={
+                'autocomplete': 'off',
+                'id': 'message',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Escribe tu mensaje...'
+            }),
+            "file": forms.ClearableFileInput(attrs={
+                'class': 'hidden',
+                'id': 'file_input',
+                'accept': 'image/*,application/pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip,.rar',
+            }),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
