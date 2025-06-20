@@ -55,7 +55,7 @@ class AlumnoBoard(View):
         user = request.user
         
         #vista de estudiantes (obviamente tiene modelo de estudiante)
-        grade_user = user.customuserstudent.grade #grado del estudiante
+        grade_user = user.customuserstudent.grade #student's grade
         materias_user = grade_user.subjects.all() #materias del estudainte
         
         
@@ -105,7 +105,7 @@ class ActividadesRespuestaView(View):
         
         #vista de estudiantes (obviamente tiene modelo de estudiante)
         user = request.user
-        grade_user = user.customuserstudent.grade #grado del estudiante
+        grade_user = user.customuserstudent.grade #student's grade
         materias_user = grade_user.subjects.all() #materias del estudainte
         
         actividades_user_on_time = Activities.objects.filter(
@@ -149,7 +149,7 @@ class ActividadesRespuestaView(View):
         user_answers = StudentResponse.objects.filter(activity=activity.pk)
             
         # Grade
-        grade_user = user.customuserstudent.grade #grado del estudiante
+        grade_user = user.customuserstudent.grade #student's grade
         
         form = ActivitiesAnswerForm()
         
@@ -212,7 +212,7 @@ class SubjectsView(View):
     def get(self, request, pk, *args, **kwargs):
         # Grade
         user = request.user
-        grade_user = user.customuserstudent.grade #grado del estudiante
+        grade_user = user.customuserstudent.grade #student's grade
         subject = Subjects.objects.get(pk=pk)
         
         vista = 'estudiante'
@@ -314,7 +314,7 @@ class StudentPeople(View):
         
         # Grade
         user = request.user
-        grade_user = user.customuserstudent.grade #grado del estudiante
+        grade_user = user.customuserstudent.grade #student's grade
         
         context = {
             'vista': vista,
@@ -347,7 +347,7 @@ class ViewProfile(View):
         abierto='personas'
         editForm = CustomUserStudentEditProfileForm(instance=user)
         editPasswordForm = CustomPasswordChangeForm(user=user)
-        grade_user = user.customuserstudent.grade #grado del estudiante
+        grade_user = user.customuserstudent.grade #student's grade
         context = {
             'vista': vista,
             'abierto':abierto,

@@ -1,6 +1,7 @@
 from django import forms
-from information.models import Activities, File, ActivitiesType, Rating
-from django.forms.widgets import DateInput, TimeInput
+from information.models import Activities, File, Rating
+from django.forms.widgets import *
+from users.models import *
 
 
 #TRANSLATE: FilesProfesoresForm
@@ -66,3 +67,27 @@ class RatingForm(forms.ModelForm):
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+class CustomUserTeacherEditProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUserTeachers
+        fields = ('first_name', 'last_name', 'email')
+        widgets = {  
+            'first_name': forms.TextInput(attrs={
+                'autocomplete': 'off',
+                'id': 'first_name',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Nombres del usuario'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'id': 'last_name',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Apellidos del usuario'
+            }),
+            'email': forms.EmailInput(attrs={
+                'autocomplete': 'off',
+                'id': 'email',
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
+                'placeholder': 'Email donde se puede contactar al usuario'
+            }),
+        }               

@@ -23,4 +23,9 @@ urlpatterns = [
     # es - Ver Notas
     # en - View Ratings
     path('view/ratings/', ProfessorRatings.as_view(), name='ViewScheduleRatings'),
+
+    #profile
+    path('teacher/profile/', ViewProfile.as_view(), name='ViewProfileTeacher'),
+    # change password
+    path('teacher/profile/password/', ChangePassword.as_view(), name='ChangePasswordTeacher'),
 ]

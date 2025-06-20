@@ -66,6 +66,12 @@ import tzlocal  # Library for detecting the local timezone (install with `pip in
 # Function for getting the user's time zone from the utils module
 from utils.functions import time_zone_user_location
 
+# keep session auth
+from django.contrib.auth import update_session_auth_hash
+
+from .forms import *
+from users.forms import *
+
 
 class BoardTeachers(View):
     def get(self, request, *args, **kwargs):
@@ -473,3 +479,42 @@ class ProfessorRatings(View):
         }
         
         return render(request, 'users/teachers/rating/ratings.html', context)
+    
+# View profile
+class ViewProfile(View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        vista = 'profesores'
+        abierto='personas'
+        editForm = CustomUserTeacherEditProfileForm(instance=user)
+        editPasswordForm = CustomPasswordChangeForm(user=user)
+        context = {
+            'vista': vista,
+            'abierto':abierto,
+            'user':user,
+            'editProfile': editForm,
+            'editPassword': editPasswordForm,
+        }
+        return render(request, 'users/teachers/profile.html', context)
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        formProfile = CustomUserTeacherEditProfileForm(request.POST, instance=user)
+        
+        if formProfile.is_valid():
+            formProfile.save()
+            messages.success(request, 'Perfil actualizado correctamente')
+        else:
+            messages.error(request, 'Error al editar el perfil.')
+        return redirect('ViewProfileTeacher')
+
+class ChangePassword(View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        formPassword = CustomPasswordChangeForm(user=user, data=request.POST)
+        if formPassword.is_valid():
+            formPassword.save()
+            messages.success(request, 'Contraseña actualizada correctamente')
+            update_session_auth_hash(request, user)
+        else:
+            messages.error(request, formPassword.errors)
+        return redirect('ViewProfileTeacher')        
