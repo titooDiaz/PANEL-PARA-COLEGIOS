@@ -8,11 +8,16 @@ from django.contrib import messages
 from information.models import Rating
 from users.models import *
 from information.forms import *
+from .forms import *
+from users.forms import *
 
 # LIBRERIAS DE FECHAS
 from django.utils import timezone
 import pytz
 from datetime import datetime 
+
+# keep session auth
+from django.contrib.auth import update_session_auth_hash
 
 # time now!
 from utils.functions import time_zone_user_location
@@ -322,7 +327,7 @@ class StudentGrades(View):
     def get(self, request, *args, **kwargs):
         # Grade
         user = request.user
-        grade_user = user.customuserstudent.grade #grado del estudiante
+        grade_user = user.customuserstudent.grade # student's grade
         
         vista = 'estudiante'
         abierto='notas'
@@ -333,3 +338,44 @@ class StudentGrades(View):
             'grade': grade_user,
         }
         return render(request, 'users/student/grades/grades.html', context)
+
+# View profile
+class ViewProfile(View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        vista = 'estudiante'
+        abierto='personas'
+        editForm = CustomUserStudentEditProfileForm(instance=user)
+        editPasswordForm = CustomPasswordChangeForm(user=user)
+        grade_user = user.customuserstudent.grade #grado del estudiante
+        context = {
+            'vista': vista,
+            'abierto':abierto,
+            'user':user,
+            'editProfile': editForm,
+            'editPassword': editPasswordForm,
+            'grade': grade_user,
+        }
+        return render(request, 'users/student/profile.html', context)
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        formProfile = CustomUserStudentEditProfileForm(request.POST, instance=user)
+        
+        if formProfile.is_valid():
+            formProfile.save()
+            messages.success(request, 'Perfil actualizado correctamente')
+        else:
+            messages.error(request, 'Error al editar el perfil.')
+        return redirect('ViewProfileStudent')
+
+class ChangePassword(View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        formPassword = CustomPasswordChangeForm(user=user, data=request.POST)
+        if formPassword.is_valid():
+            formPassword.save()
+            messages.success(request, 'Contraseña actualizada correctamente')
+            update_session_auth_hash(request, user)
+        else:
+            messages.error(request, formPassword.errors)
+        return redirect('ViewProfileStudent')    

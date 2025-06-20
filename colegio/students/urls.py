@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import AlumnoBoard, AlumnoCalendario, StudentMessages, StudentGrades, StudentPeople, ActividadesRespuestaView, SubjectsView
+from .views import *
 
 urlpatterns = [
     #vista estudiantes
@@ -13,6 +14,10 @@ urlpatterns = [
     # en - activities
     path('actividades/responder/<int:pk>', ActividadesRespuestaView.as_view(), name='ResponderActividades'),
     path('calendario/', AlumnoCalendario.as_view(), name='CalendarioAlumno'),
+
+    path('student/profile/', ViewProfile.as_view(), name='ViewProfileStudent'),
+    # change password
+    path('student/profile/password/', ChangePassword.as_view(), name='ChangePasswordStudent'),
     
     # es - Mensajes
     # en - Messages
