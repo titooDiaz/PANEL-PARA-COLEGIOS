@@ -10,32 +10,6 @@ from django.forms import ClearableFileInput
 # COMPROBAR SI HAY TABLAS O LA BASE DE DATOS ESTA VACIA...
 from django.db import connection
 
-
-# es
-#ALGUNAS PARTES DE ESTE FORMULARIO ENCESITAS LLAMAR A LOS ESTUDIANTES, PERO ES UN PROBLEMA, YA QUE SI NO TENEMOS BASE DE DATOS PODRIAMOS OBTENER ERRORES
-#POR ESO AGREGAMOS ESTA FUNCION, NOS COMPRUEBA SI HAY O NO TABLAS EN NUESTRA BASE DE DATOS, SI NO HAY TABLAS SE SALTA LAS FUNCIONES MIENTRAS SE HACEN MIGRACIONES PARA EVITAR ERRORES
-#
-# en
-#SOME PARTS OF THIS FORM NEED TO CALL STUDENTS, BUT IT IS A PROBLEM, SINCE IF WE DO NOT HAVE A DATABASE WE COULD GET ERRORS
-#THAT IS WHY WE ADDED THIS FUNCTION, IT CHECKS IF THERE ARE TABLES OR NOT IN OUR DATABASE, IF THERE ARE NO TABLES, THE FUNCTIONS ARE SKIPTED WHILE MIGRATIONS ARE BEING MADE TO AVOID ERRORS
-
-def obtener_tablas():
-    engine = connection.settings_dict['ENGINE']
-    if 'sqlite' in engine:
-        # SQLite
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-            return [table[0] for table in cursor.fetchall()]
-    elif 'postgresql' in engine:
-        # PostgreSQL
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';")
-            return [table[0] for table in cursor.fetchall()]
-    else:
-        raise NotImplementedError(f"No se implementó soporte para el motor de base de datos {engine}")
-tablas_en_bd = obtener_tablas()
-
-
 #Translate: CustomUserAlumnoForm
 class CustomUserStudentForm(UserCreationForm):
     def __init__(self, *args, grado=None, **kwargs):

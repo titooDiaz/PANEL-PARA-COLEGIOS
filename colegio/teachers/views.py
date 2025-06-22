@@ -71,6 +71,8 @@ from django.contrib.auth import update_session_auth_hash
 
 from .forms import *
 from users.forms import *
+from information.models import ChatMessage
+from information.forms import ChatMessageForm
 
 
 class BoardTeachers(View):
@@ -446,17 +448,50 @@ class ProfessorSchedule(View):
         }
         
         return render(request, 'users/teachers/schedule/schedule.html', context)
-    
+
 class ProfessorMessages(View):
     def get(self, request, *args, **kwargs):
-        view = 'profesores'
-        open_section = 'mensajes'
+        user = request.user
+        school_user = user.school
+        students = CustomUserStudent.objects.filter(school=school_user)
+
+        selected_student_id = request.GET.get('student_id')
+        selected_student = None
+        messages = None
+        form = ChatMessageForm()
+
+        if selected_student_id:
+            selected_student = get_object_or_404(CustomUserStudent, pk=selected_student_id)
+            messages = ChatMessage.objects.filter(
+                sender__in=[user, selected_student],
+                receiver__in=[user, selected_student]
+            ).order_by('sent_at')
+
         context = {
-            'vista': view,
-            'abierto': open_section,
+            'vista': 'profesores',
+            'abierto': 'mensajes',
+            'students': students,
+            'selected_student': selected_student,
+            'messages_users': messages,
+            'form': form,
         }
-        
         return render(request, 'users/teachers/messages/messages.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = ChatMessageForm(request.POST, request.FILES)
+        selected_student_id = request.POST.get('student_id')
+
+        if form.is_valid() and selected_student_id:
+            receiver = get_object_or_404(CustomUserStudent, pk=selected_student_id)
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.receiver = receiver
+            message.save()
+            return redirect(f"{request.path}?student_id={receiver.id}")
+
+        # Si falla, volvemos a la vista GET con error
+        return self.get(request, *args, **kwargs)
+
     
 class ProfessorPeople(View):
     def get(self, request, *args, **kwargs):

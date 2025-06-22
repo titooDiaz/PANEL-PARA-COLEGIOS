@@ -25,7 +25,7 @@ LANGUAGE_CODE = 'es'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['192.168.1.58']
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Django channel_redis
+    'channels',
     #rest_framework
     'rest_framework',
     #bibliotecas instaladas
@@ -79,10 +81,7 @@ LOGIN_REDIRECT_URL = "/redirect/"
 
 #externo de tailwind
 TAILWIND_APP_NAME = 'theme'
-INTERNAL_IPS = [
-    "127.0.0.1",
-    '0.0.0.0',
-]#despues de ahcer esto colocar #python manage.py tailwind install
+INTERNAL_IPS = ["192.168.1.58"]
 
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
@@ -115,6 +114,20 @@ TEMPLATES = [
         },
     },
 ]
+
+# Django channels
+ASGI_APPLICATION = 'core.asgi.application'
+
+# Redis (necesitarás tenerlo corriendo)
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            # add your own redis configuration here
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 
@@ -156,6 +169,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 

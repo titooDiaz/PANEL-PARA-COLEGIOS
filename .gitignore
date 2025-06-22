@@ -41,6 +41,7 @@ colegio/media/colegiosFoto/media/
 colegio/media/managers/media/
 colegio/media/materias/media/
 colegio/media/teachers/media/
+colegio/staticfiles/
 
 # ================================
 # School-Related Submissions

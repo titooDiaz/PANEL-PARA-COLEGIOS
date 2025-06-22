@@ -134,7 +134,7 @@
         </div>
 
         <div class="bg-white border-2 border-gray-400 rounded-lg p-4">
-            <form method="post" enctype="multipart/form-data">
+            <form id="chat-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="flex items-center space-x-4">
                     {{ form.content }}
@@ -146,8 +146,8 @@
                         <span id="file_name" class="ml-2 text-sm text-gray-500"></span>
                     </div>
 
-                    <input type="hidden" name="teacher_id" value="{{ selected_teacher.id }}">
-                    <button type="submit" class="p-2 text-white bg-gray-600 rounded-full hover:bg-gray-700 transition">
+                    <input type="hidden" name="student_id" value="{{ selected_student.id }}">
+                    <button type="button" id="sendBtn" class="p-2 text-white bg-gray-600 rounded-full hover:bg-gray-700 transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                         </svg>
@@ -211,7 +211,7 @@
             </div>
 
         <script>
-            const input = document.getElementById('file_input');
+            const input_file = document.getElementById('file_input');
             const modal = document.getElementById('file_modal');
             const preview = document.getElementById('file_preview');
             const cancel = document.getElementById('cancel_file');
@@ -220,7 +220,7 @@
 
             let tempFile = null;
 
-            input.addEventListener('change', function () {
+            input_file.addEventListener('change', function () {
 
                 if (!this.files[0]) return;
                 tempFile = this.files[0];
@@ -247,8 +247,8 @@
             });
 
             cancel.addEventListener('click', () => {
-                // Limpiar input
-                input.value = '';
+                // Limpiar input_file
+                input_file.value = '';
 
                 // Limpiar preview
                 preview.innerHTML = '';
@@ -288,6 +288,72 @@
                 contacts.classList.toggle('visible');
             });
         </script>
+
+        <script>
+    // Variables principales
+    const userId = {{ request.user.id }};
+    const teacherId = {{ selected_teacher.id }};
+    const chatSocket = new WebSocket(
+        `ws://${window.location.host}/ws/chat/${userId}_${teacherId}/`
+    );
+
+    // Elementos del DOM
+    const container = document.querySelector('.space-y-4');
+    const sendBtn = document.getElementById("sendBtn");
+    const input = document.getElementById("message_input");
+    const form = document.getElementById("chat-form");
+
+    // Función para enviar mensaje
+    function enviarMensaje() {
+        const mensaje = input.value.trim();
+        if (mensaje !== "") {
+            chatSocket.send(JSON.stringify({
+                message: mensaje,
+                sender_id: userId,
+                receiver_id: teacherId
+            }));
+            input.value = '';
+        }
+    }
+
+    // Envío con botón
+    sendBtn.addEventListener("click", function (e) {
+        e.preventDefault(); // Por si está dentro del form
+        enviarMensaje();
+    });
+
+    // Envío con Enter
+    form.addEventListener("submit", function (e) {
+        e.preventDefault(); // ¡Clave para evitar recarga!
+        enviarMensaje();
+    });
+
+    // Recibir mensajes
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        const div = document.createElement('div');
+        div.className = data.sender_id === userId
+            ? 'flex items-end justify-end space-x-2'
+            : 'flex items-start space-x-2';
+
+        div.innerHTML = `
+            ${data.sender_id !== userId ? `<img src="{{ selected_teacher.photo.url }}" alt="Foto" class="w-8 h-8 rounded-full">` : ''}
+            <div class="${data.sender_id === userId ? 'bg-gray-600 text-white' : 'bg-white'} rounded-lg p-3 shadow-md max-w-md">
+                <p>${data.message}</p>
+            </div>
+            <span class="text-gray-500 text-xs message-time">
+                ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+            </span>
+        `;
+
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+    };
+</script>
+
+
+
     </div>
 </div>
 </html>

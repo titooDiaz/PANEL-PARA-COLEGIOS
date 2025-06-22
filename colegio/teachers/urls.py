@@ -20,6 +20,10 @@ urlpatterns = [
     # en - View People
     path('view/people/', ProfessorPeople.as_view(), name='ViewSchedulePeople'),
     
+    # es - Mensajes
+    # en - Messages
+    path('mensajes/', ProfessorMessages.as_view(), name='MessagesTeachers'),
+    
     # es - Ver Notas
     # en - View Ratings
     path('view/ratings/', ProfessorRatings.as_view(), name='ViewScheduleRatings'),

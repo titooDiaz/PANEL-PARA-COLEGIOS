@@ -62,7 +62,7 @@ class ChatMessageForm(forms.ModelForm):
         widgets = {
             "content": forms.TextInput(attrs={
                 'autocomplete': 'off',
-                'id': 'message',
+                'id': 'message_input',
                 'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5',
                 'placeholder': 'Escribe tu mensaje...'
             }),
