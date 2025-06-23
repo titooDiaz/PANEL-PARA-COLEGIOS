@@ -165,3 +165,35 @@ class SendMessageView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(sender=self.request.user)
+
+
+# get file AJAX
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from datetime import datetime
+import uuid
+
+@csrf_exempt
+def upload_chat_file(request):
+    if request.method == 'POST' and request.FILES.get('file'):
+        user = request.user
+        file = request.FILES['file']
+
+        # 🧠 user_directory_path
+        ext = file.name.split('.')[-1]
+        date_str = datetime.now().strftime('%Y_%m_%d')
+        filename = f"{date_str}_{uuid.uuid4()}.{ext}"
+        path = f"chat_files/user_{user.id}/{filename}"
+
+        # Guardar el archivo en el path calculado
+        saved_path = default_storage.save(path, ContentFile(file.read()))
+
+        return JsonResponse({
+            'url': default_storage.url(saved_path),
+            'name': filename,
+            'type': file.content_type
+        })
+
+    return JsonResponse({'error': 'No se subió ningún archivo'}, status=400)

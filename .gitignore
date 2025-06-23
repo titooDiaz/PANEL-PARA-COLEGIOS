@@ -47,3 +47,4 @@ colegio/staticfiles/
 # School-Related Submissions
 # ================================
 colegio/media/respuesta_estudiantes_actividades/
+colegio/media/chat_files

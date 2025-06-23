@@ -2,7 +2,7 @@ from django.urls import path
 from .views import SeeGrades, SeeGradesSchedules, SeeStudentsGrades, SendMessageView
 
 #'APIS'
-from .views import EditGradesScheduleHour, EditGradesScheduleSubjects, EditSeeRatingsStudents
+from .views import EditGradesScheduleHour, EditGradesScheduleSubjects, EditSeeRatingsStudents, upload_chat_file
 
 urlpatterns = [    
     #editar
@@ -20,4 +20,7 @@ urlpatterns = [
 
     # messages
     path('send/', SendMessageView.as_view(), name='send-message'),
+    
+    # File By AJAX
+    path('upload-chat-file/', upload_chat_file, name='upload_chat_file'),
 ]

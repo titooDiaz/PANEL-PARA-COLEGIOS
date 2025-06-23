@@ -293,14 +293,23 @@ class ScheduleCourts(models.Model):
         ).first()
         
         return current_court
-    
+
+def user_directory_path(instance, filename):
+    # archivo se guarda en: chat_files/user_3/2025_06_23_UUID.png
+    import uuid
+    from datetime import datetime
+    ext = filename.split('.')[-1]
+    date_str = datetime.now().strftime('%Y_%m_%d')
+    return f'chat_files/user_{instance.sender.id}/{date_str}_{uuid.uuid4()}.{ext}'
+
 # Messages 
 class ChatMessage(models.Model):
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_messages')
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_messages')
     
     content = models.TextField(blank=True)  # text
-    file = models.FileField(upload_to='chat_files/', blank=True, null=True)  # archivo opcional
+    file = models.FileField(upload_to=user_directory_path, null=True, blank=True)
+
     
     sent_at = models.DateTimeField(default=timezone.now)  # date sent
     read = models.BooleanField(default=False)  # is the message read? 
