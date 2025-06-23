@@ -477,21 +477,6 @@ class ProfessorMessages(View):
         }
         return render(request, 'users/teachers/messages/messages.html', context)
 
-    def post(self, request, *args, **kwargs):
-        form = ChatMessageForm(request.POST, request.FILES)
-        selected_student_id = request.POST.get('student_id')
-
-        if form.is_valid() and selected_student_id:
-            receiver = get_object_or_404(CustomUserStudent, pk=selected_student_id)
-            message = form.save(commit=False)
-            message.sender = request.user
-            message.receiver = receiver
-            message.save()
-            return redirect(f"{request.path}?student_id={receiver.id}")
-
-        # Si falla, volvemos a la vista GET con error
-        return self.get(request, *args, **kwargs)
-
     
 class ProfessorPeople(View):
     def get(self, request, *args, **kwargs):

@@ -108,8 +108,8 @@
             </div>
         </div>
 
-        <div class="flex-1 overflow-y-auto p-4 bg-gray-200 rounded-lg">
-            <div class="space-y-4">
+        <div id="messages-container" class="flex-1 overflow-y-auto p-4 bg-gray-200 rounded-lg">
+            <div id="chat-box" class="space-y-4">
                 {% for msg in messages_users %}
                 {% if msg.sender == request.user %}
                 <div class="flex items-end justify-end space-x-2">
@@ -290,66 +290,65 @@
         </script>
 
         <script>
-    // Variables principales
-    const userId = {{ request.user.id }};
-    const teacherId = {{ selected_teacher.id }};
-    const chatSocket = new WebSocket(
-        `ws://${window.location.host}/ws/chat/${userId}_${teacherId}/`
-    );
+            const scrollContainer = document.getElementById('messages-container');
 
-    // Elementos del DOM
-    const container = document.querySelector('.space-y-4');
-    const sendBtn = document.getElementById("sendBtn");
-    const input = document.getElementById("message_input");
-    const form = document.getElementById("chat-form");
+            function scrollToBottom() {
+                scrollContainer.scrollTo({ top: scrollContainer.scrollHeight, behavior: 'smooth' });
+            }
 
-    // Función para enviar mensaje
-    function enviarMensaje() {
-        const mensaje = input.value.trim();
-        if (mensaje !== "") {
-            chatSocket.send(JSON.stringify({
-                message: mensaje,
-                sender_id: userId,
-                receiver_id: teacherId
-            }));
-            input.value = '';
-        }
-    }
+            window.addEventListener('load', function() {
+                scrollToBottom();
+            });
 
-    // Envío con botón
-    sendBtn.addEventListener("click", function (e) {
-        e.preventDefault(); // Por si está dentro del form
-        enviarMensaje();
-    });
+            const userId = {{ request.user.id }};
+            const teacherId = {{ selected_teacher.id }};
+            const chatSocket = new WebSocket(
+                `ws://${window.location.host}/ws/chat/${userId}_${teacherId}/`
+            );
 
-    // Envío con Enter
-    form.addEventListener("submit", function (e) {
-        e.preventDefault(); // ¡Clave para evitar recarga!
-        enviarMensaje();
-    });
+            const container = document.getElementById('chat-box');
+            const sendBtn = document.getElementById("sendBtn");
+            const input = document.getElementById("message_input");
 
-    // Recibir mensajes
-    chatSocket.onmessage = function(e) {
-        const data = JSON.parse(e.data);
+            chatSocket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
 
-        const div = document.createElement('div');
-        div.className = data.sender_id === userId
-            ? 'flex items-end justify-end space-x-2'
-            : 'flex items-start space-x-2';
+                const div = document.createElement('div');
+                div.className = data.sender_id == userId
+                    ? 'flex items-end justify-end space-x-2'
+                    : 'flex items-start space-x-2';
 
-        div.innerHTML = `
-            ${data.sender_id !== userId ? `<img src="{{ selected_teacher.photo.url }}" alt="Foto" class="w-8 h-8 rounded-full">` : ''}
-            <div class="${data.sender_id === userId ? 'bg-gray-600 text-white' : 'bg-white'} rounded-lg p-3 shadow-md max-w-md">
-                <p>${data.message}</p>
-            </div>
-            <span class="text-gray-500 text-xs message-time">
-                ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-            </span>
-        `;
+                div.innerHTML = `
+                    ${data.sender_id !== userId ? `<img src="{{ selected_teacher.photo.url }}" alt="Foto" class="w-8 h-8 rounded-full">` : ''}
+                    <div class="${data.sender_id === userId ? 'bg-gray-600 text-white' : 'bg-white'} rounded-lg p-3 shadow-md max-w-md">
+                        <p>${data.message}</p>
+                    </div>
+                    <span class="text-gray-500 text-xs message-time">
+                        ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </span>
+                `;
 
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-    };
+                container.appendChild(div);
+                scrollToBottom();
+            };
+
+            sendBtn.addEventListener("click", function () {
+                if (input.value.trim()) {
+                    chatSocket.send(JSON.stringify({
+                        message: input.value,
+                        sender_id: userId,
+                        receiver_id: teacherId
+                    }));
+                    input.value = '';
+                }
+            });
+
+            input.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault();
+                    sendBtn.click();
+                }
+            });
 </script>
 
 
