@@ -1,81 +1,69 @@
 <p align="center">
-  <img width="150px" src="https://i.ibb.co/bXvzjXm/LOGO-h1.png" alt="Logo de h1">
-  <img width="150px" src="https://github.com/user-attachments/assets/e0551b39-11a1-4ce3-b5e2-2c6c18882bf0" alt="Logo del proyecto">
+  <img width="150px" src="https://i.ibb.co/bXvzjXm/LOGO-h1.png" alt="H1 Logo">
+  <img width="150px" src="https://github.com/user-attachments/assets/e0551b39-11a1-4ce3-b5e2-2c6c18882bf0" alt="Project Logo">
 </p>
-
 
 # PANEL-PARA-COLEGIOS
 
-Este proyecto es un sistema de gestión escolar desarrollado en Django, diseñado para facilitar las operaciones administrativas y académicas en colegios.
+This project is a school management system built with Django, designed to streamline academic and administrative operations within schools.
 
 ---
 
-## Requisitos previos
+## Prerequisites
 
-1. **Python**  
-   Asegúrate de tener Python instalado. Recomendamos usar la última versión estable.  
+1. **Python**
+   Ensure Python is installed (latest stable version recommended).
 
-2. **Virtualenv**  
-   Necesitarás un entorno virtual para gestionar las dependencias del proyecto. Instálalo con:  
+2. **Virtualenv**
+   Used to isolate project dependencies:
+
    ```bash
    pip install virtualenv
-   ```  
+   ```
 
-3. **Node.js y npm**  
-   Este proyecto utiliza Tailwind CSS, que requiere Node.js. Descarga e instala Node.js desde su [página oficial](https://nodejs.org/en/download).  
+3. **Node.js & npm**
+   Tailwind CSS requires Node.js. Download it from the [official website](https://nodejs.org/en/download).
 
 ---
 
-## Instalación y configuración
+## Installation & Setup
 
-### 1. Crear un entorno virtual  
-Crea un entorno virtual para aislar las dependencias:  
+### 1. Create a virtual environment
+
 ```bash
 virtualenv env
 ```
 
-### 2. Activar el entorno virtual  
-En Windows:  
-```bash
-env\Scripts\activate
-```
-En Linux/Mac:  
+### 2. Activate the virtual environment
+
 ```bash
 source env/bin/activate
 ```
 
-### 3. Instalar dependencias  
-Ejecuta el siguiente comando para instalar las dependencias necesarias:  
+### 3. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-#### Problema común: Error al instalar dependencias  
-Si al instalar las dependencias obtienes un error como:  
-```plaintext
-error: subprocess-exited-with-error
+### 4. Install Tailwind CSS
 
-× Getting requirements to build wheel did not run successfully.
-│ exit code: 1
-╰─> See above for output.
-```
-Este error ocurre debido a la falta de herramientas de compilación (como un compilador de C++). Puedes solucionarlo siguiendo [este video](https://youtu.be/wTv8rNobJsw?si=6nO7UaryScIcNIo9).  
-
-### 4. Instalar Tailwind CSS  
-Ejecuta:  
 ```bash
 python manage.py tailwind install
 ```
 
-#### Problema común: Error relacionado con Node.js  
-Si ves un error como:  
+#### Common Tailwind error
+
+If you see:
+
 ```plaintext
-CommandError: 
+CommandError:
 It looks like node.js and/or npm is not installed or cannot be found.
 ```
-Asegúrate de que Node.js y npm están instalados correctamente. Si el problema persiste, define la ruta de `npm` en `.env` de la siguiente manera:
 
-Es posible que el archivo .env aún no exista. Puedes crearlo tú mismo en la carpeta raíz del proyecto, junto a archivos y carpetas como:
+Make sure Node.js and npm are installed and accessible. You may need to add your npm path to a `.env` file:
+
+> If `.env` doesn’t exist yet, create it in the project root directory, next to folders like:
 
 ```
 |- colegio/
@@ -84,80 +72,112 @@ Es posible que el archivo .env aún no exista. Puedes crearlo tú mismo en la ca
 |- requirements.txt
 ```
 
-```bash
-WHEREISNPM=tu/ruta/de/npm
+Inside `.env`, add:
+
+```env
+WHEREISNPM=/your/path/to/npm
+INTERNAL_IPS=127.0.0.1
 ```
 
-Puedes revisar la ruta de `npm` ejecutando en ubuntu:
+Find your npm path using:
+
 ```bash
 whereis npm
 ```
 
----
-
-## Iniciar el proyecto
-
-1. Navega al directorio del proyecto:  
-   ```bash
-   cd PANEL-PARA-COLEGIOS/colegio
-   ```
-
-2. Inicia el servidor Django:  
-   ```bash
-   python manage.py runserver
-   ```
-
-3. Inicia Tailwind en modo desarrollo:  
-   ```bash
-   python manage.py tailwind start
-   ```
+you cant change the path in the `.env` file.
 
 ---
 
-## Migraciones y base de datos
+## Run the Project
 
-1. **Realizar migraciones**  
-   ```bash
-   python manage.py makemigrations users information admis teachers managers guardians students
-   ```
+### 1. Move to the Django app directory:
 
-2. **Crear la base de datos**  
-   ```bash
-   python manage.py migrate
-   ```
+```bash
+cd PANEL-PARA-COLEGIOS/colegio
+```
 
-3. **Crear un usuario administrador**  
-   ```bash
-   python manage.py createsuperuser
-   ```
+### 2. Start the ASGI server (replaces `runserver`):
 
-> **Nota:** Asegúrate de documentar todos los cambios realizados en las migraciones y bases de datos para evitar pérdida de información.
+```bash
+uvicorn core.asgi:application --host 127.0.0.1 --port 8000 --reload
+```
+
+> Note: Replace `127.0.0.1` and `8000` with your custom values if needed.
+> <br>
+> if you put your public ip in the `ALLOWED_HOSTS` in the `settings.py` file, you can use:
+> <br>
+> ```uvicorn core.asgi:application --host 0.0.0.0 --port 5000 --reload```
+
+### 3. Run Tailwind in development mode:
+
+```bash
+python manage.py tailwind start
+```
+
+### 4. Install Uvicorn (Linux only)
+
+```bash
+pip install uvicorn
+```
 
 ---
 
-## Funcionalidades del sistema
+## Database & Migrations
 
-### Vista de Login  
+### 1. Create migrations
+
+```bash
+python manage.py makemigrations users information admis teachers managers guardians students
+```
+
+### 2. Apply migrations
+
+```bash
+python manage.py migrate
+```
+
+### 3. Create admin user
+
+```bash
+python manage.py createsuperuser
+```
+
+### 4. Collect Static Files
+```bash
+python manage.py collectstatic
+```
+
+
+> **Note:** Always document changes in models and migrations to prevent data loss.
+
+---
+
+## System Features
+
+### Login View
+
 <p align="center">
-  <img src="./Documentation/images/login.png" alt="Vista de Login">
+  <img src="./Documentation/images/login.png" alt="Login View">
 </p>
 
-### Vista de Panel 
+### Panel View
+
 <p align="center">
-  <img src="./Documentation/images/about.png" alt="Vista de Login">
+  <img src="./Documentation/images/about.png" alt="Panel View">
 </p>
 
 ---
 
-## Notas importantes
+## Important Notes
 
-- **Documentación de cambios:**  
-  Es fundamental documentar cualquier cambio realizado en el código o la base de datos.  
+* **Code & Database documentation:**
+  Always document changes made to the codebase or DB.
 
-- **Precaución:**  
-  Manipular las migraciones o realizar cambios incorrectos en el código puede provocar la pérdida de datos.  
+* **Caution:**
+  Editing migrations or making wrong changes can cause data loss.
 
 ---
 
-**¡Gracias por contribuir al proyecto!**  
-Un buen código siempre viene acompañado de una buena documentación.
+**Thanks for contributing to the project!**
+Clean code is always better with good documentation. 🚀

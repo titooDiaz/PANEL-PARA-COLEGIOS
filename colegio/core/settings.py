@@ -25,7 +25,7 @@ LANGUAGE_CODE = 'es'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.58']
+ALLOWED_HOSTS = [os.getenv("INTERNAL_IPS")]
 
 
 # Application definition
@@ -81,7 +81,7 @@ LOGIN_REDIRECT_URL = "/redirect/"
 
 #externo de tailwind
 TAILWIND_APP_NAME = 'theme'
-INTERNAL_IPS = ["192.168.1.58"]
+INTERNAL_IPS = os.getenv("INTERNAL_IPS")
 
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
@@ -124,7 +124,7 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             # add your own redis configuration here
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [(os.getenv("INTERNAL_IPS"), 6379)],
         },
     },
 }
