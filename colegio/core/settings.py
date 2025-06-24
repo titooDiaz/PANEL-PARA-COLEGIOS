@@ -124,7 +124,7 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             # add your own redis configuration here
-            "hosts": [(os.getenv("INTERNAL_IPS"), 6379)],
+            "hosts": [("127.0.0.1", 6379)],
         },
     },
 }

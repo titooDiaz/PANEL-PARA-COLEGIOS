@@ -96,36 +96,6 @@ const container = document.getElementById('chat-box');
 const sendBtn = document.getElementById("sendBtn");
 const input = document.getElementById("message_input");
 
-chatSocket.onmessage = function(e) {
-    const data = JSON.parse(e.data);
-
-    const div = document.createElement('div');
-    div.className = data.sender_id == sender
-        ? 'flex items-end justify-end space-x-2'
-        : 'flex items-start space-x-2';
-
-    let fileHtml = '';
-    if (data.file) {
-        const fileUrl = data.file.url;
-        const fileType = data.file.type;
-        fileHtml = `<a href="${fileUrl}" target="_blank" class="block mt-2 text-blue-500 underline">📎 Ver archivo </a>`;
-    }
-
-    div.innerHTML = `
-        ${data.sender_id !== sender ? `<img src="${photo_url}" alt="Foto" class="w-8 h-8 rounded-full">` : ''}
-        <div class="${data.sender_id === sender ? 'bg-gray-600 text-white' : 'bg-white'} rounded-lg p-3 shadow-md max-w-md">
-            <p>${data.message}</p>
-            ${fileHtml}
-        </div>
-        <span class="text-gray-500 text-xs message-time">
-            ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-        </span>
-    `;
-
-    container.appendChild(div);
-    scrollToBottom();
-};
-
 sendBtn.addEventListener("click", async function () {
     const message = input.value.trim();
     const file = input_file.files[0];
@@ -154,8 +124,8 @@ sendBtn.addEventListener("click", async function () {
         }
     }
 
-    // Enviar por WebSocket
     chatSocket.send(JSON.stringify({
+        type: "chat",
         message: message,
         sender_id: sender,
         receiver_id: receiver,
@@ -172,4 +142,79 @@ input.addEventListener("keydown", function (event) {
         event.preventDefault();
         sendBtn.click();
     }
+});
+
+// user in chat?
+
+const typingIndicator = document.getElementById("typing_indicator");
+const statusIndicator = document.getElementById("status_indicator");
+
+let typingTimeout = null;
+
+// Listen to WebSocket messages
+// Listen to all socket messages
+chatSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    console.log(data)
+
+    if (data.type === "chat") {
+        // handle message normally
+        const div = document.createElement('div');
+        div.className = data.sender_id == sender
+            ? 'flex items-end justify-end space-x-2'
+            : 'flex items-start space-x-2';
+
+        let fileHtml = '';
+        if (data.file) {
+            const fileUrl = data.file.url;
+            const fileType = data.file.type;
+            fileHtml = `<a href="${fileUrl}" target="_blank" class="block mt-2 text-blue-500 underline">📎 Ver archivo</a>`;
+        }
+
+        div.innerHTML = `
+            ${data.sender_id !== sender ? `<img src="${photo_url}" alt="Foto" class="w-8 h-8 rounded-full">` : ''}
+            <div class="${data.sender_id === sender ? 'bg-gray-600 text-white' : 'bg-white'} rounded-lg p-3 shadow-md max-w-md">
+                <p>${data.message}</p>
+                ${fileHtml}
+            </div>
+            <span class="text-gray-500 text-xs message-time">
+                ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+            </span>
+        `;
+        container.appendChild(div);
+        scrollToBottom();
+    }
+
+    if (data.type === "status") {
+        statusIndicator.textContent = data.status === "online" ? "🟢 Online" : "⚪ Offline";
+    }
+
+    if (data.type === "typing") {
+        if (data.user_id != sender) {
+            typingIndicator.textContent = "Typing...";
+        }
+    }
+
+    if (data.type === "stop_typing") {
+        if (data.user_id != sender) {
+            typingIndicator.textContent = "";
+        }
+    }
+};
+
+
+// Emit typing events
+input.addEventListener("input", () => {
+  chatSocket.send(JSON.stringify({
+    type: "typing",
+    sender_id: sender
+  }));
+
+  clearTimeout(typingTimeout);
+  typingTimeout = setTimeout(() => {
+    chatSocket.send(JSON.stringify({
+      type: "stop_typing",
+      sender_id: sender
+    }));
+  }, 1000); // stop typing after 1s of inactivity
 });

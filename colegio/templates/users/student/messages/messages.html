@@ -210,7 +210,8 @@
 
             </div>
             </div>
-
+            <span id="status_indicator"></span> <!-- shows online/offline -->
+            <span id="typing_indicator"></span> <!-- shows typing -->
             <div class="hidden">
                 <span id="secret_token">{{ csrf_token }}</span>
                 <span id="url_chat_file">{% url "upload_chat_file" %}</span>
