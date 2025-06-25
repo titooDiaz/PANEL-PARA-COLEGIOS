@@ -145,8 +145,6 @@ input.addEventListener("keydown", function (event) {
 });
 
 // user in chat?
-
-const typingIndicator = document.getElementById("typing_indicator");
 const statusIndicator = document.getElementById("status_indicator");
 
 let typingTimeout = null;
@@ -191,13 +189,34 @@ chatSocket.onmessage = function (e) {
 
     if (data.type === "typing") {
         if (data.user_id != sender) {
-            typingIndicator.textContent = "Typing...";
+            const styleExists = document.getElementById('typing-style');
+            // Solo crear si aún no existe
+            if (!document.getElementById('typing-bubbles')) {
+                const div = document.createElement('div');
+                div.id = 'typing-bubbles';
+                div.className = 'flex items-start space-x-2';
+                div.innerHTML = `
+                    <img src="${photo_url}" alt="Foto" class="w-8 h-8 rounded-full">
+                    <div class="bg-white rounded-lg p-3 shadow-md max-w-md">
+                        <div class="flex space-x-1 items-end mt-1">
+                            <div class="w-2 h-2 bg-orange-600 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-orange-600 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-orange-600 rounded-full typing-dot"></div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+                scrollToBottom();
+            }
         }
     }
 
     if (data.type === "stop_typing") {
         if (data.user_id != sender) {
-            typingIndicator.textContent = "";
+            const typingDiv = document.getElementById('typing-bubbles');
+            if (typingDiv) {
+                typingDiv.remove();
+            }
         }
     }
 };

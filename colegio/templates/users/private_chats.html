@@ -79,6 +79,22 @@
                 <span class="text-sm text-white">Profes Disponibles!</span>
                 <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
             </div>
+            {% users %}
+
+            {% enduser %}
+            {% comment %}
+            <span id="status_indicator"></span> <!-- shows online/offline -->
+            <div class="hidden">
+                <span id="secret_token">{{ csrf_token }}</span>
+                <span id="url_chat_file">{% url "upload_chat_file" %}</span>
+                <span id="photo_url">{{ selected_teacher.photo.url }}</span>
+                <span id="user1Id">{{ request.user.id }}</span>
+                <span id="user2Id">{{ selected_teacher.id }}</span>
+                <span id="sender">{{ request.user.id }}</span>
+                <span id="receiver">{{ selected_teacher.id }}</span>
+                <script src="{% static 'js/djangoChannels/chats/chats.js' %}"></script>
+            </div>
+
             <div class="p-2">
                 {% for teacher in teachers %}
                 <div class="space-y-4 mt-2">
@@ -93,7 +109,7 @@
                     </a>
                 </div>
                 {% endfor %}
-            </div>
+            </div> {% endcomment %}
         </div>
     </div>
 
@@ -223,19 +239,6 @@
 
             </div>
             </div>
-            <span id="status_indicator"></span> <!-- shows online/offline -->
-            
-            <div class="hidden">
-                <span id="secret_token">{{ csrf_token }}</span>
-                <span id="url_chat_file">{% url "upload_chat_file" %}</span>
-                <span id="photo_url">{{ selected_teacher.photo.url }}</span>
-                <span id="user1Id">{{ request.user.id }}</span>
-                <span id="user2Id">{{ selected_teacher.id }}</span>
-                <span id="sender">{{ request.user.id }}</span>
-                <span id="receiver">{{ selected_teacher.id }}</span>
-                <script src="{% static 'js/djangoChannels/chats/chats.js' %}"></script>
-            </div>
-            
     </div>
 </div>
 </html>
