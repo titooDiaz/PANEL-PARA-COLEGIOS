@@ -10,6 +10,7 @@ from users.models import *
 from information.forms import *
 from .forms import *
 from users.forms import *
+from users.utils import is_user_online
 
 # LIBRERIAS DE FECHAS
 from django.utils import timezone
@@ -280,13 +281,12 @@ class StudentMessages(View):
                 sender__in=[user, selected_teacher],
                 receiver__in=[user, selected_teacher]
             ).order_by('sent_at')
-
         context = {
             'vista': 'estudiante',
             'abierto': 'mensajes',
             'grade': grade_user,
             'teachers': teachers,
-            'selected_teacher': selected_teacher,
+            'selected_user': selected_teacher,
             'messages_users': messages,
             'form': form,
         }

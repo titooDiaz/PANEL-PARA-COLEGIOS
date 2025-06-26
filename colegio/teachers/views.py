@@ -471,7 +471,7 @@ class ProfessorMessages(View):
             'vista': 'profesores',
             'abierto': 'mensajes',
             'students': students,
-            'selected_student': selected_student,
+            'selected_user': selected_student,
             'messages_users': messages,
             'form': form,
         }

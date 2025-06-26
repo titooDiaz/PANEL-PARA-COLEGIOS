@@ -75,52 +75,23 @@
 <div class="bg-white flex flex-col lg:flex-row h-[84vh] lg:h-[88vh]">
     <div id="contacts" class="p-4 lg:p-0 w-[70%] lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-[84vh] lg:h-[88vh]">
         <div class="bg-gray-200 rounded-xl w-full overflow-y-auto h-full">
-            <div class="px-6 py-4 bg-gray-400 flex justify-between items-center rounded-t-xl">
-                <span class="text-sm text-white">Profes Disponibles!</span>
-                <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
-            </div>
-            {% users %}
 
-            {% enduser %}
-            {% comment %}
-            <span id="status_indicator"></span> <!-- shows online/offline -->
-            <div class="hidden">
-                <span id="secret_token">{{ csrf_token }}</span>
-                <span id="url_chat_file">{% url "upload_chat_file" %}</span>
-                <span id="photo_url">{{ selected_teacher.photo.url }}</span>
-                <span id="user1Id">{{ request.user.id }}</span>
-                <span id="user2Id">{{ selected_teacher.id }}</span>
-                <span id="sender">{{ request.user.id }}</span>
-                <span id="receiver">{{ selected_teacher.id }}</span>
-                <script src="{% static 'js/djangoChannels/chats/chats.js' %}"></script>
-            </div>
+            {% block chat_header %}
+            {% endblock %}
 
-            <div class="p-2">
-                {% for teacher in teachers %}
-                <div class="space-y-4 mt-2">
-                    <a href="?teacher_id={{ teacher.id }}">
-                        <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
-                            <img src="{{ teacher.photo.url }}" alt="{{teacher.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-800">{{teacher.first_name}} {{teacher.last_name}}</h3>
-                                <p class="text-sm text-gray-600">Profesor</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                {% endfor %}
-            </div> {% endcomment %}
+            {% block chat_users %}
+            {% endblock %}
         </div>
     </div>
 
 
     <div class="w-full flex flex-col lg:ml-4 h-[84vh] lg:h-[88vh]">
-        {% if selected_teacher %}
+        {% if selected_user %}
         <div class="bg-gray-600 text-white p-4 rounded-lg flex justify-between">
             <div class="flex items-center space-x-4">
-                <img src="{{ selected_teacher.photo.url }}" alt="{{ selected_teacher.username }}" class="w-10 h-10 rounded-full">
+                <img src="{{ selected_user.photo.url }}" alt="{{ selected_user.username }}" class="w-10 h-10 rounded-full">
                 <div>
-                    <h1 class="font-bold">{{ selected_teacher.first_name }} {{ selected_teacher.last_name }}</h1>
+                    <h1 class="font-bold">{{ selected_user.first_name }} {{ selected_user.last_name }}</h1>
                     <a href="#" class="text-sm text-gray-100 hover:text-white">Ver perfil</a>
                 </div>
             </div>
@@ -151,7 +122,7 @@
                 </div>
                 {% else %}
                 <div class="flex items-start space-x-2">
-                    <img src="{{ selected_teacher.photo.url }}" alt="{{ selected_teacher.username }}" class="w-8 h-8 rounded-full">
+                    <img src="{{ selected_user.photo.url }}" alt="{{ selected_user.username }}" class="w-8 h-8 rounded-full">
                     <div class="bg-white rounded-lg p-3 shadow-md max-w-md">
                         <p>{{ msg.content }}</p>
                         {% if msg.file %}<a href="{{ msg.file.url }}">📎 Ver archivo</a>{% endif %}
@@ -241,5 +212,6 @@
             </div>
     </div>
 </div>
+<script src="{% static 'js/djangoChannels/chats/chats.js' %}"></script>
 </html>
 {% endblock content %}

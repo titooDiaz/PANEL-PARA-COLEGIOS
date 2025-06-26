@@ -227,6 +227,55 @@
     </script>
 </body>
 
+{% if request.user.is_authenticated %}
+<script>
+    const protocol = location.protocol === "https:" ? "wss" : "ws";
+    const presenceSocket = new WebSocket(`${protocol}://${location.host}/ws/online/`);
+
+    presenceSocket.onopen = () => {
+        console.log("🔌 Presencia conectada");
+    };
+
+    // Mantener online cada 30 seg
+    setInterval(() => {
+        if (presenceSocket.readyState === WebSocket.OPEN) {
+            presenceSocket.send(JSON.stringify({ type: "keep_alive" }));
+        }
+    }, 30000);
+
+    // Solo observa si hay elementos que lo piden
+    document.addEventListener("DOMContentLoaded", () => {
+        const elements = document.querySelectorAll("[data-watch-user]");
+        const ids = [...elements].map(el => el.dataset.watchUser);
+
+        const sendWatchRequests = () => {
+            ids.forEach(uid => {
+                presenceSocket.send(JSON.stringify({ type: "watch", user_id: uid }));
+            });
+        };
+
+        // Espera a que el socket esté listo
+        if (presenceSocket.readyState === WebSocket.OPEN) {
+            sendWatchRequests();
+        } else {
+            presenceSocket.addEventListener("open", sendWatchRequests);
+        }
+
+
+        presenceSocket.addEventListener("message", (e) => {
+            const data = JSON.parse(e.data);
+            if (data.type === "user_status") {
+                const el = document.getElementById(`state_user_${data.user_id}`);
+                if (el) {
+                    el.textContent = data.status === "online" ? "🟢 En línea" : "⚪ Desconectado";
+                }
+            }
+        });
+    });
+</script>
+{% endif %}
+
+
 <!--LETRAS ZOOM-->
 <script src="{% static 'js/zoom_letras.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/zoom_letras.css' %}">

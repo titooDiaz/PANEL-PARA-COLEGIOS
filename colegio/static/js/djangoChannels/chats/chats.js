@@ -87,9 +87,9 @@ const receiver = document.getElementById('receiver').textContent.trim();
 const csrfToken = document.getElementById('secret_token').textContent.trim();
 const url_chat_file = document.getElementById('url_chat_file').textContent;
 const photo_url = document.getElementById('photo_url').textContent;
-const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+const protocol1 = window.location.protocol === "https:" ? "wss" : "ws";
 const chatSocket = new WebSocket(
-    `${protocol}://${window.location.host}/ws/chat/${user1Id}_${user2Id}/`
+    `${protocol1}://${window.location.host}/ws/chat/${user1Id}_${user2Id}/`
 );
 
 const container = document.getElementById('chat-box');
@@ -153,7 +153,6 @@ let typingTimeout = null;
 // Listen to all socket messages
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    console.log(data)
 
     if (data.type === "chat") {
         // handle message normally

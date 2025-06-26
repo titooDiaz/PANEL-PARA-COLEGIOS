@@ -1,242 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta charset="UTF-8">
+{% extends "users/private_chats.html" %}
 
-{% extends 'base.html' %}
-{% load static %}
+{% block chat_header %}
+    <div class="hidden">
+        <span id="secret_token">{{ csrf_token }}</span>
+        <span id="url_chat_file">{% url "upload_chat_file" %}</span>
+        <span id="photo_url">{{ selected_user.photo.url }}</span>
+        <span id="user1Id">{{ request.user.id }}</span>
+        <span id="user2Id">{{ selected_user.id }}</span>
+        <span id="sender">{{ request.user.id }}</span>
+        <span id="receiver">{{ selected_user.id }}</span>
+    </div>
+{% endblock %}
 
-{% block content %}
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mensajes{% endblock %}</title>
-    <style>
-        .message-time {
-            font-size: 0.7rem;
-            margin-top: 0.8rem;
-        }
-        .typing-indicator span {
-            animation: blink 1.5s infinite;
-            margin-right: 2px;
-        }
-        @keyframes blink {
-            0% { opacity: 0.2; }
-            20% { opacity: 1; }
-            100% { opacity: 0.2; }
-        }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
-        #contacts {
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(-140%);
-        }
-        #contacts.visible {
-            transform: translateX(0);
-        }
-        @media (min-width: 1024px) {
-            #contacts {
-                transform: translateX(0);
-            }
-        }
-
-        html, body {
-            overflow-x: hidden;
-        }
-
-        @media (max-width: 1023px) {
-            #contacts {
-                width: 100% !important;
-            }
-            .lg\:ml-4 {
-                margin-left: 0 !important;
-            }
-            .p-2 {
-                padding: 0.25rem !important;
-            }
-            .rounded-lg {
-                margin: 0.3rem;
-            }
-    </style>
-
-    <style>
-        @keyframes bounce {
-        0%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-10px); }
-        }
-        .typing-dot {
-        display: inline-block;
-        animation: bounce 1.2s infinite;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    </style>
-</head>
-
-<div class="bg-white flex flex-col lg:flex-row h-[84vh] lg:h-[88vh]">
-    <div id="contacts" class="p-4 lg:p-0 w-[70%] lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-[84vh] lg:h-[88vh]">
-        <div class="bg-gray-200 rounded-xl w-full overflow-y-auto h-full">
-            <div class="px-6 py-4 bg-gray-400 flex justify-between items-center rounded-t-xl">
-                <span class="text-sm text-white">Profes Disponibles!</span>
-                <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
-            </div>
-            <div class="p-2">
-                {% for teacher in teachers %}
-                <div class="space-y-4 mt-2">
-                    <a href="?teacher_id={{ teacher.id }}">
-                        <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
-                            <img src="{{ teacher.photo.url }}" alt="{{teacher.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-800">{{teacher.first_name}} {{teacher.last_name}}</h3>
-                                <p class="text-sm text-gray-600">Profesor</p>
-                            </div>
+{% block chat_users %}
+    <div class="p-2">
+        <div class="px-6 py-4 bg-gray-400 flex justify-between items-center rounded-t-xl">
+            <span class="text-sm text-white">Profes Disponibles!</span>
+            <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
+        </div>
+        {% for teacher in teachers %}
+            <div class="space-y-4 mt-2">
+                <a href="?teacher_id={{ teacher.id }}">
+                    <span id="state_user_{{ teacher.id }}" data-watch-user="{{ teacher.id }}">⚪ Desconectado</span>
+                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
+                        <img src="{{ teacher.photo.url }}" alt="{{teacher.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">{{teacher.first_name}} {{teacher.last_name}}</h3>
+                            <p class="text-sm text-gray-600">Profesor</p>
                         </div>
-                    </a>
-                </div>
-                {% endfor %}
+                    </div>
+                </a>
             </div>
-        </div>
+        {% endfor %}
     </div>
-
-
-    <div class="w-full flex flex-col lg:ml-4 h-[84vh] lg:h-[88vh]">
-        {% if selected_teacher %}
-        <div class="bg-gray-600 text-white p-4 rounded-lg flex justify-between">
-            <div class="flex items-center space-x-4">
-                <img src="{{ selected_teacher.photo.url }}" alt="{{ selected_teacher.username }}" class="w-10 h-10 rounded-full">
-                <div>
-                    <h1 class="font-bold">{{ selected_teacher.first_name }} {{ selected_teacher.last_name }}</h1>
-                    <a href="#" class="text-sm text-gray-100 hover:text-white">Ver perfil</a>
-                </div>
-            </div>
-            <div class="flex items-center space-x-4">
-                <button class="p-2 hover:bg-gray-700 rounded-full transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
-                    </svg>
-                </button>
-                <button id="toggleContacts" class="p-2 text-white hover:bg-gray-700 rounded-full lg:hidden transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <div id="messages-container" class="flex-1 overflow-y-auto p-4 bg-gray-200 rounded-lg">
-            <div id="chat-box" class="space-y-4">
-                {% for msg in messages_users %}
-                {% if msg.sender == request.user %}
-                <div class="flex items-end justify-end space-x-2">
-                    <div class="bg-gray-600 text-white rounded-lg p-3 shadow-md max-w-md">
-                        <p>{{ msg.content }}</p>
-                        {% if msg.file %}<a href="{{ msg.file.url }}">📎 Ver archivo</a>{% endif %}
-                    </div>
-                    <span class="text-gray-500 text-xs message-time">{{ msg.sent_at|date:"H:i" }}</span>
-                </div>
-                {% else %}
-                <div class="flex items-start space-x-2">
-                    <img src="{{ selected_teacher.photo.url }}" alt="{{ selected_teacher.username }}" class="w-8 h-8 rounded-full">
-                    <div class="bg-white rounded-lg p-3 shadow-md max-w-md">
-                        <p>{{ msg.content }}</p>
-                        {% if msg.file %}<a href="{{ msg.file.url }}">📎 Ver archivo</a>{% endif %}
-                    </div>
-                    <span class="text-gray-500 text-xs message-time">{{ msg.sent_at|date:"H:i" }}</span>
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="bg-white border-2 border-gray-400 rounded-lg p-4">
-            <form id="chat-form" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="flex items-center space-x-4">
-                    {{ form.content }}
-                    {{ form.file }}
-                    <div class="mt-2">
-                        <label for="file_input" class="cursor-pointer text-blue-600 hover:underline">
-                            📎
-                        </label>
-                        <span id="file_name" class="ml-2 text-sm text-gray-500"></span>
-                    </div>
-
-                    <input type="hidden" name="student_id" value="{{ selected_student.id }}">
-                    <button type="button" id="sendBtn" class="p-2 text-white bg-gray-600 rounded-full hover:bg-gray-700 transition">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                        </svg>
-                    </button>
-                </div>
-            </form>
-        </div>
-        {% else %}
-        <script>
-            if (window.innerWidth < 1024) {
-                document.addEventListener('DOMContentLoaded', () => {
-                    const contacts = document.getElementById('contacts');
-                    contacts.classList.add('visible');
-                });
-            }
-        </script>
-        {% endif %}
-
-        {% comment %} 
-            Modal for adding a new file 
-        {% endcomment %}
-        <div id="file_modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-[95vw] max-w-[1000px] h-[90vh] flex flex-col overflow-hidden p-4 relative">
-            
-            <h2 class="text-2xl font-bold mb-2 text-center">📂 Previsualización de archivo</h2>
-
-            <div id="file_preview" class="flex-1 overflow-auto border border-gray-300 rounded-lg bg-gray-100 p-2 flex items-center justify-center">
-            <!-- Aquí se muestra la imagen o PDF -->
-            </div>
-
-            <div class="mt-4 grid grid-cols-2 gap-4">
-            <button id="cancel_file" type="button" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-red-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">
-                Cancelar
-            </button>
-            <button id="accept_file" type="button" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-green-600 border-l border-r border-t border-4 border-green-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">
-                Aceptar
-            </button>
-            </div>
-
-        </div>
-        </div>
-
-       <div class="bg-white rounded-xl shadow-2xl w-[95vw] max-w-[1000px] h-[90vh] flex flex-col hidden overflow-hidden p-4 relative">
-            
-            <h2 class="text-2xl font-bold mb-2 text-center">📂 Previsualización de archivo</h2>
-
-            <div id="file_preview" class="flex-1 overflow-auto border border-gray-300 rounded-lg bg-gray-100 p-2 flex items-center justify-center">
-            <!-- Aquí se muestra la imagen o PDF -->
-            </div>
-
-                <div class="mt-4 grid grid-cols-2 gap-4">
-                <button id="cancel_file" type="button" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">
-                    Cancelar
-                </button>
-                <button id="accept_file" type="button" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">
-                    Aceptar
-                </button>
-                </div>
-
-            </div>
-            </div>
-            <span id="status_indicator"></span> <!-- shows online/offline -->
-            
-            <div class="hidden">
-                <span id="secret_token">{{ csrf_token }}</span>
-                <span id="url_chat_file">{% url "upload_chat_file" %}</span>
-                <span id="photo_url">{{ selected_teacher.photo.url }}</span>
-                <span id="user1Id">{{ request.user.id }}</span>
-                <span id="user2Id">{{ selected_teacher.id }}</span>
-                <span id="sender">{{ request.user.id }}</span>
-                <span id="receiver">{{ selected_teacher.id }}</span>
-                <script src="{% static 'js/djangoChannels/chats/chats.js' %}"></script>
-            </div>
-            
-    </div>
-</div>
-</html>
-{% endblock content %}
+{% endblock %}
