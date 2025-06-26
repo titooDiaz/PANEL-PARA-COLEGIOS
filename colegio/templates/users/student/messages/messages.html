@@ -21,12 +21,12 @@
         {% for teacher in teachers %}
             <div class="space-y-4 mt-2">
                 <a href="?teacher_id={{ teacher.id }}">
-                    <span id="state_user_{{ teacher.id }}" data-watch-user="{{ teacher.id }}">⚪ Desconectado</span>
                     <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
                         <img src="{{ teacher.photo.url }}" alt="{{teacher.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800">{{teacher.first_name}} {{teacher.last_name}}</h3>
-                            <p class="text-sm text-gray-600">Profesor</p>
+                            <span id="state_user_{{ teacher.id }}" data-watch-user="{{ teacher.id }}" class="status-dot offline"></span>
+                        </span>
                         </div>
                     </div>
                 </a>

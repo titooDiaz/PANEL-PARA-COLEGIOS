@@ -28,7 +28,11 @@ __pycache__/
 # ================================
 # Static/Theme Files (to be ignored)
 # ================================
-colegio/theme/
+colegio/theme/static/css/
+colegio/theme/static/theme.css
+colegio/theme/__pycache__/
+colegio/theme/*.pyc
+colegio/theme/__init__.py
 
 # ================================
 # User-Generated Media (Ignore per user type)

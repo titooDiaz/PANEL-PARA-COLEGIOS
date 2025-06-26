@@ -5,7 +5,7 @@
 <head>
     <title>{% block title %}PANEL PARA COLEGIOS{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" href="{% static 'theme/styles.css' %}">
 
     {% tailwind_css %}
     <!--Caendario-->
@@ -230,48 +230,53 @@
 {% if request.user.is_authenticated %}
 <script>
     const protocol = location.protocol === "https:" ? "wss" : "ws";
-    const presenceSocket = new WebSocket(`${protocol}://${location.host}/ws/online/`);
+const presenceSocket = new WebSocket(`${protocol}://${location.host}/ws/online/`);
 
-    presenceSocket.onopen = () => {
-        console.log("🔌 Presencia conectada");
+presenceSocket.onopen = () => {
+    console.log("🔌 Presencia conectada");
+};
+
+// Keep-alive cada 30 seg
+setInterval(() => {
+    if (presenceSocket.readyState === WebSocket.OPEN) {
+        presenceSocket.send(JSON.stringify({ type: "keep_alive" }));
+    }
+}, 30000);
+
+document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll("[data-watch-user]");
+    const ids = [...elements].map(el => el.dataset.watchUser);
+
+    const sendWatchRequests = () => {
+        ids.forEach(uid => {
+            presenceSocket.send(JSON.stringify({ type: "watch", user_id: uid }));
+        });
     };
 
-    // Mantener online cada 30 seg
-    setInterval(() => {
-        if (presenceSocket.readyState === WebSocket.OPEN) {
-            presenceSocket.send(JSON.stringify({ type: "keep_alive" }));
-        }
-    }, 30000);
+    // Espera a que esté listo
+    if (presenceSocket.readyState === WebSocket.OPEN) {
+        sendWatchRequests();
+    } else {
+        presenceSocket.addEventListener("open", sendWatchRequests);
+    }
 
-    // Solo observa si hay elementos que lo piden
-    document.addEventListener("DOMContentLoaded", () => {
-        const elements = document.querySelectorAll("[data-watch-user]");
-        const ids = [...elements].map(el => el.dataset.watchUser);
-
-        const sendWatchRequests = () => {
-            ids.forEach(uid => {
-                presenceSocket.send(JSON.stringify({ type: "watch", user_id: uid }));
-            });
-        };
-
-        // Espera a que el socket esté listo
-        if (presenceSocket.readyState === WebSocket.OPEN) {
-            sendWatchRequests();
-        } else {
-            presenceSocket.addEventListener("open", sendWatchRequests);
-        }
-
-
-        presenceSocket.addEventListener("message", (e) => {
-            const data = JSON.parse(e.data);
-            if (data.type === "user_status") {
-                const el = document.getElementById(`state_user_${data.user_id}`);
-                if (el) {
-                    el.textContent = data.status === "online" ? "🟢 En línea" : "⚪ Desconectado";
+    presenceSocket.addEventListener("message", (e) => {
+        const data = JSON.parse(e.data);
+        if (data.type === "user_status") {
+            const el = document.getElementById(`state_user_${data.user_id}`);
+            if (el) {
+                if (data.status === "online") {
+                    el.classList.add("online");
+                    el.classList.remove("offline");
+                } else {
+                    el.classList.add("offline");
+                    el.classList.remove("online");
                 }
             }
-        });
+        }
     });
+});
+
 </script>
 {% endif %}
 
@@ -282,4 +287,3 @@
 
 <!--ICONOS-->
 <script src="{% static 'icons/icons.js' %}"></script>
-<link href="{% static 'icons/icons.js' %}" rel='stylesheet'/>

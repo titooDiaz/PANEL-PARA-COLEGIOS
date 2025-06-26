@@ -101,73 +101,44 @@ class ChatConsumer(AsyncWebsocketConsumer):
         msg.save()
         
 import json
-import asyncio
 import redis
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 r = redis.Redis()
-watchers = {}  # {user_id: set of channel_names watching this user}
+watchers = {}  # {user_id: set of channel_names}
+
 
 class PresenceConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope["user"]
-        self.channel_id = self.channel_name
+        self.channel_name_id = self.channel_name
 
         if not self.user.is_authenticated:
             await self.close()
             return
 
-        self.user_id = str(self.user.id)
         await self.accept()
 
-        # 🔼 Increment active connection count for this user
-        r.incr(f"user_connections_{self.user_id}")
-        r.set(f"user_online_{self.user_id}", "1", ex=60)
+        # Marcar usuario como en línea
+        r.set(f"user_online_{self.user.id}", "1", ex=60)
+        print(f"[CONNECT] {self.user.id} está en línea")
 
-        # 🟢 If this is the first connection, notify watchers
-        if r.get(f"user_connections_{self.user_id}") == b'1':
-            for watcher in watchers.get(self.user_id, set()):
-                await self.channel_layer.send(watcher, {
-                    "type": "user_status_update",
-                    "user_id": int(self.user_id),
-                    "status": "online",
-                })
+        for channel in watchers.get(str(self.user.id), set()):
+            await self.channel_layer.send(channel, {
+                "type": "user_status_update",
+                "user_id": self.user.id,
+                "status": "online",
+            })
 
-    async def disconnect(self, close_code):
-        # ⏳ Wait briefly to avoid false offline on page transitions
-        await asyncio.sleep(1)
-
-        remaining = r.decr(f"user_connections_{self.user_id}")
-
-        if remaining <= 0:
-            # 🔴 No more active connections: user is offline
-            r.delete(f"user_online_{self.user_id}")
-            r.delete(f"user_connections_{self.user_id}")
-
-            for watcher in watchers.get(self.user_id, set()):
-                await self.channel_layer.send(watcher, {
-                    "type": "user_status_update",
-                    "user_id": int(self.user_id),
-                    "status": "offline",
-                })
-
-        # 🧹 Clean up: remove this channel from all watch lists
-        for uid in list(watchers):
-            watchers[uid].discard(self.channel_id)
-            if not watchers[uid]:
-                watchers.pop(uid)
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-
         if data["type"] == "keep_alive":
-            # 🔁 Refresh TTL to keep user marked online
-            r.set(f"user_online_{self.user_id}", "1", ex=60)
+            r.set(f"user_online_{self.user.id}", "1", ex=60)
 
         elif data["type"] == "watch":
-            # 👁️ This client wants to watch another user's status
             target_id = str(data["user_id"])
-            watchers.setdefault(target_id, set()).add(self.channel_id)
+            watchers.setdefault(target_id, set()).add(self.channel_name)
 
             is_online = r.exists(f"user_online_{target_id}")
             await self.send(text_data=json.dumps({
@@ -176,10 +147,26 @@ class PresenceConsumer(AsyncWebsocketConsumer):
                 "status": "online" if is_online else "offline"
             }))
 
+    async def disconnect(self, close_code):
+        if self.user.is_authenticated:
+            r.delete(f"user_online_{self.user.id}")
+            print(f"[DISCONNECT] {self.user.username} offline")
+
+        for uid in list(watchers):
+            watchers[uid].discard(self.channel_name)
+            if not watchers[uid]:
+                watchers.pop(uid)
+
+        for channel in watchers.get(str(self.user.id), set()):
+            await self.channel_layer.send(channel, {
+                "type": "user_status_update",
+                "user_id": self.user.id,
+                "status": "offline"
+            })
+
     async def user_status_update(self, event):
-        # 🔔 Broadcast status change to a watcher
         await self.send(text_data=json.dumps({
             "type": "user_status",
             "user_id": event["user_id"],
-            "status": event["status"],
+            "status": event["status"]
         }))

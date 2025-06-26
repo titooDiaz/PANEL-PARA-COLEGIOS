@@ -22,11 +22,10 @@
         <div class="space-y-4 mt-2">
             <a href="?student_id={{ student.id }}">
                 <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
-                    <span id="state_user_{{ student.id }}" data-watch-user="{{ student.id }}">⚪ Desconectado</span>
                     <img src="{{ student.photo.url }}" alt="{{student.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
                     <div>
                         <h3 class="text-lg font-semibold text-gray-800">{{student.first_name}} {{student.last_name}}</h3>
-                        <p class="text-sm text-gray-600">Profesor</p>
+                        <span id="state_user_{{ student.id }}" data-watch-user="{{ student.id }}" class="status-dot offline"></span>
                     </div>
                 </div>
             </a>

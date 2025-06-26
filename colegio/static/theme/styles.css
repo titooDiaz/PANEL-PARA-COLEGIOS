@@ -1,0 +1,38 @@
+.status-dot {
+    position: relative;
+    display: inline-flex;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+  }
+  .status-dot.online::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #4ade80;
+    opacity: 0.75;
+    border-radius: 9999px;
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  .status-dot.online::after {
+    content: '';
+    position: relative;
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: #22c55e;
+    border-radius: 9999px;
+  }
+  .status-dot.offline::after {
+    content: '';
+    position: relative;
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: #9ca3af;
+    border-radius: 9999px;
+  }
+
+  @keyframes ping {
+    0% { transform: scale(1); opacity: 1; }
+    75%, 100% { transform: scale(2); opacity: 0; }
+  }
