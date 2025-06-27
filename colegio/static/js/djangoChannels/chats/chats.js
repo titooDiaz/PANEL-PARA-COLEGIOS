@@ -149,14 +149,46 @@ const statusIndicator = document.getElementById("status_indicator");
 
 let typingTimeout = null;
 
+let loadingOldMessages = false;
+let hasMorePages = true;
+let lastScrollTop = 0;
+
+function scrollHandler() {
+    const goingUp = scrollContainer.scrollTop < lastScrollTop;
+    const nearTop = scrollContainer.scrollTop <= 50;
+
+    if (goingUp && nearTop && !loadingOldMessages && hasMorePages) {
+        loadingOldMessages = true;
+
+        const oldestMessage = container.querySelector('[data-msg-id]');
+        const lastMessageId = oldestMessage?.dataset?.msgId || null;
+
+        console.log("📦 Cargando más mensajes antes del ID:", lastMessageId);
+
+        chatSocket.send(JSON.stringify({
+            type: "load_more",
+            before_id: lastMessageId,
+            sender_id: sender,
+            receiver_id: receiver
+        }));
+    }
+
+    lastScrollTop = scrollContainer.scrollTop;
+}
+
+scrollContainer.addEventListener('scroll', scrollHandler);
+
 // Listen to WebSocket messages
 // Listen to all socket messages
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
 
     if (data.type === "chat") {
-        // handle message normally
         const div = document.createElement('div');
+
+        // 🛠️ Aquí agregas el id del mensaje
+        div.dataset.msgId = data.id;
+
         div.className = data.sender_id == sender
             ? 'flex items-end justify-end space-x-2'
             : 'flex items-start space-x-2';
@@ -178,6 +210,7 @@ chatSocket.onmessage = function (e) {
                 ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
             </span>
         `;
+
         container.appendChild(div);
         scrollToBottom();
     }
@@ -205,6 +238,42 @@ chatSocket.onmessage = function (e) {
             }
         }
     }
+
+    if (data.type === "more") {
+        const scrollAntes = scrollContainer.scrollHeight;
+
+        data.messages.forEach(msg => {
+            const div = document.createElement('div');
+            div.className = msg.sender_id == sender
+                ? 'flex items-end justify-end space-x-2'
+                : 'flex items-start space-x-2';
+
+            div.innerHTML = `
+                ${msg.sender_id !== sender ? `<img src="${photo_url}" alt="Foto" class="w-8 h-8 rounded-full">` : ''}
+                <div class="${msg.sender_id === sender ? 'bg-gray-600 text-white' : 'bg-white'} rounded-lg p-3 shadow-md max-w-md">
+                    <p>${msg.message}</p>
+                </div>
+                <span class="text-gray-500 text-xs message-time">${msg.timestamp}</span>
+            `;
+
+            // 🛠️ Aquí marcas el ID correctamente
+            div.dataset.msgId = msg.id;
+
+            container.prepend(div);
+        });
+
+        const scrollDespues = scrollContainer.scrollHeight;
+        scrollContainer.scrollTop = scrollDespues - scrollAntes;
+
+        if (!data.has_next) {
+            console.log("🔥 No hay más mensajes que cargar.");
+            hasMorePages = false;
+        }
+
+        loadingOldMessages = false;
+    }
+
+
 
     if (data.type === "stop_typing") {
         if (data.user_id != sender) {

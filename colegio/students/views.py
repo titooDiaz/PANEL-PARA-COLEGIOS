@@ -11,6 +11,7 @@ from information.forms import *
 from .forms import *
 from users.forms import *
 from users.utils import is_user_online
+from django.core.paginator import Paginator
 
 # LIBRERIAS DE FECHAS
 from django.utils import timezone
@@ -272,15 +273,20 @@ class StudentMessages(View):
 
         selected_teacher_id = request.GET.get('teacher_id')
         selected_teacher = None
-        messages = None
+        messages = []
         form = ChatMessageForm()
 
         if selected_teacher_id:
             selected_teacher = get_object_or_404(CustomUserTeachers, pk=selected_teacher_id)
-            messages = ChatMessage.objects.filter(
+            all_messages = ChatMessage.objects.filter(
                 sender__in=[user, selected_teacher],
                 receiver__in=[user, selected_teacher]
-            ).order_by('sent_at')
+            ).order_by('-sent_at')
+
+            paginator = Paginator(all_messages, 25)
+            page = paginator.get_page(1)
+            messages = list(page.object_list)[::-1]
+
         context = {
             'vista': 'estudiante',
             'abierto': 'mensajes',
@@ -291,7 +297,7 @@ class StudentMessages(View):
             'form': form,
         }
         return render(request, 'users/student/messages/messages.html', context)
-    
+
 class StudentPeople(View):
     def get(self, request, *args, **kwargs):
         vista = 'estudiante'

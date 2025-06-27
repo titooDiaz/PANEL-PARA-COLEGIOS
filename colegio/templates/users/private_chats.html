@@ -99,26 +99,27 @@
         <div id="messages-container" class="flex-1 overflow-y-auto p-4 bg-gray-200 rounded-lg">
             <div id="chat-box" class="space-y-4">
                 {% for msg in messages_users %}
-                {% if msg.sender == request.user %}
-                <div class="flex items-end justify-end space-x-2">
-                    <div class="bg-gray-600 text-white rounded-lg p-3 shadow-md max-w-md">
-                        <p>{{ msg.content }}</p>
-                        {% if msg.file %}<a href="{{ msg.file.url }}">📎 Ver archivo</a>{% endif %}
-                    </div>
-                    <span class="text-gray-500 text-xs message-time">{{ msg.sent_at|date:"H:i" }}</span>
-                </div>
-                {% else %}
-                <div class="flex items-start space-x-2">
-                    <img src="{{ selected_user.photo.url }}" alt="{{ selected_user.username }}" class="w-8 h-8 rounded-full">
-                    <div class="bg-white rounded-lg p-3 shadow-md max-w-md">
-                        <p>{{ msg.content }}</p>
-                        {% if msg.file %}<a href="{{ msg.file.url }}">📎 Ver archivo</a>{% endif %}
-                    </div>
-                    <span class="text-gray-500 text-xs message-time">{{ msg.sent_at|date:"H:i" }}</span>
-                </div>
-                {% endif %}
+                    {% if msg.sender == request.user %}
+                        <div class="flex items-end justify-end space-x-2" data-msg-id="{{ msg.id }}">
+                            <div class="bg-gray-600 text-white rounded-lg p-3 shadow-md max-w-md">
+                                <p>{{ msg.content }}</p>
+                                {% if msg.file %}<a href="{{ msg.file.url }}">📎 Ver archivo</a>{% endif %}
+                            </div>
+                            <span class="text-gray-500 text-xs message-time">{{ msg.sent_at|date:"H:i" }}</span>
+                        </div>
+                    {% else %}
+                        <div class="flex items-start space-x-2" data-msg-id="{{ msg.id }}">
+                            <img src="{{ selected_user.photo.url }}" alt="{{ selected_user.username }}" class="w-8 h-8 rounded-full">
+                            <div class="bg-white rounded-lg p-3 shadow-md max-w-md">
+                                <p>{{ msg.content }}</p>
+                                {% if msg.file %}<a href="{{ msg.file.url }}">📎 Ver archivo</a>{% endif %}
+                            </div>
+                            <span class="text-gray-500 text-xs message-time">{{ msg.sent_at|date:"H:i" }}</span>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
+
         </div>
 
         <div class="bg-white border-2 border-gray-400 rounded-lg p-4">

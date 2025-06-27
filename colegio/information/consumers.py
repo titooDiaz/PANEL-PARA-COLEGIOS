@@ -3,6 +3,10 @@ import json
 from .models import ChatMessage
 from users.models import CustomUser
 from asgiref.sync import sync_to_async
+# load messages with scroll!
+from django.core.paginator import Paginator
+from channels.db import database_sync_to_async
+from django.db.models import Q
 
 import redis
 r = redis.Redis()
@@ -12,68 +16,107 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = f"chat_{self.room_name}"
 
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
-
+        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
-        
-    async def disconnect(self, close_code):
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
 
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-        message_type = data.get("type")  # default is chat
-        # Handle typing indicator
+        message_type = data.get("type")
+
         if message_type == "typing":
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    "type": "typing_indicator",
-                    "user_id": data["sender_id"]
-                }
-            )
+            await self.channel_layer.group_send(self.room_group_name, {
+                "type": "typing_indicator",
+                "user_id": data["sender_id"]
+            })
 
         elif message_type == "stop_typing":
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    "type": "stop_typing_indicator",
-                    "user_id": data["sender_id"]
-                }
-            )
+            await self.channel_layer.group_send(self.room_group_name, {
+                "type": "stop_typing_indicator",
+                "user_id": data["sender_id"]
+            })
 
         elif message_type == "chat":
+            sender_id = int(data["sender_id"])
+            receiver_id = int(data["receiver_id"])
             message = data["message"]
-            sender_id = data["sender_id"]
-            receiver_id = data["receiver_id"]
-            file_data = data.get("file")  # Optional file data
+            file_data = data.get("file")
 
-            # Save message to DB
-            await self.save_message(sender_id, receiver_id, message, file_data)
+            msg = await self.save_message(sender_id, receiver_id, message, file_data)
 
-            # Broadcast message to room
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    "type": "chat_message",
-                    "message": message,
-                    "sender_id": sender_id,
-                    "file": file_data
-                }
-            )
+            # Enviamos mensaje con ID incluido
+            await self.channel_layer.group_send(self.room_group_name, {
+                "type": "chat_message",
+                "message": msg["message"],
+                "sender_id": msg["sender_id"],
+                "file": msg.get("file"),
+                "id": msg["id"]
+            })
+
+        elif message_type == "load_more":
+            sender_id = int(data["sender_id"])
+            receiver_id = int(data["receiver_id"])
+            before_id = data.get("before_id")
+
+            messages = await self.get_messages_before(sender_id, receiver_id, before_id)
+            has_next = len(messages) == 25
+
+            await self.send(text_data=json.dumps({
+                "type": "more",
+                "messages": messages,
+                "has_next": has_next
+            }))
+
+    # 🧠 Esta función ya devuelve los mensajes como diccionarios
+    @database_sync_to_async
+    def get_messages_before(self, sender_id, receiver_id, before_id):
+        sender = CustomUser.objects.get(id=sender_id)
+        receiver = CustomUser.objects.get(id=receiver_id)
+
+        qs = ChatMessage.objects.filter(
+            Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender)
+        ).order_by("-id")  # Usa "-sent_at" si prefieres
+
+        if before_id:
+            qs = qs.filter(id__lt=before_id)
+
+        messages = list(qs[:25])
+        return [{
+            "message": m.content,
+            "sender_id": m.sender.id,
+            "timestamp": m.sent_at.strftime("%H:%M"),
+            "id": m.id
+        } for m in messages]
+
+    # ✅ Devuelve un dict para reutilizarlo directamente
+    @sync_to_async
+    def save_message(self, sender_id, receiver_id, message, file_data):
+        sender = CustomUser.objects.get(id=sender_id)
+        receiver = CustomUser.objects.get(id=receiver_id)
+        msg = ChatMessage(sender=sender, receiver=receiver, content=message)
+
+        if file_data:
+            relative_path = file_data['url'].replace('/media/', '')
+            msg.file.name = relative_path
+
+        msg.save()
+
+        return {
+            "id": msg.id,
+            "message": msg.content,
+            "sender_id": sender.id,
+            "file": file_data
+        }
 
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({
             "type": "chat",
             "message": event["message"],
             "sender_id": event["sender_id"],
-            "file": event.get("file")
+            "file": event.get("file"),
+            "id": event["id"]
         }))
 
     async def typing_indicator(self, event):
@@ -88,18 +131,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "user_id": event["user_id"]
         }))
 
-    @sync_to_async
-    def save_message(self, sender_id, receiver_id, message, file_data):
-        sender = CustomUser.objects.get(id=sender_id)
-        receiver = CustomUser.objects.get(id=receiver_id)
-        msg = ChatMessage(sender=sender, receiver=receiver, content=message)
-
-        if file_data:
-            relative_path = file_data['url'].replace('/media/', '')
-            msg.file.name = relative_path
-
-        msg.save()
-        
 import json
 import redis
 from channels.generic.websocket import AsyncWebsocketConsumer
