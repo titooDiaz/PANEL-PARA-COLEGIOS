@@ -182,10 +182,6 @@ chatSocket.onmessage = function (e) {
         scrollToBottom();
     }
 
-    if (data.type === "status") {
-        statusIndicator.textContent = data.status === "online" ? "🟢 Online" : "⚪ Offline";
-    }
-
     if (data.type === "typing") {
         if (data.user_id != sender) {
             const styleExists = document.getElementById('typing-style');
@@ -197,10 +193,10 @@ chatSocket.onmessage = function (e) {
                 div.innerHTML = `
                     <img src="${photo_url}" alt="Foto" class="w-8 h-8 rounded-full">
                     <div class="bg-white rounded-lg p-3 shadow-md max-w-md">
-                        <div class="flex space-x-1 items-end mt-1">
-                            <div class="w-2 h-2 bg-orange-600 rounded-full typing-dot"></div>
-                            <div class="w-2 h-2 bg-orange-600 rounded-full typing-dot"></div>
-                            <div class="w-2 h-2 bg-orange-600 rounded-full typing-dot"></div>
+                        <div class="flex space-x-1 items-end">
+                            <div class="typing-dot w-3 h-3 bg-orange-600 rounded-full"></div>
+                            <div class="typing-dot w-3 h-3 bg-orange-600 rounded-full"></div>
+                            <div class="typing-dot w-3 h-3 bg-orange-600 rounded-full"></div>
                         </div>
                     </div>
                 `;

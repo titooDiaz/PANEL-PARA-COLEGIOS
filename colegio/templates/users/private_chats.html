@@ -4,7 +4,7 @@
 
 {% extends 'base.html' %}
 {% load static %}
-
+{% load tailwind_tags %}
 {% block content %}
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,19 +56,6 @@
             .rounded-lg {
                 margin: 0.3rem;
             }
-    </style>
-
-    <style>
-        @keyframes bounce {
-        0%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-10px); }
-        }
-        .typing-dot {
-        display: inline-block;
-        animation: bounce 1.2s infinite;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
     </style>
 </head>
 

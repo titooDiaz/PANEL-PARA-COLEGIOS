@@ -1,33 +1,32 @@
 module.exports = {
     content: [
-        '../templates/**/*.html',
-
         '../../templates/**/*.html',
+        './templates/**/*.html',
 
         '../../**/templates/**/*.html',
     ],
     theme: {
         extend: {
             keyframes: {
-            'pulse-soft': {
-                '0%, 100%': { transform: 'scale(1)', opacity: '0.5' },
-                '50%': { transform: 'scale(1.4)', opacity: '0.1' },
-            },
-            'typing': {
+                // Tu rebote de “typing-dot”
+                bounceDot: {
                 '0%, 80%, 100%': { transform: 'translateY(0)' },
-                '40%': { transform: 'translateY(-6px)' }
-            },
-            'fade': {
-                '0%': { opacity: 0 },
-                '100%': { opacity: 1 },
-            }
+                '40%':           { transform: 'translateY(-10px)' },
+                },
+                // El “ping” para el punto de estado
+                pingCustom: {
+                '0%':   { transform: 'scale(1); opacity: 1' },
+                '75%,100%': { transform: 'scale(2); opacity: 0' },
+                },
             },
             animation: {
-            'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'typing-bounce': 'typing 1.2s infinite',
-            'fade-in': 'fade 0.5s ease-in-out',
-            'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
-            }
+                // Animaciones typing-dot
+                'bounce-dot':         'bounceDot 1.2s infinite',
+                'bounce-dot-delay-1': 'bounceDot 1.2s infinite 0.2s',
+                'bounce-dot-delay-2': 'bounceDot 1.2s infinite 0.4s',
+                // Animación ping para status-dot
+                'ping-custom':        'pingCustom 1s cubic-bezier(0,0,0.2,1) infinite',
+            },
         },
     },
 
