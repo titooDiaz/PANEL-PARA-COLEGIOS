@@ -283,7 +283,7 @@ class StudentMessages(View):
                 receiver__in=[user, selected_teacher]
             ).order_by('-sent_at')
 
-            paginator = Paginator(all_messages, 25)
+            paginator = Paginator(all_messages, 15)
             page = paginator.get_page(1)
             messages = list(page.object_list)[::-1]
 

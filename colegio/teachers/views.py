@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 # Django class-based views
 from django.views.generic import TemplateView, View
 
+from django.core.paginator import Paginator
+
 # Import models related to subjects, grades, activities, schedules, and ratings
 from information.models import (
     Subjects, Grade, Activities, File, ActivitiesType, StudentResponse, 
@@ -457,15 +459,20 @@ class ProfessorMessages(View):
 
         selected_student_id = request.GET.get('student_id')
         selected_student = None
-        messages = None
+        messages = []
         form = ChatMessageForm()
 
         if selected_student_id:
             selected_student = get_object_or_404(CustomUserStudent, pk=selected_student_id)
-            messages = ChatMessage.objects.filter(
+
+            chat_qs = ChatMessage.objects.filter(
                 sender__in=[user, selected_student],
                 receiver__in=[user, selected_student]
-            ).order_by('sent_at')
+            ).order_by('-sent_at')
+
+            paginator = Paginator(chat_qs, 25)
+            first_page = paginator.page(1)
+            messages = list(first_page.object_list)[::-1]  # ⚠️ Importante para que el scroll funcione bien
 
         context = {
             'vista': 'profesores',
