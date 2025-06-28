@@ -7,6 +7,7 @@ from asgiref.sync import sync_to_async
 from django.core.paginator import Paginator
 from channels.db import database_sync_to_async
 from django.db.models import Q
+import mimetypes
 
 import redis
 r = redis.Redis()
@@ -69,7 +70,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "has_next": has_next
             }))
 
-    # 🧠 Esta función ya devuelve los mensajes como diccionarios
+
     @database_sync_to_async
     def get_messages_before(self, sender_id, receiver_id, before_id):
         sender = CustomUser.objects.get(id=sender_id)
@@ -77,20 +78,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         qs = ChatMessage.objects.filter(
             Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender)
-        ).order_by("-id")  # Usa "-sent_at" si prefieres
+        ).order_by("-id")
 
         if before_id:
             qs = qs.filter(id__lt=before_id)
 
         messages = list(qs[:25])
+
         return [{
             "message": m.content,
             "sender_id": m.sender.id,
             "timestamp": m.sent_at.strftime("%H:%M"),
-            "id": m.id
+            "id": m.id,
+            "file": {
+                "url": m.file.url,
+                "type": mimetypes.guess_type(m.file.url)[0]
+            } if m.file else None
         } for m in messages]
 
-    # ✅ Devuelve un dict para reutilizarlo directamente
+
     @sync_to_async
     def save_message(self, sender_id, receiver_id, message, file_data):
         sender = CustomUser.objects.get(id=sender_id)

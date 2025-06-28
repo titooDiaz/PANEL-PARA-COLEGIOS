@@ -248,15 +248,23 @@ chatSocket.onmessage = function (e) {
                 ? 'flex items-end justify-end space-x-2'
                 : 'flex items-start space-x-2';
 
+            // Verifica si el mensaje tiene archivo
+            let fileHtml = '';
+            if (msg.file) {
+                const fileUrl = msg.file.url;
+                const fileType = msg.file.type;
+                fileHtml = `<a href="${fileUrl}" target="_blank" class="block mt-2 text-blue-500 underline">📎 Ver archivo</a>`;
+            }
+
             div.innerHTML = `
                 ${msg.sender_id !== sender ? `<img src="${photo_url}" alt="Foto" class="w-8 h-8 rounded-full">` : ''}
                 <div class="${msg.sender_id === sender ? 'bg-gray-600 text-white' : 'bg-white'} rounded-lg p-3 shadow-md max-w-md">
                     <p>${msg.message}</p>
+                    ${fileHtml}
                 </div>
                 <span class="text-gray-500 text-xs message-time">${msg.timestamp}</span>
             `;
 
-            // 🛠️ Aquí marcas el ID correctamente
             div.dataset.msgId = msg.id;
 
             container.prepend(div);
@@ -266,12 +274,12 @@ chatSocket.onmessage = function (e) {
         scrollContainer.scrollTop = scrollDespues - scrollAntes;
 
         if (!data.has_next) {
-            console.log("🔥 No hay más mensajes que cargar.");
             hasMorePages = false;
         }
 
         loadingOldMessages = false;
     }
+
 
 
 
