@@ -52,3 +52,5 @@ colegio/staticfiles/
 # ================================
 colegio/media/respuesta_estudiantes_actividades/
 colegio/media/chat_files
+colegio/192.168.1.58-key.pem
+colegio/192.168.1.58.pem
