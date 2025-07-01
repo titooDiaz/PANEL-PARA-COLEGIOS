@@ -1,3 +1,83 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .SkolaghButton-red {
+    @apply font-semibold text-white px-2 rounded-lg bg-red-600 
+           border-l border-r border-t border-4 border-red-800 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-blue {
+    @apply font-semibold text-white px-2 rounded-lg bg-blue-600 
+           border-l border-r border-t border-4 border-blue-800 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-green {
+    @apply font-semibold text-white px-2 rounded-lg bg-green-600 
+           border-l border-r border-t border-4 border-green-800 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-yellow {
+    @apply font-semibold text-black px-2 rounded-lg bg-yellow-400 
+           border-l border-r border-t border-4 border-yellow-600 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-purple {
+    @apply font-semibold text-white px-2 rounded-lg bg-purple-600 
+           border-l border-r border-t border-4 border-purple-800 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-pink {
+    @apply font-semibold text-white px-2 rounded-lg bg-pink-500 
+           border-l border-r border-t border-4 border-pink-700 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-gray {
+    @apply font-semibold text-white px-2 rounded-lg bg-gray-600 
+           border-l border-r border-t border-4 border-gray-800 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-cyan {
+    @apply font-semibold text-white px-2 rounded-lg bg-cyan-500 
+           border-l border-r border-t border-4 border-cyan-700 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-teal {
+    @apply font-semibold text-white px-2 rounded-lg bg-teal-500 
+           border-l border-r border-t border-4 border-teal-700 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-lime {
+    @apply font-semibold text-black px-2 rounded-lg bg-lime-400 
+           border-l border-r border-t border-4 border-lime-600 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-indigo {
+    @apply font-semibold text-white px-2 rounded-lg bg-indigo-600 
+           border-l border-r border-t border-4 border-indigo-800 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-rose {
+    @apply font-semibold text-white px-2 rounded-lg bg-rose-500 
+           border-l border-r border-t border-4 border-rose-700 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+
+  .SkolaghButton-orange {
+    @apply font-semibold text-white px-2 rounded-lg bg-orange-600 
+           border-l border-r border-t border-4 border-orange-800 
+           focus:border focus:mt-1 w-full py-2 text-center text-lg;
+  }
+}
