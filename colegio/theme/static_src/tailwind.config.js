@@ -27,6 +27,9 @@ module.exports = {
                 // Animación ping para status-dot
                 'ping-custom':        'pingCustom 1s cubic-bezier(0,0,0.2,1) infinite',
             },
+            height: {
+            'screen-minus-16': 'calc(100dvh - 64px)',
+            },
         },
     },
 

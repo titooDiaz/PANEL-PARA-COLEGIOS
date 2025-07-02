@@ -10,6 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mensajes{% endblock %}</title>
     <style>
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         .message-time {
             font-size: 0.7rem;
             margin-top: 0.8rem;
@@ -56,11 +62,21 @@
             .rounded-lg {
                 margin: 0.3rem;
             }
+
+            .h-screen-chat {
+                height: 82dvh;
+            }
+            @media (min-width: 1024px) {
+            .h-screen-chat {
+                height: 88dvh;
+            }
+            }
+
     </style>
 </head>
 
-<div class="bg-white flex flex-col lg:flex-row lg:gap-6 h-[84vh] lg:h-[88vh]">
-    <div id="contacts" class="lg:p-0 w-[90%] max-w-sm mx-auto lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-[84vh] lg:h-[88vh] left-0 right-0">
+<div class="bg-white flex flex-col lg:flex-row lg:gap-6">
+    <div id="contacts" class="lg:p-0 w-[90%] max-w-sm mx-auto lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-screen-chat lg:h-[88vh] left-0 right-0">
         <div class="flex-1 overflow-y-auto bg-gray-200 rounded-lg">
 
             {% block chat_header %}
@@ -71,7 +87,7 @@
         </div>
     </div>
 
-    <div class="w-full flex flex-col m-0 h-[84vh] lg:h-[88vh]">
+    <div class="flex flex-col h-screen-chat lg:h-[88vh]">
         {% if selected_user %}
         <div class="bg-gray-600 text-white p-4 rounded-lg flex justify-between">
             <div class="flex items-center space-x-4">
