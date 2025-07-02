@@ -59,9 +59,9 @@
     </style>
 </head>
 
-<div class="bg-white flex flex-col lg:flex-row h-[84vh] lg:h-[88vh]">
-    <div id="contacts" class="p-4 lg:p-0 w-[70%] lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-[84vh] lg:h-[88vh]">
-        <div class="bg-gray-200 rounded-xl w-full overflow-y-auto h-full">
+<div class="bg-white flex flex-col lg:flex-row lg:gap-6 h-[84vh] lg:h-[88vh]">
+    <div id="contacts" class="lg:p-0 w-[90%] max-w-sm mx-auto lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-[84vh] lg:h-[88vh] left-0 right-0">
+        <div class="flex-1 overflow-y-auto bg-gray-200 rounded-lg">
 
             {% block chat_header %}
             {% endblock %}
@@ -71,8 +71,7 @@
         </div>
     </div>
 
-
-    <div class="w-full flex flex-col lg:ml-4 h-[84vh] lg:h-[88vh]">
+    <div class="w-full flex flex-col m-0 h-[84vh] lg:h-[88vh]">
         {% if selected_user %}
         <div class="bg-gray-600 text-white p-4 rounded-lg flex justify-between">
             <div class="flex items-center space-x-4">
