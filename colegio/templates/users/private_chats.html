@@ -76,7 +76,7 @@
 </head>
 
 <div class="bg-white flex flex-col lg:flex-row lg:gap-6">
-    <div id="contacts" class="lg:p-0 w-[90%] max-w-sm mx-auto lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-screen-chat lg:h-[88vh] left-0 right-0">
+    <div id="contacts" class="lg:p-0 w-[90%] mx-auto lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-screen-chat lg:h-[88vh] left-0 right-0">
         <div class="flex-1 overflow-y-auto bg-gray-200 rounded-lg">
 
             {% block chat_header %}
@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <div class="flex flex-col h-screen-chat lg:h-[88vh]">
+    <div class="flex flex-col h-screen-chat w-full lg:h-[88vh]">
         {% if selected_user %}
         <div class="bg-gray-600 text-white p-4 rounded-lg flex justify-between">
             <div class="flex items-center space-x-4">
@@ -141,7 +141,7 @@
                                         <a href="{{ msg.file.url }}" target="_blank" class="block mt-2 text-blue-300 underline text-sm">📎 Ver archivo</a>
                                     {% endif %}
                                 </div>
-                                <div class="action-buttons absolute top-1 right-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
+                                <div class="action-buttons absolute top-1 left-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
                                     <button class="text-sm text-yellow-600 hover:bg-yellow-100 p-1 rounded-full" onclick="replyToMessage('{{ msg.id }}')">↩️</button>
                                     <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('{{ msg.id }}')">⭐</button>
                                 </div>
@@ -198,6 +198,7 @@
 </style>
 
 <script>
+    // 📌 Global click handler: Hide all action buttons if click is outside any message
     document.addEventListener('click', (e) => {
         if (!e.target.closest('[data-msg-id]')) {
             document.querySelectorAll('.action-buttons').forEach(b => b.classList.remove('show'));
@@ -205,54 +206,64 @@
         }
     });
 
+    // 🧠 Setup message interactions (click + long press)
     function setupMessageInteractions() {
         document.querySelectorAll('[data-msg-id]').forEach(div => {
             let timeout = null;
+
+            // Find the message wrapper and associated action buttons
             const wrapper = div.closest('.message-wrapper') || div;
             const buttons = wrapper.querySelector('.action-buttons');
 
-            // Click or Tap
+            // 🖱️ Handle click or tap on message
             div.addEventListener('click', () => toggleButtons(buttons, wrapper));
 
-            // Long press (mobile)
+            // 📱 Handle long press (touch devices)
             div.addEventListener('touchstart', () => {
-                timeout = setTimeout(() => toggleButtons(buttons, wrapper), 500);
+                timeout = setTimeout(() => toggleButtons(buttons, wrapper), 500); // 500ms = long press
             });
             div.addEventListener('touchend', () => clearTimeout(timeout));
             div.addEventListener('touchmove', () => clearTimeout(timeout));
         });
     }
 
+    // ✨ Toggle visibility of action buttons for a specific message
     function toggleButtons(buttons, wrapper) {
         if (!buttons) return;
 
         const isVisible = buttons.classList.contains('show');
 
-        // hidden all
+        // 🧹 Hide all currently visible buttons and deselect messages
         document.querySelectorAll('.action-buttons').forEach(b => b.classList.remove('show'));
         document.querySelectorAll('.message-wrapper').forEach(m => m.classList.remove('selected'));
 
-        // show if is hidden
+        // 🎯 Show buttons if they were hidden
         if (!isVisible) {
             buttons.classList.add('show');
             wrapper.classList.add('selected');
 
-            // vibrate
+            // 📳 Haptic feedback (vibration) for supported devices
             navigator.vibrate?.([40]);
         }
     }
 
+    // 🚀 Initialize interactions once the DOM is fully loaded
     document.addEventListener('DOMContentLoaded', setupMessageInteractions);
 </script>
+
+
         <div class="bg-white border-2 border-gray-400 rounded-lg p-4">
             <form id="chat-form" enctype="multipart/form-data">
                 {% csrf_token %}
+                <span id="file_name" class="ml-2 text-sm text-gray-500 hidden lg:flex"></span>
                 <div class="flex items-center space-x-4">
+                    
                     {{ form.content }}
                     {{ form.file }}
-                    <div class="mt-2">
-                        <label for="file_input" class="cursor-pointer text-blue-600 hover:underline">
-                            📎
+
+                    <div class="flex items-center">
+                        <label for="file_input" class="cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center">
+                            <div class="w-6 h-6 bg-gray-600 mask-icon" data-icon="{% static 'icons/files/file.svg' %}"></div>
                         </label>
                         <span id="file_name" class="ml-2 text-sm text-gray-500"></span>
                     </div>
@@ -324,4 +335,7 @@
 </div>
 <script src="{% static 'js/djangoChannels/chats/chats.js' %}"></script>
 </html>
+
+<script src="{% static 'icons/icons.js' %}"></script>
+<link href="{% static 'icons/icons.css' %}" rel='stylesheet'/>
 {% endblock content %}

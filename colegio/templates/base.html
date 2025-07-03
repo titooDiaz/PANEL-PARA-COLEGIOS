@@ -240,7 +240,7 @@ presenceSocket.onopen = () => {
     console.log("🔌 Presencia conectada");
 };
 
-// Keep-alive cada 30 seg
+// Keep-alive each 30 s
 setInterval(() => {
     if (presenceSocket.readyState === WebSocket.OPEN) {
         presenceSocket.send(JSON.stringify({ type: "keep_alive" }));
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // Espera a que esté listo
+    // wait to be ready
     if (presenceSocket.readyState === WebSocket.OPEN) {
         sendWatchRequests();
     } else {
@@ -286,8 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 <!--LETRAS ZOOM-->
-<script src="{% static 'js/zoom_letras.js' %}"></script>
-<link rel="stylesheet" href="{% static 'css/zoom_letras.css' %}">
+<script src="{% static 'js/user_experience/zoom_letters.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/user_experience/zoom_letters.css' %}">
 
 <!--ICONOS-->
 <script src="{% static 'icons/icons.js' %}"></script>

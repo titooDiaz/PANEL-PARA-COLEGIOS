@@ -86,7 +86,6 @@ const receiver = document.getElementById('receiver').textContent.trim();
 
 const csrfToken = document.getElementById('secret_token').textContent.trim();
 const url_chat_file = document.getElementById('url_chat_file').textContent;
-const photo_url = document.getElementById('photo_url').textContent;
 const protocol1 = window.location.protocol === "https:" ? "wss" : "ws";
 const chatSocket = new WebSocket(
     `${protocol1}://${window.location.host}/ws/chat/${user1Id}_${user2Id}/`
@@ -163,8 +162,6 @@ function scrollHandler() {
         const oldestMessage = container.querySelector('[data-msg-id]');
         const lastMessageId = oldestMessage?.dataset?.msgId || null;
 
-        console.log("📦 Cargando más mensajes antes del ID:", lastMessageId);
-
         chatSocket.send(JSON.stringify({
             type: "load_more",
             before_id: lastMessageId,
@@ -186,34 +183,68 @@ chatSocket.onmessage = function (e) {
     if (data.type === "chat") {
         const div = document.createElement('div');
 
-        // 🛠️ Aquí agregas el id del mensaje
+        // 🆔 Assign message ID for interaction detection
         div.dataset.msgId = data.id;
 
-        div.className = data.sender_id == sender
-            ? 'flex items-end justify-end space-x-2'
-            : 'flex items-start space-x-2';
+        const isSender = data.sender_id == sender;
 
+        // 📎 Add file link if there's a file
         let fileHtml = '';
         if (data.file) {
             const fileUrl = data.file.url;
-            const fileType = data.file.type;
-            fileHtml = `<a href="${fileUrl}" target="_blank" class="block mt-2 text-blue-500 underline">📎 Ver archivo</a>`;
+            fileHtml = `<a href="${fileUrl}" target="_blank" class="block mt-2 text-blue-500 underline text-sm">📎 View file</a>`;
         }
 
+        // 🛠️ Define action buttons depending on the sender
+        const actionButtons = isSender
+            ? `
+            <div class="action-buttons absolute top-1 right-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
+                <button class="text-sm text-red-600 hover:bg-red-100 p-1 rounded-full" onclick="deleteMessage('${data.id}')">🗑️</button>
+                <button class="text-sm text-yellow-600 hover:bg-yellow-100 p-1 rounded-full" onclick="replyToMessage('${data.id}')">↩️</button>
+                <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('${data.id}')">⭐</button>
+            </div>`
+            : `
+            <div class="action-buttons absolute top-1 left-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
+                <button class="text-sm text-yellow-600 hover:bg-yellow-100 p-1 rounded-full" onclick="replyToMessage('${data.id}')">↩️</button>
+                <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('${data.id}')">⭐</button>
+            </div>`;
+
+        // 💬 Construct the message wrapper
+        div.className = `message-wrapper relative ${isSender ? 'flex items-end justify-end space-x-2' : 'flex items-start space-x-2'}`;
+
         div.innerHTML = `
-            ${data.sender_id !== sender ? `<img src="${photo_url}" alt="Foto" class="w-8 h-8 rounded-full">` : ''}
-            <div class="${data.sender_id === sender ? 'bg-gray-600 text-white' : 'bg-white'} rounded-lg p-3 shadow-md max-w-md">
-                <p>${data.message}</p>
+            <div class="${isSender ? 'bg-gray-600 text-white' : 'bg-white'} message-content rounded-lg p-3 shadow-md max-w-md">
+                <div class="no-select-overlay"></div>
+                <p class="break-words">${data.message}</p>
                 ${fileHtml}
             </div>
-            <span class="text-gray-500 text-xs message-time">
+            ${actionButtons}
+            <span class="block text-right text-xs text-gray-400 mt-1 mr-2">
                 ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
             </span>
         `;
 
+        // ⬇️ Append the new message to the chat container
         container.appendChild(div);
         scrollToBottom();
+
+        // 🧠 Apply interaction logic to this new message only
+        const wrapper = div.closest('.message-wrapper') || div;
+        const buttons = wrapper.querySelector('.action-buttons');
+
+        let timeout = null;
+
+        // 🖱️ Click (desktop)
+        div.addEventListener('click', () => toggleButtons(buttons, wrapper));
+
+        // 📱 Long press (mobile)
+        div.addEventListener('touchstart', () => {
+            timeout = setTimeout(() => toggleButtons(buttons, wrapper), 500);
+        });
+        div.addEventListener('touchend', () => clearTimeout(timeout));
+        div.addEventListener('touchmove', () => clearTimeout(timeout));
     }
+
 
     if (data.type === "typing") {
         if (data.user_id != sender) {
@@ -224,14 +255,12 @@ chatSocket.onmessage = function (e) {
                 div.id = 'typing-bubbles';
                 div.className = 'flex items-start space-x-2';
                 div.innerHTML = `
-                    <img src="${photo_url}" alt="Foto" class="w-8 h-8 rounded-full">
                     <div class="bg-white rounded-lg p-3 shadow-md max-w-md">
                         <div class="flex space-x-1 items-end">
                             <div class="typing-dot w-3 h-3 bg-orange-600 rounded-full"></div>
                             <div class="typing-dot w-3 h-3 bg-orange-600 rounded-full"></div>
                             <div class="typing-dot w-3 h-3 bg-orange-600 rounded-full"></div>
                         </div>
-                    </div>
                 `;
                 container.appendChild(div);
                 scrollToBottom();
@@ -240,45 +269,82 @@ chatSocket.onmessage = function (e) {
     }
 
     if (data.type === "more") {
-        const scrollAntes = scrollContainer.scrollHeight;
+        // 📏 Store current scroll height before adding old messages
+        const scrollBefore = scrollContainer.scrollHeight;
 
         data.messages.forEach(msg => {
             const div = document.createElement('div');
-            div.className = msg.sender_id == sender
-                ? 'flex items-end justify-end space-x-2'
-                : 'flex items-start space-x-2';
 
-            // Verifica si el mensaje tiene archivo
+            // 🆔 Assign message ID for click detection
+            div.dataset.msgId = msg.id;
+
+            const isSender = msg.sender_id == sender;
+
+            // 🎯 Apply layout depending on sender
+            div.className = `message-wrapper relative ${isSender ? 'flex items-end justify-end space-x-2' : 'flex items-start space-x-2'}`;
+
+            // 📎 Generate file link if there's a file
             let fileHtml = '';
             if (msg.file) {
                 const fileUrl = msg.file.url;
-                const fileType = msg.file.type;
-                fileHtml = `<a href="${fileUrl}" target="_blank" class="block mt-2 text-blue-500 underline">📎 Ver archivo</a>`;
+                fileHtml = `<a href="${fileUrl}" target="_blank" class="block mt-2 text-blue-500 underline text-sm">📎 View file</a>`;
             }
 
+            // 🛠️ Add action buttons (depends on sender)
+            const actionButtons = isSender
+                ? `
+                <div class="action-buttons absolute top-1 right-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
+                    <button class="text-sm text-red-600 hover:bg-red-100 p-1 rounded-full" onclick="deleteMessage('${msg.id}')">🗑️</button>
+                    <button class="text-sm text-yellow-600 hover:bg-yellow-100 p-1 rounded-full" onclick="replyToMessage('${msg.id}')">↩️</button>
+                    <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('${msg.id}')">⭐</button>
+                </div>`
+                : `
+                <div class="action-buttons absolute top-1 left-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
+                    <button class="text-sm text-yellow-600 hover:bg-yellow-100 p-1 rounded-full" onclick="replyToMessage('${msg.id}')">↩️</button>
+                    <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('${msg.id}')">⭐</button>
+                </div>`;
+
+            // 💬 Build message content
             div.innerHTML = `
-                ${msg.sender_id !== sender ? `<img src="${photo_url}" alt="Foto" class="w-8 h-8 rounded-full">` : ''}
-                <div class="${msg.sender_id === sender ? 'bg-gray-600 text-white' : 'bg-white'} rounded-lg p-3 shadow-md max-w-md">
-                    <p>${msg.message}</p>
+                <div class="${isSender ? 'bg-gray-600 text-white' : 'bg-white'} message-content rounded-lg p-3 shadow-md max-w-md">
+                    <div class="no-select-overlay"></div>
+                    <p class="break-words">${msg.message}</p>
                     ${fileHtml}
                 </div>
-                <span class="text-gray-500 text-xs message-time">${msg.timestamp}</span>
+                ${actionButtons}
+                <span class="block text-right text-xs text-gray-400 mt-1 mr-2">
+                    ${msg.timestamp}
+                </span>
             `;
 
-            div.dataset.msgId = msg.id;
-
+            // ⬆️ Prepend old message to the container
             container.prepend(div);
+
+            // 🧠 Apply interaction logic (click + long press)
+            let timeout = null;
+            const wrapper = div;
+            const buttons = wrapper.querySelector('.action-buttons');
+
+            div.addEventListener('click', () => toggleButtons(buttons, wrapper));
+            div.addEventListener('touchstart', () => {
+                timeout = setTimeout(() => toggleButtons(buttons, wrapper), 500);
+            });
+            div.addEventListener('touchend', () => clearTimeout(timeout));
+            div.addEventListener('touchmove', () => clearTimeout(timeout));
         });
 
-        const scrollDespues = scrollContainer.scrollHeight;
-        scrollContainer.scrollTop = scrollDespues - scrollAntes;
+        // 🧮 Restore scroll position to avoid jumping
+        const scrollAfter = scrollContainer.scrollHeight;
+        scrollContainer.scrollTop = scrollAfter - scrollBefore;
 
+        // 🚫 If there's no more data, stop loading
         if (!data.has_next) {
             hasMorePages = false;
         }
 
         loadingOldMessages = false;
     }
+
 
 
 
