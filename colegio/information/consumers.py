@@ -33,6 +33,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "user_id": data["sender_id"]
             })
 
+        elif message_type == "delete":
+            message_id = int(data["message_id"])
+            await self.mark_message_deleted(message_id)
+
+            await self.channel_layer.group_send(self.room_group_name, {
+                "type": "deleted_message",
+                "id": message_id
+            })
+
         elif message_type == "stop_typing":
             await self.channel_layer.group_send(self.room_group_name, {
                 "type": "stop_typing_indicator",
@@ -44,8 +53,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             receiver_id = int(data["receiver_id"])
             message = data["message"]
             file_data = data.get("file")
+            reply_to_id = data.get("reply_to")
 
-            msg = await self.save_message(sender_id, receiver_id, message, file_data)
+            msg = await self.save_message(sender_id, receiver_id, message, file_data, reply_to_id)
 
             # Enviamos mensaje con ID incluido
             await self.channel_layer.group_send(self.room_group_name, {
@@ -53,7 +63,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "message": msg["message"],
                 "sender_id": msg["sender_id"],
                 "file": msg.get("file"),
-                "id": msg["id"]
+                "id": msg["id"],
+                "reply": msg.get("reply"),
             })
 
         elif message_type == "load_more":
@@ -70,6 +81,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "has_next": has_next
             }))
 
+    @database_sync_to_async
+    def mark_message_deleted(self, message_id):
+        try:
+            message = ChatMessage.objects.get(id=message_id)
+            message.deleted = True
+            message.save()
+        except ChatMessage.DoesNotExist:
+            pass  # Puedes loggear si quieres
+
 
     @database_sync_to_async
     def get_messages_before(self, sender_id, receiver_id, before_id):
@@ -80,6 +100,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             Q(sender=sender, receiver=receiver) | Q(sender=receiver, receiver=sender)
         ).order_by("-id")
 
+
         if before_id:
             qs = qs.filter(id__lt=before_id)
 
@@ -89,6 +110,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "message": m.content,
             "sender_id": m.sender.id,
             "timestamp": m.sent_at.strftime("%H:%M"),
+            "deleted": m.deleted,
             "id": m.id,
             "file": {
                 "url": m.file.url,
@@ -96,25 +118,38 @@ class ChatConsumer(AsyncWebsocketConsumer):
             } if m.file else None
         } for m in messages]
 
-
     @sync_to_async
-    def save_message(self, sender_id, receiver_id, message, file_data):
+    def save_message(self, sender_id, receiver_id, message, file_data, reply_to_id=None):
         sender = CustomUser.objects.get(id=sender_id)
         receiver = CustomUser.objects.get(id=receiver_id)
+        
         msg = ChatMessage(sender=sender, receiver=receiver, content=message)
 
+        # 🔗 Save file if provided
         if file_data:
             relative_path = file_data['url'].replace('/media/', '')
             msg.file.name = relative_path
 
-        msg.save()
+        # 🔁 Attach reply message if any
+        reply_preview = None
+        if reply_to_id:
+            try:
+                reply_obj = ChatMessage.objects.get(id=reply_to_id)
+                msg.reply_to = reply_obj  # 🧠 Set FK relation
+                reply_preview = reply_obj.content[:50] + "..."  # for front-end
+            except ChatMessage.DoesNotExist:
+                pass  # Silent fail if reply message not found
 
+        msg.save()
         return {
             "id": msg.id,
             "message": msg.content,
             "sender_id": sender.id,
-            "file": file_data
+            "file": file_data,
+            "reply": reply_preview  # this is optional, for displaying summary
         }
+
+
 
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({
@@ -122,7 +157,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "message": event["message"],
             "sender_id": event["sender_id"],
             "file": event.get("file"),
-            "id": event["id"]
+            "id": event["id"],
+            "reply": event.get("reply")
         }))
 
     async def typing_indicator(self, event):
@@ -130,6 +166,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "type": "typing",
             "user_id": event["user_id"]
         }))
+    
+    async def deleted_message(self, event):
+        await self.send(text_data=json.dumps({
+            "type": "deleted",
+            "id": event["id"]
+        }))
+
 
     async def stop_typing_indicator(self, event):
         await self.send(text_data=json.dumps({

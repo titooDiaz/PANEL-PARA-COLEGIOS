@@ -310,7 +310,7 @@ class ChatMessage(models.Model):
     content = models.TextField(blank=True)  # text
     file = models.FileField(upload_to=user_directory_path, null=True, blank=True)
 
-    
+    deleted = models.BooleanField(default=False)
     sent_at = models.DateTimeField(default=timezone.now)  # date sent
     read = models.BooleanField(default=False)  # is the message read? 
     read_at = models.DateTimeField(blank=True, null=True)  # when the message was read?

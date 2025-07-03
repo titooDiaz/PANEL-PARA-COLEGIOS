@@ -118,33 +118,59 @@
                             <div data-msg-id="{{ msg.id }}" class="message-wrapper flex items-end justify-end space-x-2">
                                 <div class="message-content bg-gray-600 text-white rounded-lg p-3 shadow-md max-w-md">
                                     <div class="no-select-overlay"></div>
-                                    <p class="break-words">{{ msg.content }}</p>
-                                    {% if msg.file %}
-                                        <a href="{{ msg.file.url }}" target="_blank" class="block mt-2 text-blue-300 underline text-sm">📎 Ver archivo</a>
+
+                                    {% if msg.deleted %}
+                                        <p class="italic text-gray-400">🗑️ Este mensaje fue eliminado</p>
+                                    {% else %}
+                                        {% if msg.reply_to_id %}
+                                            <div class="mb-2 border-l-4 pl-2 border-gray-300 text-sm text-gray-300 italic max-w-[80%] line-clamp-1">
+                                                <span class="ml-2">{{ msg.reply_to.content|truncatechars:50 }}</span>
+                                            </div>
+                                        {% endif %}
+                                        <p class="break-words">{{ msg.content }}</p>
+                                        {% if msg.file %}
+                                            <a href="{{ msg.file.url }}" target="_blank" class="block mt-2 text-blue-300 underline text-sm">📎 Ver archivo</a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
-                                <div class="action-buttons absolute top-1 right-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
-                                    <button class="text-sm text-red-600 hover:bg-red-100 p-1 rounded-full" onclick="deleteMessage('{{ msg.id }}')">🗑️</button>
-                                    <button class="text-sm text-yellow-600 hover:bg-yellow-100 p-1 rounded-full" onclick="replyToMessage('{{ msg.id }}')">↩️</button>
-                                    <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('{{ msg.id }}')">⭐</button>
-                                </div>
+
+                                {% if not msg.deleted %}
+                                    <div class="action-buttons absolute top-1 right-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
+                                        <button class="text-sm text-red-600 hover:bg-red-100 p-1 rounded-full" onclick="deleteMessage('{{ msg.id }}')">🗑️</button>
+                                        <button class="text-sm text-yellow-600 hover:bg-yellow-100 p-1 rounded-full" onclick="replyToMessage('{{ msg.id }}')">↩️</button>
+                                        <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('{{ msg.id }}')">⭐</button>
+                                    </div>
+                                {% endif %}
+
                                 <span class="block text-right text-xs text-gray-400 mt-1 mr-2">{{ msg.sent_at|date:"H:i" }}</span>
                             </div>
-
-
                         {% else %}
                             <div data-msg-id="{{ msg.id }}" class="message-wrapper flex items-start space-x-2">
                                 <div class="message-content bg-white rounded-lg p-3 shadow-md max-w-md">
                                     <div class="no-select-overlay"></div>
-                                    <p class="break-words">{{ msg.content }}</p>
-                                    {% if msg.file %}
-                                        <a href="{{ msg.file.url }}" target="_blank" class="block mt-2 text-blue-300 underline text-sm">📎 Ver archivo</a>
+
+                                    {% if msg.deleted %}
+                                        <p class="italic text-gray-400">🗑️ Este mensaje fue eliminado</p>
+                                    {% else %}
+                                        {% if msg.reply_to_id %}
+                                            <div class="mb-2 border-l-4 pl-2 border-gray-300 text-sm text-gray-300 italic max-w-[80%] line-clamp-1">
+                                                <span class="ml-2">{{ msg.reply_to.content|truncatechars:50 }}</span>
+                                            </div>
+                                        {% endif %}
+                                        <p class="break-words">{{ msg.content }}</p>
+                                        {% if msg.file %}
+                                            <a href="{{ msg.file.url }}" target="_blank" class="block mt-2 text-blue-500 underline text-sm">📎 Ver archivo</a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
-                                <div class="action-buttons absolute top-1 left-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
-                                    <button class="text-sm text-yellow-600 hover:bg-yellow-100 p-1 rounded-full" onclick="replyToMessage('{{ msg.id }}')">↩️</button>
-                                    <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('{{ msg.id }}')">⭐</button>
-                                </div>
+
+                                {% if not msg.deleted %}
+                                    <div class="action-buttons absolute top-1 left-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
+                                        <button class="text-sm text-yellow-600 hover:bg-yellow-100 p-1 rounded-full" onclick="replyToMessage('{{ msg.id }}')">↩️</button>
+                                        <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('{{ msg.id }}')">⭐</button>
+                                    </div>
+                                {% endif %}
+
                                 <span class="block text-right text-xs text-gray-400 mt-1 mr-2">{{ msg.sent_at|date:"H:i" }}</span>
                             </div>
                         {% endif %}
@@ -256,6 +282,16 @@
             <form id="chat-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <span id="file_name" class="ml-2 text-sm text-gray-500 hidden lg:flex"></span>
+
+                <!-- 🔁 reply message -->
+                <div id="reply-box" class="hidden flex items-center justify-between bg-gray-100 border-l-4 border-orange-500 px-4 py-2 rounded-md shadow-sm mb-2">
+                    <div>
+                        <p class="text-xs text-gray-500">Respondiendo a:</p>
+                        <p id="reply-text" class="text-sm text-gray-800 italic line-clamp-1"></p>
+                    </div>
+                    <button onclick="cancelReply()" class="text-gray-500 hover:text-red-500 text-sm ml-4">✖</button>
+                </div>
+
                 <div class="flex items-center space-x-4">
                     
                     {{ form.content }}
