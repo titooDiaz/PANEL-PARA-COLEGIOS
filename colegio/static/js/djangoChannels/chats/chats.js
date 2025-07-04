@@ -95,6 +95,13 @@ const container = document.getElementById('chat-box');
 const sendBtn = document.getElementById("sendBtn");
 const input = document.getElementById("message_input");
 
+
+let userIsInChat = true;
+
+document.addEventListener("visibilitychange", function () {
+    userIsInChat = !document.hidden;
+});
+
 sendBtn.addEventListener("click", async function () {
     const message = input.value.trim();
     const file = input_file.files[0];
@@ -177,6 +184,21 @@ function scrollHandler() {
 
 scrollContainer.addEventListener('scroll', scrollHandler);
 
+chatSocket.onopen = function () {
+    chatSocket.send(JSON.stringify({
+        type: "mark_all_seen",
+        user_id: sender,
+        receiver_id: receiver
+    }));
+
+    chatSocket.send(JSON.stringify({
+        type: "check_seen_status",
+        sender_id: sender,
+        receiver_id: receiver
+    }));
+};
+
+
 // Listen to WebSocket messages
 // Listen to all socket messages
 chatSocket.onmessage = function (e) {
@@ -184,6 +206,56 @@ chatSocket.onmessage = function (e) {
 
     if (data.type === "chat") {
         renderMessage(data, data.sender_id == sender, false);
+        if (data.sender_id !== sender && userIsInChat) {
+            chatSocket.send(JSON.stringify({
+                type: "seen",
+                message_id: data.id,
+                user_id: sender
+            }));
+        }
+    }
+
+    if (data.type === "seen") {
+        if (data.user_id === sender) return;
+
+        // Remove existing "seen" tags
+        document.querySelectorAll(".last-seen-tag").forEach(e => e.remove());
+
+        const msgDiv = document.querySelector(`[data-msg-id="${data.id}"]`);
+
+        if (msgDiv) {
+            const isMyMessage = msgDiv.classList.contains("justify-end");
+
+            if (isMyMessage) {
+                const messageContent = msgDiv.querySelector(".message-content");
+
+                if (messageContent) {
+                    // Ensure relative positioning on the message bubble itself
+                    messageContent.style.position = "relative";
+
+                    const seenTag = document.createElement("div");
+                    seenTag.className = `
+                        last-seen-tag
+                        text-[11px]
+                        text-orange-600
+                        font-medium
+                        absolute
+                        left-2
+                        bottom-0
+                        bg-orange-100
+                        px-3
+                        py-[2px]
+                        rounded-full
+                        shadow-sm
+                        animate-fade-in
+                    `.replace(/\s+/g, ' ').trim();
+
+                    seenTag.textContent = "Visto";
+
+                    messageContent.appendChild(seenTag);
+                }
+            }
+        }
     }
 
 

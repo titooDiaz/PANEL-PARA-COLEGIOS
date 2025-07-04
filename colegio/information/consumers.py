@@ -1,5 +1,6 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+from django.utils.timezone import now
 from .models import ChatMessage
 from users.models import CustomUser
 from asgiref.sync import sync_to_async
@@ -56,7 +57,34 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "id": message_id,
                 "important": is_now_important  # ✅ Aquí sí lo tienes
             })
+            
+        elif message_type == "mark_all_seen":
+            reader_id = data["user_id"]
+            sender_id = data["receiver_id"]
 
+            updated_ids = await self.mark_all_as_seen(reader_id, sender_id)
+
+            last_seen_id = await self.get_last_seen_message_id(sender_id, reader_id)
+
+            if last_seen_id:
+                await self.channel_layer.group_send(self.room_group_name, {
+                    "type": "seen_update",
+                    "id": last_seen_id,
+                    "user_id": reader_id
+                })
+
+        elif message_type == "seen":
+            message_id = int(data["message_id"])
+            user_id = int(data["user_id"])
+
+            updated = await self.mark_message_read(message_id, user_id)
+
+            if updated:
+                await self.channel_layer.group_send(self.room_group_name, {
+                    "type": "message_seen",
+                    "id": message_id,
+                    "seen_by": user_id
+                })
 
 
         elif message_type == "chat":
@@ -78,7 +106,29 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "reply": msg.get("reply"),
                 "important": msg.get("important", False)
             })
+        elif message_type == "check_seen_status":
+            sender_id = data["sender_id"]
+            receiver_id = data["receiver_id"]
 
+            last_seen_id = await self.get_last_seen_message_id(sender_id, receiver_id)
+
+            if last_seen_id:
+                await self.send(text_data=json.dumps({
+                    "type": "seen",
+                    "id": last_seen_id,
+                    "user_id": receiver_id
+                }))
+
+        elif message_type == "mark_all_seen":
+            user_id = data["user_id"]
+            other_id = data["receiver_id"]
+            updated_ids = await self.mark_all_as_seen(user_id, other_id)
+            
+            for msg_id in updated_ids:
+                await self.send(text_data=json.dumps({
+                    "type": "seen",
+                    "id": msg_id
+                }))
 
         elif message_type == "load_more":
             sender_id = int(data["sender_id"])
@@ -93,16 +143,56 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "messages": messages,
                 "has_next": has_next
             }))
-            
-    @database_sync_to_async
-    def mark_message_deleted(self, message_id):
-        try:
-            message = ChatMessage.objects.get(id=message_id)
-            message.deleted = True
-            message.save()
-        except ChatMessage.DoesNotExist:
-            pass  # Puedes loggear si quieres
     
+    async def get_last_seen_message_id(self, sender_id, receiver_id):
+        return await database_sync_to_async(lambda: (
+            ChatMessage.objects
+            .filter(sender_id=sender_id, receiver_id=receiver_id, read=True)
+            .order_by('-sent_at')
+            .values_list('id', flat=True)
+            .first()
+        ))()
+    
+    async def mark_message_read(self, message_id, user_id):
+        try:
+            message = await database_sync_to_async(ChatMessage.objects.select_related('receiver').get)(id=message_id)
+            receiver_id = await database_sync_to_async(lambda: message.receiver.id)()
+
+            if receiver_id == user_id:
+
+                message.read = True
+                await database_sync_to_async(message.save)()
+                return True
+            return False
+        except ChatMessage.DoesNotExist:
+            return False
+
+
+    @database_sync_to_async
+    def mark_all_as_seen(self, user_id, other_id):
+        qs = ChatMessage.objects.filter(
+            sender_id=other_id,
+            receiver_id=user_id,
+            read=False
+        )
+        updated_ids = list(qs.values_list('id', flat=True))
+        qs.update(read=True, read_at=now())
+        return updated_ids
+
+    async def mark_message_read(self, message_id, user_id):
+        try:
+            message = await database_sync_to_async(ChatMessage.objects.select_related('receiver').get)(id=message_id)
+            receiver_id = await database_sync_to_async(lambda: message.receiver.id)()
+
+            if receiver_id == user_id:
+                message.read = True
+                message.read_at = now()
+                await database_sync_to_async(message.save)()
+                return True
+            return False
+        except ChatMessage.DoesNotExist:
+            return False
+
     @database_sync_to_async
     def mark_message_important(self, message_id):
         try:
@@ -112,6 +202,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
             return message.important
         except ChatMessage.DoesNotExist:
             return False  # o None si prefieres manejarlo distinto
+
+    @database_sync_to_async
+    def get_last_seen_message_id(self, viewer_id, chat_with_id):
+        last_seen = ChatMessage.objects.filter(
+            sender_id=viewer_id,
+            receiver_id=chat_with_id,
+            read=True
+        ).order_by('-id').first()
+
+        return last_seen.id if last_seen else None
+
+    @database_sync_to_async
+    def mark_message_deleted(self, message_id):
+        try:
+            message = ChatMessage.objects.get(id=message_id)
+            message.deleted = True
+            message.save()
+        except ChatMessage.DoesNotExist:
+            pass
 
 
     @database_sync_to_async
@@ -174,12 +283,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "reply": reply_preview  # this is optional, for displaying summary
         }
 
+    async def seen_update(self, event):
+        await self.send(text_data=json.dumps({
+            "type": "seen",
+            "id": event["id"],
+            "user_id": event["user_id"]
+        }))
 
     async def highlight_message(self, event):
         await self.send(text_data=json.dumps({
             "type": "highlight",
             "id": event["id"],
             "important": event["important"]
+        }))
+
+    async def message_seen(self, event):
+        await self.send(text_data=json.dumps({
+            "type": "seen",
+            "id": event["id"],
+            "seen_by": event["seen_by"]
         }))
 
 
