@@ -243,6 +243,15 @@ chatSocket.onmessage = function (e) {
         }
     }
 
+    if (data.type === "highlight") {
+        const messageDiv = document.querySelector(`[data-msg-id="${data.id}"]`);
+        if (messageDiv) {
+            const messageContent = messageDiv.querySelector('.message-content');
+            if (messageContent) {
+                messageContent.classList.toggle('glow-important');
+            }
+        }
+    }
 
 
     if (data.type === "stop_typing") {
@@ -259,10 +268,32 @@ function renderMessage(msg, isSender, prepend = false) {
     const div = document.createElement('div');
     div.dataset.msgId = msg.id;
 
+    // Determine wrapper class based on sender
     div.className = `message-wrapper relative ${isSender ? 'flex items-end justify-end space-x-2' : 'flex items-start space-x-2'}`;
 
-    const fileHtml = msg.file ? `<a href="${msg.file.url}" target="_blank" class="block mt-2 text-blue-500 underline text-sm">📎 View file</a>` : '';
+    // If there's a file attached
+    const fileHtml = msg.file
+        ? `<a href="${msg.file.url}" target="_blank" class="block mt-2 text-blue-500 underline text-sm">📎 View file</a>`
+        : '';
 
+    const isImportant = msg.important && !msg.deleted;
+
+    // Base content class
+    const contentClass = [
+        "message-content",
+        "rounded-lg",
+        "p-3",
+        "shadow-md",
+        "max-w-md",
+        isSender ? "bg-gray-600 text-white" : "bg-white",
+    ];
+
+    // Add glow effect if message is marked as important
+    if (isImportant) {
+        contentClass.push("glow-important");
+    }
+
+    // Action buttons for each side
     const actionButtons = isSender
         ? `
         <div class="action-buttons absolute top-1 right-1 bg-white shadow-md rounded-lg px-2 py-1 flex space-x-1 z-50">
@@ -276,27 +307,31 @@ function renderMessage(msg, isSender, prepend = false) {
             <button class="text-sm text-green-600 hover:bg-green-100 p-1 rounded-full" onclick="highlightMessage('${msg.id}')">⭐</button>
         </div>`;
 
+    // Final message HTML structure
     div.innerHTML = `
-        <div class="${isSender ? 'bg-gray-600 text-white' : 'bg-white'} message-content rounded-lg p-3 shadow-md max-w-md">
+        <div class="${contentClass.join(' ')}">
             <div class="no-select-overlay"></div>
-            ${
-                msg.reply
-                    ? `<div class="mb-2 border-l-4 pl-2 border-gray-400 text-sm text-gray-500 italic max-w-[80%] line-clamp-1">
-                        <span class="ml-2">${msg.reply}</span>
-                    </div>`
-                    : ''
-            }
+
+            ${msg.reply ? `
+                <div class="mb-2 border-l-4 pl-2 border-gray-400 text-sm text-gray-500 italic max-w-[80%] line-clamp-1">
+                    <span class="ml-2">${msg.reply}</span>
+                </div>` : ''}
+
             <p class="break-words">
-                ${msg.deleted ? '<span class="italic text-gray-400">🗑️ Este mensaje fue eliminado</span>' : msg.message}
+                ${msg.deleted ? '<span class="italic text-gray-400">🗑️ This message was deleted</span>' : msg.message}
             </p>
+
             ${!msg.deleted && fileHtml ? fileHtml : ''}
         </div>
-        ${actionButtons}
+
+        ${!msg.deleted ? actionButtons : ''}
+
         <span class="block text-right text-xs text-gray-400 mt-1 mr-2">
-            ${msg.timestamp ?? new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+            ${msg.timestamp ?? new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </span>
     `;
 
+    // Add interactions for showing action buttons
     const wrapper = div;
     const buttons = wrapper.querySelector('.action-buttons');
 
@@ -308,7 +343,7 @@ function renderMessage(msg, isSender, prepend = false) {
     div.addEventListener('touchend', () => clearTimeout(timeout));
     div.addEventListener('touchmove', () => clearTimeout(timeout));
 
-    // Finally: append or prepend
+    // Append or prepend the message to the container
     if (prepend) {
         container.prepend(div);
     } else {
@@ -341,6 +376,14 @@ function deleteMessage(messageId) {
         }
     }
 }
+
+function highlightMessage(messageId) {
+    chatSocket.send(JSON.stringify({
+        type: "highlight",
+        message_id: messageId
+    }));
+}
+
 
 let replyingToId = null;
 

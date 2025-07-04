@@ -3,75 +3,132 @@
 <meta charset="UTF-8">
 
 {% extends 'base.html' %}
-{% load static %}
-{% load tailwind_tags %}
+
 {% block content %}
+{% load static %}
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mensajes{% endblock %}</title>
     <style>
-
         html, body {
             height: 100%;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: hidden;
         }
 
         .message-time {
             font-size: 0.7rem;
             margin-top: 0.8rem;
         }
+
         .typing-indicator span {
             animation: blink 1.5s infinite;
             margin-right: 2px;
         }
+
         @keyframes blink {
-            0% { opacity: 0.2; }
-            20% { opacity: 1; }
+            0%   { opacity: 0.2; }
+            20%  { opacity: 1; }
             100% { opacity: 0.2; }
         }
+
         .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
         .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
 
+        /* conctacts animations */
         #contacts {
             transition: transform 0.3s ease-in-out;
             transform: translateX(-140%);
         }
+
         #contacts.visible {
             transform: translateX(0);
         }
+
         @media (min-width: 1024px) {
             #contacts {
                 transform: translateX(0);
             }
-        }
 
-        html, body {
-            overflow-x: hidden;
+            .h-screen-chat {
+                height: 88dvh;
+            }
         }
 
         @media (max-width: 1023px) {
             #contacts {
                 width: 100% !important;
             }
-            .lg\:ml-4 {
+
+            .lg\\:ml-4 {
                 margin-left: 0 !important;
             }
+
             .p-2 {
                 padding: 0.25rem !important;
             }
-            .rounded-lg {
+
+            .message-wrapper {
                 margin: 0.3rem;
             }
 
             .h-screen-chat {
                 height: 82dvh;
             }
-            @media (min-width: 1024px) {
-            .h-screen-chat {
-                height: 88dvh;
-            }
-            }
+        }
 
+        /* important messages */
+                
+        .glow-important {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #facc15;
+        }
+
+        .glow-important::before {
+            content: "";
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 400%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                rgba(255, 255, 150, 0) 0%,
+                rgba(255, 255, 150, 0.05) 30%,
+                rgba(255, 255, 150, 0.3) 45%,
+                rgba(255, 255, 150, 0.6) 50%,
+                rgba(255, 255, 150, 0.3) 55%,
+                rgba(255, 255, 150, 0.05) 70%,
+                rgba(255, 255, 150, 0) 100%
+            );
+            background-repeat: no-repeat;
+            background-size: 400% 100%;
+            background-position: -300% 0;
+            animation: sweep-glow 3s ease-in-out infinite;
+            filter: blur(4px);
+            opacity: 0.9;
+            pointer-events: none;
+            z-index: 1;
+        }
+                
+        @keyframes sweep-glow {
+            0% {
+                background-position: -300% 0;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                background-position: 100% 0;
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
@@ -116,9 +173,8 @@
                     {% for msg in messages_users %}
                         {% if msg.sender == request.user %}
                             <div data-msg-id="{{ msg.id }}" class="message-wrapper flex items-end justify-end space-x-2">
-                                <div class="message-content bg-gray-600 text-white rounded-lg p-3 shadow-md max-w-md">
+                                <div class="message-content rounded-lg p-3 shadow-md max-w-md bg-gray-600 text-white {% if msg.important %}glow-important{% endif %}">
                                     <div class="no-select-overlay"></div>
-
                                     {% if msg.deleted %}
                                         <p class="italic text-gray-400">🗑️ Este mensaje fue eliminado</p>
                                     {% else %}
@@ -146,7 +202,7 @@
                             </div>
                         {% else %}
                             <div data-msg-id="{{ msg.id }}" class="message-wrapper flex items-start space-x-2">
-                                <div class="message-content bg-white rounded-lg p-3 shadow-md max-w-md">
+                                <div class="message-content rounded-lg p-3 shadow-md max-w-md bg-white {% if msg.important %}glow-important{% endif %}">
                                     <div class="no-select-overlay"></div>
 
                                     {% if msg.deleted %}
@@ -212,14 +268,6 @@
         opacity: 1;
         pointer-events: auto;
         transform: scale(1);
-    }
-
-    /* Ajuste responsive para mensajes largos */
-    @media (max-width: 640px) {
-        .message-content {
-            max-width: 85vw;
-            word-break: break-word;
-        }
     }
 </style>
 
@@ -291,7 +339,6 @@
                     </div>
                     <button onclick="cancelReply()" class="text-gray-500 hover:text-red-500 text-sm ml-4">✖</button>
                 </div>
-
                 <div class="flex items-center space-x-4">
                     
                     {{ form.content }}
@@ -337,12 +384,13 @@
             </div>
 
             <div class="mt-4 grid grid-cols-2 gap-4">
-            <button id="cancel_file" type="button" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-red-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">
-                Cancelar
-            </button>
-            <button id="accept_file" type="button" class="block py-2 font-semibold text-xl text-white px-4 rounded-lg bg-green-600 border-l border-r border-t border-4 border-green-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full">
-                Aceptar
-            </button>
+                <button type="button" id="cancel_file" class="SkolaghButton-red">
+                    Cancelar
+                </button>
+
+                <button type="button" id="accept_file" class="SkolaghButton-green">
+                    Aceptar
+                </button>
             </div>
 
         </div>

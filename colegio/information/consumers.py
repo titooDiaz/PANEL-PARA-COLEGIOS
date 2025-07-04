@@ -47,6 +47,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "type": "stop_typing_indicator",
                 "user_id": data["sender_id"]
             })
+        elif message_type == "highlight":
+            message_id = int(data["message_id"])
+            is_now_important = await self.mark_message_important(message_id)
+
+            await self.channel_layer.group_send(self.room_group_name, {
+                "type": "highlight_message",
+                "id": message_id,
+                "important": is_now_important  # ✅ Aquí sí lo tienes
+            })
+
+
 
         elif message_type == "chat":
             sender_id = int(data["sender_id"])
@@ -65,7 +76,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "file": msg.get("file"),
                 "id": msg["id"],
                 "reply": msg.get("reply"),
+                "important": msg.get("important", False)
             })
+
 
         elif message_type == "load_more":
             sender_id = int(data["sender_id"])
@@ -80,7 +93,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "messages": messages,
                 "has_next": has_next
             }))
-
+            
     @database_sync_to_async
     def mark_message_deleted(self, message_id):
         try:
@@ -89,6 +102,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
             message.save()
         except ChatMessage.DoesNotExist:
             pass  # Puedes loggear si quieres
+    
+    @database_sync_to_async
+    def mark_message_important(self, message_id):
+        try:
+            message = ChatMessage.objects.get(id=message_id)
+            message.important = not message.important  # toggle
+            message.save()
+            return message.important
+        except ChatMessage.DoesNotExist:
+            return False  # o None si prefieres manejarlo distinto
 
 
     @database_sync_to_async
@@ -109,6 +132,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         return [{
             "message": m.content,
             "sender_id": m.sender.id,
+            "important": m.important,
             "timestamp": m.sent_at.strftime("%H:%M"),
             "deleted": m.deleted,
             "id": m.id,
@@ -146,9 +170,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "message": msg.content,
             "sender_id": sender.id,
             "file": file_data,
+            "important": msg.important,
             "reply": reply_preview  # this is optional, for displaying summary
         }
 
+
+    async def highlight_message(self, event):
+        await self.send(text_data=json.dumps({
+            "type": "highlight",
+            "id": event["id"],
+            "important": event["important"]
+        }))
 
 
     async def chat_message(self, event):
