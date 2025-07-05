@@ -5,8 +5,8 @@
         <span id="secret_token">{{ csrf_token }}</span>
         <span id="url_chat_file">{% url "upload_chat_file" %}</span>
         <span id="photo_url">{{ selected_user.photo.url }}</span>
-        <span id="user1Id">{{ request.user.id }}</span>
-        <span id="user2Id">{{ selected_user.id }}</span>
+        <span id="user1Id">{{ user1Id }}</span>
+        <span id="user2Id">{{ user2Id }}</span>
         <span id="sender">{{ request.user.id }}</span>
         <span id="receiver">{{ selected_user.id }}</span>
     </div>
@@ -31,6 +31,27 @@
                     </div>
                 </a>
             </div>
+        {% endfor %}
+
+        <div class="px-6 py-4 bg-gray-400 flex justify-between items-center rounded-t-xl mt-4">
+            <span class="text-sm text-white">Companeros Disponibles!</span>
+            <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
+        </div>
+        {% for student in students %}
+            {% if student.pk != request.user.pk %}
+                <div class="space-y-4 mt-2">
+                    <a href="?student_id={{ student.id }}">
+                        <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
+                            <img src="{{ student.photo.url }}" alt="{{student.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">{{student.first_name}} {{student.last_name}}</h3>
+                                <span id="state_user_{{ student.id }}" data-watch-user="{{ student.id }}" class="status-dot offline"></span>
+                            </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

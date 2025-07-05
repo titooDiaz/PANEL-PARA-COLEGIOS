@@ -12,6 +12,8 @@ from .forms import *
 from users.forms import *
 from users.utils import is_user_online
 from django.core.paginator import Paginator
+from users.utils import get_chat_target, get_user_role, get_user1_user2_ids
+from django.db.models import Q
 
 # LIBRERIAS DE FECHAS
 from django.utils import timezone
@@ -270,31 +272,35 @@ class StudentMessages(View):
         grade_user = user.customuserstudent.grade
         school_user = grade_user.school
         teachers = CustomUserTeachers.objects.filter(school=school_user)
+        students = CustomUserStudent.objects.filter(grade=grade_user)
 
-        selected_teacher_id = request.GET.get('teacher_id')
-        selected_teacher = None
+        selected_user = get_chat_target(request)
         messages = []
         form = ChatMessageForm()
-
-        if selected_teacher_id:
-            selected_teacher = get_object_or_404(CustomUserTeachers, pk=selected_teacher_id)
+        user1_id, user2_id = None, None
+        
+        if selected_user:
             all_messages = ChatMessage.objects.filter(
-                sender__in=[user, selected_teacher],
-                receiver__in=[user, selected_teacher]
+                Q(sender=user, receiver=selected_user) |
+                Q(sender=selected_user, receiver=user)
             ).order_by('-sent_at')
-
             paginator = Paginator(all_messages, 15)
             page = paginator.get_page(1)
             messages = list(page.object_list)[::-1]
-
+        
+            user1_id, user2_id = get_user1_user2_ids(user, selected_user)
+            
         context = {
             'vista': 'estudiante',
             'abierto': 'mensajes',
             'grade': grade_user,
             'teachers': teachers,
-            'selected_user': selected_teacher,
+            'students': students,
+            'selected_user': selected_user,
             'messages_users': messages,
             'form': form,
+            'user1Id': user1_id,
+            'user2Id': user2_id,
         }
         return render(request, 'users/student/messages/messages.html', context)
 
