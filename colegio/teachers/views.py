@@ -1,6 +1,10 @@
 # Django utilities for rendering templates and handling redirects
 from django.shortcuts import render, redirect
 
+#django messages
+from users.utils import get_user1_user2_ids, get_chat_target
+from django.db.models import Q
+
 # Django class-based views
 from django.views.generic import TemplateView, View
 
@@ -455,30 +459,37 @@ class ProfessorMessages(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         school_user = user.school
+        
+        # select users
         students = CustomUserStudent.objects.filter(school=school_user)
+        managers = CustomUserManager.objects.filter(school=school_user)
 
-        selected_student_id = request.GET.get('student_id')
-        selected_student = None
+        selected_user = get_chat_target(request)
         messages = []
+        user1_id, user2_id = None, None
         form = ChatMessageForm()
 
-        if selected_student_id:
-            selected_student = get_object_or_404(CustomUserStudent, pk=selected_student_id)
-
-            chat_qs = ChatMessage.objects.filter(
-                sender__in=[user, selected_student],
-                receiver__in=[user, selected_student]
+        if selected_user:
+            all_messages = ChatMessage.objects.filter(
+                Q(sender=user, receiver=selected_user) |
+                Q(sender=selected_user, receiver=user)
             ).order_by('-sent_at')
-
-            paginator = Paginator(chat_qs, 25)
-            first_page = paginator.page(1)
-            messages = list(first_page.object_list)[::-1]  # ⚠️ Importante para que el scroll funcione bien
-
+            paginator = Paginator(all_messages, 15)
+            page = paginator.get_page(1)
+            messages = list(page.object_list)[::-1]
+            
+            user1_id, user2_id = get_user1_user2_ids(user, selected_user)
+        print(selected_user)
         context = {
             'vista': 'profesores',
             'abierto': 'mensajes',
+            # select users #
             'students': students,
-            'selected_user': selected_student,
+            'managers': managers,
+            # --------------- #
+            'selected_user': selected_user,
+            'user1Id': user1_id,
+            'user2Id': user2_id,
             'messages_users': messages,
             'form': form,
         }

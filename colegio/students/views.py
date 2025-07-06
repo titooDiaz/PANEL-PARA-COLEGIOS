@@ -12,7 +12,7 @@ from .forms import *
 from users.forms import *
 from users.utils import is_user_online
 from django.core.paginator import Paginator
-from users.utils import get_chat_target, get_user_role, get_user1_user2_ids
+from users.utils import get_chat_target, get_user1_user2_ids
 from django.db.models import Q
 
 # LIBRERIAS DE FECHAS

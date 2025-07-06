@@ -2,11 +2,11 @@
 
 {% block chat_header %}
     <div class="hidden">
+        <span id="user1Id">{{ user1Id }}</span>
+        <span id="user2Id">{{ user2Id }}</span>
         <span id="secret_token">{{ csrf_token }}</span>
         <span id="url_chat_file">{% url "upload_chat_file" %}</span>
         <span id="photo_url">{{ selected_user.photo.url }}</span>
-        <span id="user1Id">{{ user1Id }}</span>
-        <span id="user2Id">{{ user2Id }}</span>
         <span id="sender">{{ request.user.id }}</span>
         <span id="receiver">{{ selected_user.id }}</span>
     </div>

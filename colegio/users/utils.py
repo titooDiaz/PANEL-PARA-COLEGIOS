@@ -5,7 +5,7 @@ r = redis.Redis()
 def is_user_online(user_id):
     return r.exists(f"user_online_{user_id}")
 
-from users.models import CustomUserTeachers, CustomUserStudent
+from users.models import CustomUserTeachers, CustomUserStudent, CustomUserManager
 from django.shortcuts import get_object_or_404
 
 def get_chat_target(request):
@@ -13,6 +13,8 @@ def get_chat_target(request):
         return get_object_or_404(CustomUserTeachers, pk=request.GET.get('teacher_id'))
     elif request.GET.get('student_id'):
         return get_object_or_404(CustomUserStudent, pk=request.GET.get('student_id'))
+    elif request.GET.get('manager_id'):
+        return get_object_or_404(CustomUserManager, pk=request.GET.get('manager_id'))
     return None
 
 ROLE_RANK = {
@@ -30,7 +32,7 @@ def get_user_role(user):
         return 'student'
     elif hasattr(user, 'customuserguardian'):
         return 'guardian'
-    elif hasattr(user, 'customuserteacher'):
+    elif hasattr(user, 'customuserteachers'):
         return 'teacher'
     elif hasattr(user, 'customusermanager'):
         return 'manager'
