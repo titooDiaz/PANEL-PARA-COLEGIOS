@@ -13,45 +13,54 @@
 {% endblock %}
 
 {% block chat_users %}
-    <div class="p-2">
+    <div>
         <div class="px-6 py-4 bg-gray-400 flex justify-between items-center rounded-t-xl">
             <span class="text-sm text-white">Profes Disponibles!</span>
             <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
         </div>
-        {% for teacher in teachers %}
-            <div class="space-y-4 mt-2">
-                <a href="?teacher_id={{ teacher.id }}">
-                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
-                        <img src="{{ teacher.photo.url }}" alt="{{teacher.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">{{teacher.first_name}} {{teacher.last_name}}</h3>
-                            <span id="state_user_{{ teacher.id }}" data-watch-user="{{ teacher.id }}" class="status-dot offline"></span>
-                        </span>
-                        </div>
+        <div class="p-2">
+            {% for letter, teachers_grade in teachers.items %}
+                    <div class="mt-2">
+                        <h2 class="text-xl font-bold text-gray-700 border-b mb-2">{{ letter }}</h2>
+                        {% for teacher in teachers_grade %}
+                            <div class="space-y-4 mt-2">
+                                <a href="?teacher_id={{ teacher.id }}">
+                                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
+                                        <img src="{{ teacher.photo.url }}" alt="{{ teacher.username }}" class="w-12 h-12 rounded-full border-2 border-blue-900">
+                                        <div>
+                                            <h3 class="text-lg font-semibold text-gray-800">{{ teacher.first_name }} {{ teacher.last_name }}</h3>
+                                            <span id="state_user_{{ teacher.id }}" data-watch-user="{{ teacher.id }}" class="status-dot offline"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+
                     </div>
-                </a>
+                {% endfor %}
             </div>
-        {% endfor %}
 
         <div class="px-6 py-4 bg-gray-400 flex justify-between items-center rounded-t-xl mt-4">
             <span class="text-sm text-white">Companeros Disponibles!</span>
             <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition">Buscar</button>
         </div>
-        {% for student in students %}
-            {% if student.pk != request.user.pk %}
-                <div class="space-y-4 mt-2">
-                    <a href="?student_id={{ student.id }}">
-                        <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
-                            <img src="{{ student.photo.url }}" alt="{{student.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-800">{{student.first_name}} {{student.last_name}}</h3>
-                                <span id="state_user_{{ student.id }}" data-watch-user="{{ student.id }}" class="status-dot offline"></span>
-                            </span>
+        <div class="p-2">
+            {% for student in students %}
+                {% if student.pk != request.user.pk %}
+                    <div class="space-y-4 mt-2">
+                        <a href="?student_id={{ student.id }}">
+                            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-300">
+                                <img src="{{ student.photo.url }}" alt="{{student.username}}" class="w-12 h-12 rounded-full border-2 border-gray-900">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">{{student.first_name}} {{student.last_name}}</h3>
+                                    <span id="state_user_{{ student.id }}" data-watch-user="{{ student.id }}" class="status-dot offline"></span>
+                                </span>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            {% endif %}
-        {% endfor %}
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

@@ -461,8 +461,13 @@ class ProfessorMessages(View):
         school_user = user.school
         
         # select users
-        students = CustomUserStudent.objects.filter(school=school_user)
+        students = CustomUserStudent.objects.filter(school=school_user).select_related('grade')
+        students_by_grade = defaultdict(list)
+        for student in students:
+            grade_name = student.grade.grade_name if student.grade else None
+            students_by_grade[grade_name].append(student)
         managers = CustomUserManager.objects.filter(school=school_user)
+        students_by_grade = dict(sorted(students_by_grade.items(), key=lambda item: item[0] or "zzz"))
 
         selected_user = get_chat_target(request)
         messages = []
@@ -484,7 +489,7 @@ class ProfessorMessages(View):
             'vista': 'profesores',
             'abierto': 'mensajes',
             # select users #
-            'students': students,
+            'students': students_by_grade,
             'managers': managers,
             # --------------- #
             'selected_user': selected_user,

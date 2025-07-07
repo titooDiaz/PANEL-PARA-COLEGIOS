@@ -15,6 +15,9 @@ from django.core.paginator import Paginator
 from users.utils import get_chat_target, get_user1_user2_ids
 from django.db.models import Q
 
+# dict
+from collections import defaultdict
+
 # LIBRERIAS DE FECHAS
 from django.utils import timezone
 import pytz
@@ -271,7 +274,25 @@ class StudentMessages(View):
         user = request.user
         grade_user = user.customuserstudent.grade
         school_user = grade_user.school
-        teachers = CustomUserTeachers.objects.filter(school=school_user)
+        
+       # select users
+        teachers_by_subject = defaultdict(list)
+        grade = getattr(user, 'customuserstudent', None).grade if hasattr(user, 'customuserstudent') else None
+        if grade:
+            subjects = grade.subjects.all().select_related('teacher_1', 'teacher_2')
+            for subject in subjects:
+                subject_name = subject.name_1 or "Sin nombre"
+                if subject.teacher_1:
+                    teachers_by_subject[subject_name].append(subject.teacher_1)
+                if subject.teacher_2:
+                    teachers_by_subject[subject_name].append(subject.teacher_2)
+
+        # Delete Duplicated teachers in subjects
+        for subject, teachers in teachers_by_subject.items():
+            teachers_by_subject[subject] = list(set(teachers))
+
+        # sorted
+        teachers_by_subject = dict(sorted(teachers_by_subject.items()))
         students = CustomUserStudent.objects.filter(grade=grade_user)
 
         selected_user = get_chat_target(request)
@@ -294,7 +315,7 @@ class StudentMessages(View):
             'vista': 'estudiante',
             'abierto': 'mensajes',
             'grade': grade_user,
-            'teachers': teachers,
+            'teachers': teachers_by_subject,
             'students': students,
             'selected_user': selected_user,
             'messages_users': messages,

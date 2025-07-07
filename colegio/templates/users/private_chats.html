@@ -87,7 +87,6 @@
 
         .glow-important::before {
             content: "";
-            z-index: 1;
             position: absolute;
             top: 0;
             left: 0;
@@ -110,7 +109,6 @@
             filter: blur(4px);
             opacity: 0.9;
             pointer-events: none;
-            z-index: 1;
         }
                 
         @keyframes sweep-glow {
@@ -143,7 +141,7 @@
 </head>
 
 <div class="bg-white flex flex-col lg:flex-row lg:gap-6">
-    <div id="contacts" class="lg:p-0 w-[90%] mx-auto lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-screen-chat lg:h-[88vh] left-0 right-0">
+    <div id="contacts" class="lg:p-0 w-[90%] mx-auto lg:w-[40%] lg:pr-0 fixed lg:relative bg-white h-screen-chat lg:h-[88vh] left-0 right-0 z-40">
         <div class="flex-1 overflow-y-auto bg-gray-200 rounded-lg">
 
             {% block chat_header %}
@@ -246,18 +244,6 @@
 <style>
     .message-wrapper {
         position: relative;
-    }
-
-    .message-wrapper.selected {
-        backdrop-filter: blur(3px);
-        background-color: rgba(255, 255, 255, 0.05);
-        border-radius: 1rem;
-    }
-
-    .message-content {
-        transition: background 0.2s ease-in-out;
-        user-select: none;
-        -webkit-user-select: none;
     }
 
     /* Div anti-selección */
