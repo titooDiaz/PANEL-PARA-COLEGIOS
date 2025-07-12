@@ -1,6 +1,5 @@
 <p align="center">
-  <img width="150px" src="https://i.ibb.co/bXvzjXm/LOGO-h1.png" alt="H1 Logo">
-  <img width="150px" src="https://github.com/user-attachments/assets/e0551b39-11a1-4ce3-b5e2-2c6c18882bf0" alt="Project Logo">
+  <img width="150px" src="./Documentation/banner.svg" alt="skolagh banner">
 </p>
 
 # PANEL-PARA-COLEGIOS
