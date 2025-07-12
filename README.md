@@ -1,6 +1,4 @@
-<p align="center">
-  <img width="150px" src="./Documentation/banner.svg" alt="skolagh banner">
-</p>
+<img src="./Documentation/banner.svg" alt="skolagh banner" style="width: 100%; max-width: 100%; display: block;">
 
 # PANEL-PARA-COLEGIOS
 
