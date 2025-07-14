@@ -328,16 +328,22 @@ class StudentMessages(View):
 class StudentPeople(View):
     def get(self, request, *args, **kwargs):
         vista = 'estudiante'
-        abierto='personas'
-        
-        # Grade
+        abierto = 'personas'
+
         user = request.user
-        grade_user = user.customuserstudent.grade #student's grade
-        
+        grade_user = user.customuserstudent.grade
+        students = CustomUserStudent.objects.filter(grade=grade_user).order_by('first_name')
+
+        grouped_students = defaultdict(list)
+        for student in students:
+            first_letter = student.first_name[0].upper()
+            grouped_students[first_letter].append(student)
+
         context = {
             'vista': vista,
-            'abierto':abierto,
+            'abierto': abierto,
             'grade': grade_user,
+            'students_grouped': dict(sorted(grouped_students.items()))
         }
         return render(request, 'users/student/people/people.html', context)
     

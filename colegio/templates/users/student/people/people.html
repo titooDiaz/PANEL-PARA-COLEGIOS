@@ -8,7 +8,29 @@
 {% block content %}
 
 <div class="my-6">
-    <h5 class="text-5xl text-center font-bold text-black zoom-4 mb-8">Personas relacionadas contigo {{request.user.first_name}}!</h5>
+    <h5 class="text-5xl text-center font-bold text-black zoom-4 mb-8">Holaaa {{request.user.first_name}}!</h5>
+</div>
+
+<div class="min-h-screen bg-gray-950 px-4 py-6">
+  <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center">Compañeros de Clase</h2>
+        {% for letter, students in students_grouped.items %}
+            <h2 class="text-xl font-bold mb-4 mt-8 border-b border-gray-600">{{ letter }}</h2>
+            <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {% for student in students %}
+                <div class="relative">
+                    <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded-xl bg-gray-700"></span>
+                    <div class="bg-gray-300 w-full p-6 text-black rounded-xl relative text-center">
+                    <div class="flex justify-center mb-4">
+                        <img src="{{student.photo.url}}" alt="Student"
+                            class="w-20 h-20 rounded-full border-4 border-cyan-400">
+                    </div>
+                    <h3 class="text-lg font-semibold">{{ student.first_name }} {{ student.last_name }}</h3>
+                    <p class="text-sm text-gray-500">{{ student.grade }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
 </div>
 
 {% endblock content %}  
