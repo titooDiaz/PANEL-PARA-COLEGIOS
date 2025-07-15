@@ -14,6 +14,7 @@ from users.utils import is_user_online
 from django.core.paginator import Paginator
 from users.utils import get_chat_target, get_user1_user2_ids
 from django.db.models import Q
+from users.utils import get_teachers_recursively
 
 # dict
 from collections import defaultdict
@@ -275,24 +276,14 @@ class StudentMessages(View):
         grade_user = user.customuserstudent.grade
         school_user = grade_user.school
         
-       # select users
+        # select users
         teachers_by_subject = defaultdict(list)
         grade = getattr(user, 'customuserstudent', None).grade if hasattr(user, 'customuserstudent') else None
+        
         if grade:
             subjects = grade.subjects.all().select_related('teacher_1', 'teacher_2')
-            for subject in subjects:
-                subject_name = subject.name_1 or "Sin nombre"
-                if subject.teacher_1:
-                    teachers_by_subject[subject_name].append(subject.teacher_1)
-                if subject.teacher_2:
-                    teachers_by_subject[subject_name].append(subject.teacher_2)
-
-        # Delete Duplicated teachers in subjects
-        for subject, teachers in teachers_by_subject.items():
-            teachers_by_subject[subject] = list(set(teachers))
-
-        # sorted
-        teachers_by_subject = dict(sorted(teachers_by_subject.items()))
+            teachers_by_subject = get_teachers_recursively(subjects)
+        
         students = CustomUserStudent.objects.filter(grade=grade_user)
 
         selected_user = get_chat_target(request)
@@ -330,20 +321,30 @@ class StudentPeople(View):
         vista = 'estudiante'
         abierto = 'personas'
 
-        user = request.user
+        user = request.user    
         grade_user = user.customuserstudent.grade
         students = CustomUserStudent.objects.filter(grade=grade_user).order_by('first_name')
+        
+        teachers_by_subject = None
+        
+        grade = getattr(user, 'customuserstudent', None).grade if hasattr(user, 'customuserstudent') else None
+        if grade:
+            subjects = grade.subjects.all().select_related('teacher_1', 'teacher_2')
+            teachers_by_subject = get_teachers_recursively(subjects)
+        
 
         grouped_students = defaultdict(list)
         for student in students:
             first_letter = student.first_name[0].upper()
             grouped_students[first_letter].append(student)
 
+        print(sorted(teachers_by_subject.items()))
         context = {
             'vista': vista,
             'abierto': abierto,
             'grade': grade_user,
-            'students_grouped': dict(sorted(grouped_students.items()))
+            'students_grouped': dict(sorted(grouped_students.items())),
+            'teachers_subjects': sorted(teachers_by_subject.items())
         }
         return render(request, 'users/student/people/people.html', context)
     

@@ -1,4 +1,5 @@
 import redis
+from collections import defaultdict
 
 r = redis.Redis()
 
@@ -55,3 +56,22 @@ def get_user1_user2_ids(user_a, user_b):
     else:
         # Si tienen el mismo rango, ordena por ID (para evitar ambigüedad)
         return (user_a.id, user_b.id) if user_a.id < user_b.id else (user_b.id, user_a.id)
+
+def get_teachers_recursively(subjects, index=0, result=None):
+    if result is None:
+        result = defaultdict(list)
+
+    if index >= len(subjects):
+        # delete duplicate teachers
+        for subject, teachers in result.items():
+            result[subject] = list(set(teachers))
+        return dict(sorted(result.items()))
+
+    subject = subjects[index]
+    subject_name = subject.name_1 or "withOutName"
+    if subject.teacher_1:
+        result[subject_name].append(subject.teacher_1)
+    if subject.teacher_2:
+        result[subject_name].append(subject.teacher_2)
+
+    return get_teachers_recursively(subjects, index + 1, result)
