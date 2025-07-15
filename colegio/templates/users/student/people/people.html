@@ -35,23 +35,24 @@
 
 <div class="bg-gray-200 px-4 py-8 m-4 border-2 rounded-lg">
   <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center">Tus profes, {{ request.user.first_name }}</h2>
-        <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {% for subject in teachers_subjects %}
-                {% for teacher in subject %}
-                    <div class="relative">
-                        <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded-xl bg-gray-700"></span>
-                        <div class="bg-gray-300 w-full p-6 text-black rounded-xl relative text-center">
-                        <div class="flex justify-center mb-4">
-                            <img src="{{teacher.photo.url}}" alt="teacher"
-                                class="w-20 h-20 rounded-full border-4 border-cyan-400">
+            {% for grade, teachers_grade in teachers_subjects.items %}
+                <h2 class="text-xl font-bold mb-4 mt-8 border-b border-gray-600">{{ grade }}</h2>
+                <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                    {% for teacher in teachers_grade %}
+                        <div class="relative">
+                            <span class="absolute top-0 left-0 mt-2 ml-2 h-full w-full rounded-xl bg-gray-700"></span>
+                            <div class="bg-gray-300 w-full p-6 text-black rounded-xl relative text-center">
+                            <div class="flex justify-center mb-4">
+                                <img src="{{teacher.photo.url}}" alt="teacher"
+                                    class="w-20 h-20 rounded-full border-4 border-cyan-400">
+                            </div>
+                            <h3 class="text-lg font-semibold">{{ teacher.first_name }} {{ teacher.last_name }}</h3>
+                            <p class="text-sm text-gray-500">{{ teacher.grade }}</p>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-semibold">{{ teacher.first_name }} {{ teacher.last_name }}</h3>
-                        <p class="text-sm text-gray-500">{{ teacher.grade }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             {% endfor %}
-        </div>
 </div>
 
 {% endblock content %}  

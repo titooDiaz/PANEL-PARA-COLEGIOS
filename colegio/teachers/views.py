@@ -89,17 +89,28 @@ class BoardTeachers(View):
         materias_teacher = Subjects.objects.filter(teacher_1_id=teacher) | Subjects.objects.filter(teacher_2_id=teacher)
         grades = Grade.objects.filter(subjects__in=materias_teacher).distinct()
         
-        # What is my court?
-        grades_list = []
+        grades_list = []  # [(grade, court, activities)]
+
         for grade in grades:
             schedule = grade.schedule_parts
-            # get current schedule part.
             court = ScheduleCourts.objects.filter(schedule=schedule).first()
-            data_time = get_current_date(request.user)
-            data_court = court.get_current_court(request.user, schedule, data_time)
-            grades_list.append((grade, data_court))
-            
-        actividades = Activities.objects.filter(subject__in=materias_teacher)
+            current_date = get_current_date(request.user)
+            current_court = court.get_current_court(request.user, schedule, current_date)
+
+            # Skip if no active court for this grade
+            if not current_court:
+                continue
+
+            # Filter activities that belong to this grade and are within the court's date range
+            activities = Activities.objects.filter(
+                subject__in=grade.subjects.all(),
+                start_date__gte=current_court.start_date,
+                end_date__lte=current_court.end_date
+            ).order_by('start_date')
+
+            # Append grade, its court, and filtered activities
+            grades_list.append((grade, current_court, activities))
+
 
         #Time zone
         DateNow, TimeNow = time_zone_user_location(request.user.time_zone)
@@ -109,7 +120,7 @@ class BoardTeachers(View):
             'materias_profesor': materias_teacher,
             'vista': vista,
             'abierto':abierto,
-            'actividades': actividades,
+            'activities': activities,
             'hora_actual': TimeNow,
             'fecha_actual': DateNow,
         }

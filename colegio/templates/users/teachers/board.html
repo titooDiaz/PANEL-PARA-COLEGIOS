@@ -16,181 +16,75 @@
     </h3>
 </div>
 
+{% for grade, court, activities in grades %}
 
-{% for grade, court in grades %}
+  <div class="p-8 mb-8">
+    <div class="mx-auto max-w-screen-sm text-center">
+      <h2 class="lg:py-2 text-4xl font-bold text-gray-900 mb-2">Grado: {{ grade.grade_name }} ({{ grade.grade_number }})</h2>
 
-    {% if court.court_number %}
-
-        <div class="p-8 mb-8">
-                <div class="mx-auto max-w-screen-sm text-center">
-                    <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-2">Grado: {{ grade.grade_name }} ({{ grade.grade_number }})</h2>
-                    <h3 class="text-2xl tracking-tight font-bold text-gray-900 mb-8">Corte: {{court.court_number}}</h3>
-                </div>
-            <div class="grid gap-12 mb-6 lg:mb-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                {% for subject in grade.subjects.all %}
-                    {% if subject in materias_profesor %}
-                        <div>
-                            {% if subject.teacher_1.pk == request.user.pk %}
-                            <div class="relative">
-                                <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
-                                <div class="relative h-full items-center bg-gray-300 rounded-lg sm:flex p-4 block shadow-2xl">
-                                    <div class="block w-full">
-                                        <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-1"></i> {{subject.name_1}}</h5>
-                                        <p class="">{{ subject.description_1 }}</p>
-                                        <img class="w-full p-4" src="{{ subject.photo.url }}" alt="Alumno">
-                                        <div class="mt-2">
-                                            <div class="w-full flex">
-                                                <a type="button" href=" {% url 'CreateActividades' subject.pk %} " class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">
-                                                    Crear Actividad
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <!-- Mostrar actividades de la subject -->
-                                        <div class="mt-4">
-                                            <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
-                                                <div class="flex" >
-                                                    <a>
-                                                            <h5 class="font-bold text-lg mb-4">Actividades Propuestas:</h5>
-                                                    </a>
-                                                    <button class="flex" data-collapse-target="collapse-{{subject.pk}}">
-                                                        <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
-                                                        <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
-                                                    </button>
-                                                </div>
-                                                <div data-collapse="collapse-{{subject.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
-                                                    <div class="bg-gray-300">
-                                                        {% for actividad in actividades %}
-                                                            {% if actividad.subject == subject %}
-                                                                {% if actividad.start_date > court.start_date and actividad.end_date < court.end_date %}
-                                                                    <div class="flex justify-between items-center mb-4">
-                                                                        {% if fecha_actual == actividad.end_date %}
-                                                                            {% if hora_actual > actividad.end_time %}
-                                                                                <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                                                    <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                                    {{ actividad.description }}
-                                                                                </div>
-                                                                            {%else%}
-                                                                                <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-orange-400 fa-solid fa-clock"></i> |</a>
-                                                                                    <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                                    {{ actividad.description }}
-                                                                                </div>
-                                                                            {%endif%}
-                                                                        {% else %}
-                                                                            {% if fecha_actual > actividad.end_date %}
-                                                                                <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                                                    <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                                    {{ actividad.description }}
-                                                                                </div>
-                                                                            {%else%}
-                                                                                <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-green-700 fa-solid fa-clock"></i> |</a>
-                                                                                    <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                                    {{ actividad.description }}
-                                                                                </div>
-                                                                            {%endif%}
-                                                                        {% endif %}
-                                                                        
-                                                                    </div>
-                                                                {% endif %}
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </div>
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                            {% else %}
-                                <div id="{{colegio.id}}" class="relative">
-                                    <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 "></span>
-                                    <div class="relative h-full items-center bg-gray-300 rounded-lg flex p-4  shadow-2xl">
-                                        <div class="block w-full">
-                                            <h5 class="font-mono font-bold text-gray-900 text-4xl text-center"><i class="fa-solid fa-2"></i>{{subject.name_1}}</h5>
-                                            <p class="">{{ subject.description_1 }}</p>
-                                            <img class="w-full p-4" src="{{ subject.photo.url }}" alt="Alumno">
-                                            
-                                            <div class="mt-2">
-                                                <div class="w-full flex">
-                                                    <a type="button" href="{% url 'CreateActividades' subject.pk %}" class="myButton font-semibold text-white px-2 rounded-lg bg-orange-600 border-l border-r border-t border-4 border-orange-800 hover:scale-105 transition duration-300 ease-in-out focus:border focus:mt-1 w-full py-2 text-center text-lg">
-                                                        Crear Actividad
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                            <!-- Mostrar actividades de la subject -->
-                                            <div class="mt-4">
-                                                <div class="relative mb-3 border-b border-solid cursor-pointer border-slate-100 items-center w-full font-semibold text-left transition-all ease-in" >
-                                                    <div class="flex" >
-                                                        <a>
-                                                                <h5 class="font-bold text-lg mb-4">Actividades Propuestas:</h5>
-                                                        </a>
-                                                        <button class="flex" data-collapse-target="collapse-{{subject.pk}}">
-                                                            <i class="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
-                                                            <i class="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div data-collapse="collapse-{{subject.pk}}" class="h-0 overflow-hidden transition-all duration-100 ease-in-out">
-                                                        <div class="bg-gray-300">
-                                                            {% for actividad in actividades %}
-                                                                {% if actividad.subject == subject and actividad.author == request.user %}
-                                                                <div class="flex justify-between items-center mb-4">
-                                                                    {% if fecha_actual == actividad.end_date %}
-                                                                        {% if hora_actual > actividad.end_time %}
-                                                                            <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                                                <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                                {{ actividad.description }}
-                                                                            </div>
-                                                                        {%else%}
-                                                                            <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-orange-400 fa-solid fa-clock"></i> |</a>
-                                                                                <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                                {{ actividad.description }}
-                                                                            </div>
-                                                                        {%endif%}
-                                                                    {% else %}
-                                                                        {% if fecha_actual > actividad.end_date %}
-                                                                            <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-red-700 fa-solid fa-clock"></i> |</a>
-                                                                                <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                                {{ actividad.description }}
-                                                                            </div>
-                                                                        {%else%}
-                                                                            <div class="mb-2"><a href="{% url 'ViewActividades' actividad.pk %}"><i class="text-green-700 fa-solid fa-clock"></i> |</a>
-                                                                                <span class="font-bold">{{ actividad.name }} ({{actividad.percentage}}%):</span> 
-                                                                                {{ actividad.description }}
-                                                                            </div>
-                                                                        {%endif%}
-                                                                    {% endif %}
-                                                                    
-                                                                </div>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-
-            </div>
+      {% if court %}
+        <h3 class="text-2xl font-bold text-gray-900 mb-8">Corte: {{ court.court_number }}</h3>
+      {% else %}
+        <div class="flex flex-col justify-center items-center text-center bg-orange-100 border border-orange-300 text-orange-700 p-4 rounded-lg shadow-md">
+          <div class="w-12 h-12 bg-orange-600 flex mask-icon" data-icon="{% static 'icons/information/error.svg' %}"></div>
+          <p class="text-lg font-semibold">No hay cortes activos en este momento para este grado.</p>
+          <p class="text-sm text-orange-600">Cuando se activen nuevos cortes, aparecerán aquí.</p>
         </div>
-    {% else %}
-        <div class="p-6">
-            <div class="mx-auto max-w-screen-sm text-center">
-                <h2 class="lg:py-2 text-4xl tracking-tight font-bold text-gray-900 mb-2">Grado: {{ grade.grade_name }} ({{ grade.grade_number }})</h2>
+      {% endif %}
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      {% for subject in grade.subjects.all %}
+        {% if subject in materias_profesor %}
+        <div class="relative bg-gray-300 rounded-lg shadow-xl p-4">
+          <!-- Fondo negro detrás -->
+          <span class="absolute top-0 left-0 mt-6 ml-6 h-full w-full rounded bg-gray-700 -z-10"></span>
+
+          <h5 class="font-mono font-bold text-gray-900 text-2xl text-center mb-2">{{ subject.name_1 }}</h5>
+          <p class="mb-2">{{ subject.description_1 }}</p>
+          <img class="w-full p-2" src="{{ subject.photo.url }}" alt="Imagen de la materia">
+          
+          <a href="{% url 'CreateActividades' subject.pk %}" class="block w-full bg-orange-600 text-white font-semibold rounded-lg py-2 mt-4 text-center hover:scale-105 transition">
+            Crear Actividad
+          </a>
+
+          <!-- Actividades con collapse -->
+          <div class="mt-4">
+            <div class="flex justify-between items-center">
+              <h5 class="font-bold text-lg mb-2">Actividades Propuestas:</h5>
+              <button class="text-sm text-gray-700" data-collapse-target="collapse-{{ subject.pk }}">
+                <i class="fa fa-chevron-down"></i>
+              </button>
             </div>
-            <div class="flex flex-col justify-center items-center text-center bg-orange-100 border border-orange-300 text-orange-700 p-4 rounded-lg shadow-md">
-                <div class="w-12 h-12 bg-orange-600 flex mask-icon" data-icon="{% static 'icons/information/error.svg' %}"></div>
-                <p class="text-lg font-semibold">No hay cortes activos en este momento para este grado.</p>
-                <p class="text-sm text-orange-600">Cuando se activen nuevos cortes, aparecerán aquí.</p>
+
+            <div data-collapse="collapse-{{ subject.pk }}" class="h-0 overflow-hidden transition-all duration-300 ease-in-out">
+              <div class="bg-gray-200 rounded-lg p-2">
+                {% for activity in activities %}
+                  {% if activity.subject.pk == subject.pk %}
+                  <div class="mb-3">
+                    {% if fecha_actual > activity.end_date or fecha_actual == activity.end_date and hora_actual > activity.end_time %}
+                      <i class="text-red-700 fa-solid fa-clock"></i>
+                    {% elif fecha_actual == activity.end_date %}
+                      <i class="text-orange-400 fa-solid fa-clock"></i>
+                    {% else %}
+                      <i class="text-green-700 fa-solid fa-clock"></i>
+                    {% endif %}
+                    <a href="{% url 'ViewActividades' activity.pk %}" class="ml-2 font-bold">{{ activity.name }} ({{ activity.percentage }}%)</a>
+                    <p class="ml-6 text-sm">{{ activity.description }}</p>
+                  </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
             </div>
+          </div>
         </div>
-    {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
 {% endfor %}
+
 
 
 <script src="{% static 'icons/icons.js' %}"></script>

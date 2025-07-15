@@ -331,7 +331,6 @@ class StudentPeople(View):
         if grade:
             subjects = grade.subjects.all().select_related('teacher_1', 'teacher_2')
             teachers_by_subject = get_teachers_recursively(subjects)
-        
 
         grouped_students = defaultdict(list)
         for student in students:
@@ -344,7 +343,7 @@ class StudentPeople(View):
             'abierto': abierto,
             'grade': grade_user,
             'students_grouped': dict(sorted(grouped_students.items())),
-            'teachers_subjects': sorted(teachers_by_subject.items())
+            'teachers_subjects': dict(sorted(teachers_by_subject.items()))
         }
         return render(request, 'users/student/people/people.html', context)
     
