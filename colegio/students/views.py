@@ -353,6 +353,10 @@ class StudentGrades(View):
         user = request.user
         grade_user = user.customuserstudent.grade # student's grade
         
+        subjects = grade_user.subjects.all()
+        schedule = ScheduleParts.objects.get(school=grade_user.school)
+        courts = ScheduleCourts.objects.filter(schedule=schedule)
+        
         vista = 'estudiante'
         abierto='notas'
         
@@ -360,6 +364,8 @@ class StudentGrades(View):
             'vista': vista,
             'abierto':abierto,
             'grade': grade_user,
+            'subjects': subjects,
+            'courts': courts,
         }
         return render(request, 'users/student/grades/grades.html', context)
 
