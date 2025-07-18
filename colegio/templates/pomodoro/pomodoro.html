@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pomodoro Colegio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(145deg, #e7effc 0%, #b6c7e3 100%);
+      min-height: 100dvh;
+    }
+    .card {
+      box-shadow: 0 8px 32px #b6c7e340, 0 2px 8px #8ca1c0a6, 0 1px 0px #fff;
+      border-radius: 2.5rem;
+      border: 1px solid #cfd8e8;
+    }
+    .input-3d {
+      box-shadow: 0 1px 2px #b6c7e390 inset, 0 2px 4px #e7effc99;
+      border: 1.5px solid #cfd8e8;
+    }
+    .input-3d:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 2px 7px #b6c7e3cc inset, 0 0 0 2px #3b82f640;
+    }
+    .btn-3d {
+      box-shadow: 0 2px 0 #b6c7e3, 0 1px 4px #cfd8e8;
+      transition: transform 0.09s, box-shadow 0.12s;
+    }
+    .btn-3d:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #b6c7e3, 0 0px 2px #cfd8e8;
+    }
+    ::selection {
+      background: #f7e9b6;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center w-screen min-h-screen">
+  <main class="card flex flex-col items-center justify-center w-full h-full max-w-md mx-auto px-9 py-12 bg-white/80">
+    <h1 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 tracking-wide">Pomodoro Colegio</h1>
+    <div id="selector" class="flex gap-6 mb-10 items-end">
+      <div class="flex flex-col items-center">
+        <label for="work" class="text-sm text-blue-800 mb-1 font-semibold">Trabajo</label>
+        <input id="work" type="number" min="1" max="60" value="25"
+          class="input-3d bg-white text-3xl w-16 text-center text-blue-900 rounded-lg py-1 font-semibold transition" />
+      </div>
+      <span class="text-gray-400 text-2xl select-none mb-1 font-bold">/</span>
+      <div class="flex flex-col items-center">
+        <label for="break" class="text-sm text-yellow-700 mb-1 font-semibold">Descanso</label>
+        <input id="break" type="number" min="1" max="30" value="5"
+          class="input-3d bg-white text-3xl w-16 text-center text-yellow-700 rounded-lg py-1 font-semibold transition" />
+      </div>
+    </div>
+    <div>
+      <span id="timer" class="font-mono text-[5rem] md:text-[6rem] text-blue-900 select-none font-bold drop-shadow">25:00</span>
+    </div>
+    <div id="state" class="mt-4 text-lg md:text-xl tracking-widest uppercase select-none font-semibold text-blue-700">Trabajo</div>
+    <div class="flex justify-center gap-4 mt-12 w-full">
+      <button id="start" class="btn-3d px-7 py-2 rounded-xl border border-blue-200 bg-blue-600 text-white text-lg font-semibold shadow-sm hover:bg-blue-700 transition">INICIAR</button>
+      <button id="pause" class="btn-3d px-7 py-2 rounded-xl border border-blue-200 bg-gray-300 text-blue-900 text-lg font-semibold shadow-sm hover:bg-gray-400 transition hidden">PAUSA</button>
+      <button id="resume" class="btn-3d px-7 py-2 rounded-xl border border-blue-200 bg-yellow-400 text-yellow-900 text-lg font-semibold shadow-sm hover:bg-yellow-300 transition hidden">REANUDAR</button>
+      <button id="reset" class="btn-3d px-7 py-2 rounded-xl border border-blue-200 bg-white text-blue-700 text-lg font-semibold shadow-sm hover:bg-blue-100 transition">RESET</button>
+    </div>
+    <audio id="alarm" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa4b82.mp3" preload="auto"></audio>
+  </main>
+  <script>
+    const workInput = document.getElementById('work');
+    const breakInput = document.getElementById('break');
+    const timerDisplay = document.getElementById('timer');
+    const stateDisplay = document.getElementById('state');
+    const btnStart = document.getElementById('start');
+    const btnPause = document.getElementById('pause');
+    const btnResume = document.getElementById('resume');
+    const btnReset = document.getElementById('reset');
+    const alarm = document.getElementById('alarm');
+    let interval = null, isPaused = false, isWork = true, remainingSeconds = 0;
+    function formatTime(secs) {
+      const m = Math.floor(secs / 60).toString().padStart(2, '0');
+      const s = (secs % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+    function updateDisplay() {
+      timerDisplay.textContent = formatTime(remainingSeconds);
+      if(isWork) {
+        stateDisplay.textContent = 'Trabajo';
+        stateDisplay.className = 'mt-4 text-lg md:text-xl tracking-widest uppercase select-none font-semibold text-blue-700';
+      } else {
+        stateDisplay.textContent = 'Descanso';
+        stateDisplay.className = 'mt-4 text-lg md:text-xl tracking-widest uppercase select-none font-semibold text-yellow-700';
+      }
+    }
+    function startTimer() {
+      isPaused = false;
+      isWork = true;
+      remainingSeconds = parseInt(workInput.value) * 60;
+      updateDisplay();
+      btnStart.classList.add('hidden');
+      btnPause.classList.remove('hidden');
+      btnResume.classList.add('hidden');
+      workInput.disabled = true;
+      breakInput.disabled = true;
+      runTimer();
+    }
+    function runTimer() {
+      clearInterval(interval);
+      interval = setInterval(() => {
+        if (!isPaused) {
+          if (remainingSeconds > 0) {
+            remainingSeconds--;
+            updateDisplay();
+          } else {
+            alarm.currentTime = 0; alarm.play();
+            if (isWork) {
+              isWork = false;
+              remainingSeconds = parseInt(breakInput.value) * 60;
+              updateDisplay();
+            } else {
+              clearInterval(interval);
+              btnStart.classList.remove('hidden');
+              btnPause.classList.add('hidden');
+              btnResume.classList.add('hidden');
+              workInput.disabled = false;
+              breakInput.disabled = false;
+            }
+          }
+        }
+      }, 1000);
+    }
+    btnStart.onclick = startTimer;
+    btnPause.onclick = () => { isPaused = true; btnPause.classList.add('hidden'); btnResume.classList.remove('hidden'); };
+    btnResume.onclick = () => { isPaused = false; btnPause.classList.remove('hidden'); btnResume.classList.add('hidden'); };
+    btnReset.onclick = () => {
+      clearInterval(interval);
+      btnStart.classList.remove('hidden');
+      btnPause.classList.add('hidden');
+      btnResume.classList.add('hidden');
+      workInput.disabled = false;
+      breakInput.disabled = false;
+      isWork = true;
+      remainingSeconds = parseInt(workInput.value) * 60;
+      updateDisplay();
+    };
+    workInput.oninput = () => { if (isWork || (!interval && !isPaused)) { remainingSeconds = parseInt(workInput.value) * 60; updateDisplay(); }};
+    breakInput.oninput = () => { if (!isWork && (!interval || !isPaused)) { remainingSeconds = parseInt(breakInput.value) * 60; updateDisplay(); }};
+    remainingSeconds = parseInt(workInput.value) * 60;
+    updateDisplay();
+  </script>
+</body>
+</html>
