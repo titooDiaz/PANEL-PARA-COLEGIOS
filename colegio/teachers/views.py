@@ -71,6 +71,7 @@ import tzlocal  # Library for detecting the local timezone (install with `pip in
 
 # Function for getting the user's time zone from the utils module
 from utils.functions import time_zone_user_location
+from utils.date_utils import get_current_date, get_current_time, get_midnight, get_user_timezone
 
 # keep session auth
 from django.contrib.auth import update_session_auth_hash
@@ -127,33 +128,7 @@ class BoardTeachers(View):
         return render(request, 'users/teachers/board.html', context)
 
 
-import pytz
-from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-
-def get_user_timezone(user):
-    return user.time_zone
-
-def get_current_date(user):
-    user_timezone_str = get_user_timezone(user)
-    user_timezone = pytz.timezone(user_timezone_str)
-    fecha_actual = timezone.now().astimezone(user_timezone).date()
-    return fecha_actual.strftime('%Y-%m-%d')
-
-def get_current_time(user):
-    user_timezone_str = get_user_timezone(user)
-    user_timezone = pytz.timezone(user_timezone_str)
-    now = timezone.now().astimezone(user_timezone)
-    return now.replace(second=0, microsecond=0).time()
-
-def get_midnight(user):
-    user_timezone_str = get_user_timezone(user)
-    user_timezone = pytz.timezone(user_timezone_str)
-    now = timezone.now().astimezone(user_timezone)
-    # Ajusta la hora a las 12 de la noche (medianoche) en la zona horaria del usuario
-    midnight_user_tz = now.replace(hour=23, minute=59, second=0, microsecond=0)
-    return midnight_user_tz
-
 
 
 class CreateActividades(View):

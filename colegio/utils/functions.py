@@ -7,6 +7,4 @@ def time_zone_user_location(location):
     nowDate = datetime.now(zona_horaria_usuario).date()
     nowTime = datetime.now(zona_horaria_usuario).time()
     
-    ## Obtener la zona horaria local ## Get time zone 
-    # DateNow, TimeNow = time_zone_user_location(request.user.time_zone)
     return nowDate, nowTime

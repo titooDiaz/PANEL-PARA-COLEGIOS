@@ -51,28 +51,64 @@ utils/
 
 ---
 
-## Simple example
+# 🕒 Timezone Utils
 
+Minimal and lively documentation for timezone-based user utilities in Python.
+
+---
+
+## `get_user_timezone(user)`  
+🔹 **Returns:** User's timezone string.
+
+**Args:**  
+- `user`: Has a `time_zone` attribute.
+
+**Usage:**  
 ```python
-# utils/date_utils.py
-
-from datetime import datetime
-
-def format_date(date_obj):
-    """Converts a datetime object into a string formatted as YYYY-MM-DD."""
-    return date_obj.strftime("%Y-%m-%d")
-```
-
-And then use it anywhere in your backend:
-
-```python
-from utils.date_utils import format_date
-
-today = format_date(datetime.now())
-print(today)  # ➔ '2025-04-28'
+tz = get_user_timezone(user)
 ```
 
 ---
+
+## `get_current_date(user)`  
+📅 **Returns:** Current date (YYYY-MM-DD) in user's timezone.
+
+**Args:**  
+- `user`: User object.
+
+**Usage:**  
+```python
+date = get_current_date(user)
+```
+
+---
+
+## `get_current_time(user)`  
+⏰ **Returns:** Current time (no seconds/microseconds) in user's timezone.
+
+**Args:**  
+- `user`: User object.
+
+**Usage:**  
+```python
+time = get_current_time(user)
+```
+
+---
+
+## `get_midnight(user)`  
+🌙 **Returns:** `datetime` at 23:59 in user's timezone.
+
+**Args:**  
+- `user`: User object.
+
+**Usage:**  
+```python
+midnight = get_midnight(user)
+```
+
+---
+✨ Simple, clear, and timezone aware!
 
 ## Final notes
 

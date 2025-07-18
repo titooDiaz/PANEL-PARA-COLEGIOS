@@ -29,6 +29,7 @@ from django.contrib.auth import update_session_auth_hash
 
 # time now!
 from utils.functions import time_zone_user_location
+from utils.date_utils import get_current_date, get_current_time, get_midnight, get_user_timezone
 
 # Frases motivadoras
 import random
@@ -66,6 +67,10 @@ class AlumnoBoard(View):
         grade_user = user.customuserstudent.grade #student's grade
         materias_user = grade_user.subjects.all() #materias del estudainte
         
+        schedule = grade_user.schedule_parts
+        court = ScheduleCourts.objects.filter(schedule=schedule).first()
+        current_date = get_current_date(request.user)
+        current_court = court.get_current_court(request.user, schedule, current_date)      
         
         # Obtener la hora actual en la zona horaria del usuario
         ## Obtener la zona horaria local
@@ -77,10 +82,10 @@ class AlumnoBoard(View):
             end_date__gte=fecha_actual
         )
         
-        
         actividades_user_off_time = Activities.objects.filter(
             subject__in=materias_user,
-            end_date__lte=fecha_actual
+            end_date__gte=current_court.start_date,
+            end_date__lte=min(fecha_actual, current_court.end_date)
         )
         
         # grade for each activity
